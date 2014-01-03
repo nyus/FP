@@ -1,0 +1,54 @@
+//
+//  DisplayObject.m
+//  FastPost
+//
+//  Created by Huang, Jason on 11/26/13.
+//  Copyright (c) 2013 Huang, Jason. All rights reserved.
+//
+
+#import "Status.h"
+#import <Parse/Parse.h>
+@interface Status(){
+    NSTimer *_timer;
+}
+@end
+
+@implementation Status
+
+-(id)initWithPFObject:(PFObject *)pfObject{
+    self = [super init];
+    if (self) {
+        self.pfObject = pfObject;
+        self.message = [pfObject objectForKey:@"message"];
+        
+        //StatusTableCell.countDownLabel.text needs to be based on self.countDownMessage and converted to xx:xx
+        self.countDownMessage = [NSString stringWithFormat:@"%d",(int)[pfObject[@"expirationDate"] timeIntervalSinceDate:[NSDate date]]];
+        
+    }
+    return self;
+}
+
+-(void)startTimer{
+    if (!_timer) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerCalled:) userInfo:nil repeats:YES];
+    }
+}
+
+-(void)timerCalled:(NSTimer *)timer{
+    if ([self.countDownMessage isEqualToString:@"0"]) {
+        [_timer invalidate];
+        _timer = nil;
+        [self.delegate statusObjectTimeUpWithObject:self];
+        
+    }else{
+        self.countDownMessage = [NSString stringWithFormat:@"%d",self.countDownMessage.intValue - 1];
+        [self.delegate statusObjectTimerCount:self.countDownMessage.integerValue-1 withStatusObject:self];
+    }
+}
+
+-(NSString *)description{
+    return [NSString stringWithFormat:@"message %@\ncreatedAt %@\nupdatedAt %@\navatar %@\nuserId %@\npicture %@\nexpirationTimeInSec %@",
+            self.pfObject[@"message"],self.pfObject[@"createdAt"],self.pfObject[@"updatedAt"],self.pfObject[@"avatar"],self.pfObject[@"userId"],self.pfObject[@"picture"],self.pfObject[@"expirationTimeInSec"]];
+}
+
+@end
