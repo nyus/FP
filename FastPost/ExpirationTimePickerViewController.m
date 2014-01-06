@@ -161,4 +161,11 @@
         self.blurToolBar.alpha = 0.0f;
     }];
 }
+
+- (IBAction)cancelButtonTapped:(id)sender {
+    [UIView animateWithDuration:.3 animations:^{
+        self.view.alpha = 0.0f;
+        self.blurToolBar.alpha = 0.0f;
+    }];
+}
 @end
