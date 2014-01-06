@@ -96,7 +96,7 @@
 		653ACE3F185926FD007B9A47 /* ExpirationTimePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpirationTimePickerViewController.h; sourceTree = "<group>"; };
 		653ACE40185926FD007B9A47 /* ExpirationTimePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpirationTimePickerViewController.m; sourceTree = "<group>"; };
 		653ACE41185926FD007B9A47 /* ExpirationTimePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpirationTimePickerViewController.xib; sourceTree = "<group>"; };
-		65413CD71843990200543C1A /* FastPost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastPost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		65413CD71843990200543C1A /* dwndlr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dwndlr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65413CDA1843990200543C1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		65413CDC1843990200543C1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		65413CDE1843990200543C1A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -234,7 +234,7 @@
 		65413CD81843990200543C1A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				65413CD71843990200543C1A /* FastPost.app */,
+				65413CD71843990200543C1A /* dwndlr.app */,
 				65413CFB1843990200543C1A /* FastPostTests.xctest */,
 			);
 			name = Products;
@@ -348,7 +348,7 @@
 			);
 			name = FastPost;
 			productName = FastPost;
-			productReference = 65413CD71843990200543C1A /* FastPost.app */;
+			productReference = 65413CD71843990200543C1A /* dwndlr.app */;
 			productType = "com.apple.product-type.application";
 		};
 		65413CFA1843990200543C1A /* FastPostTests */ = {
@@ -551,6 +551,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = dwndlr;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -584,6 +585,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = dwndlr;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -611,7 +613,7 @@
 					"$(inherited)",
 					"/Users/jasonhuang/Google\\ Drive/FastPost/CrittercismSDK",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = dwndlr;
 				PROVISIONING_PROFILE = "97072396-3EFD-4FD6-86DA-2F4BD661A5A8";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -639,7 +641,7 @@
 					"$(inherited)",
 					"/Users/jasonhuang/Google\\ Drive/FastPost/CrittercismSDK",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = dwndlr;
 				PROVISIONING_PROFILE = "D7A3F54E-3C7D-48F4-B391-328F5E93CFA6";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
