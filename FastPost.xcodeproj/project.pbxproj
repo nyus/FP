@@ -13,6 +13,8 @@
 		503CABD718739318006BBF51 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503CABD618739318006BBF51 /* FacebookSDK.framework */; };
 		503CABDB187393D5006BBF51 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503CABDA187393D5006BBF51 /* Parse.framework */; };
 		503CABDF18739751006BBF51 /* butterfly-green-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 503CABDE18739751006BBF51 /* butterfly-green-blue.png */; };
+		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
+		50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEA0C187B68C3000A91AF /* StatusViewController.m */; };
 		653ACDE618510BEE007B9A47 /* PaperClip-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE518510BEE007B9A47 /* PaperClip-512.png */; };
 		653ACDE91851183B007B9A47 /* camera_icon_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE71851183B007B9A47 /* camera_icon_blue.png */; };
 		653ACDEA1851183B007B9A47 /* camera_icon_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE81851183B007B9A47 /* camera_icon_blue@2x.png */; };
@@ -84,6 +86,10 @@
 		503CABD618739318006BBF51 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		503CABDA187393D5006BBF51 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		503CABDE18739751006BBF51 /* butterfly-green-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butterfly-green-blue.png"; sourceTree = "<group>"; };
+		509CB820187CE6D8009E9A9F /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		509CB821187CE6D8009E9A9F /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		50FCEA0B187B68C3000A91AF /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusViewController.h; sourceTree = "<group>"; };
+		50FCEA0C187B68C3000A91AF /* StatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusViewController.m; sourceTree = "<group>"; };
 		653ACDE518510BEE007B9A47 /* PaperClip-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PaperClip-512.png"; sourceTree = "<group>"; };
 		653ACDE71851183B007B9A47 /* camera_icon_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_icon_blue.png; sourceTree = "<group>"; };
 		653ACDE81851183B007B9A47 /* camera_icon_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_icon_blue@2x.png"; sourceTree = "<group>"; };
@@ -200,6 +206,17 @@
 			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
+		50FCEA0A187B68A2000A91AF /* View controller */ = {
+			isa = PBXGroup;
+			children = (
+				50FCEA0B187B68C3000A91AF /* StatusViewController.h */,
+				50FCEA0C187B68C3000A91AF /* StatusViewController.m */,
+				509CB820187CE6D8009E9A9F /* ProfileViewController.h */,
+				509CB821187CE6D8009E9A9F /* ProfileViewController.m */,
+			);
+			name = "View controller";
+			sourceTree = "<group>";
+		};
 		653ACE021857A2DD007B9A47 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				653ACE2F18590B45007B9A47 /* ThingsToDo.h */,
+				50FCEA0A187B68A2000A91AF /* View controller */,
 				653ACE021857A2DD007B9A47 /* Resources */,
 				658AA5AF184CD12E0097383B /* UIImage+ImageEffects.h */,
 				658AA5B0184CD12E0097383B /* UIImage+ImageEffects.m */,
@@ -447,9 +465,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */,
 				658AA5C8184F95420097383B /* StatusTableViewHeaderViewController.m in Sources */,
 				65413D141843B6AA00543C1A /* StatusTableViewController.m in Sources */,
 				653ACE42185926FD007B9A47 /* ExpirationTimePickerViewController.m in Sources */,
+				509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */,
 				65413D1E18452C6A00543C1A /* Status.m in Sources */,
 				658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */,
 				658AA5D3184FADFB0097383B /* ComposeNewStatusViewController.m in Sources */,

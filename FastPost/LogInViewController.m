@@ -28,13 +28,17 @@
         [self showStatusTableView];
     }
     
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.backBarButtonItem = nil;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     PFUser *user = [PFUser currentUser];
     if (user && user.isAuthenticated) {
-        [self performSegueWithIdentifier:@"toStatusView" sender:self];
+        [self dismissViewControllerAnimated:NO completion:nil];
+//        [self performSegueWithIdentifier:@"toStatusView" sender:self];
     }
     
 }
@@ -242,12 +246,14 @@
 }
 
 -(void)showStatusTableView{
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self performSegueWithIdentifier:@"toStatus" sender:self];
 //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
-    StatusTableViewController *vc = (StatusTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"statusView"];
-    
-    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
-    [viewControllers replaceObjectAtIndex:viewControllers.count-1 withObject:vc];
-    [self.navigationController setViewControllers:viewControllers animated:NO];
+//    StatusTableViewController *vc = (StatusTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"statusView"];
+//    
+//    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+//    [viewControllers replaceObjectAtIndex:viewControllers.count-1 withObject:vc];
+//    [self.navigationController setViewControllers:viewControllers animated:NO];
 }
 
 #pragma mark - FB SDK code to find friends
