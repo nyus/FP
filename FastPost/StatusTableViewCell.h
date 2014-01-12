@@ -10,7 +10,9 @@
 
 @class StatusTableViewCell;
 @protocol StatusTableViewCellDelegate <NSObject>
+@optional
 -(void)reviveStatusButtonTappedOnCell:(StatusTableViewCell *)cell;
+-(void)usernameLabelTappedOnCell:(StatusTableViewCell *)cell;
 @end
 
 @interface StatusTableViewCell : UITableViewCell
