@@ -126,7 +126,7 @@
 -(void)statusObjectTimeUpWithObject:(Status *)object{
     NSInteger index = [dataSource indexOfObject:object];
     StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    if ([cell.label.text isEqualToString:object.message]) {
+    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
 //        [cell blurCell];
         [dataSource removeObject:object];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
@@ -141,9 +141,9 @@
 -(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
     NSInteger index = [dataSource indexOfObject:object];
     StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    if ([cell.label.text isEqualToString:object.message]) {
+    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
         //convert seconds into min and second
-        cell.countDownLabel.text = [self minAndTimeFormatWithSecond:object.countDownMessage.intValue];
+        cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:object.countDownMessage.intValue];
     }
 }
 
@@ -184,13 +184,13 @@
         StatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         cell.delegate = self;
         // Configure the cell...
-        cell.label.text = [[dataSource objectAtIndex:indexPath.row] message];
-        cell.usernameLabel.text = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"posterUsername"];
+        cell.statusCellMessageLabel.text = [[dataSource objectAtIndex:indexPath.row] message];
+        cell.statusCellUsernameLabel.text = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"posterUsername"];
         PFFile *picture = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
-        cell.countDownLabel.text = [self minAndTimeFormatWithSecond:[[dataSource[indexPath.row] countDownMessage] intValue]];
+        cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[dataSource[indexPath.row] countDownMessage] intValue]];
         if (picture != (PFFile *)[NSNull null] && picture != nil) {
             [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                cell.pictureImageView.image = [UIImage imageWithData:data];
+                cell.statusCellPhotoImageView.image = [UIImage imageWithData:data];
             }];
         }
         
@@ -207,9 +207,9 @@
         
         //update the count down text
         StatusTableViewCell *scell = (StatusTableViewCell *)cell;
-        if ([scell.label.text isEqualToString:[dataSource[indexPath.row] message]]) {
-            scell.countDownLabel.text = [self minAndTimeFormatWithSecond:[[dataSource[indexPath.row] countDownMessage] intValue]];
-            if (![scell.countDownLabel.text isEqualToString:@"0:00"]) {
+        if ([scell.statusCellMessageLabel.text isEqualToString:[dataSource[indexPath.row] message]]) {
+            scell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[dataSource[indexPath.row] countDownMessage] intValue]];
+            if (![scell.statusCellCountDownLabel.text isEqualToString:@"0:00"]) {
             }else{
                 [dataSource removeObjectAtIndex:indexPath.row];
                 [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];

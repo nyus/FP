@@ -14,12 +14,15 @@
 @end
 
 @interface StatusTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *label;
-@property (weak, nonatomic) IBOutlet UILabel *countDownLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusCellMessageLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusCellCountDownLabel;
 @property (assign, nonatomic) id<StatusTableViewCellDelegate>delegate;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *statusCellPhotoImageView;
+@property (weak, nonatomic) IBOutlet UILabel *statusCellUsernameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusCellDateLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *statusCellAvatarImageView;
+@property (weak, nonatomic) IBOutlet UIButton *statusCellReviveButton;
 
 -(void)resizeCellToFitStatusContent;
 //-(void)setPlaceHolderImage;

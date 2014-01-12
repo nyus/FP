@@ -16,7 +16,7 @@
 
 @interface Status : NSObject
 @property (nonatomic, strong) PFObject *pfObject;
-@property (nonatomic, strong) NSString *message;
+//@property (nonatomic, strong) NSString *message;
 @property (nonatomic, strong) NSString *countDownMessage;
 @property (nonatomic, strong, readonly) NSTimer *timer;
 @property (nonatomic, assign) id<StatusObjectDelegate>delegate;

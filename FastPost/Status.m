@@ -19,7 +19,7 @@
     self = [super init];
     if (self) {
         self.pfObject = pfObject;
-        self.message = [pfObject objectForKey:@"message"];
+//        self.message = [pfObject objectForKey:@"message"];
         
         //StatusTableCell.countDownLabel.text needs to be based on self.countDownMessage and converted to xx:xx
         self.countDownMessage = [NSString stringWithFormat:@"%d",(int)[pfObject[@"expirationDate"] timeIntervalSinceDate:[NSDate date]]];

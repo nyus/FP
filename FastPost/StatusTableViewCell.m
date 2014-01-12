@@ -97,20 +97,20 @@
 
     CGSize maxSize = CGSizeMake(280, MAXFLOAT);
     
-    CGRect rect = [self.label.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]} context:nil];
+    CGRect rect = [self.statusCellMessageLabel.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]} context:nil];
     
     int numberOfLines = ceilf(rect.size.width/280.0f);
     int heightOfLabel = (int)ceilf(numberOfLines *rect.size.height);
     
-    self.label.frame = CGRectMake(self.label.frame.origin.x,
-                                  self.label.frame.origin.y,
-                                  self.label.frame.size.width,
+    self.statusCellMessageLabel.frame = CGRectMake(self.statusCellMessageLabel.frame.origin.x,
+                                  self.statusCellMessageLabel.frame.origin.y,
+                                  self.statusCellMessageLabel.frame.size.width,
                                   heightOfLabel);
     
-    self.pictureImageView.frame = CGRectMake(self.pictureImageView.frame.origin.x,
-                                             CGRectGetMaxY(self.label.frame) + 10,
-                                             self.pictureImageView.frame.size.width,
-                                             self.pictureImageView.frame.size.height);
+    self.statusCellPhotoImageView.frame = CGRectMake(self.statusCellPhotoImageView.frame.origin.x,
+                                             CGRectGetMaxY(self.statusCellMessageLabel.frame) + 10,
+                                             self.statusCellPhotoImageView.frame.size.width,
+                                             self.statusCellPhotoImageView.frame.size.height);
 }
 
 - (IBAction)reviveStatusButtonTapped:(id)sender {
