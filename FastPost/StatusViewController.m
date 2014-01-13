@@ -138,6 +138,7 @@
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
         //if there is no status anymore, need to reload to show the background cell
         if(dataSource.count == 0){
+            //setting dataSource to nil prevents talbeview from crashing.
             dataSource = nil;
             [self.tableView reloadData];
         }
@@ -158,10 +159,6 @@
 }
 
 
--(void)pullAvatarFromServerAndSaveToLocal{
-
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -174,6 +171,7 @@
 {
     if(!dataSource){
         //return background cell
+        [self fetchNewStatusWithCount:25 remainingTime:nil];
         return 1;
     }else{
         // Return the number of rows in the section.
