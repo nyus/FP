@@ -910,6 +910,9 @@
                                         <rect key="frame" x="245" y="20" width="51" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="onTintColor" red="0.2666666667" green="0.60392156860000001" blue="0.83137254900000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="revivableSwitchChanged:" destination="i4o-0h-o3C" eventType="valueChanged" id="NL5-gD-gYh"/>
+                                        </connections>
                                     </switch>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -970,6 +973,7 @@
                         <outlet property="experiationTimeLabel" destination="D2d-no-axy" id="s9K-8F-WQb"/>
                         <outlet property="pickerView" destination="E6F-Vk-Y7S" id="7Pz-1d-JIQ"/>
                         <outlet property="pickerViewVerticalSpaceConstraint" destination="Ezc-uZ-7Z9" id="Aau-X7-9KW"/>
+                        <outlet property="revivableSwitch" destination="AVg-CA-72u" id="l2V-XK-441"/>
                         <outlet property="textPhotoSeparatorView" destination="Nlr-9v-yYp" id="MM2-KP-94V"/>
                         <outlet property="textView" destination="RdZ-wo-i6v" id="3lj-0t-ZKe"/>
                         <outlet property="textViewHeightConstraint" destination="zFs-Jh-e4X" id="mqO-h9-mlY"/>
