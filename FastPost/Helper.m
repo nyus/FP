@@ -82,7 +82,7 @@ static Helper *_helper;
                 PFUser *user = (PFUser *)object;
                 PFFile *avatar = [user objectForKey:@"avatar"];
                 if (avatar != (PFFile *)[NSNull null] && avatar != nil) {
-                           
+                    
                     [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                         if (data && !error) {
                             imageView.image = [UIImage imageWithData:data];

@@ -45,7 +45,21 @@
         self.followButton.hidden = YES;
     }
 
+    //set avatar
     [Helper getAvatarForUser:[PFUser currentUser].username forImageView:self.avatarImageView];
+    //# of dwindles
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
+    [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
+    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        self.dwindleLabel.text = [NSString stringWithFormat:@"%d", number];
+    }];
+    
+//    self.dwindleLabel.text =
+    //set following. # of following is the count of friends minus one(since user is friend of himself)
+    PFUser *me = [PFUser currentUser];
+    self.followingLabel.text = [NSString stringWithFormat:@"%d",[me[@"friends"] count]-1];
+    //set follower.
+    self.followerLabel.text = [NSString stringWithFormat:@"%d",[me[@"followers"] count]];
 }
 
 - (void)didReceiveMemoryWarning

@@ -316,17 +316,23 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"This user doesn't exist" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
                 [alert show];
             }else{
+                
+                //add the person that user wants to follow in user's friends array on server
                 PFUser *foundUser = (PFUser *)object;
                 [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
                 [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (!succeeded) {
-                        NSLog(@"save new friend failed");
-                        [self fetchNewStatusWithCount:25 remainingTime:nil];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Failed to follow %@, please try again",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                        [alert show];
                     }else{
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Success! You can now see posts from %@",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
                         [alert show];
                     }
                 }];
+                
+                //add self to the person that self follows to person's follower array on server
+                [foundUser addObject:[PFUser currentUser].username forKey:@"followers"];
+                [foundUser saveInBackground];
             }
         }];
     }
