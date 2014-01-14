@@ -15,7 +15,7 @@ static Helper *_helper;
 //this method first checks if there is a locally saved avatar image, if so, check if this avatar still matches the one on the server by comparing avatarUpdateDate. If no longer valid, pull from server and then save to local again.
 //if there is no locally saved avatar image, pull from server and save the image to local.
 +(void)getAvatarForUser:(NSString *)username forImageView:(UIImageView *)imageView{
-    
+
     //if user avatar is saved, pull locally; otherwise pull from server and save it locally
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = paths[0];
@@ -54,13 +54,13 @@ static Helper *_helper;
                                     //save image to local
                                     NSError *removeError;
                                     [[NSFileManager defaultManager] removeItemAtPath:path error:&removeError];
-                                    if (!removeError) {
-                                        NSString *newPath = [documentDirectory stringByAppendingString:[NSString stringWithFormat:@"%@",user.username]];
-                                        [[NSFileManager defaultManager]
-                                         createFileAtPath:newPath
+//                                    if (!removeError) {
+                                    
+                                    [[NSFileManager defaultManager]
+                                         createFileAtPath:path
                                          contents:data
                                          attributes:@{NSFileCreationDate:user[@"avatarUpdateDate"]}];
-                                    }
+//                                    }
                                     
                                 }else{
                                     NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
@@ -91,13 +91,14 @@ static Helper *_helper;
                             //save image to local
                             NSError *removeError;
                             [[NSFileManager defaultManager] removeItemAtPath:path error:&removeError];
-                            if (!removeError) {
-                                NSString *newPath = [documentDirectory stringByAppendingString:[NSString stringWithFormat:@"%@",user.username]];
-                                [[NSFileManager defaultManager]
-                                 createFileAtPath:newPath
+                            NSError *writeError;
+                            [data writeToFile:path options:NSDataWritingAtomic error:&writeError];
+                            
+                            BOOL success = [[NSFileManager defaultManager]
+                                 createFileAtPath:path
                                  contents:data
                                  attributes:@{NSFileCreationDate:user[@"avatarUpdateDate"]}];
-                            }
+
                         }else{
                             NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
                         }

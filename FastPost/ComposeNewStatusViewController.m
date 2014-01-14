@@ -295,6 +295,16 @@
                 }
             }];
         }
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
+        //first time use
+        if (!numberPosts) {
+            [defaults setObject:[NSNumber numberWithInt:1] forKey:@"numberofposts"];
+        }else{
+            [defaults setObject:[NSNumber numberWithInt:numberPosts.intValue+1] forKey:@"numberofposts"];
+        }
+        [defaults synchronize];
     }];
 }
 

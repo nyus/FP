@@ -15,7 +15,7 @@ added date label on status cell
 pull user profile picture to status cell
 added spinner when pulling image on status cell
 dwindles, followers, following
-
+no revive if the options is turned off
 -----
 username case insensitive
 #endif

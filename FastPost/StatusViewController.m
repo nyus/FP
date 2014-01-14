@@ -45,10 +45,6 @@
     [self presentViewController:vc animated:NO completion:^{
         
     }];
-    
-//    self.title = @"dwndlr";
-    self.tabBarController.title = @"dwndlr";
-    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor colorWithRed:68.0/255.0 green:154.0/255.0 blue:212.0/255.0 alpha:1] forKey:UITextAttributeTextColor];
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -59,8 +55,15 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    //this is a fix for a bug, where you come back from compose, the views in the cell get messed up
-    [self.tableView reloadData];
+    
+    if (dataSource==nil) {
+        [self fetchNewStatusWithCount:25 remainingTime:nil];
+    }
+//    else{
+        //this is a fix for a bug, where you come back from compose, the views in the cell get messed up
+//        [self.tableView reloadData];
+//    }
+    
 }
 
 - (void)didReceiveMemoryWarning

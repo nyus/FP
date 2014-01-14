@@ -44,17 +44,37 @@
     }else{
         self.followButton.hidden = YES;
     }
+    
+    [self updateUserInfoValues];
+}
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self updateUserInfoValues];
+}
+
+-(void)updateUserInfoValues{
+    
     //set avatar
     [Helper getAvatarForUser:[PFUser currentUser].username forImageView:self.avatarImageView];
-    //# of dwindles
-    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
-    [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
-    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-        self.dwindleLabel.text = [NSString stringWithFormat:@"%d", number];
-    }];
     
-//    self.dwindleLabel.text =
+    //# of dwindles.
+    //first try to pull from user default, and when a user posts a new status, increase this user default value. for first time user, this will work but for existing users, need to pull from parse to get the # of posts already out there
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
+    if (numberPosts) {
+        self.dwindleLabel.text = numberPosts.stringValue;
+    }else{
+        PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
+        [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
+        [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+            self.dwindleLabel.text = [NSString stringWithFormat:@"%d", number];
+            [defaults setObject:[NSNumber numberWithInt:number] forKey:@"numberofposts"];
+            [defaults synchronize];
+        }];
+    }
+    
+    
     //set following. # of following is the count of friends minus one(since user is friend of himself)
     PFUser *me = [PFUser currentUser];
     self.followingLabel.text = [NSString stringWithFormat:@"%d",[me[@"friends"] count]-1];
@@ -149,6 +169,20 @@
     user[@"avatarUpdateDate"] = [NSDate date];
     [user saveInBackground];
     
+    //save profile image to local
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = paths[0];
+    NSString *path = [documentDirectory stringByAppendingPathComponent:[PFUser currentUser].username];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+    }
+    
+    BOOL success = [[NSFileManager defaultManager] createFileAtPath:path
+                                            contents:nil
+                                          attributes:nil];
+    BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:path];
     [picker dismissViewControllerAnimated:YES completion:^{
         self.avatarImageView.image = chosenImage;
     }];
