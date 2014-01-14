@@ -55,6 +55,8 @@
 		65413D3A184641E700543C1A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413D39184641E700543C1A /* Security.framework */; };
 		65413D3C184641EC00543C1A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413D3B184641EC00543C1A /* StoreKit.framework */; };
 		65413D3E184641F800543C1A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413D3D184641F800543C1A /* SystemConfiguration.framework */; };
+		654D67B51884368000FEE901 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 654D67B41884368000FEE901 /* Parse.framework */; };
+		654D67B718844F4B00FEE901 /* yes.png in Resources */ = {isa = PBXBuildFile; fileRef = 654D67B618844F4B00FEE901 /* yes.png */; };
 		658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 658AA5B0184CD12E0097383B /* UIImage+ImageEffects.m */; };
 		658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 658AA5B3184CD1730097383B /* UIView+ViewBlurEffect.m */; };
 		658AA5B8184E70480097383B /* default-user-icon-profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 658AA5B7184E70480097383B /* default-user-icon-profile.png */; };
@@ -147,6 +149,8 @@
 		65413D39184641E700543C1A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		65413D3B184641EC00543C1A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		65413D3D184641F800543C1A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		654D67B41884368000FEE901 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		654D67B618844F4B00FEE901 /* yes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yes.png; sourceTree = "<group>"; };
 		658AA5AF184CD12E0097383B /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		658AA5B0184CD12E0097383B /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		658AA5B2184CD1730097383B /* UIView+ViewBlurEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ViewBlurEffect.h"; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 				65413D34184641D400543C1A /* libz.1.1.3.dylib in Frameworks */,
 				65413D32184641C900543C1A /* CoreLocation.framework in Frameworks */,
 				65413CDD1843990200543C1A /* CoreGraphics.framework in Frameworks */,
+				654D67B51884368000FEE901 /* Parse.framework in Frameworks */,
 				65413D30184641BD00543C1A /* CFNetwork.framework in Frameworks */,
 				65413D2E184641B800543C1A /* AudioToolbox.framework in Frameworks */,
 				65413CDF1843990200543C1A /* UIKit.framework in Frameworks */,
@@ -277,6 +282,7 @@
 		653ACE021857A2DD007B9A47 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				654D67B618844F4B00FEE901 /* yes.png */,
 				507F61411882EEF000B57DDA /* share.png */,
 				507F61421882EEF000B57DDA /* comment.png */,
 				507F61431882EEF000B57DDA /* like.png */,
@@ -320,6 +326,7 @@
 		65413CD91843990200543C1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				654D67B41884368000FEE901 /* Parse.framework */,
 				501F603B1875AE3A00B26F65 /* CrittercismSDK */,
 				503CABDA187393D5006BBF51 /* Parse.framework */,
 				503CABD618739318006BBF51 /* FacebookSDK.framework */,
@@ -471,6 +478,7 @@
 				653ACE391859139B007B9A47 /* setting_icon.png in Resources */,
 				653ACE0A1857A41C007B9A47 /* add_friend.png in Resources */,
 				503CABDF18739751006BBF51 /* butterfly-green-blue.png in Resources */,
+				654D67B718844F4B00FEE901 /* yes.png in Resources */,
 				653ACDE618510BEE007B9A47 /* PaperClip-512.png in Resources */,
 				65C6087918721E46006C1899 /* time_add@2x.png in Resources */,
 				65413CF11843990200543C1A /* Main_iPad.storyboard in Resources */,
@@ -664,18 +672,15 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/jasonhuang/Google\\ Drive/FastPost",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/FacebookSDK",
-					"/Users/jhuang/Google\\ Drive/FastPost/FacebookSDK",
-					"/Users/jhuang/Google\\ Drive/FastPost/FastPost",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/FastPost",
+					"$(SRCROOT)/FacebookSDK",
+					"$(SRCROOT)/",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FastPost/FastPost-Prefix.pch";
 				INFOPLIST_FILE = "FastPost/FastPost-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/CrittercismSDK",
+					"$(SRCROOT)/CrittercismSDK",
 				);
 				PRODUCT_NAME = dwndlr;
 				PROVISIONING_PROFILE = "97072396-3EFD-4FD6-86DA-2F4BD661A5A8";
@@ -692,18 +697,15 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/jasonhuang/Google\\ Drive/FastPost",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/FacebookSDK",
-					"/Users/jhuang/Google\\ Drive/FastPost/FacebookSDK",
-					"/Users/jhuang/Google\\ Drive/FastPost/FastPost",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/FastPost",
+					"$(SRCROOT)/FacebookSDK",
+					"$(SRCROOT)/",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FastPost/FastPost-Prefix.pch";
 				INFOPLIST_FILE = "FastPost/FastPost-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/CrittercismSDK",
+					"$(SRCROOT)/CrittercismSDK",
 				);
 				PRODUCT_NAME = dwndlr;
 				PROVISIONING_PROFILE = "D7A3F54E-3C7D-48F4-B391-328F5E93CFA6";

@@ -239,6 +239,10 @@
         // Configure the cell...
         cell.statusCellMessageLabel.text = [[dataSource objectAtIndex:indexPath.row] pfObject][@"message"];
         cell.statusCellUsernameLabel.text = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"posterUsername"];
+        BOOL revivable = [[dataSource[indexPath.row] pfObject][@"revivable"] boolValue];
+        if (!revivable) {
+            cell.statusCellReviveButton.hidden = YES;
+        }
         //
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"HH:mm MM/dd/yy"];
