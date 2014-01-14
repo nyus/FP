@@ -11,14 +11,13 @@
 		501F60421875AE3A00B26F65 /* libCrittercism_v4_3_0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */; };
 		50275F76186F22E200CD9680 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50275F75186F22E200CD9680 /* icon.png */; };
 		503CABD718739318006BBF51 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503CABD618739318006BBF51 /* FacebookSDK.framework */; };
-		503CABDB187393D5006BBF51 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503CABDA187393D5006BBF51 /* Parse.framework */; };
 		503CABDF18739751006BBF51 /* butterfly-green-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 503CABDE18739751006BBF51 /* butterfly-green-blue.png */; };
-		507F61441882EEF000B57DDA /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61411882EEF000B57DDA /* share.png */; };
-		507F61451882EEF000B57DDA /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61421882EEF000B57DDA /* comment.png */; };
-		507F61461882EEF000B57DDA /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61431882EEF000B57DDA /* like.png */; };
-		507F614C1883594F00B57DDA /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 507F614B1883594F00B57DDA /* Helper.m */; };
 		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
+		50C6566B187F0630008885FA /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C6566A187F0630008885FA /* like.png */; };
+		50C6566D187F06B9008885FA /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C6566C187F06B9008885FA /* comment.png */; };
+		50C6566F187F0721008885FA /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C6566E187F0721008885FA /* share.png */; };
 		50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEA0C187B68C3000A91AF /* StatusViewController.m */; };
+		6539B54018804EDF0041D5B3 /* Parse-1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6539B53F18804EDF0041D5B3 /* Parse-1.framework */; };
 		653ACDE618510BEE007B9A47 /* PaperClip-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE518510BEE007B9A47 /* PaperClip-512.png */; };
 		653ACDE91851183B007B9A47 /* camera_icon_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE71851183B007B9A47 /* camera_icon_blue.png */; };
 		653ACDEA1851183B007B9A47 /* camera_icon_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE81851183B007B9A47 /* camera_icon_blue@2x.png */; };
@@ -87,19 +86,17 @@
 		501F603F1875AE3A00B26F65 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
 		501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_3_0.a; sourceTree = "<group>"; };
 		50275F75186F22E200CD9680 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		503A980D188381C7000892B8 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		503CABD618739318006BBF51 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
-		503CABDA187393D5006BBF51 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		503CABDE18739751006BBF51 /* butterfly-green-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butterfly-green-blue.png"; sourceTree = "<group>"; };
-		507F61411882EEF000B57DDA /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
-		507F61421882EEF000B57DDA /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment.png; sourceTree = "<group>"; };
-		507F61431882EEF000B57DDA /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
-		507F614A1883594F00B57DDA /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
-		507F614B1883594F00B57DDA /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
+		5062780E187EE075007DDBBC /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		509CB820187CE6D8009E9A9F /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		509CB821187CE6D8009E9A9F /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		50C6566A187F0630008885FA /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
+		50C6566C187F06B9008885FA /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment.png; sourceTree = "<group>"; };
+		50C6566E187F0721008885FA /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		50FCEA0B187B68C3000A91AF /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusViewController.h; sourceTree = "<group>"; };
 		50FCEA0C187B68C3000A91AF /* StatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusViewController.m; sourceTree = "<group>"; };
+		6539B53F18804EDF0041D5B3 /* Parse-1.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Parse-1.framework"; sourceTree = "<group>"; };
 		653ACDE518510BEE007B9A47 /* PaperClip-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PaperClip-512.png"; sourceTree = "<group>"; };
 		653ACDE71851183B007B9A47 /* camera_icon_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_icon_blue.png; sourceTree = "<group>"; };
 		653ACDE81851183B007B9A47 /* camera_icon_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_icon_blue@2x.png"; sourceTree = "<group>"; };
@@ -173,11 +170,11 @@
 			files = (
 				65C6087C18731719006C1899 /* AssetsLibrary.framework in Frameworks */,
 				65413D3E184641F800543C1A /* SystemConfiguration.framework in Frameworks */,
+				6539B54018804EDF0041D5B3 /* Parse-1.framework in Frameworks */,
 				65413D3C184641EC00543C1A /* StoreKit.framework in Frameworks */,
 				65413D3A184641E700543C1A /* Security.framework in Frameworks */,
 				65413D38184641E100543C1A /* QuartzCore.framework in Frameworks */,
 				65413D36184641DC00543C1A /* MobileCoreServices.framework in Frameworks */,
-				503CABDB187393D5006BBF51 /* Parse.framework in Frameworks */,
 				65413D34184641D400543C1A /* libz.1.1.3.dylib in Frameworks */,
 				65413D32184641C900543C1A /* CoreLocation.framework in Frameworks */,
 				65413CDD1843990200543C1A /* CoreGraphics.framework in Frameworks */,
@@ -216,43 +213,6 @@
 			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
-		507F61471883591100B57DDA /* Category */ = {
-			isa = PBXGroup;
-			children = (
-				658AA5B2184CD1730097383B /* UIView+ViewBlurEffect.h */,
-				658AA5B3184CD1730097383B /* UIView+ViewBlurEffect.m */,
-				658AA5AF184CD12E0097383B /* UIImage+ImageEffects.h */,
-				658AA5B0184CD12E0097383B /* UIImage+ImageEffects.m */,
-			);
-			name = Category;
-			sourceTree = "<group>";
-		};
-		507F61481883591C00B57DDA /* Class */ = {
-			isa = PBXGroup;
-			children = (
-				65413D151843B6EF00543C1A /* StatusTableViewCell.h */,
-				65413D161843B6EF00543C1A /* StatusTableViewCell.m */,
-				65413D1C18452C6A00543C1A /* Status.h */,
-				65413D1D18452C6A00543C1A /* Status.m */,
-				65413CE91843990200543C1A /* AppDelegate.h */,
-				65413CEA1843990200543C1A /* AppDelegate.m */,
-				507F614A1883594F00B57DDA /* Helper.h */,
-				507F614B1883594F00B57DDA /* Helper.m */,
-			);
-			name = Class;
-			sourceTree = "<group>";
-		};
-		507F61491883592E00B57DDA /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				65413CEC1843990200543C1A /* Main_iPhone.storyboard */,
-				65413CEF1843990200543C1A /* Main_iPad.storyboard */,
-				653ACE41185926FD007B9A47 /* ExpirationTimePickerViewController.xib */,
-				658AA5C7184F95420097383B /* StatusTableViewHeaderViewController.xib */,
-			);
-			name = UI;
-			sourceTree = "<group>";
-		};
 		50FCEA0A187B68A2000A91AF /* View controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,16 +220,6 @@
 				50FCEA0C187B68C3000A91AF /* StatusViewController.m */,
 				509CB820187CE6D8009E9A9F /* ProfileViewController.h */,
 				509CB821187CE6D8009E9A9F /* ProfileViewController.m */,
-				653ACE3F185926FD007B9A47 /* ExpirationTimePickerViewController.h */,
-				653ACE40185926FD007B9A47 /* ExpirationTimePickerViewController.m */,
-				65413CF21843990200543C1A /* LogInViewController.h */,
-				65413CF31843990200543C1A /* LogInViewController.m */,
-				658AA5D1184FADFB0097383B /* ComposeNewStatusViewController.h */,
-				658AA5D2184FADFB0097383B /* ComposeNewStatusViewController.m */,
-				658AA5C5184F95420097383B /* StatusTableViewHeaderViewController.h */,
-				658AA5C6184F95420097383B /* StatusTableViewHeaderViewController.m */,
-				65413D121843B6AA00543C1A /* StatusTableViewController.h */,
-				65413D131843B6AA00543C1A /* StatusTableViewController.m */,
 			);
 			name = "View controller";
 			sourceTree = "<group>";
@@ -277,9 +227,9 @@
 		653ACE021857A2DD007B9A47 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				507F61411882EEF000B57DDA /* share.png */,
-				507F61421882EEF000B57DDA /* comment.png */,
-				507F61431882EEF000B57DDA /* like.png */,
+				50C6566E187F0721008885FA /* share.png */,
+				50C6566C187F06B9008885FA /* comment.png */,
+				50C6566A187F0630008885FA /* like.png */,
 				503CABDE18739751006BBF51 /* butterfly-green-blue.png */,
 				65C6087718721E46006C1899 /* time_add@2x.png */,
 				65C6087818721E46006C1899 /* time_add.png */,
@@ -320,8 +270,8 @@
 		65413CD91843990200543C1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6539B53F18804EDF0041D5B3 /* Parse-1.framework */,
 				501F603B1875AE3A00B26F65 /* CrittercismSDK */,
-				503CABDA187393D5006BBF51 /* Parse.framework */,
 				503CABD618739318006BBF51 /* FacebookSDK.framework */,
 				65C6087B18731719006C1899 /* AssetsLibrary.framework */,
 				65C6087118707AA5006C1899 /* FacebookSDK.framework */,
@@ -345,15 +295,36 @@
 		65413CE01843990200543C1A /* FastPost */ = {
 			isa = PBXGroup;
 			children = (
-				503A980D188381C7000892B8 /* Log.h */,
+				5062780E187EE075007DDBBC /* Log.h */,
 				653ACE2F18590B45007B9A47 /* ThingsToDo.h */,
-				507F61491883592E00B57DDA /* UI */,
-				507F61481883591C00B57DDA /* Class */,
-				507F61471883591100B57DDA /* Category */,
 				50FCEA0A187B68A2000A91AF /* View controller */,
 				653ACE021857A2DD007B9A47 /* Resources */,
+				658AA5AF184CD12E0097383B /* UIImage+ImageEffects.h */,
+				658AA5B0184CD12E0097383B /* UIImage+ImageEffects.m */,
+				653ACE3F185926FD007B9A47 /* ExpirationTimePickerViewController.h */,
+				653ACE40185926FD007B9A47 /* ExpirationTimePickerViewController.m */,
+				653ACE41185926FD007B9A47 /* ExpirationTimePickerViewController.xib */,
+				65413CE91843990200543C1A /* AppDelegate.h */,
+				65413CEA1843990200543C1A /* AppDelegate.m */,
+				65413CEC1843990200543C1A /* Main_iPhone.storyboard */,
+				65413CEF1843990200543C1A /* Main_iPad.storyboard */,
+				65413CF21843990200543C1A /* LogInViewController.h */,
+				65413CF31843990200543C1A /* LogInViewController.m */,
 				65413CF51843990200543C1A /* Images.xcassets */,
 				65413CE11843990200543C1A /* Supporting Files */,
+				65413D121843B6AA00543C1A /* StatusTableViewController.h */,
+				65413D131843B6AA00543C1A /* StatusTableViewController.m */,
+				65413D151843B6EF00543C1A /* StatusTableViewCell.h */,
+				65413D161843B6EF00543C1A /* StatusTableViewCell.m */,
+				65413D1C18452C6A00543C1A /* Status.h */,
+				65413D1D18452C6A00543C1A /* Status.m */,
+				658AA5B2184CD1730097383B /* UIView+ViewBlurEffect.h */,
+				658AA5B3184CD1730097383B /* UIView+ViewBlurEffect.m */,
+				658AA5D1184FADFB0097383B /* ComposeNewStatusViewController.h */,
+				658AA5D2184FADFB0097383B /* ComposeNewStatusViewController.m */,
+				658AA5C5184F95420097383B /* StatusTableViewHeaderViewController.h */,
+				658AA5C6184F95420097383B /* StatusTableViewHeaderViewController.m */,
+				658AA5C7184F95420097383B /* StatusTableViewHeaderViewController.xib */,
 			);
 			path = FastPost;
 			sourceTree = "<group>";
@@ -473,17 +444,17 @@
 				503CABDF18739751006BBF51 /* butterfly-green-blue.png in Resources */,
 				653ACDE618510BEE007B9A47 /* PaperClip-512.png in Resources */,
 				65C6087918721E46006C1899 /* time_add@2x.png in Resources */,
+				50C6566F187F0721008885FA /* share.png in Resources */,
 				65413CF11843990200543C1A /* Main_iPad.storyboard in Resources */,
-				507F61461882EEF000B57DDA /* like.png in Resources */,
 				653ACDE91851183B007B9A47 /* camera_icon_blue.png in Resources */,
 				653ACDEA1851183B007B9A47 /* camera_icon_blue@2x.png in Resources */,
+				50C6566B187F0630008885FA /* like.png in Resources */,
 				658AA5C9184F95420097383B /* StatusTableViewHeaderViewController.xib in Resources */,
 				653ACE31185912AA007B9A47 /* compose_icon.png in Resources */,
 				50275F76186F22E200CD9680 /* icon.png in Resources */,
 				658AA5C2184E887E0097383B /* placeholder_picture@2x.png in Resources */,
+				50C6566D187F06B9008885FA /* comment.png in Resources */,
 				65413CF61843990200543C1A /* Images.xcassets in Resources */,
-				507F61451882EEF000B57DDA /* comment.png in Resources */,
-				507F61441882EEF000B57DDA /* share.png in Resources */,
 				65C6087A18721E46006C1899 /* time_add.png in Resources */,
 				653ACE43185926FD007B9A47 /* ExpirationTimePickerViewController.xib in Resources */,
 				658AA5CB184F963E0097383B /* clock.png in Resources */,
@@ -512,7 +483,6 @@
 				658AA5C8184F95420097383B /* StatusTableViewHeaderViewController.m in Sources */,
 				65413D141843B6AA00543C1A /* StatusTableViewController.m in Sources */,
 				653ACE42185926FD007B9A47 /* ExpirationTimePickerViewController.m in Sources */,
-				507F614C1883594F00B57DDA /* Helper.m in Sources */,
 				509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */,
 				65413D1E18452C6A00543C1A /* Status.m in Sources */,
 				658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */,
@@ -664,19 +634,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/jasonhuang/Google\\ Drive/FastPost",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/FacebookSDK",
 					"/Users/jhuang/Google\\ Drive/FastPost/FacebookSDK",
 					"/Users/jhuang/Google\\ Drive/FastPost/FastPost",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/FastPost",
+					"/Users/jhuang/Google\\ Drive/FastPost",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FastPost/FastPost-Prefix.pch";
 				INFOPLIST_FILE = "FastPost/FastPost-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/CrittercismSDK",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = dwndlr;
 				PROVISIONING_PROFILE = "97072396-3EFD-4FD6-86DA-2F4BD661A5A8";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -692,19 +657,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/jasonhuang/Google\\ Drive/FastPost",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/FacebookSDK",
 					"/Users/jhuang/Google\\ Drive/FastPost/FacebookSDK",
 					"/Users/jhuang/Google\\ Drive/FastPost/FastPost",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/FastPost",
+					"/Users/jhuang/Google\\ Drive/FastPost",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FastPost/FastPost-Prefix.pch";
 				INFOPLIST_FILE = "FastPost/FastPost-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/jasonhuang/Google\\ Drive/FastPost/CrittercismSDK",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = dwndlr;
 				PROVISIONING_PROFILE = "D7A3F54E-3C7D-48F4-B391-328F5E93CFA6";
 				TARGETED_DEVICE_FAMILY = 1;
