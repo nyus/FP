@@ -50,7 +50,6 @@
     self.tableView.dataSource = self;
     //add refresh control
     [self addRefreshControll];
-    [self fetchNewStatusWithCount:25 remainingTime:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -59,11 +58,11 @@
     if (dataSource==nil) {
         [self fetchNewStatusWithCount:25 remainingTime:nil];
     }
-//    else{
+    else{
         //this is a fix for a bug, where you come back from compose, the views in the cell get messed up
-//        [self.tableView reloadData];
-//    }
-    
+        [self.tableView reloadData];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -268,25 +267,22 @@
     if(!dataSource || dataSource.count == 0){
         return BACKGROUND_CELL_HEIGHT;
     }else{
-        //determine height of label
-        NSString *message = [[dataSource objectAtIndex:indexPath.row] pfObject][@"message"];
-        
-        CGSize maxSize = CGSizeMake(280, MAXFLOAT);
-        
-        CGRect rect = [message boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]} context:nil];
-        
-        int numberOfLines = ceilf(rect.size.width/280.0f);
-        CGFloat heightOfLabel = numberOfLines *rect.size.height;
+       
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 280, 20)];
+        label.numberOfLines = 0;
+        label.font = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];
+        label.text = [dataSource[indexPath.row] pfObject][@"message"];
+        [label sizeToFit];
         
         //determine if there is a picture
         
         PFFile *picture = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
         if (picture == (PFFile *)[NSNull null] || picture == nil) {
             //68 y origin of label
-            return ORIGIN_Y_CELL_MESSAGE_LABEL + heightOfLabel + 10;
+            return ORIGIN_Y_CELL_MESSAGE_LABEL + label.frame.size.height + 10;
         }else{
             //68 y origin of label, 204 height of picture image view
-            return ORIGIN_Y_CELL_MESSAGE_LABEL + heightOfLabel + 10 + 204 + 10;
+            return ORIGIN_Y_CELL_MESSAGE_LABEL + label.frame.size.height + 10 + 204 + 10;
         }
         
     }
