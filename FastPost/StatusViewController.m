@@ -45,10 +45,6 @@
     [self presentViewController:vc animated:NO completion:^{
         
     }];
-    
-//    self.title = @"dwndlr";
-    self.tabBarController.title = @"dwndlr";
-    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor colorWithRed:68.0/255.0 green:154.0/255.0 blue:212.0/255.0 alpha:1] forKey:UITextAttributeTextColor];
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -59,8 +55,15 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    //this is a fix for a bug, where you come back from compose, the views in the cell get messed up
-    [self.tableView reloadData];
+    
+    if (dataSource==nil) {
+        [self fetchNewStatusWithCount:25 remainingTime:nil];
+    }
+//    else{
+        //this is a fix for a bug, where you come back from compose, the views in the cell get messed up
+//        [self.tableView reloadData];
+//    }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -319,17 +322,23 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"This user doesn't exist" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
                 [alert show];
             }else{
+                
+                //add the person that user wants to follow in user's friends array on server
                 PFUser *foundUser = (PFUser *)object;
                 [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
                 [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (!succeeded) {
-                        NSLog(@"save new friend failed");
-                        [self fetchNewStatusWithCount:25 remainingTime:nil];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Failed to follow %@, please try again",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                        [alert show];
                     }else{
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Success! You can now see posts from %@",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
                         [alert show];
                     }
                 }];
+                
+                //add self to the person that self follows to person's follower array on server
+                [foundUser addObject:[PFUser currentUser].username forKey:@"followers"];
+                [foundUser saveInBackground];
             }
         }];
     }

@@ -31,6 +31,10 @@ display profile picture
 
 //add friend feedback
 
+have a local count of number of dwindles the user have, as the same time post that to server. counting number of status is too pricy
+
+perhaps also store user status to local, so that we can avoid pulling too many past statuses
+
 ##############bug
 //-revive crashes app
                                                                                   

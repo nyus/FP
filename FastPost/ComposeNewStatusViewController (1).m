@@ -8,7 +8,7 @@
 
 #import "ComposeNewStatusViewController.h"
 #import "ComposeStatusPhotoCollectionViewCell.h"
-#import <Parse/Parse.h>
+#import <Parse-1/Parse.h>
 #define CELL_IMAGEVIEW_SIZE_HEIGHT 204.0f
 #define CELL_IMAGEVIEW_SIZE_WIDTH 280.0f
 @interface ComposeNewStatusViewController ()<UIPickerViewDelegate, UIPickerViewDataSource,UITextViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIActionSheetDelegate,UICollectionViewDataSource,UICollectionViewDelegate>{
@@ -264,7 +264,6 @@
             object[@"expirationTimeInSec"] = [NSNumber numberWithInt:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue] *60];
             object[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue]*60];
             object[@"posterUsername"] = [[PFUser currentUser] username];
-            object[@"revivable"] = [NSNumber numberWithBool:self.revivableSwitch.on];
             [object saveInBackground];
         }else{
             UIImage *chosenImage = collectionViewDataSource[0];
@@ -290,29 +289,15 @@
                     object[@"expirationTimeInSec"] = [NSNumber numberWithInt:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue] *60];
                     object[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue]*60];
                     object[@"posterUsername"] = [[PFUser currentUser] username];
-                    object[@"revivable"] = [NSNumber numberWithBool:self.revivableSwitch.on];
                     [object saveInBackground];
                 }
             }];
         }
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
-        //first time use
-        if (!numberPosts) {
-            [defaults setObject:[NSNumber numberWithInt:1] forKey:@"numberofposts"];
-        }else{
-            [defaults setObject:[NSNumber numberWithInt:numberPosts.intValue+1] forKey:@"numberofposts"];
-        }
-        [defaults synchronize];
     }];
 }
 
 - (IBAction)cancelButtonTapped:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)revivableSwitchChanged:(id)sender {
 }
 
 #pragma mark - UIActionSheetDelegate

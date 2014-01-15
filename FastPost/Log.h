@@ -11,11 +11,11 @@
 Jan 9
 added date label on status cell
 
-adjusted status cell layout based on new design
+//adjusted status cell layout based on new design
 pull user profile picture to status cell
 added spinner when pulling image on status cell
-
-
+dwindles, followers, following
+no revive if the options is turned off
 -----
 username case insensitive
 #endif
