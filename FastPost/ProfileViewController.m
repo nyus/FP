@@ -37,26 +37,29 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [self fetchNewStatusWithCount:25 remainingTime:nil];
     
     if([self.presentingSource isEqualToString:@"statusViewController"]){
         self.editButton.hidden = YES;
     }else{
         self.followButton.hidden = YES;
     }
-    
-    [self updateUserInfoValues];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    [self fetchNewStatusWithCount:25 remainingTime:nil];
+    
     [self updateUserInfoValues];
 }
 
 -(void)updateUserInfoValues{
     
+    //name
+    self.userNameLabel.text = [PFUser currentUser].username;
+    
     //set avatar
-    [Helper getAvatarForUser:[PFUser currentUser].username forImageView:self.avatarImageView];
+    [Helper getAvatarForSelfOnImageView:self.avatarImageView];
     
     //# of dwindles.
     //first try to pull from user default, and when a user posts a new status, increase this user default value. for first time user, this will work but for existing users, need to pull from parse to get the # of posts already out there
@@ -87,16 +90,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
--(void)displayUserInfo{
-    self.userNameLabel.text = [PFUser currentUser].username;
-}
-
--(void)displayUserSocialInfo{
-
-}
-
--(void)displayUserActivity{}
 
 - (IBAction)avatarImageViewTapped:(id)sender {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera",@"Gallery", nil];
@@ -164,25 +157,10 @@
     //reason for scale*2. UIImageJPEGRepresentation's compressionQuality seems to be 2 times the value of scale
     //for example, if compressionQuality is 0.8, then the size would be appro 0.4 time of the original size
     NSData *data = UIImageJPEGRepresentation(chosenImage,scale);
-    PFUser *user = [PFUser currentUser];
-    user[@"avatar"] = [PFFile fileWithData:data];
-    user[@"avatarUpdateDate"] = [NSDate date];
-    [user saveInBackground];
     
-    //save profile image to local
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
-    NSString *documentDirectory = paths[0];
-    NSString *path = [documentDirectory stringByAppendingPathComponent:[PFUser currentUser].username];
+    //save profile image to local and server
+    [Helper saveAvatar:data forUser:[PFUser currentUser].username];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        NSError *error;
-        [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
-    }
-    
-    BOOL success = [[NSFileManager defaultManager] createFileAtPath:path
-                                            contents:nil
-                                          attributes:nil];
-    BOOL exist = [[NSFileManager defaultManager] fileExistsAtPath:path];
     [picker dismissViewControllerAnimated:YES completion:^{
         self.avatarImageView.image = chosenImage;
     }];
@@ -193,11 +171,6 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Status"];
     query.limit = count;
     [query orderByDescending:@"createdAt"];
-    
-//    [query whereKey:@"expirationDate" greaterThan:[NSDate date]];
-//    if (remainingTimeInSec) {
-//        [query whereKey:@"expirationDate" lessThan:[[NSDate date] dateByAddingTimeInterval:remainingTimeInSec.intValue]];
-//    }
     [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
@@ -208,7 +181,6 @@
                 
                 for (int i = 0 ; i<objects.count; i++) {
                     Status *newStatus = [[Status alloc] initWithPFObject:objects[i]];
-//                    newStatus.delegate = self;
                     if (!dataSource) {
                         dataSource = [NSMutableArray array];
                     }
@@ -219,7 +191,6 @@
             }else{
                 for (PFObject *status in objects) {
                     Status *newStatus = [[Status alloc] initWithPFObject:status];
-//                    newStatus.delegate = self;
                     if (!dataSource) {
                         dataSource = [NSMutableArray array];
                     }
@@ -235,10 +206,7 @@
     }];
 }
 
-
-#pragma mark - UITableViewDelete 
-
-#pragma mark - Table view data source
+#pragma mark - UITableViewDelete
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -282,100 +250,11 @@
         [formatter setDateFormat:@"HH:mm MM/dd/yy"];
         NSString *str = [formatter stringFromDate:[[dataSource objectAtIndex:indexPath.row] pfObject].updatedAt];
         cell.statusCellDateLabel.text = str;
-        
-        //if user avatar is saved, pull locally; otherwise pull from server and save it locally
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
-        NSString *documentDirectory = paths[0];
-        NSString *path = [documentDirectory stringByAppendingPathComponent:cell.statusCellUsernameLabel.text];
-        
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-            
-            //compare saved avater creation date with the current avatar date, if dont match then need to update
-            NSError *accessAttriError;
-            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&accessAttriError];
-            NSDate *fileCreatedDate = [attributes objectForKey:NSFileCreationDate];
-            
-            if (accessAttriError) {
-                
-            }else{
-                PFQuery *query = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
-                [query whereKey:@"username" equalTo:cell.statusCellUsernameLabel.text];
-                [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                    if (!error && object) {
-                        PFUser *user = (PFUser *)object;
-                        NSDate *serverAvatarCreationDate = user[@"avatarUpdateDate"];
-                        if ([serverAvatarCreationDate isEqualToDate:fileCreatedDate]) {
-                            //then just use local saved avatar
-                            NSData *imageData = [[NSFileManager defaultManager] contentsAtPath:path];
-                            cell.statusCellAvatarImageView.image = [UIImage imageWithData:imageData];
-                        }else{
-                            
-                            PFFile *avatar = [user objectForKey:@"avatar"];
-                            if (avatar != (PFFile *)[NSNull null] && avatar != nil) {
-                                
-                                [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                                    if (data && !error) {
-                                        cell.statusCellAvatarImageView.image = [UIImage imageWithData:data];
-                                        
-                                        //save image to local
-                                        NSError *removeError;
-                                        [[NSFileManager defaultManager] removeItemAtPath:path error:&removeError];
-                                        if (!removeError) {
-                                            NSString *newPath = [documentDirectory stringByAppendingString:[NSString stringWithFormat:@"%@",user.username]];
-                                            [[NSFileManager defaultManager]
-                                             createFileAtPath:newPath
-                                             contents:data
-                                             attributes:@{NSFileCreationDate:user[@"avatarUpdateDate"]}];
-                                        }
-                                        
-                                    }else{
-                                        NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
-                                    }
-                                }];
-                            }
-                        }
-                        
-                    }
-                }];
-            }
-            
-        }else{
-            
-            PFQuery *query = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
-            [query whereKey:@"username" equalTo:cell.statusCellUsernameLabel.text];
-            [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                if (!error && object) {
-                    PFUser *user = (PFUser *)object;
-                    PFFile *avatar = [user objectForKey:@"avatar"];
-                    if (avatar != (PFFile *)[NSNull null] && avatar != nil) {
-                        
-                        
-                        [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                            if (data && !error) {
-                                cell.statusCellAvatarImageView.image = [UIImage imageWithData:data];
-                                
-                                //save image to local
-                                //save image to local
-                                NSError *removeError;
-                                [[NSFileManager defaultManager] removeItemAtPath:path error:&removeError];
-                                if (!removeError) {
-                                    NSString *newPath = [documentDirectory stringByAppendingString:[NSString stringWithFormat:@"%@",user.username]];
-                                    [[NSFileManager defaultManager]
-                                     createFileAtPath:newPath
-                                     contents:data
-                                     attributes:@{NSFileCreationDate:user[@"avatarUpdateDate"]}];
-                                }
-                            }else{
-                                NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
-                            }
-                        }];
-                    }
-                }
-            }];
-        }
-        
+    
+        //get avatar
+        [Helper getAvatarForSelfOnImageView:cell.statusCellAvatarImageView];
+    
         PFFile *picture = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
-//        cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[dataSource[indexPath.row] countDownMessage] intValue]];
         if (picture != (PFFile *)[NSNull null] && picture != nil) {
             
             //add spinner on image view to indicate pulling image
@@ -397,37 +276,7 @@
         }
         
         return cell;
-//    }
-    
 }
-
-//-(NSString *)minAndTimeFormatWithSecond:(int)seconds{
-//    return [NSString stringWithFormat:@"%d:%02d",seconds/60,seconds%60];
-//}
-//
-//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-//    
-//    //for non background cell
-//    if(dataSource && dataSource.count != 0){
-//        [[dataSource objectAtIndex:indexPath.row] startTimer];
-//        
-//        //update the count down text
-//        StatusTableViewCell *scell = (StatusTableViewCell *)cell;
-//        if ([scell.statusCellMessageLabel.text isEqualToString:[dataSource[indexPath.row] pfObject][@"message"]]) {
-//            scell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[dataSource[indexPath.row] countDownMessage] intValue]];
-//            if (![scell.statusCellCountDownLabel.text isEqualToString:@"0:00"]) {
-//            }else{
-//                [dataSource removeObjectAtIndex:indexPath.row];
-//                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-//                
-//                if(dataSource.count == 0){
-//                    dataSource = nil;
-//                    [self.tableView reloadData];
-//                }
-//            }
-//        }
-//    }
-//}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     

@@ -18,6 +18,7 @@
 		507F61461882EEF000B57DDA /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61431882EEF000B57DDA /* like.png */; };
 		507F614C1883594F00B57DDA /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 507F614B1883594F00B57DDA /* Helper.m */; };
 		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
+		50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */; };
 		50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEA0C187B68C3000A91AF /* StatusViewController.m */; };
 		653ACDE618510BEE007B9A47 /* PaperClip-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE518510BEE007B9A47 /* PaperClip-512.png */; };
 		653ACDE91851183B007B9A47 /* camera_icon_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE71851183B007B9A47 /* camera_icon_blue.png */; };
@@ -100,6 +101,8 @@
 		507F614B1883594F00B57DDA /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
 		509CB820187CE6D8009E9A9F /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		509CB821187CE6D8009E9A9F /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		50B31CCD18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewControllerWithStatusTableView.h; sourceTree = "<group>"; };
+		50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewControllerWithStatusTableView.m; sourceTree = "<group>"; };
 		50FCEA0B187B68C3000A91AF /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusViewController.h; sourceTree = "<group>"; };
 		50FCEA0C187B68C3000A91AF /* StatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusViewController.m; sourceTree = "<group>"; };
 		653ACDE518510BEE007B9A47 /* PaperClip-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PaperClip-512.png"; sourceTree = "<group>"; };
@@ -243,6 +246,8 @@
 				65413CEA1843990200543C1A /* AppDelegate.m */,
 				507F614A1883594F00B57DDA /* Helper.h */,
 				507F614B1883594F00B57DDA /* Helper.m */,
+				50B31CCD18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.h */,
+				50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -531,6 +536,7 @@
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
+				50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

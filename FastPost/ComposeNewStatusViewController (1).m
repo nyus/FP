@@ -255,6 +255,7 @@
     //send to parse
     [self dismissViewControllerAnimated:YES completion:^{
         
+        //no image
         if (!collectionViewDataSource && !collectionViewDataSource[0]) {
             PFObject *object = [PFObject objectWithClassName:@"Status"];
             object[@"message"] = self.textView.text;
@@ -264,6 +265,7 @@
             object[@"expirationTimeInSec"] = [NSNumber numberWithInt:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue] *60];
             object[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue]*60];
             object[@"posterUsername"] = [[PFUser currentUser] username];
+//            object[@"revivable"] = 
             [object saveInBackground];
         }else{
             UIImage *chosenImage = collectionViewDataSource[0];

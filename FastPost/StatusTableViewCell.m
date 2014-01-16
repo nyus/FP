@@ -32,17 +32,7 @@
 
 -(void)resizeCellToFitStatusContent{
 
-    CGSize maxSize = CGSizeMake(280, MAXFLOAT);
-    
-    CGRect rect = [self.statusCellMessageLabel.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]} context:nil];
-    
-    int numberOfLines = ceilf(rect.size.width/280.0f);
-    int heightOfLabel = (int)ceilf(numberOfLines *rect.size.height);
-    
-    self.statusCellMessageLabel.frame = CGRectMake(self.statusCellMessageLabel.frame.origin.x,
-                                  self.statusCellMessageLabel.frame.origin.y,
-                                  self.statusCellMessageLabel.frame.size.width,
-                                  heightOfLabel);
+    [self.statusCellMessageLabel sizeToFit];
     
     self.statusCellPhotoImageView.frame = CGRectMake(self.statusCellPhotoImageView.frame.origin.x,
                                              CGRectGetMaxY(self.statusCellMessageLabel.frame) + 10,

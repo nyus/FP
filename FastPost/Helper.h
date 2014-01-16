@@ -10,4 +10,6 @@
 
 @interface Helper : NSObject
 +(void)getAvatarForUser:(NSString *)username forImageView:(UIImageView *)imageView;
++(void)saveAvatar:(NSData *)data forUser:(NSString *)username;
++(void)getAvatarForSelfOnImageView:(UIImageView *)imageView;
 @end
