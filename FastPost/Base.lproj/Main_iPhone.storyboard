@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="IZ9-ne-Ebd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="IZ9-ne-Ebd">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -811,7 +811,7 @@
                                     <outlet property="delegate" destination="i4o-0h-o3C" id="tYK-8G-Qqr"/>
                                 </connections>
                             </textView>
-                            <view alpha="0.0" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nlr-9v-yYp">
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nlr-9v-yYp">
                                 <rect key="frame" x="0.0" y="175" width="320" height="1"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -820,13 +820,13 @@
                                     <constraint firstAttribute="width" constant="320" id="cEA-db-IIy"/>
                                 </constraints>
                             </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1wE-tv-Agz">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1wE-tv-Agz">
                                 <rect key="frame" x="0.0" y="176" width="320" height="94"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="N9U-6F-3N7"/>
-                                    <constraint firstAttribute="height" constant="93" id="tuN-lF-twT"/>
+                                    <constraint firstAttribute="height" constant="94" id="tuN-lF-twT"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WXw-1y-w0z">
                                     <size key="itemSize" width="84" height="84"/>
@@ -860,7 +860,7 @@
                                     <outlet property="delegate" destination="i4o-0h-o3C" id="zso-Wl-Ow8"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qXx-ee-YtK" userLabel="options container">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qXx-ee-YtK" userLabel="options container">
                                 <rect key="frame" x="0.0" y="269" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -946,14 +946,14 @@
                         <constraints>
                             <constraint firstItem="qyP-cU-sK9" firstAttribute="top" secondItem="E6F-Vk-Y7S" secondAttribute="bottom" constant="-161" id="Ezc-uZ-7Z9"/>
                             <constraint firstItem="qXx-ee-YtK" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="G5v-Yb-Ibs"/>
-                            <constraint firstItem="qXx-ee-YtK" firstAttribute="bottom" secondItem="1wE-tv-Agz" secondAttribute="bottom" constant="60" id="J7l-7Z-K6B"/>
+                            <constraint firstItem="qXx-ee-YtK" firstAttribute="bottom" secondItem="1wE-tv-Agz" secondAttribute="bottom" constant="59" id="J7l-7Z-K6B"/>
                             <constraint firstItem="1wE-tv-Agz" firstAttribute="top" secondItem="Nlr-9v-yYp" secondAttribute="bottom" id="MrN-9f-GuC"/>
                             <constraint firstItem="RdZ-wo-i6v" firstAttribute="top" secondItem="DTG-LD-AXd" secondAttribute="bottom" constant="44" id="anL-Yp-enn"/>
                             <constraint firstItem="1wE-tv-Agz" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="d7m-nB-wUf"/>
                             <constraint firstItem="E6F-Vk-Y7S" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="g4G-3z-7FC"/>
                             <constraint firstItem="Nlr-9v-yYp" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="gQS-DH-uV7"/>
                             <constraint firstItem="RdZ-wo-i6v" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="gjE-Di-bBo"/>
-                            <constraint firstItem="1wE-tv-Agz" firstAttribute="top" secondItem="DTG-LD-AXd" secondAttribute="bottom" constant="112" id="oHz-EM-vdd"/>
+                            <constraint firstItem="1wE-tv-Agz" firstAttribute="top" secondItem="DTG-LD-AXd" secondAttribute="bottom" constant="156" id="oHz-EM-vdd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Compose" id="uz6-ri-V00">
