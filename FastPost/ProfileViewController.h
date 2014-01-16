@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ProfileViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+#import "BaseViewControllerWithStatusTableView.h"
+@interface ProfileViewController : BaseViewControllerWithStatusTableView
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dwindleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *followingLabel;

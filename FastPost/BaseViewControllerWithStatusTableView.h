@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface BaseViewControllerWithStatusTableView : UIViewController<UITableViewDataSource, UITableViewDelegate>
-
+#import "StatusTableViewCell.h"
+@interface BaseViewControllerWithStatusTableView : UIViewController<UITableViewDataSource, UITableViewDelegate,StatusTableViewCellDelegate>
+@property (nonatomic, strong) NSMutableArray *dataSource;
 @end
