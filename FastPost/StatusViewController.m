@@ -18,9 +18,8 @@
 #import "Helper.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
-@interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate,UIAlertViewDelegate, StatusTableViewHeaderViewDelegate,StatusTableViewCellDelegate,ExpirationTimePickerViewControllerDelegate>{
+@interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate,UIAlertViewDelegate, StatusTableViewHeaderViewDelegate,ExpirationTimePickerViewControllerDelegate>{
     
-    NSMutableArray *dataSource;
     FBFriendPickerViewController *friendPickerVC;
     StatusTableViewHeaderViewController *headerViewVC;
     ExpirationTimePickerViewController *expirationTimePickerVC;
@@ -46,8 +45,6 @@
         
     }];
 
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     //add refresh control
     [self addRefreshControll];
 }
@@ -55,7 +52,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    if (dataSource==nil) {
+    if (self.dataSource==nil) {
         [self fetchNewStatusWithCount:25 remainingTime:nil];
     }
     else{
@@ -96,16 +93,16 @@
         
         if (objects.count != 0) {
             [refreshControl endRefreshing];
-            if (dataSource.count > 0) {
-                [dataSource removeAllObjects];
+            if (self.dataSource.count > 0) {
+                [self.dataSource removeAllObjects];
                 
                 for (int i = 0 ; i<objects.count; i++) {
                     Status *newStatus = [[Status alloc] initWithPFObject:objects[i]];
                     newStatus.delegate = self;
-                    if (!dataSource) {
-                        dataSource = [NSMutableArray array];
+                    if (!self.dataSource) {
+                        self.dataSource = [NSMutableArray array];
                     }
-                    [dataSource addObject:newStatus];
+                    [self.dataSource addObject:newStatus];
                 }
                 
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
@@ -113,10 +110,10 @@
                 for (PFObject *status in objects) {
                     Status *newStatus = [[Status alloc] initWithPFObject:status];
                     newStatus.delegate = self;
-                    if (!dataSource) {
-                        dataSource = [NSMutableArray array];
+                    if (!self.dataSource) {
+                        self.dataSource = [NSMutableArray array];
                     }
-                    [dataSource addObject:newStatus];
+                    [self.dataSource addObject:newStatus];
                 }
                 [self.tableView reloadData];
             }
@@ -132,23 +129,23 @@
 #pragma mark - Status Object Delegate
 
 -(void)statusObjectTimeUpWithObject:(Status *)object{
-    NSInteger index = [dataSource indexOfObject:object];
+    NSInteger index = [self.dataSource indexOfObject:object];
     StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
         //        [cell blurCell];
-        [dataSource removeObject:object];
+        [self.dataSource removeObject:object];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
         //if there is no status anymore, need to reload to show the background cell
-        if(dataSource.count == 0){
-            //setting dataSource to nil prevents talbeview from crashing.
-            dataSource = nil;
+        if(self.dataSource.count == 0){
+            //setting self.dataSource to nil prevents talbeview from crashing.
+            self.dataSource = nil;
             [self.tableView reloadData];
         }
     }
 }
 
 -(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
-    NSInteger index = [dataSource indexOfObject:object];
+    NSInteger index = [self.dataSource indexOfObject:object];
     StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
         //convert seconds into min and second
@@ -165,75 +162,32 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 1;
+    return [super numberOfSectionsInTableView:tableView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(!dataSource){
+    if(!self.dataSource){
         //return background cell
         [self fetchNewStatusWithCount:25 remainingTime:nil];
         return 1;
     }else{
         // Return the number of rows in the section.
-        return dataSource.count;
+        return [super tableView:tableView numberOfRowsInSection:section];
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if(!dataSource || dataSource.count == 0){
+    if(!self.dataSource || self.dataSource.count == 0){
         //no status background cell
         static NSString *CellIdentifier = @"BackgroundCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
         return cell;
     }else{
-        static NSString *CellIdentifier = @"Cell";
-        StatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        cell.delegate = self;
-        // Configure the cell...
-        cell.statusCellMessageLabel.text = [[dataSource objectAtIndex:indexPath.row] pfObject][@"message"];
-        cell.statusCellUsernameLabel.text = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"posterUsername"];
-        BOOL revivable = [[dataSource[indexPath.row] pfObject][@"revivable"] boolValue];
-        if (!revivable) {
-            cell.statusCellReviveButton.hidden = YES;
-        }
-        
-        //
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"HH:mm MM/dd/yy"];
-        NSString *str = [formatter stringFromDate:[[dataSource objectAtIndex:indexPath.row] pfObject].updatedAt];
-        cell.statusCellDateLabel.text = str;
-        
-        //if user avatar is saved, pull locally; otherwise pull from server and save it locally
-        [Helper getAvatarForUser:[PFUser currentUser].username forImageView:cell.statusCellAvatarImageView];
-        
-        PFFile *picture = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
-        cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[dataSource[indexPath.row] countDownMessage] intValue]];
-        if (picture != (PFFile *)[NSNull null] && picture != nil) {
-            
-            //add spinner on image view to indicate pulling image
-            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            spinner.center = CGPointMake((int)cell.statusCellPhotoImageView.frame.size.width/2, (int)cell.statusCellPhotoImageView.frame.size.height/2);
-            [cell.statusCellPhotoImageView addSubview:spinner];
-            [spinner startAnimating];
-
-            [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                
-                if (data && !error) {
-                    cell.statusCellPhotoImageView.image = [UIImage imageWithData:data];
-                }else{
-                    NSLog(@"error (%@) getting status photo with status id %@",error.localizedDescription,[[[dataSource objectAtIndex:indexPath.row] pfObject] objectId]);
-                }
-                
-                [spinner stopAnimating];
-            }];
-        }
-        
-        return cell;
+        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
     
 }
@@ -241,20 +195,20 @@
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     
     //for non background cell
-    if(dataSource && dataSource.count != 0){
-        [[dataSource objectAtIndex:indexPath.row] startTimer];
+    if(self.dataSource && self.dataSource.count != 0){
+        [[self.dataSource objectAtIndex:indexPath.row] startTimer];
         
         //update the count down text
         StatusTableViewCell *scell = (StatusTableViewCell *)cell;
-        if ([scell.statusCellMessageLabel.text isEqualToString:[dataSource[indexPath.row] pfObject][@"message"]]) {
-            scell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[dataSource[indexPath.row] countDownMessage] intValue]];
+        if ([scell.statusCellMessageLabel.text isEqualToString:[self.dataSource[indexPath.row] pfObject][@"message"]]) {
+            scell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[self.dataSource[indexPath.row] countDownMessage] intValue]];
             if (![scell.statusCellCountDownLabel.text isEqualToString:@"0:00"]) {
             }else{
-                [dataSource removeObjectAtIndex:indexPath.row];
+                [self.dataSource removeObjectAtIndex:indexPath.row];
                 [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
                 
-                if(dataSource.count == 0){
-                    dataSource = nil;
+                if(self.dataSource.count == 0){
+                    self.dataSource = nil;
                     [self.tableView reloadData];
                 }
             }
@@ -263,30 +217,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if(!dataSource || dataSource.count == 0){
-        return BACKGROUND_CELL_HEIGHT;
-    }else{
-       
-        //becuase at this point, 
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 280, 20)];
-        label.numberOfLines = 0;
-        label.font = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];
-        label.text = [dataSource[indexPath.row] pfObject][@"message"];
-        [label sizeToFit];
-        
-        //determine if there is a picture
-        
-        PFFile *picture = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
-        if (picture == (PFFile *)[NSNull null] || picture == nil) {
-            //68 y origin of label
-            return ORIGIN_Y_CELL_MESSAGE_LABEL + label.frame.size.height + 10;
-        }else{
-            //68 y origin of label, 204 height of picture image view
-            return ORIGIN_Y_CELL_MESSAGE_LABEL + label.frame.size.height + 10 + 204 + 10;
-        }
-        
-    }
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -322,20 +253,24 @@
                 
                 //add the person that user wants to follow in user's friends array on server
                 PFUser *foundUser = (PFUser *)object;
-                [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
-                [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (!succeeded) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Failed to follow %@, please try again",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                        [alert show];
-                    }else{
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Success! You can now see posts from %@",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                        [alert show];
-                    }
-                }];
                 
+#warning since the lines below are crashing for no reason, do a seperate query
+
                 //add self to the person that self follows to person's follower array on server
-                [foundUser addObject:[PFUser currentUser].username forKey:@"followers"];
+//                [foundUser addObject:[PFUser currentUser].username forKey:@"follower"];
+                [foundUser setObject:@"username" forKey:@"test"];
                 [foundUser saveInBackground];
+         
+//                [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
+//                [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                    if (!succeeded) {
+//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Failed to follow %@, please try again",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+//                        [alert show];
+//                    }else{
+//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Success! You can now see posts from %@",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+//                        [alert show];
+//                    }
+//                }];
             }
         }];
     }
@@ -457,7 +392,7 @@
 #pragma mark - ExpirationTimePickerViewControllerDelegate
 
 -(void)revivePickerViewExpirationTimeSetToMins:(int)min andSecs:(int)sec andPickerView:(UIPickerView *)pickerView{
-    Status *status = dataSource[[[self.tableView indexPathForCell:cellToRevive] row]];
+    Status *status = self.dataSource[[[self.tableView indexPathForCell:cellToRevive] row]];
     
     //add time to status remotely
     int timeInterval = min * 60 + sec + status.countDownMessage.intValue;

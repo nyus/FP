@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface StatusViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+#import "BaseViewControllerWithStatusTableView.h"
+@interface StatusViewController : BaseViewControllerWithStatusTableView
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

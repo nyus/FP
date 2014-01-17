@@ -15,8 +15,7 @@
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 
-@interface ProfileViewController ()<StatusTableViewCellDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
-    NSMutableArray *dataSource;
+@interface ProfileViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
     UIImagePickerController *imagePicker;
 //    StatusTableViewHeaderViewController *headerViewVC;
 }
@@ -176,25 +175,25 @@
         
         if (objects.count != 0) {
 
-            if (dataSource.count > 0) {
-                [dataSource removeAllObjects];
+            if (self.dataSource.count > 0) {
+                [self.dataSource removeAllObjects];
                 
                 for (int i = 0 ; i<objects.count; i++) {
                     Status *newStatus = [[Status alloc] initWithPFObject:objects[i]];
-                    if (!dataSource) {
-                        dataSource = [NSMutableArray array];
+                    if (!self.dataSource) {
+                        self.dataSource = [NSMutableArray array];
                     }
-                    [dataSource addObject:newStatus];
+                    [self.dataSource addObject:newStatus];
                 }
                 
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
             }else{
                 for (PFObject *status in objects) {
                     Status *newStatus = [[Status alloc] initWithPFObject:status];
-                    if (!dataSource) {
-                        dataSource = [NSMutableArray array];
+                    if (!self.dataSource) {
+                        self.dataSource = [NSMutableArray array];
                     }
-                    [dataSource addObject:newStatus];
+                    [self.dataSource addObject:newStatus];
                 }
                 [self.tableView reloadData];
             }
@@ -206,115 +205,20 @@
     }];
 }
 
-#pragma mark - UITableViewDelete
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return [super numberOfSectionsInTableView:tableView];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-//    if(!dataSource){
-//        //return background cell
-//        return 1;
-//    }else{
-        // Return the number of rows in the section.
-        return dataSource.count;
-//    }
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [super tableView:tableView numberOfRowsInSection:section];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-//    if(!dataSource || dataSource.count == 0){
-//        //no status background cell
-//        static NSString *CellIdentifier = @"BackgroundCell";
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-//        
-//        return cell;
-//    }else{
-        static NSString *CellIdentifier = @"Cell";
-        StatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        cell.delegate = self;
-        // Configure the cell...
-        cell.statusCellMessageLabel.text = [[dataSource objectAtIndex:indexPath.row] pfObject][@"message"];
-        cell.statusCellUsernameLabel.text = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"posterUsername"];
-        BOOL revivable = [[dataSource[indexPath.row] pfObject][@"revivable"] boolValue];
-        if (!revivable) {
-            cell.statusCellReviveButton.hidden = YES;
-        }
-        //
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"HH:mm MM/dd/yy"];
-        NSString *str = [formatter stringFromDate:[[dataSource objectAtIndex:indexPath.row] pfObject].updatedAt];
-        cell.statusCellDateLabel.text = str;
-    
-        //get avatar
-        [Helper getAvatarForSelfOnImageView:cell.statusCellAvatarImageView];
-    
-        PFFile *picture = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
-        if (picture != (PFFile *)[NSNull null] && picture != nil) {
-            
-            //add spinner on image view to indicate pulling image
-            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            spinner.center = CGPointMake((int)cell.statusCellPhotoImageView.frame.size.width/2, (int)cell.statusCellPhotoImageView.frame.size.height/2);
-            [cell.statusCellPhotoImageView addSubview:spinner];
-            [spinner startAnimating];
-            
-            [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                
-                if (data && !error) {
-                    cell.statusCellPhotoImageView.image = [UIImage imageWithData:data];
-                }else{
-                    NSLog(@"error (%@) getting status photo with status id %@",error.localizedDescription,[[[dataSource objectAtIndex:indexPath.row] pfObject] objectId]);
-                }
-                
-                [spinner stopAnimating];
-            }];
-        }
-        
-        return cell;
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if(!dataSource || dataSource.count == 0){
-        return BACKGROUND_CELL_HEIGHT;
-    }else{
-        //determine height of label
-        NSString *message = [[dataSource objectAtIndex:indexPath.row] pfObject][@"message"];
-        
-        CGSize maxSize = CGSizeMake(280, MAXFLOAT);
-        
-        CGRect rect = [message boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]} context:nil];
-        
-        int numberOfLines = ceilf(rect.size.width/280.0f);
-        CGFloat heightOfLabel = numberOfLines *rect.size.height;
-        
-        //determine if there is a picture
-        
-        PFFile *picture = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
-        if (picture == (PFFile *)[NSNull null] || picture == nil) {
-            //68 y origin of label
-            return ORIGIN_Y_CELL_MESSAGE_LABEL + heightOfLabel + 10;
-        }else{
-            //68 y origin of label, 204 height of picture image view
-            return ORIGIN_Y_CELL_MESSAGE_LABEL + heightOfLabel + 10 + 204 + 10;
-        }
-        
-    }
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
-//
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    headerViewVC = [[StatusTableViewHeaderViewController alloc] initWithNibName:@"StatusTableViewHeaderViewController" bundle:nil];
-//    headerViewVC.delegate = self;
-//    return headerViewVC.view;
-//}
-//
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 44.0f;
-//}
 
 @end
