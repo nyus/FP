@@ -268,6 +268,7 @@
         return BACKGROUND_CELL_HEIGHT;
     }else{
        
+        //becuase at this point, 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 280, 20)];
         label.numberOfLines = 0;
         label.font = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];

@@ -329,11 +329,11 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="346" id="ubd-ay-Emu" customClass="StatusTableViewCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="346"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="344" id="ubd-ay-Emu" customClass="StatusTableViewCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="344"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ubd-ay-Emu" id="Jgs-Wc-seL">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="346"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="344"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vRI-kZ-zde">
@@ -374,6 +374,16 @@
                                                                 <action selector="reviveStatusButtonTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="u1N-Pv-HsG"/>
                                                             </connections>
                                                         </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NE6-2Q-6hG" userLabel="username button">
+                                                            <rect key="frame" x="80" y="13" width="88" height="30"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="userNameTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="i0O-PX-Pgp"/>
+                                                            </connections>
+                                                        </button>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Jason Huang" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3He-OD-vem">
                                                             <rect key="frame" x="80" y="18" width="109" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -389,57 +399,47 @@
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdU-U3-5I7">
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdU-U3-5I7" userLabel="like button">
                                                             <rect key="frame" x="21" y="349" width="44" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <state key="normal" image="like.png">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6G6-zh-gFz">
+                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6G6-zh-gFz" userLabel="like num label">
                                                             <rect key="frame" x="60" y="377" width="39" height="12"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMo-Mr-2bZ">
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMo-Mr-2bZ" userLabel="comment button">
                                                             <rect key="frame" x="116" y="349" width="44" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <state key="normal" image="comment.png">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bok-Nu-QOx">
+                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bok-Nu-QOx" userLabel="comment number label">
                                                             <rect key="frame" x="162" y="377" width="39" height="12"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJc-mR-T2p">
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJc-mR-T2p" userLabel="share button">
                                                             <rect key="frame" x="209" y="349" width="44" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <state key="normal" image="share.png"/>
                                                         </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RwB-cA-DZ6">
+                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RwB-cA-DZ6" userLabel="share number label">
                                                             <rect key="frame" x="261" y="377" width="39" height="12"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NE6-2Q-6hG">
-                                                            <rect key="frame" x="80" y="13" width="88" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="userNameTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="i0O-PX-Pgp"/>
-                                                            </connections>
-                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </view>
@@ -456,7 +456,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BackgroundCell" rowHeight="300" id="wWi-aH-qLx" customClass="StatusTableViewCell">
-                                        <rect key="frame" x="0.0" y="368" width="320" height="300"/>
+                                        <rect key="frame" x="0.0" y="366" width="320" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wWi-aH-qLx" id="daP-iZ-an8">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
@@ -811,7 +811,7 @@
                                     <outlet property="delegate" destination="i4o-0h-o3C" id="tYK-8G-Qqr"/>
                                 </connections>
                             </textView>
-                            <view alpha="0.0" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nlr-9v-yYp">
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nlr-9v-yYp">
                                 <rect key="frame" x="0.0" y="175" width="320" height="1"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -820,13 +820,13 @@
                                     <constraint firstAttribute="width" constant="320" id="cEA-db-IIy"/>
                                 </constraints>
                             </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1wE-tv-Agz">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1wE-tv-Agz">
                                 <rect key="frame" x="0.0" y="176" width="320" height="94"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="N9U-6F-3N7"/>
-                                    <constraint firstAttribute="height" constant="93" id="tuN-lF-twT"/>
+                                    <constraint firstAttribute="height" constant="94" id="tuN-lF-twT"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WXw-1y-w0z">
                                     <size key="itemSize" width="84" height="84"/>
@@ -860,7 +860,7 @@
                                     <outlet property="delegate" destination="i4o-0h-o3C" id="zso-Wl-Ow8"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qXx-ee-YtK" userLabel="options container">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qXx-ee-YtK" userLabel="options container">
                                 <rect key="frame" x="0.0" y="269" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -946,14 +946,14 @@
                         <constraints>
                             <constraint firstItem="qyP-cU-sK9" firstAttribute="top" secondItem="E6F-Vk-Y7S" secondAttribute="bottom" constant="-161" id="Ezc-uZ-7Z9"/>
                             <constraint firstItem="qXx-ee-YtK" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="G5v-Yb-Ibs"/>
-                            <constraint firstItem="qXx-ee-YtK" firstAttribute="bottom" secondItem="1wE-tv-Agz" secondAttribute="bottom" constant="60" id="J7l-7Z-K6B"/>
+                            <constraint firstItem="qXx-ee-YtK" firstAttribute="bottom" secondItem="1wE-tv-Agz" secondAttribute="bottom" constant="59" id="J7l-7Z-K6B"/>
                             <constraint firstItem="1wE-tv-Agz" firstAttribute="top" secondItem="Nlr-9v-yYp" secondAttribute="bottom" id="MrN-9f-GuC"/>
                             <constraint firstItem="RdZ-wo-i6v" firstAttribute="top" secondItem="DTG-LD-AXd" secondAttribute="bottom" constant="44" id="anL-Yp-enn"/>
                             <constraint firstItem="1wE-tv-Agz" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="d7m-nB-wUf"/>
                             <constraint firstItem="E6F-Vk-Y7S" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="g4G-3z-7FC"/>
                             <constraint firstItem="Nlr-9v-yYp" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="gQS-DH-uV7"/>
                             <constraint firstItem="RdZ-wo-i6v" firstAttribute="leading" secondItem="zAD-2r-Jib" secondAttribute="leading" id="gjE-Di-bBo"/>
-                            <constraint firstItem="1wE-tv-Agz" firstAttribute="top" secondItem="DTG-LD-AXd" secondAttribute="bottom" constant="112" id="oHz-EM-vdd"/>
+                            <constraint firstItem="1wE-tv-Agz" firstAttribute="top" secondItem="DTG-LD-AXd" secondAttribute="bottom" constant="156" id="oHz-EM-vdd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Compose" id="uz6-ri-V00">
