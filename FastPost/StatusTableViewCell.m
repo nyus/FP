@@ -32,7 +32,15 @@
 
 -(void)resizeCellToFitStatusContent{
 
-    [self.statusCellMessageLabel sizeToFit];
+    
+    CGSize size = [self.statusCellMessageLabel.text sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]}];
+    
+    float labelHeight = ceilf(size.width / self.statusCellMessageLabel.frame.size.width) * ceilf(size.height);
+    
+    self.statusCellMessageLabel.frame = CGRectMake(self.statusCellMessageLabel.frame.origin.x,
+                                                   self.statusCellMessageLabel.frame.origin.y,
+                                                   self.statusCellMessageLabel.frame.size.width,
+                                                   labelHeight);
     
     self.statusCellPhotoImageView.frame = CGRectMake(self.statusCellPhotoImageView.frame.origin.x,
                                              CGRectGetMaxY(self.statusCellMessageLabel.frame) + 10,

@@ -12,7 +12,7 @@
 #import "Status.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
-
+#define CELL_MESSAGE_LABEL_WIDTH 280.0f
 @interface BaseViewControllerWithStatusTableView ()
 
 @end
@@ -118,17 +118,21 @@
         label.numberOfLines = 0;
         label.font = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];
         label.text = [self.dataSource[indexPath.row] pfObject][@"message"];
-        [label sizeToFit];
+//        [label sizeThatFits:CGSizeMake(280, MAXFLOAT)];
+        CGSize size = [label.text sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]}];
         
+        float labelHeight = ceilf(size.width / CELL_MESSAGE_LABEL_WIDTH)*ceilf(size.height);
+        
+        NSLog(@"label height is %f",labelHeight);
         //determine if there is a picture
         
         PFFile *picture = [[[self.dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
         if (picture == (PFFile *)[NSNull null] || picture == nil) {
             //68 y origin of label
-            return ORIGIN_Y_CELL_MESSAGE_LABEL + label.frame.size.height + 10;
+            return ORIGIN_Y_CELL_MESSAGE_LABEL + labelHeight + 10;
         }else{
             //68 y origin of label, 204 height of picture image view
-            return ORIGIN_Y_CELL_MESSAGE_LABEL + label.frame.size.height + 10 + 204 + 10;
+            return ORIGIN_Y_CELL_MESSAGE_LABEL + labelHeight + 10 + 204 + 10;
         }
         
     }
