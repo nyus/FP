@@ -17,5 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *followButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *leftAvatarImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *rightAvatarImageView;
 @property (strong,nonatomic) NSString *presentingSource;
 @end
