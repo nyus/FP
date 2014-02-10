@@ -10,6 +10,13 @@
 		501F60411875AE3A00B26F65 /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 501F603F1875AE3A00B26F65 /* dsym_upload.sh */; };
 		501F60421875AE3A00B26F65 /* libCrittercism_v4_3_0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */; };
 		50275F76186F22E200CD9680 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50275F75186F22E200CD9680 /* icon.png */; };
+		5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */; };
+		5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */; };
+		5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */; };
+		5034EEB818A7E3D100DBDCCF /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB718A7E3D000DBDCCF /* Message.m */; };
+		5034EF0018A7E7FC00DBDCCF /* SharedDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */; };
+		5034EF0218A7E9AB00DBDCCF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5034EF0118A7E9AB00DBDCCF /* CoreData.framework */; };
+		5034EF0518A8061200DBDCCF /* ComposeNewMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */; };
 		503CABD718739318006BBF51 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503CABD618739318006BBF51 /* FacebookSDK.framework */; };
 		503CABDF18739751006BBF51 /* butterfly-green-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 503CABDE18739751006BBF51 /* butterfly-green-blue.png */; };
 		507F61441882EEF000B57DDA /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61411882EEF000B57DDA /* share.png */; };
@@ -89,6 +96,18 @@
 		501F603F1875AE3A00B26F65 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
 		501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_3_0.a; sourceTree = "<group>"; };
 		50275F75186F22E200CD9680 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		5034EEAD18A7D09F00DBDCCF /* MessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewCell.h; sourceTree = "<group>"; };
+		5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; };
+		5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewViewController.h; sourceTree = "<group>"; };
+		5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewViewController.m; sourceTree = "<group>"; };
+		5034EEB418A7E2CD00DBDCCF /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		5034EEB618A7E3D000DBDCCF /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = ../Message.h; sourceTree = "<group>"; };
+		5034EEB718A7E3D000DBDCCF /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Message.m; path = ../Message.m; sourceTree = "<group>"; };
+		5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedDataManager.h; sourceTree = "<group>"; };
+		5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedDataManager.m; sourceTree = "<group>"; };
+		5034EF0118A7E9AB00DBDCCF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5034EF0318A8061200DBDCCF /* ComposeNewMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeNewMessageViewController.h; sourceTree = "<group>"; };
+		5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeNewMessageViewController.m; sourceTree = "<group>"; };
 		503A980D188381C7000892B8 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		503CABD618739318006BBF51 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		503CABDE18739751006BBF51 /* butterfly-green-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butterfly-green-blue.png"; sourceTree = "<group>"; };
@@ -176,6 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5034EF0218A7E9AB00DBDCCF /* CoreData.framework in Frameworks */,
 				65C6087C18731719006C1899 /* AssetsLibrary.framework in Frameworks */,
 				65413D3E184641F800543C1A /* SystemConfiguration.framework in Frameworks */,
 				65413D3C184641EC00543C1A /* StoreKit.framework in Frameworks */,
@@ -221,6 +241,17 @@
 			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
+		5034EEB918A7E3D900DBDCCF /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */,
+				5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */,
+				5034EEB618A7E3D000DBDCCF /* Message.h */,
+				5034EEB718A7E3D000DBDCCF /* Message.m */,
+			);
+			name = "Core Data";
+			sourceTree = "<group>";
+		};
 		507F61471883591100B57DDA /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,6 +276,8 @@
 				507F614B1883594F00B57DDA /* Helper.m */,
 				50B31CCD18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.h */,
 				50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */,
+				5034EEAD18A7D09F00DBDCCF /* MessageTableViewCell.h */,
+				5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -277,6 +310,10 @@
 				658AA5C6184F95420097383B /* StatusTableViewHeaderViewController.m */,
 				65413D121843B6AA00543C1A /* StatusTableViewController.h */,
 				65413D131843B6AA00543C1A /* StatusTableViewController.m */,
+				5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */,
+				5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */,
+				5034EF0318A8061200DBDCCF /* ComposeNewMessageViewController.h */,
+				5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */,
 			);
 			name = "View controller";
 			sourceTree = "<group>";
@@ -309,6 +346,7 @@
 		65413CCE1843990200543C1A = {
 			isa = PBXGroup;
 			children = (
+				5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */,
 				65413CE01843990200543C1A /* FastPost */,
 				65413D021843990200543C1A /* FastPostTests */,
 				65413CD91843990200543C1A /* Frameworks */,
@@ -328,6 +366,7 @@
 		65413CD91843990200543C1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5034EF0118A7E9AB00DBDCCF /* CoreData.framework */,
 				65570C84188862EE006759C6 /* Parse.framework */,
 				501F603B1875AE3A00B26F65 /* CrittercismSDK */,
 				503CABD618739318006BBF51 /* FacebookSDK.framework */,
@@ -353,6 +392,7 @@
 		65413CE01843990200543C1A /* FastPost */ = {
 			isa = PBXGroup;
 			children = (
+				5034EEB918A7E3D900DBDCCF /* Core Data */,
 				503A980D188381C7000892B8 /* Log.h */,
 				653ACE2F18590B45007B9A47 /* ThingsToDo.h */,
 				507F61491883592E00B57DDA /* UI */,
@@ -517,20 +557,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */,
+				5034EF0018A7E7FC00DBDCCF /* SharedDataManager.m in Sources */,
 				50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */,
 				658AA5C8184F95420097383B /* StatusTableViewHeaderViewController.m in Sources */,
 				65413D141843B6AA00543C1A /* StatusTableViewController.m in Sources */,
 				653ACE42185926FD007B9A47 /* ExpirationTimePickerViewController.m in Sources */,
 				507F614C1883594F00B57DDA /* Helper.m in Sources */,
 				509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */,
+				5034EF0518A8061200DBDCCF /* ComposeNewMessageViewController.m in Sources */,
 				65413D1E18452C6A00543C1A /* Status.m in Sources */,
 				658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */,
 				658AA5D3184FADFB0097383B /* ComposeNewStatusViewController.m in Sources */,
+				5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */,
 				658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */,
 				653ACDF118525405007B9A47 /* ComposeStatusPhotoCollectionViewCell.m in Sources */,
 				65413CF41843990200543C1A /* LogInViewController.m in Sources */,
+				5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */,
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
+				5034EEB818A7E3D100DBDCCF /* Message.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
 				50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */,
 			);
@@ -791,6 +837,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5034EEB418A7E2CD00DBDCCF /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 5034EEB418A7E2CD00DBDCCF /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 65413CCF1843990200543C1A /* Project object */;
 }
