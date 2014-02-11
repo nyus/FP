@@ -859,24 +859,21 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPH-Dl-nRa">
+                                    <textView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="412" verticalHuggingPriority="653" horizontalCompressionResistancePriority="585" verticalCompressionResistancePriority="880" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPH-Dl-nRa">
                                         <rect key="frame" x="35" y="2" width="285" height="42"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="42" id="AP6-Wa-65o"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96862751250000001" green="0.96862751250000001" blue="0.96862751250000001" alpha="1" colorSpace="deviceRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="DPH-Dl-nRa" secondAttribute="bottom" id="12r-NI-xVN"/>
                                     <constraint firstItem="DPH-Dl-nRa" firstAttribute="top" secondItem="Z6Y-QC-2Le" secondAttribute="top" constant="2" id="4k5-Dr-eJR"/>
+                                    <constraint firstAttribute="bottom" secondItem="DPH-Dl-nRa" secondAttribute="bottom" id="4sS-l8-b5y"/>
                                     <constraint firstItem="DPH-Dl-nRa" firstAttribute="leading" secondItem="Z6Y-QC-2Le" secondAttribute="leading" constant="35" id="Xn8-Wm-sjN"/>
                                     <constraint firstAttribute="trailing" secondItem="DPH-Dl-nRa" secondAttribute="trailing" id="hHz-u3-fyc"/>
                                     <constraint firstAttribute="height" constant="44" id="k7T-id-FWZ"/>
-                                    <constraint firstAttribute="bottom" secondItem="DPH-Dl-nRa" secondAttribute="bottom" id="ugu-sn-3f9"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="53" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="AVu-1k-pN0">
@@ -887,14 +884,14 @@
                                     <constraint firstAttribute="height" constant="143" id="kPa-Yf-iR9"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="ndw-6x-4Xw" rowHeight="53" style="IBUITableViewCellStyleDefault" id="KH3-oa-D3M">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="WfX-SE-KGL" rowHeight="53" style="IBUITableViewCellStyleDefault" id="KH3-oa-D3M">
                                         <rect key="frame" x="0.0" y="22" width="320" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KH3-oa-D3M" id="FcS-mh-bLH">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ndw-6x-4Xw">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WfX-SE-KGL">
                                                     <rect key="frame" x="15" y="0.0" width="290" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -921,6 +918,9 @@
                                         <state key="normal" title="Send">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="sendButtonTapped:" destination="RSC-os-yIQ" eventType="touchUpInside" id="H6q-Nv-v9R"/>
+                                        </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1NN-cV-uxM">
                                         <rect key="frame" x="20" y="5" width="236" height="33"/>
@@ -964,8 +964,9 @@
                         <outlet property="enterMessageContainerView" destination="vQg-gr-AJH" id="l8a-Dj-HRf"/>
                         <outlet property="enterMessageContainerViewBottomSpaceToBottomLayoutContraint" destination="TH6-14-Pie" id="Z7g-NA-cPo"/>
                         <outlet property="enterMessageTextView" destination="1NN-cV-uxM" id="RLx-5t-gON"/>
+                        <outlet property="recipientContainerView" destination="Z6Y-QC-2Le" id="fO1-dP-qPa"/>
+                        <outlet property="recipientContainerViewHeightConstraint" destination="k7T-id-FWZ" id="XWu-Nc-RMc"/>
                         <outlet property="recipientsTextView" destination="DPH-Dl-nRa" id="YtT-SJ-aAm"/>
-                        <outlet property="recipientsTextViewHeightContraint" destination="AP6-Wa-65o" id="aRT-Jm-hCC"/>
                         <outlet property="tableView" destination="AVu-1k-pN0" id="ftW-9X-ItQ"/>
                     </connections>
                 </viewController>

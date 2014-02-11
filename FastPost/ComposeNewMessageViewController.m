@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "Helper.h"
 @interface ComposeNewMessageViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>{
-    NSArray *dataSource;
+    NSMutableArray *dataSource;
 }
 
 @end
@@ -34,7 +34,15 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     
-    dataSource = [[PFUser currentUser] objectForKey:@"friends"];
+    dataSource = [NSMutableArray array];
+    //skip current user's username
+    for (NSString *username in [[PFUser currentUser] objectForKey:@"friends"]) {
+        if([username isEqualToString:[PFUser currentUser].username]){
+            continue;
+        }
+        [dataSource addObject:username];
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -60,7 +68,7 @@
 
 #pragma mark - UITableView
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 0;
+    return 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -78,16 +86,54 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if ([self.recipientsTextView.text isEqualToString:@""]) {
+        self.recipientsTextView.text = cell.textLabel.text;
+        self.recipientsTextView.font = [UIFont systemFontOfSize:19];
+        self.recipientsTextView.textColor = [UIColor colorWithRed:0.0f green:122.0/255.0 blue:255.0/255.0 alpha:1];
+    }else if ([self.recipientsTextView.text rangeOfString:cell.textLabel.text].location == NSNotFound) {
+        //dont allow the same recipient from appearing more than one time
+        self.recipientsTextView.text = [self.recipientsTextView.text stringByAppendingFormat:@", %@",cell.textLabel.text];
+        self.recipientsTextView.font = [UIFont systemFontOfSize:19];
+        self.recipientsTextView.textColor = [UIColor colorWithRed:0.0f green:122.0/255.0 blue:255.0/255.0 alpha:1];
+        
+    }
+    
+    //reason for the delay is, ios is calculating the new content size after the text gets changed. if there is no delay, wont get the accurate content size
+    [self performSelector:@selector(adjustRecipientFieldHeight) withObject:nil afterDelay:0.01];
+    //cancel highlight
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(void)adjustRecipientFieldHeight{
+    //adjust height as number of recipients grow.
+    if (self.recipientsTextView.contentSize.height > self.recipientContainerView.frame.size.height) {
+        self.recipientContainerViewHeightConstraint.constant = self.recipientsTextView.contentSize.height;
+    }
+}
+
 #pragma mark - UITextView
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
 
 }
 
+
 - (IBAction)cancelButtonTapped:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)sendButtonTapped:(id)sender {
+    NSString *recipientString = [self.recipientsTextView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSArray *recipients = [recipientString componentsSeparatedByString:@","];
+    for (NSString *recipient in recipients) {
+        PFObject *message = [PFObject objectWithClassName:@"Message"];
+        [message setObject:[PFUser currentUser].username forKey:@"senderUsername"];
+        [message setObject:recipient forKey:@"receiverUsername"];
+        [message setObject:self.enterMessageTextView.text forKey:@"message"];
+        [message saveInBackground];
+    }
+    
 }
 @end

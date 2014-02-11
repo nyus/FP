@@ -18,4 +18,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *enterMessageTextView;
 @property (weak, nonatomic) IBOutlet UIView *enterMessageContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *enterMessageContainerViewBottomSpaceToBottomLayoutContraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *recipientContainerViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIView *recipientContainerView;
 @end

@@ -119,6 +119,8 @@ static Helper *_helper;
                     }
                 }
                 
+            }else{
+                NSLog(@"fet avatar error %@",error.localizedDescription);
             }
         }];
         
