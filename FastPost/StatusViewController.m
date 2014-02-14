@@ -16,6 +16,7 @@
 #import "LogInViewController.h"
 #import "ProfileViewController.h"
 #import "Helper.h"
+#import "FriendQuestViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 @interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate,UIAlertViewDelegate, StatusTableViewHeaderViewDelegate,ExpirationTimePickerViewControllerDelegate>{
@@ -25,6 +26,8 @@
     ExpirationTimePickerViewController *expirationTimePickerVC;
     StatusTableViewCell *cellToRevive;
     UIRefreshControl *refreshControl;
+    
+    FriendQuestViewController *friendQusetVC;
 }
 
 @end
@@ -342,17 +345,26 @@
 
 -(void)tbHeaderAddFriendButtonTapped{
     
+    friendQusetVC = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil]instantiateViewControllerWithIdentifier:@"friendQuest"];
+    friendQusetVC.view.frame = CGRectMake(0, (self.view.frame.size.height-300)/2, friendQusetVC.view.frame.size.width, 300);
+    friendQusetVC.view.layer.cornerRadius = 5.0f;
+    friendQusetVC.view.layer.borderColor = [[UIColor blackColor] CGColor];
+    friendQusetVC.view.layer.borderWidth = 1.0f;
+    [self.view addSubview:friendQusetVC.view];
+//    [self presentViewController:vc animated:YES completion:nil];
+    
     //for now it would be adding email
-    UIAlertView *addFriendAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Search by email or username" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Find", nil];
-    addFriendAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    addFriendAlert.tag = 99;
-    [addFriendAlert show];
+//    UIAlertView *addFriendAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Search by email or username" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Find", nil];
+//    addFriendAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+//    addFriendAlert.tag = 99;
+//    [addFriendAlert show];
+    
     //Facebook add friend code
-    //    friendPickerVC = [[FBFriendPickerViewController alloc] initWithNibName:nil bundle:nil];
-    //    friendPickerVC.title = @"Select Friends";
-    //    [friendPickerVC loadData];
-    //    friendPickerVC.delegate = self;
-    //    [self presentViewController:friendPickerVC animated:YES completion:nil];
+//    friendPickerVC = [[FBFriendPickerViewController alloc] initWithNibName:nil bundle:nil];
+//    friendPickerVC.title = @"Select Friends";
+//    [friendPickerVC loadData];
+//    friendPickerVC.delegate = self;
+//    [self presentViewController:friendPickerVC animated:YES completion:nil];
 }
 
 -(void)tbHeaderComposeNewStatusButtonTapped{

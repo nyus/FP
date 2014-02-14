@@ -26,6 +26,8 @@
 		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
 		50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */; };
 		50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEA0C187B68C3000A91AF /* StatusViewController.m */; };
+		6522693B18AECB2B004ABEDC /* FriendQuestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */; };
+		6522693E18AED82C004ABEDC /* FriendQuestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6522693D18AED82C004ABEDC /* FriendQuestTableViewCell.m */; };
 		653ACDE618510BEE007B9A47 /* PaperClip-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE518510BEE007B9A47 /* PaperClip-512.png */; };
 		653ACDE91851183B007B9A47 /* camera_icon_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE71851183B007B9A47 /* camera_icon_blue.png */; };
 		653ACDEA1851183B007B9A47 /* camera_icon_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE81851183B007B9A47 /* camera_icon_blue@2x.png */; };
@@ -122,6 +124,10 @@
 		50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewControllerWithStatusTableView.m; sourceTree = "<group>"; };
 		50FCEA0B187B68C3000A91AF /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusViewController.h; sourceTree = "<group>"; };
 		50FCEA0C187B68C3000A91AF /* StatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusViewController.m; sourceTree = "<group>"; };
+		6522693918AECB2B004ABEDC /* FriendQuestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendQuestViewController.h; sourceTree = "<group>"; };
+		6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendQuestViewController.m; sourceTree = "<group>"; };
+		6522693C18AED82C004ABEDC /* FriendQuestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendQuestTableViewCell.h; sourceTree = "<group>"; };
+		6522693D18AED82C004ABEDC /* FriendQuestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendQuestTableViewCell.m; sourceTree = "<group>"; };
 		653ACDE518510BEE007B9A47 /* PaperClip-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PaperClip-512.png"; sourceTree = "<group>"; };
 		653ACDE71851183B007B9A47 /* camera_icon_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_icon_blue.png; sourceTree = "<group>"; };
 		653ACDE81851183B007B9A47 /* camera_icon_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_icon_blue@2x.png"; sourceTree = "<group>"; };
@@ -278,6 +284,8 @@
 				50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */,
 				5034EEAD18A7D09F00DBDCCF /* MessageTableViewCell.h */,
 				5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */,
+				6522693C18AED82C004ABEDC /* FriendQuestTableViewCell.h */,
+				6522693D18AED82C004ABEDC /* FriendQuestTableViewCell.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -314,6 +322,8 @@
 				5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */,
 				5034EF0318A8061200DBDCCF /* ComposeNewMessageViewController.h */,
 				5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */,
+				6522693918AECB2B004ABEDC /* FriendQuestViewController.h */,
+				6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */,
 			);
 			name = "View controller";
 			sourceTree = "<group>";
@@ -559,6 +569,7 @@
 			files = (
 				5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */,
 				5034EF0018A7E7FC00DBDCCF /* SharedDataManager.m in Sources */,
+				6522693E18AED82C004ABEDC /* FriendQuestTableViewCell.m in Sources */,
 				50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */,
 				658AA5C8184F95420097383B /* StatusTableViewHeaderViewController.m in Sources */,
 				65413D141843B6AA00543C1A /* StatusTableViewController.m in Sources */,
@@ -579,6 +590,7 @@
 				5034EEB818A7E3D100DBDCCF /* Message.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
 				50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */,
+				6522693B18AECB2B004ABEDC /* FriendQuestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
