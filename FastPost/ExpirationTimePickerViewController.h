@@ -13,7 +13,9 @@ typedef enum{
 #import <UIKit/UIKit.h>
 @class ExpirationTimePickerViewController;
 @protocol ExpirationTimePickerViewControllerDelegate <NSObject>
+@optional
 -(void)revivePickerViewExpirationTimeSetToMins:(NSInteger)min andSecs:(NSInteger)sec andPickerView:(UIPickerView *)pickerView;
+@optional
 -(void)filterPickerViewExpirationTimeSetToLessThanMins:(int)min andPickerView:(UIPickerView *)pickerView;
 @end
 

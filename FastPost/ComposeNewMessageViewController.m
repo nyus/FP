@@ -9,8 +9,11 @@
 #import "ComposeNewMessageViewController.h"
 #import <Parse/Parse.h>
 #import "Helper.h"
-@interface ComposeNewMessageViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>{
+#import "ExpirationTimePickerViewController.h"
+@interface ComposeNewMessageViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,ExpirationTimePickerViewControllerDelegate>{
     NSMutableArray *dataSource;
+    ExpirationTimePickerViewController *expirationTimePickerVC;
+    int expirationTimeInSec;
 }
 
 @end
@@ -119,12 +122,17 @@
 
 }
 
-
 - (IBAction)cancelButtonTapped:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)sendButtonTapped:(id)sender {
+    
+    //do nothing is there is no recipient or no message
+    if ([self.recipientsTextView.text isEqualToString:@""] || [self.enterMessageTextView.text isEqualToString:@""]) {
+        return;
+    }
+    
     NSString *recipientString = [self.recipientsTextView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSArray *recipients = [recipientString componentsSeparatedByString:@","];
     for (NSString *recipient in recipients) {
@@ -132,8 +140,54 @@
         [message setObject:[PFUser currentUser].username forKey:@"senderUsername"];
         [message setObject:recipient forKey:@"receiverUsername"];
         [message setObject:self.enterMessageTextView.text forKey:@"message"];
+        
+        if (expirationTimeInSec == 0) {
+            //default to 10 mins
+            expirationTimeInSec = 10*60;
+        }
+        
+        [message setObject:[NSNumber numberWithInt:expirationTimeInSec] forKey:@"expirationTimeInSec"];
+        [message setObject:[NSDate dateWithTimeIntervalSinceNow:expirationTimeInSec] forKey:@"expirationDate"];
+        
+        //reset
+        expirationTimeInSec = 0;
+        
         [message saveInBackground];
     }
     
+}
+- (IBAction)setTimeButtonTapped:(id)sender {
+    //show picker
+    //filter button typed
+    if (!expirationTimePickerVC) {
+        expirationTimePickerVC = [[ExpirationTimePickerViewController alloc] initWithNibName:@"ExpirationTimePickerViewController" bundle:nil type:PickerTypeRevive];
+        expirationTimePickerVC.delegate = self;
+        expirationTimePickerVC.view.frame = CGRectMake(0,
+                                                       (self.view.frame.size.height - expirationTimePickerVC.view.frame.size.height)/2,
+                                                       expirationTimePickerVC.view.frame.size.width,
+                                                       expirationTimePickerVC.view.frame.size.height);
+        expirationTimePickerVC.titleLabel.text = @"";
+        
+        UIToolbar *blurEffectToolBar = [[UIToolbar alloc] initWithFrame:expirationTimePickerVC.view.frame];
+        blurEffectToolBar.barStyle = UIBarStyleDefault;
+        //set a reference so that can remove it
+        expirationTimePickerVC.blurToolBar = blurEffectToolBar;
+        
+        expirationTimePickerVC.view.alpha = 0.0f;
+        expirationTimePickerVC.blurToolBar.alpha = 0.0f;
+        [self.view.window addSubview:expirationTimePickerVC.view];
+        [self.view.window insertSubview:blurEffectToolBar belowSubview:expirationTimePickerVC.view];
+    }
+    
+    [UIView animateWithDuration:.3 animations:^{
+        expirationTimePickerVC.view.alpha = 1.0f;
+        expirationTimePickerVC.blurToolBar.alpha = 1.0f;
+    }];
+}
+
+#pragma mark - ExpirationTimePickerViewControllerDelegate
+-(void)revivePickerViewExpirationTimeSetToMins:(NSInteger)min andSecs:(NSInteger)sec andPickerView:(UIPickerView *)pickerView{
+    //add time to status remotely
+    expirationTimeInSec = min * 60 + sec;
 }
 @end
