@@ -19,7 +19,9 @@
 
 @interface FriendQuestTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet UIButton *acceptButton;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *notNowButton;
 @property (assign,nonatomic) id<FriendQuestTableViewCellDelegate>delegate;
 - (IBAction)acceptButtonTapped:(id)sender;
 - (IBAction)notNowButtonTapped:(id)sender;
