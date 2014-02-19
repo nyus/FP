@@ -34,6 +34,10 @@
 {
     [super viewDidLoad];
     
+    //refresh control
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshControlTriggerred:) forControlEvents:UIControlEventValueChanged];
+    [self fetchMessage];
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,37 +46,30 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)refreshControlTriggerred:(id)sender{
+    [self fetchMessage];
+}
+
 -(void)fetchMessage{
     
-    if (dataSource) {
-        dataSource = [NSMutableArray array];
-    }
 #warning need to cache result
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Message"];
-    [query whereKey:@"receiver" equalTo:[PFUser currentUser].username];
+    [query whereKey:@"receiverUsername" equalTo:[PFUser currentUser].username];
     [query whereKey:@"read" equalTo:[NSNumber numberWithBool:NO]];
-    
+
     //load first 100 messages at startup, if need more, load more, this parameter will stop parse from fetching redundant messages
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastFetchedMsgCount"]) {
         query.skip = [[[NSUserDefaults standardUserDefaults] objectForKey:@"lastFetchedMsgCount"] intValue];
     }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error && objects) {
+        if (!error && objects && objects.count!=0) {
             
-            for (PFObject *object in objects) {
-                Message *message = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
-                message.createdAt = object.createdAt;
-                message.updatedAt = object.updatedAt;
-                message.message = object[@"message"];
-                message.senderUsername = object[@"senderUsername"];
-                message.receiverUsername = object[@"receiverUsername"];
-                message.read = object[@"read"];
-                message.objectid = object.objectId;
-                
-                [dataSource addObject:message];
+            if (!dataSource) {
+                dataSource = [NSMutableArray array];
             }
-            [[SharedDataManager sharedInstance] saveContext];
             
+            //REASON to fetch old messages first:
+            //otherwise the new messageas would be in core data and they will get duplicated
             //if not enough new message, then load some old messages in the database
             if (objects.count < 20) {
                 
@@ -89,6 +86,22 @@
                 }
             }
             
+            for (PFObject *object in objects) {
+                Message *message = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
+                message.createdAt = object.createdAt;
+                message.updatedAt = object.updatedAt;
+                message.message = object[@"message"];
+                message.senderUsername = object[@"senderUsername"];
+                message.receiverUsername = object[@"receiverUsername"];
+                message.read = object[@"read"];
+                message.objectid = object.objectId;
+                
+                //before we could have fetched some old messages first so we need the new ones to be the top
+                [dataSource insertObject:message atIndex:0];
+            }
+            
+            //save before we pull old messages from database
+            [[SharedDataManager sharedInstance] saveContext];
             //reload
             [self.tableView reloadData];
             
@@ -102,6 +115,8 @@
             
             [self.tableView reloadData];
         }
+        
+        [self.refreshControl endRefreshing];
     }];
 }
 
@@ -110,9 +125,10 @@
 -(NSArray *)fetchMessageFromLocalDatabaseWithCount:(int)count andOffSet:(int)offset{
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
     [request setFetchLimit:count];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-                                        initWithKey:@"createAt" ascending:NO];
-    [request setSortDescriptors:@[sortDescriptor]];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    
     NSError *fetchError;
     NSArray *fetchResult = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&fetchError];
     if (fetchError) {
@@ -129,27 +145,40 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return dataSource.count;
+    if (!dataSource || dataSource.count == 0) {
+        return 1;
+    }else{
+        return dataSource.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"cell";
-    MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
-    //sender profile picture
-    [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] forImageView:cell.msgCellProfileImageView];
-    //sender name
-    cell.msgCellUsernameLabel.text = [dataSource[indexPath.row] objectForKey:@"senderUsername"];
-    
-    return cell;
+    if (!dataSource || dataSource.count == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noMsgCell" forIndexPath:indexPath];
+        return cell;
+
+    }else{
+        static NSString *CellIdentifier = @"cell";
+        MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        // Configure the cell...
+        //sender profile picture
+        Message *msg = (Message *)dataSource[indexPath.row];
+        [Helper getAvatarForUser:msg.senderUsername forImageView:cell.msgCellProfileImageView];
+        //sender name
+        cell.msgCellUsernameLabel.text = msg.senderUsername;
+        
+        return cell;
+
+    }
 }
 
 /*

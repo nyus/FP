@@ -10,8 +10,11 @@
 
 @interface FriendQuestViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-- (IBAction)cancelButtonTapped:(id)sender;
-@property (weak, nonatomic) IBOutlet UITextField *textField;
-- (IBAction)findButtonTapped:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UITextField *textField;
+
+@property (nonatomic) BOOL isOnScreen;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (strong, nonatomic) UIToolbar *blurToolBar;
+-(void)removeSelfFromParent;
 @end

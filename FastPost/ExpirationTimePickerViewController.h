@@ -27,7 +27,8 @@ typedef enum{
 @property (strong, nonatomic) UIToolbar *blurToolBar;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 @property (nonatomic, assign) id<ExpirationTimePickerViewControllerDelegate>delegate;
+@property (nonatomic) BOOL isOnScreen;
 - (IBAction)doneButtonTapped:(id)sender;
 - (IBAction)cancelButtonTapped:(id)sender;
-
+-(void)removeSelfFromParent;
 @end

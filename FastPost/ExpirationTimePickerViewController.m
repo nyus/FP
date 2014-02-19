@@ -168,4 +168,14 @@
         self.blurToolBar.alpha = 0.0f;
     }];
 }
+
+-(void)removeSelfFromParent{
+    [UIView animateWithDuration:.3 animations:^{
+        self.view.alpha = 0.0f;
+        self.blurToolBar.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        self.isOnScreen = NO;
+    }];
+}
+
 @end

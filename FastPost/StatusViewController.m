@@ -19,14 +19,14 @@
 #import "FriendQuestViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
-@interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate,UIAlertViewDelegate, StatusTableViewHeaderViewDelegate,ExpirationTimePickerViewControllerDelegate>{
+@interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate, StatusTableViewHeaderViewDelegate,ExpirationTimePickerViewControllerDelegate>{
     
     FBFriendPickerViewController *friendPickerVC;
     StatusTableViewHeaderViewController *headerViewVC;
     ExpirationTimePickerViewController *expirationTimePickerVC;
     StatusTableViewCell *cellToRevive;
     UIRefreshControl *refreshControl;
-    
+    UITapGestureRecognizer *tapGesture;
     FriendQuestViewController *friendQusetVC;
 }
 
@@ -48,8 +48,22 @@
         
     }];
 
+    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    [self.view addGestureRecognizer:tapGesture];
+    
     //add refresh control
     [self addRefreshControll];
+}
+
+-(void)handleTapGesture:(id)sender{
+    if (friendQusetVC.isOnScreen) {
+        friendQusetVC.isOnScreen = NO;
+        [friendQusetVC removeSelfFromParent];
+    }
+    
+    if (expirationTimePickerVC.isOnScreen) {
+        [expirationTimePickerVC removeSelfFromParent];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -233,51 +247,6 @@
     return 44.0f;
 }
 
-#pragma mark - UIAlertViewDelegate
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    //find button hit
-    if (alertView.tag == 99 && buttonIndex == 1) {
-        
-        NSString *key = nil;
-        if ([[[alertView textFieldAtIndex:0] text] rangeOfString:@"@"].location == NSNotFound) {
-            key = @"username";
-        }else{
-            key = @"email";
-        }
-        PFQuery *queryExist = [PFQuery queryWithClassName:[PFUser parseClassName]];
-        [queryExist whereKey:key equalTo:[[alertView textFieldAtIndex:0] text]];
-        [queryExist getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            //this user doenst exist
-            if (!object) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"This user doesn't exist" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                [alert show];
-            }else{
-                
-                //add the person that user wants to follow in user's friends array on server
-                PFUser *foundUser = (PFUser *)object;
-                
-#warning since the lines below are crashing for no reason, do a seperate query
-
-                //add self to the person that self follows to person's follower array on server
-//                [foundUser addObject:[PFUser currentUser].username forKey:@"follower"];
-                [foundUser setObject:@"username" forKey:@"test"];
-                [foundUser saveInBackground];
-         
-//                [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
-//                [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//                    if (!succeeded) {
-//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Failed to follow %@, please try again",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-//                        [alert show];
-//                    }else{
-//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Success! You can now see posts from %@",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-//                        [alert show];
-//                    }
-//                }];
-            }
-        }];
-    }
-}
 
 #pragma mark - FBFriendPickerDelegate
 
@@ -345,19 +314,23 @@
 
 -(void)tbHeaderAddFriendButtonTapped{
     
-    friendQusetVC = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil]instantiateViewControllerWithIdentifier:@"friendQuest"];
-    friendQusetVC.view.frame = CGRectMake(0, (self.view.frame.size.height-300)/2, friendQusetVC.view.frame.size.width, 300);
-    friendQusetVC.view.layer.cornerRadius = 5.0f;
-    friendQusetVC.view.layer.borderColor = [[UIColor blackColor] CGColor];
-    friendQusetVC.view.layer.borderWidth = 1.0f;
-    [self.view addSubview:friendQusetVC.view];
-//    [self presentViewController:vc animated:YES completion:nil];
+    if (!friendQusetVC) {
+        friendQusetVC = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil]instantiateViewControllerWithIdentifier:@"friendQuest"];
+        friendQusetVC.view.frame = CGRectMake(0, (self.view.frame.size.height-300)/2, friendQusetVC.view.frame.size.width, 300);
+        friendPickerVC.view.alpha = 0.0f;
+        [self.view addSubview:friendQusetVC.view];
+    }
     
-    //for now it would be adding email
-//    UIAlertView *addFriendAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Search by email or username" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Find", nil];
-//    addFriendAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
-//    addFriendAlert.tag = 99;
-//    [addFriendAlert show];
+
+//    friendQusetVC.blurToolBar.alpha = 1.0f;
+//    [UIView animateWithDuration:.2 animations:^{
+    
+        friendQusetVC.view.alpha = 1.0f;
+    
+        
+//    } completion:^(BOOL finished) {
+        friendQusetVC.isOnScreen = YES;
+//    }];
     
     //Facebook add friend code
 //    friendPickerVC = [[FBFriendPickerViewController alloc] initWithNibName:nil bundle:nil];
@@ -398,6 +371,8 @@
     [UIView animateWithDuration:.3 animations:^{
         expirationTimePickerVC.view.alpha = 1.0f;
         expirationTimePickerVC.blurToolBar.alpha = 1.0f;
+    } completion:^(BOOL finished) {
+        expirationTimePickerVC.isOnScreen = YES;
     }];
 }
 
