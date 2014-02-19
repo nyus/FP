@@ -126,6 +126,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
 - (IBAction)sendButtonTapped:(id)sender {
     
     //do nothing is there is no recipient or no message
@@ -137,23 +138,25 @@
     NSArray *recipients = [recipientString componentsSeparatedByString:@","];
     for (NSString *recipient in recipients) {
         PFObject *message = [PFObject objectWithClassName:@"Message"];
-        [message setObject:[PFUser currentUser].username forKey:@"senderUsername"];
-        [message setObject:recipient forKey:@"receiverUsername"];
-        [message setObject:self.enterMessageTextView.text forKey:@"message"];
+        message[@"senderUsername"] = [PFUser currentUser].username;
+        message[@"receiverUsername"]= recipient;
+        message[@"message"] = self.enterMessageTextView.text;
         
         if (expirationTimeInSec == 0) {
             //default to 10 mins
             expirationTimeInSec = 10*60;
         }
         
-        [message setObject:[NSNumber numberWithInt:expirationTimeInSec] forKey:@"expirationTimeInSec"];
-        [message setObject:[NSDate dateWithTimeIntervalSinceNow:expirationTimeInSec] forKey:@"expirationDate"];
-        
+        message[@"expirationTimeInSec"] = [NSNumber numberWithInt:expirationTimeInSec];
+        message[@"expirationDate"] = [NSDate dateWithTimeIntervalSinceNow:expirationTimeInSec];
+        message[@"read"] = [NSNumber numberWithBool:NO];
         //reset
         expirationTimeInSec = 0;
         
         [message saveInBackground];
     }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 - (IBAction)setTimeButtonTapped:(id)sender {
