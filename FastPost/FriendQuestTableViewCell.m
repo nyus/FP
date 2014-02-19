@@ -38,4 +38,8 @@
 - (IBAction)notNowButtonTapped:(id)sender {
     [self.delegate friendQuestTBCellNotNowButtonTappedWithCell:self];
 }
+
+- (IBAction)declineButtonTapped:(id)sender {
+    [self.delegate friendQuestTBCellDeclineButtonTappedWithCell:self];
+}
 @end

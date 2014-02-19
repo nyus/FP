@@ -321,11 +321,16 @@
         [self.view addSubview:friendQusetVC.view];
     }
     
-    [UIView animateWithDuration:.3 animations:^{
-        friendPickerVC.view.alpha = 1.0f;
-    } completion:^(BOOL finished) {
+
+//    friendQusetVC.blurToolBar.alpha = 1.0f;
+//    [UIView animateWithDuration:.2 animations:^{
+    
+        friendQusetVC.view.alpha = 1.0f;
+    
+        
+//    } completion:^(BOOL finished) {
         friendQusetVC.isOnScreen = YES;
-    }];
+//    }];
     
     //Facebook add friend code
 //    friendPickerVC = [[FBFriendPickerViewController alloc] initWithNibName:nil bundle:nil];

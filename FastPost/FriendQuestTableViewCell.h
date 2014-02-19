@@ -12,8 +12,9 @@
 @protocol FriendQuestTableViewCellDelegate <NSObject>
 
 @optional
--(void)friendQuestTBCellAcceptButtonTappedWithCell:(FriendQuestTableViewCell *)self;
--(void)friendQuestTBCellNotNowButtonTappedWithCell:(FriendQuestTableViewCell *)self;
+-(void)friendQuestTBCellAcceptButtonTappedWithCell:(FriendQuestTableViewCell *)cell;
+-(void)friendQuestTBCellNotNowButtonTappedWithCell:(FriendQuestTableViewCell *)cell;
+-(void)friendQuestTBCellDeclineButtonTappedWithCell:(FriendQuestTableViewCell *)cell;
 
 @end
 
@@ -25,5 +26,6 @@
 @property (assign,nonatomic) id<FriendQuestTableViewCellDelegate>delegate;
 - (IBAction)acceptButtonTapped:(id)sender;
 - (IBAction)notNowButtonTapped:(id)sender;
+- (IBAction)declineButtonTapped:(id)sender;
 
 @end
