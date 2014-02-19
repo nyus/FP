@@ -11,7 +11,7 @@
 @interface FriendQuestViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)cancelButtonTapped:(id)sender;
-@property (weak, nonatomic) IBOutlet UIButton *findButtonTapped;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
+- (IBAction)findButtonTapped:(id)sender;
 
 @end

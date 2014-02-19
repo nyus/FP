@@ -1039,6 +1039,9 @@
                                 <state key="normal" title="Find">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="findButtonTapped:" destination="4oD-vO-DuJ" eventType="touchUpInside" id="7oO-CL-y1E"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mC7-SR-cuZ">
                                 <rect key="frame" x="0.0" y="81" width="161" height="45"/>
@@ -1147,7 +1150,6 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="findButtonTapped" destination="wAd-Qz-LJL" id="Y5Q-zO-I2T"/>
                         <outlet property="tableView" destination="70o-zk-3rf" id="Vhb-0R-Ful"/>
                         <outlet property="textField" destination="Wsy-M4-cJh" id="I64-V1-6Xq"/>
                     </connections>
