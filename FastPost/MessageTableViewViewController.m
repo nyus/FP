@@ -46,11 +46,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self fetchMessage];
+}
+
 -(void)refreshControlTriggerred:(id)sender{
     [self fetchMessage];
 }
 
 -(void)fetchMessage{
+    
+    if (!dataSource) {
+        dataSource = [NSMutableArray array];
+    }
     
 #warning need to cache result
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Message"];
@@ -63,10 +72,6 @@
     }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects && objects.count!=0) {
-            
-            if (!dataSource) {
-                dataSource = [NSMutableArray array];
-            }
             
             //REASON to fetch old messages first:
             //otherwise the new messageas would be in core data and they will get duplicated
@@ -151,88 +156,24 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (!dataSource || dataSource.count == 0) {
-        return 1;
-    }else{
-        return dataSource.count;
-    }
+
+    return dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (!dataSource || dataSource.count == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noMsgCell" forIndexPath:indexPath];
-        return cell;
-
-    }else{
-        static NSString *CellIdentifier = @"cell";
-        MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        // Configure the cell...
-        //sender profile picture
-        Message *msg = (Message *)dataSource[indexPath.row];
-        [Helper getAvatarForUser:msg.senderUsername forImageView:cell.msgCellProfileImageView];
-        //sender name
-        cell.msgCellUsernameLabel.text = msg.senderUsername;
-        
-        return cell;
-
-    }
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
- */
-
-- (IBAction)composeNewMessageButtonTapped:(id)sender {
+    static NSString *CellIdentifier = @"cell";
+    MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    // Configure the cell...
+    //sender profile picture
+    Message *msg = (Message *)dataSource[indexPath.row];
+    [Helper getAvatarForUser:msg.senderUsername forImageView:cell.msgCellProfileImageView];
+    //sender name
+    cell.msgCellUsernameLabel.text = msg.senderUsername;
+    
+    return cell;
 }
+
 @end
