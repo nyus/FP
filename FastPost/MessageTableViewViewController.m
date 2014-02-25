@@ -46,11 +46,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self fetchMessage];
+}
+
 -(void)refreshControlTriggerred:(id)sender{
     [self fetchMessage];
 }
 
 -(void)fetchMessage{
+    
+    if (!dataSource) {
+        dataSource = [NSMutableArray array];
+    }
     
 #warning need to cache result
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Message"];
@@ -63,10 +72,6 @@
     }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects && objects.count!=0) {
-            
-            if (!dataSource) {
-                dataSource = [NSMutableArray array];
-            }
             
             //REASON to fetch old messages first:
             //otherwise the new messageas would be in core data and they will get duplicated
@@ -95,6 +100,8 @@
                 message.receiverUsername = object[@"receiverUsername"];
                 message.read = object[@"read"];
                 message.objectid = object.objectId;
+                message.expirationDate = object[@"expirationDate"];
+                message.expirationTimeInSec = object[@"expirationTimeInSec"];
                 
                 //before we could have fetched some old messages first so we need the new ones to be the top
                 [dataSource insertObject:message atIndex:0];
@@ -151,88 +158,54 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (!dataSource || dataSource.count == 0) {
-        return 1;
-    }else{
-        return dataSource.count;
-    }
+
+    return dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (!dataSource || dataSource.count == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noMsgCell" forIndexPath:indexPath];
-        return cell;
-
-    }else{
-        static NSString *CellIdentifier = @"cell";
-        MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        // Configure the cell...
-        //sender profile picture
-        Message *msg = (Message *)dataSource[indexPath.row];
-        [Helper getAvatarForUser:msg.senderUsername forImageView:cell.msgCellProfileImageView];
-        //sender name
-        cell.msgCellUsernameLabel.text = msg.senderUsername;
-        
-        return cell;
-
-    }
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
- */
-
-- (IBAction)composeNewMessageButtonTapped:(id)sender {
+    static NSString *CellIdentifier = @"cell";
+    MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    // Configure the cell...
+    //sender profile picture
+    Message *msg = (Message *)dataSource[indexPath.row];
+    [Helper getAvatarForUser:msg.senderUsername forImageView:cell.msgCellProfileImageView];
+    //sender name
+    cell.msgCellUsernameLabel.text = msg.senderUsername;
+    
+    return cell;
+}
+
+#pragma mark - Count Down Logic
+
+//-(void)statusObjectTimeUpWithObject:(Status *)object{
+//    NSInteger index = [self.dataSource indexOfObject:object];
+//    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+//    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
+//        //        [cell blurCell];
+//        [self.dataSource removeObject:object];
+//        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+//        //if there is no status anymore, need to reload to show the background cell
+//        if(self.dataSource.count == 0){
+//            //setting self.dataSource to nil prevents talbeview from crashing.
+//            self.dataSource = nil;
+//            [self.tableView reloadData];
+//        }
+//    }
+//}
+
+//-(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
+//    NSInteger index = [self.dataSource indexOfObject:object];
+//    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+//    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
+//        //convert seconds into min and second
+//        cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:object.countDownMessage.intValue];
+//    }
+//}
+
+-(NSString *)minAndTimeFormatWithSecond:(int)seconds{
+    return [NSString stringWithFormat:@"%d:%02d",seconds/60,seconds%60];
 }
 @end
