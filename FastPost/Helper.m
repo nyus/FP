@@ -154,6 +154,8 @@ static Helper *_helper;
                             NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
                         }
                     }];
+                }else{
+                    NSLog(@"no avater for user %@", user.username);
                 }
             }
         }];

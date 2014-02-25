@@ -37,6 +37,9 @@
 		5054C92918BA6C1B0044CB5F /* feed_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C92318BA6C1B0044CB5F /* feed_tab.png */; };
 		5054C92C18BA6D060044CB5F /* like_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C92A18BA6D060044CB5F /* like_icon.png */; };
 		5054C92D18BA6D060044CB5F /* like_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C92B18BA6D060044CB5F /* like_icon@2x.png */; };
+		5054C93418BAE1DF0044CB5F /* Message+CountDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 5054C93318BAE1DF0044CB5F /* Message+CountDown.m */; };
+		5054C93818BC41750044CB5F /* wordLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C93618BC41750044CB5F /* wordLogo.png */; };
+		5054C93B18BC46230044CB5F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5054C93A18BC46230044CB5F /* SignUpViewController.m */; };
 		507F61441882EEF000B57DDA /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61411882EEF000B57DDA /* share.png */; };
 		507F61451882EEF000B57DDA /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61421882EEF000B57DDA /* comment.png */; };
 		507F61461882EEF000B57DDA /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61431882EEF000B57DDA /* like.png */; };
@@ -147,6 +150,11 @@
 		5054C92318BA6C1B0044CB5F /* feed_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feed_tab.png; sourceTree = "<group>"; };
 		5054C92A18BA6D060044CB5F /* like_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like_icon.png; sourceTree = "<group>"; };
 		5054C92B18BA6D060044CB5F /* like_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like_icon@2x.png"; sourceTree = "<group>"; };
+		5054C93218BAE1DF0044CB5F /* Message+CountDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+CountDown.h"; sourceTree = "<group>"; };
+		5054C93318BAE1DF0044CB5F /* Message+CountDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+CountDown.m"; sourceTree = "<group>"; };
+		5054C93618BC41750044CB5F /* wordLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wordLogo.png; sourceTree = "<group>"; };
+		5054C93918BC46230044CB5F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		5054C93A18BC46230044CB5F /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		507F61411882EEF000B57DDA /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		507F61421882EEF000B57DDA /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment.png; sourceTree = "<group>"; };
 		507F61431882EEF000B57DDA /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
@@ -322,6 +330,15 @@
 			name = icons;
 			sourceTree = "<group>";
 		};
+		5054C93118BAE1CE0044CB5F /* category */ = {
+			isa = PBXGroup;
+			children = (
+				5054C93218BAE1DF0044CB5F /* Message+CountDown.h */,
+				5054C93318BAE1DF0044CB5F /* Message+CountDown.m */,
+			);
+			name = category;
+			sourceTree = "<group>";
+		};
 		507F61471883591100B57DDA /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,6 +405,8 @@
 				5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */,
 				6522693918AECB2B004ABEDC /* FriendQuestViewController.h */,
 				6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */,
+				5054C93918BC46230044CB5F /* SignUpViewController.h */,
+				5054C93A18BC46230044CB5F /* SignUpViewController.m */,
 			);
 			name = "View controller";
 			sourceTree = "<group>";
@@ -398,6 +417,7 @@
 				5054C90518BA68400044CB5F /* icons */,
 				5054C8F418BA68230044CB5F /* tabbar */,
 				654D67B618844F4B00FEE901 /* yes.png */,
+				5054C93618BC41750044CB5F /* wordLogo.png */,
 				507F61411882EEF000B57DDA /* share.png */,
 				507F61421882EEF000B57DDA /* comment.png */,
 				507F61431882EEF000B57DDA /* like.png */,
@@ -469,6 +489,7 @@
 				5034EEB918A7E3D900DBDCCF /* Core Data */,
 				503A980D188381C7000892B8 /* Log.h */,
 				653ACE2F18590B45007B9A47 /* ThingsToDo.h */,
+				5054C93118BAE1CE0044CB5F /* category */,
 				507F61491883592E00B57DDA /* UI */,
 				507F61481883591C00B57DDA /* Class */,
 				507F61471883591100B57DDA /* Category */,
@@ -618,6 +639,7 @@
 				5054C91B18BA6B9F0044CB5F /* message_tab.png in Resources */,
 				65C6087A18721E46006C1899 /* time_add.png in Resources */,
 				5054C91318BA68E10044CB5F /* search_icon@2x.png in Resources */,
+				5054C93818BC41750044CB5F /* wordLogo.png in Resources */,
 				5054C92C18BA6D060044CB5F /* like_icon.png in Resources */,
 				653ACE43185926FD007B9A47 /* ExpirationTimePickerViewController.xib in Resources */,
 				658AA5CB184F963E0097383B /* clock.png in Resources */,
@@ -663,6 +685,7 @@
 				5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */,
 				658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */,
 				653ACDF118525405007B9A47 /* ComposeStatusPhotoCollectionViewCell.m in Sources */,
+				5054C93418BAE1DF0044CB5F /* Message+CountDown.m in Sources */,
 				65413CF41843990200543C1A /* LogInViewController.m in Sources */,
 				5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */,
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
@@ -670,6 +693,7 @@
 				5034EEB818A7E3D100DBDCCF /* Message.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
 				50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */,
+				5054C93B18BC46230044CB5F /* SignUpViewController.m in Sources */,
 				6522693B18AECB2B004ABEDC /* FriendQuestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

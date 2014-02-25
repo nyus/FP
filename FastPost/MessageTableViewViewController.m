@@ -100,6 +100,8 @@
                 message.receiverUsername = object[@"receiverUsername"];
                 message.read = object[@"read"];
                 message.objectid = object.objectId;
+                message.expirationDate = object[@"expirationDate"];
+                message.expirationTimeInSec = object[@"expirationTimeInSec"];
                 
                 //before we could have fetched some old messages first so we need the new ones to be the top
                 [dataSource insertObject:message atIndex:0];
@@ -176,4 +178,34 @@
     return cell;
 }
 
+#pragma mark - Count Down Logic
+
+//-(void)statusObjectTimeUpWithObject:(Status *)object{
+//    NSInteger index = [self.dataSource indexOfObject:object];
+//    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+//    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
+//        //        [cell blurCell];
+//        [self.dataSource removeObject:object];
+//        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+//        //if there is no status anymore, need to reload to show the background cell
+//        if(self.dataSource.count == 0){
+//            //setting self.dataSource to nil prevents talbeview from crashing.
+//            self.dataSource = nil;
+//            [self.tableView reloadData];
+//        }
+//    }
+//}
+
+//-(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
+//    NSInteger index = [self.dataSource indexOfObject:object];
+//    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+//    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
+//        //convert seconds into min and second
+//        cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:object.countDownMessage.intValue];
+//    }
+//}
+
+-(NSString *)minAndTimeFormatWithSecond:(int)seconds{
+    return [NSString stringWithFormat:@"%d:%02d",seconds/60,seconds%60];
+}
 @end

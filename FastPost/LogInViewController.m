@@ -9,6 +9,7 @@
 #import "LogInViewController.h"
 #import <Parse/Parse.h>
 #import "StatusTableViewController.h"
+#import "SignUpViewController.h"
 @interface LogInViewController ()
 
 @end
@@ -92,8 +93,7 @@
     [self.view endEditing:YES];
     [self animateMoveViewDown];
     
-    if ((![[self.emailTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""] ||
-        ![[self.userNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) &&
+    if (![[self.emailOrUsernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""] &&
         ![[self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         
         //spinner starts spinning
@@ -101,9 +101,10 @@
         [self.activityIndicator startAnimating];
         
         //hit api and store user info
-        if (![self.userNameTextField.text isEqualToString:@""]) {
+        if ([self.emailOrUsernameTextField.text rangeOfString:@"@"].location == NSNotFound) {
+            
             //username to log in
-            [PFUser logInWithUsernameInBackground:self.userNameTextField.text password:self.passwordTextField.text block:^(PFUser *user, NSError *error) {
+            [PFUser logInWithUsernameInBackground:self.emailOrUsernameTextField.text password:self.passwordTextField.text block:^(PFUser *user, NSError *error) {
                 if (!error) {
                     [self showStatusTableView];
                 }else{
@@ -112,10 +113,10 @@
                 
                 [self.activityIndicator stopAnimating];
             }];
-        }else if (![self.emailTextField.text isEqualToString:@""]){
+        }else{
             //email to log in
             PFQuery *query = [PFQuery queryWithClassName:[PFUser parseClassName]];
-            [query whereKey:@"email" equalTo:self.emailTextField.text];
+            [query whereKey:@"email" equalTo:self.emailOrUsernameTextField.text];
             [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                 if (!error && object) {
                     [PFUser logInWithUsernameInBackground:object[@"username"] password:self.passwordTextField.text block:^(PFUser *user, NSError *error) {
@@ -148,44 +149,10 @@
 
 - (IBAction)signUpButtonTapped:(id)sender {
     
-    if (![[self.emailTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""] &&
-        ![[self.userNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""] &&
-        ![[self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
-        
-        //spinner starts spinning
-        self.activityIndicator.hidden = NO;
-        [self.activityIndicator startAnimating];
-        
-        //hit api and store user info
-        PFUser *newUser = [PFUser user];
-        [PFUser enableAutomaticUser];
-        newUser.email = self.emailTextField.text;
-        if (![self.userNameTextField.text isEqualToString:@""]) {
-            newUser.username = self.userNameTextField.text;
-        }
-        newUser.password = self.passwordTextField.text;
-        [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            [self.activityIndicator stopAnimating];
-            
-            if(succeeded){
-                
-                [PFUser logInWithUsername:self.userNameTextField.text password:self.passwordTextField.text];
-                [[PFUser currentUser] addObject:[PFUser currentUser].username forKey:@"friends"];
-                [[PFUser currentUser] saveInBackground];
-                
-                //if success
-                [self showStatusTableView];
-                
-            }else{
-                
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:error.userInfo[@"error"] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                [alert show];
-                
-            }
-            
-        }];
-        
-    }
+    SignUpViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signUpVC"];
+    vc.loginVC = self;
+    [self presentViewController:vc animated:YES completion:nil];
+
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -229,13 +196,9 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
-    if (textField == self.emailTextField) {
-        textField.text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        [self.userNameTextField becomeFirstResponder];
-    }else if (textField == self.userNameTextField) {
+    if (textField == self.emailOrUsernameTextField) {
         textField.text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         [self.passwordTextField becomeFirstResponder];
-        return YES;
     }else if(textField == self.passwordTextField){
         [self animateMoveViewDown];
         textField.text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];

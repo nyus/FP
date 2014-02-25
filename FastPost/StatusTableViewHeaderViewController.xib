@@ -15,7 +15,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VL0-Gk-SXH" userLabel="add friend button">
-                    <rect key="frame" x="20" y="0.0" width="44" height="44"/>
+                    <rect key="frame" x="20" y="3" width="44" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="53"/>
                     <state key="normal" image="add_friend.png">
@@ -39,7 +39,7 @@
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Pw-Jx-CC5" userLabel="settings button">
                     <rect key="frame" x="262" y="3" width="38" height="38"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button" image="search_icon.png">
+                    <state key="normal" title="Button" image="setting_icon.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -67,6 +67,6 @@
     <resources>
         <image name="add_friend.png" width="44" height="44"/>
         <image name="compose_icon.png" width="40" height="40"/>
-        <image name="search_icon.png" width="44" height="44"/>
+        <image name="setting_icon.png" width="49" height="49"/>
     </resources>
 </document>

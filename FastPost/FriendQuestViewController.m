@@ -145,12 +145,6 @@
 #warning when the friend request is approved, save in cloud code.
             
             
-            //add the person that user wants to follow in user's friends array on server
-            PFUser *foundUser = (PFUser *)object;
-            //add self to the person that self follows to person's follower array on server
-            [foundUser addObject:[PFUser currentUser].username forKey:@"follower"];
-            [foundUser saveInBackground];
-            
             
             
             //                [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
@@ -183,6 +177,14 @@
     PFObject *object = (PFObject *)dataSource[path.row];
     [object setObject:[NSNumber numberWithInt:1] forKey:@"requestStatus"];
     [object saveInBackground];
+
+#warning cloud code here.
+    NSDictionary *dict = @{@"senderUsername":object[@"senderUsername"],
+                           @"receiverUsername":object[@"receiverUsername"]};
+    [PFCloud callFunctionInBackground:@"addToFollowers" withParameters:dict block:^(id object, NSError *error) {
+        
+    }];
+    //here in cloud code, we should add [PFUser currentUser].username to sender's followers
 }
 
 -(void)friendQuestTBCellNotNowButtonTappedWithCell:(FriendQuestTableViewCell *)cell{
