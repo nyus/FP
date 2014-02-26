@@ -11,10 +11,13 @@
 #import "Helper.h"
 #import "SharedDataManager.h"
 #import "Message.h"
+#import "Message+Utilities.h"
 #import <Parse/Parse.h>
+#import "ViewMessageViewController.h"
 @interface MessageTableViewViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *dataSource;
-
+    NSMutableArray *hasTimerArray;
+    NSString *messageToPass;
 }
 
 @end
@@ -37,7 +40,8 @@
     //refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refreshControlTriggerred:) forControlEvents:UIControlEventValueChanged];
-    [self fetchMessage];
+    //on start up, fetch old messages
+    [self fetchLocalMessage];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,50 +52,52 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self fetchMessage];
+    [self.refreshControl beginRefreshing];
+    [self fetchNewMessage];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    messageToPass = nil;
 }
 
 -(void)refreshControlTriggerred:(id)sender{
-    [self fetchMessage];
+    [self fetchNewMessage];
 }
 
--(void)fetchMessage{
+-(void)fetchLocalMessage{
+    if (!dataSource) {
+        dataSource = [NSMutableArray array];
+        hasTimerArray = [NSMutableArray array];
+    }
+    
+    NSArray *fetchResult = [self fetchAllLocalMessages];
+    for (Message *message in fetchResult) {
+        [dataSource addObject:message];
+        [hasTimerArray addObject:[NSNumber numberWithBool:NO]];
+    }
+
+}
+
+-(void)fetchNewMessage{
     
     if (!dataSource) {
         dataSource = [NSMutableArray array];
+        hasTimerArray = [NSMutableArray array];
     }
     
 #warning need to cache result
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Message"];
     [query whereKey:@"receiverUsername" equalTo:[PFUser currentUser].username];
-    [query whereKey:@"read" equalTo:[NSNumber numberWithBool:NO]];
+    [query orderByDescending:@"createdAt"];
 
-    //load first 100 messages at startup, if need more, load more, this parameter will stop parse from fetching redundant messages
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastFetchedMsgCount"]) {
-        query.skip = [[[NSUserDefaults standardUserDefaults] objectForKey:@"lastFetchedMsgCount"] intValue];
-    }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects && objects.count!=0) {
             
-            //REASON to fetch old messages first:
-            //otherwise the new messageas would be in core data and they will get duplicated
-            //if not enough new message, then load some old messages in the database
-            if (objects.count < 20) {
-                
-                NSArray *fetchResult = [self fetchMessageFromLocalDatabaseWithCount:(int)(20-objects.count) andOffSet:0];
-                for (Message *message in fetchResult) {
-                    [dataSource addObject:message];
-                }
-                
-                //this is for reload. do not want to fetch already fetched objects
-                if (fetchResult!=nil) {
-                    //update only if the local fetch is successful
-                    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:(int)(20-objects.count)] forKey:@"lastFetchedMsgCount"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                }
-            }
-            
-            for (PFObject *object in objects) {
+            int delta =  objects.count - dataSource.count;
+            //these are the new messages
+            for(int i = 1; i<=delta;i++){
+                PFObject *object = objects[i-1];
                 Message *message = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
                 message.createdAt = object.createdAt;
                 message.updatedAt = object.updatedAt;
@@ -102,32 +108,47 @@
                 message.objectid = object.objectId;
                 message.expirationDate = object[@"expirationDate"];
                 message.expirationTimeInSec = object[@"expirationTimeInSec"];
+                message.countDown = object[@"expirationTimeInSec"];
                 
                 //before we could have fetched some old messages first so we need the new ones to be the top
                 [dataSource insertObject:message atIndex:0];
+                [hasTimerArray insertObject:[NSNumber numberWithBool:NO] atIndex:0];
+            }
+            
+            //update already existent messages
+            for(int i = delta ; i<objects.count;i++){
+                PFObject *object = objects[i];
+                Message *message = dataSource[i];
+                [message updateSelfFromPFObject:object];
             }
             
             //save before we pull old messages from database
             [[SharedDataManager sharedInstance] saveContext];
             //reload
             [self.tableView reloadData];
-            
-        }else{
-            
-            //encouter fetch error, load message from the data base
-            NSArray *fetchResult = [self fetchMessageFromLocalDatabaseWithCount:20 andOffSet:0];
-            for (Message *message in fetchResult) {
-                [dataSource addObject:message];
-            }
-            
-            [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
         }
         
-        [self.refreshControl endRefreshing];
+        
     }];
 }
 
 #pragma mark - core data fetch 
+
+-(NSArray *)fetchAllLocalMessages{
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    NSError *fetchError;
+    NSArray *fetchResult = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&fetchError];
+    if (fetchError) {
+        NSLog(@"fetch all local msg error is %@",fetchError.localizedDescription);
+        return nil;
+    }else{
+        return fetchResult;
+    }
+}
 
 -(NSArray *)fetchMessageFromLocalDatabaseWithCount:(int)count andOffSet:(int)offset{
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
@@ -174,11 +195,48 @@
     [Helper getAvatarForUser:msg.senderUsername forImageView:cell.msgCellProfileImageView];
     //sender name
     cell.msgCellUsernameLabel.text = msg.senderUsername;
-    
+    //count down label
+    cell.msgCellCountDownLabel.text = [self minAndTimeFormatWithSecond:msg.countDown.intValue];
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    //do nothing if the msg has expired
+    Message *msg = (Message *)dataSource[indexPath.row];
+    if (msg.countDown.intValue == 0) {
+        return;
+    }else{
+        messageToPass = msg.message;
+        [self performSegueWithIdentifier:@"toViewMessage" sender:self];
+    }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (![hasTimerArray[indexPath.row] boolValue]) {
+        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(handleTimer:) userInfo:indexPath repeats:YES];
+        [hasTimerArray replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:YES]];
+    }
+}
+
 #pragma mark - Count Down Logic
+
+-(void)handleTimer:(NSTimer *)timer{
+
+    NSIndexPath *path = (NSIndexPath *)timer.userInfo;
+    Message *msg = (Message *)dataSource[path.row];
+    msg.countDown = [NSNumber numberWithInt:msg.countDown.intValue - 1];
+
+    if (msg.countDown.intValue < 0) {
+        msg.countDown = [NSNumber numberWithInt:0];
+        [timer invalidate];
+    }else{
+        MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView cellForRowAtIndexPath:path];
+        cell.msgCellCountDownLabel.text = [self minAndTimeFormatWithSecond:msg.countDown.intValue];
+    }
+    
+    [[SharedDataManager sharedInstance] saveContext];
+}
 
 //-(void)statusObjectTimeUpWithObject:(Status *)object{
 //    NSInteger index = [self.dataSource indexOfObject:object];
@@ -207,5 +265,14 @@
 
 -(NSString *)minAndTimeFormatWithSecond:(int)seconds{
     return [NSString stringWithFormat:@"%d:%02d",seconds/60,seconds%60];
+}
+
+#pragma mark - Segue
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"toViewMessage"]) {
+        ViewMessageViewController *vc = (ViewMessageViewController *)segue.destinationViewController;
+        vc.message = messageToPass;
+    }
 }
 @end

@@ -91,7 +91,7 @@
 - (IBAction)logInButtonTapped:(id)sender {
     
     [self.view endEditing:YES];
-    [self animateMoveViewDown];
+//    [self animateMoveViewDown];
     
     if (![[self.emailOrUsernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""] &&
         ![[self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
@@ -161,37 +161,37 @@
 
 #pragma mark - ui text field delegate
 
--(void)animateMoveViewUp{
-    
-    if (self.view.frame.origin.y < 0) {
-        return;
-    }
-    
-    [UIView animateWithDuration:.3 animations:^{
-        self.view.frame = CGRectMake(self.view.frame.origin.x,
-                                     self.view.frame.origin.y - 50,
-                                     self.view.frame.size.width,
-                                     self.view.frame.size.height);
-    }];
-}
+//-(void)animateMoveViewUp{
+//    
+//    if (self.view.frame.origin.y < 0) {
+//        return;
+//    }
+//    
+//    [UIView animateWithDuration:.3 animations:^{
+//        self.view.frame = CGRectMake(self.view.frame.origin.x,
+//                                     self.view.frame.origin.y - 50,
+//                                     self.view.frame.size.width,
+//                                     self.view.frame.size.height);
+//    }];
+//}
 
--(void)animateMoveViewDown{
-    
-    if(self.view.frame.origin.y == 0){
-        return;
-    }
-    
-    [UIView animateWithDuration:.3 animations:^{
-        self.view.frame = CGRectMake(self.view.frame.origin.x,
-                                     0,
-                                     self.view.frame.size.width,
-                                     self.view.frame.size.height);
-    }];
-}
+//-(void)animateMoveViewDown{
+//    
+//    if(self.view.frame.origin.y == 0){
+//        return;
+//    }
+//    
+//    [UIView animateWithDuration:.3 animations:^{
+//        self.view.frame = CGRectMake(self.view.frame.origin.x,
+//                                     0,
+//                                     self.view.frame.size.width,
+//                                     self.view.frame.size.height);
+//    }];
+//}
 
--(void)textFieldDidBeginEditing:(UITextField *)textField{
-    [self animateMoveViewUp];
-}
+//-(void)textFieldDidBeginEditing:(UITextField *)textField{
+//    [self animateMoveViewUp];
+//}
 
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -200,7 +200,7 @@
         textField.text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         [self.passwordTextField becomeFirstResponder];
     }else if(textField == self.passwordTextField){
-        [self animateMoveViewDown];
+//        [self animateMoveViewDown];
         textField.text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         [textField resignFirstResponder];
     }

@@ -13,7 +13,6 @@
 		5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */; };
 		5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */; };
 		5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */; };
-		5034EEB818A7E3D100DBDCCF /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB718A7E3D000DBDCCF /* Message.m */; };
 		5034EF0018A7E7FC00DBDCCF /* SharedDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */; };
 		5034EF0218A7E9AB00DBDCCF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5034EF0118A7E9AB00DBDCCF /* CoreData.framework */; };
 		5034EF0518A8061200DBDCCF /* ComposeNewMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */; };
@@ -37,7 +36,6 @@
 		5054C92918BA6C1B0044CB5F /* feed_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C92318BA6C1B0044CB5F /* feed_tab.png */; };
 		5054C92C18BA6D060044CB5F /* like_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C92A18BA6D060044CB5F /* like_icon.png */; };
 		5054C92D18BA6D060044CB5F /* like_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C92B18BA6D060044CB5F /* like_icon@2x.png */; };
-		5054C93418BAE1DF0044CB5F /* Message+CountDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 5054C93318BAE1DF0044CB5F /* Message+CountDown.m */; };
 		5054C93818BC41750044CB5F /* wordLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C93618BC41750044CB5F /* wordLogo.png */; };
 		5054C93B18BC46230044CB5F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5054C93A18BC46230044CB5F /* SignUpViewController.m */; };
 		507F61441882EEF000B57DDA /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61411882EEF000B57DDA /* share.png */; };
@@ -56,6 +54,9 @@
 		653ACE391859139B007B9A47 /* setting_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACE381859139B007B9A47 /* setting_icon.png */; };
 		653ACE42185926FD007B9A47 /* ExpirationTimePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 653ACE40185926FD007B9A47 /* ExpirationTimePickerViewController.m */; };
 		653ACE43185926FD007B9A47 /* ExpirationTimePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 653ACE41185926FD007B9A47 /* ExpirationTimePickerViewController.xib */; };
+		65409F6E18BE66B100589F66 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 65409F6D18BE66B100589F66 /* Message.m */; };
+		65409F7118BE855300589F66 /* Message+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 65409F7018BE855300589F66 /* Message+Utilities.m */; };
+		65409F7818BE95C200589F66 /* ViewMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65409F7718BE95C200589F66 /* ViewMessageViewController.m */; };
 		65413CDB1843990200543C1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413CDA1843990200543C1A /* Foundation.framework */; };
 		65413CDD1843990200543C1A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413CDC1843990200543C1A /* CoreGraphics.framework */; };
 		65413CDF1843990200543C1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413CDE1843990200543C1A /* UIKit.framework */; };
@@ -122,8 +123,6 @@
 		5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewViewController.h; sourceTree = "<group>"; };
 		5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewViewController.m; sourceTree = "<group>"; };
 		5034EEB418A7E2CD00DBDCCF /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
-		5034EEB618A7E3D000DBDCCF /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = ../Message.h; sourceTree = "<group>"; };
-		5034EEB718A7E3D000DBDCCF /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Message.m; path = ../Message.m; sourceTree = "<group>"; };
 		5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedDataManager.h; sourceTree = "<group>"; };
 		5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedDataManager.m; sourceTree = "<group>"; };
 		5034EF0118A7E9AB00DBDCCF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -150,8 +149,6 @@
 		5054C92318BA6C1B0044CB5F /* feed_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feed_tab.png; sourceTree = "<group>"; };
 		5054C92A18BA6D060044CB5F /* like_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like_icon.png; sourceTree = "<group>"; };
 		5054C92B18BA6D060044CB5F /* like_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "like_icon@2x.png"; sourceTree = "<group>"; };
-		5054C93218BAE1DF0044CB5F /* Message+CountDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+CountDown.h"; sourceTree = "<group>"; };
-		5054C93318BAE1DF0044CB5F /* Message+CountDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+CountDown.m"; sourceTree = "<group>"; };
 		5054C93618BC41750044CB5F /* wordLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wordLogo.png; sourceTree = "<group>"; };
 		5054C93918BC46230044CB5F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		5054C93A18BC46230044CB5F /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
@@ -180,6 +177,12 @@
 		653ACE3F185926FD007B9A47 /* ExpirationTimePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpirationTimePickerViewController.h; sourceTree = "<group>"; };
 		653ACE40185926FD007B9A47 /* ExpirationTimePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpirationTimePickerViewController.m; sourceTree = "<group>"; };
 		653ACE41185926FD007B9A47 /* ExpirationTimePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpirationTimePickerViewController.xib; sourceTree = "<group>"; };
+		65409F6C18BE66B100589F66 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		65409F6D18BE66B100589F66 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		65409F6F18BE855300589F66 /* Message+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+Utilities.h"; sourceTree = "<group>"; };
+		65409F7018BE855300589F66 /* Message+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+Utilities.m"; sourceTree = "<group>"; };
+		65409F7618BE95C200589F66 /* ViewMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewMessageViewController.h; sourceTree = "<group>"; };
+		65409F7718BE95C200589F66 /* ViewMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewMessageViewController.m; sourceTree = "<group>"; };
 		65413CD71843990200543C1A /* FastPost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastPost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65413CDA1843990200543C1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		65413CDC1843990200543C1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -290,10 +293,11 @@
 		5034EEB918A7E3D900DBDCCF /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */,
+				65409F6C18BE66B100589F66 /* Message.h */,
+				65409F6D18BE66B100589F66 /* Message.m */,
 				5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */,
 				5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */,
-				5034EEB618A7E3D000DBDCCF /* Message.h */,
-				5034EEB718A7E3D000DBDCCF /* Message.m */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -333,8 +337,8 @@
 		5054C93118BAE1CE0044CB5F /* category */ = {
 			isa = PBXGroup;
 			children = (
-				5054C93218BAE1DF0044CB5F /* Message+CountDown.h */,
-				5054C93318BAE1DF0044CB5F /* Message+CountDown.m */,
+				65409F6F18BE855300589F66 /* Message+Utilities.h */,
+				65409F7018BE855300589F66 /* Message+Utilities.m */,
 			);
 			name = category;
 			sourceTree = "<group>";
@@ -385,28 +389,12 @@
 		50FCEA0A187B68A2000A91AF /* View controller */ = {
 			isa = PBXGroup;
 			children = (
-				50FCEA0B187B68C3000A91AF /* StatusViewController.h */,
-				50FCEA0C187B68C3000A91AF /* StatusViewController.m */,
-				509CB820187CE6D8009E9A9F /* ProfileViewController.h */,
-				509CB821187CE6D8009E9A9F /* ProfileViewController.m */,
+				65409F7518BE959400589F66 /* Login */,
+				65409F7218BE956200589F66 /* Status */,
+				65409F7318BE957100589F66 /* Profile */,
+				65409F7418BE957A00589F66 /* Message */,
 				653ACE3F185926FD007B9A47 /* ExpirationTimePickerViewController.h */,
 				653ACE40185926FD007B9A47 /* ExpirationTimePickerViewController.m */,
-				65413CF21843990200543C1A /* LogInViewController.h */,
-				65413CF31843990200543C1A /* LogInViewController.m */,
-				658AA5D1184FADFB0097383B /* ComposeNewStatusViewController.h */,
-				658AA5D2184FADFB0097383B /* ComposeNewStatusViewController.m */,
-				658AA5C5184F95420097383B /* StatusTableViewHeaderViewController.h */,
-				658AA5C6184F95420097383B /* StatusTableViewHeaderViewController.m */,
-				65413D121843B6AA00543C1A /* StatusTableViewController.h */,
-				65413D131843B6AA00543C1A /* StatusTableViewController.m */,
-				5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */,
-				5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */,
-				5034EF0318A8061200DBDCCF /* ComposeNewMessageViewController.h */,
-				5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */,
-				6522693918AECB2B004ABEDC /* FriendQuestViewController.h */,
-				6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */,
-				5054C93918BC46230044CB5F /* SignUpViewController.h */,
-				5054C93A18BC46230044CB5F /* SignUpViewController.m */,
 			);
 			name = "View controller";
 			sourceTree = "<group>";
@@ -437,10 +425,59 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		65409F7218BE956200589F66 /* Status */ = {
+			isa = PBXGroup;
+			children = (
+				6522693918AECB2B004ABEDC /* FriendQuestViewController.h */,
+				6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */,
+				50FCEA0B187B68C3000A91AF /* StatusViewController.h */,
+				50FCEA0C187B68C3000A91AF /* StatusViewController.m */,
+				658AA5D1184FADFB0097383B /* ComposeNewStatusViewController.h */,
+				658AA5D2184FADFB0097383B /* ComposeNewStatusViewController.m */,
+				658AA5C5184F95420097383B /* StatusTableViewHeaderViewController.h */,
+				658AA5C6184F95420097383B /* StatusTableViewHeaderViewController.m */,
+				65413D121843B6AA00543C1A /* StatusTableViewController.h */,
+				65413D131843B6AA00543C1A /* StatusTableViewController.m */,
+			);
+			name = Status;
+			sourceTree = "<group>";
+		};
+		65409F7318BE957100589F66 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				509CB820187CE6D8009E9A9F /* ProfileViewController.h */,
+				509CB821187CE6D8009E9A9F /* ProfileViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		65409F7418BE957A00589F66 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */,
+				5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */,
+				5034EF0318A8061200DBDCCF /* ComposeNewMessageViewController.h */,
+				5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */,
+				65409F7618BE95C200589F66 /* ViewMessageViewController.h */,
+				65409F7718BE95C200589F66 /* ViewMessageViewController.m */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
+		65409F7518BE959400589F66 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				65413CF21843990200543C1A /* LogInViewController.h */,
+				65413CF31843990200543C1A /* LogInViewController.m */,
+				5054C93918BC46230044CB5F /* SignUpViewController.h */,
+				5054C93A18BC46230044CB5F /* SignUpViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		65413CCE1843990200543C1A = {
 			isa = PBXGroup;
 			children = (
-				5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */,
 				65413CE01843990200543C1A /* FastPost */,
 				65413D021843990200543C1A /* FastPostTests */,
 				65413CD91843990200543C1A /* Frameworks */,
@@ -685,14 +722,15 @@
 				5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */,
 				658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */,
 				653ACDF118525405007B9A47 /* ComposeStatusPhotoCollectionViewCell.m in Sources */,
-				5054C93418BAE1DF0044CB5F /* Message+CountDown.m in Sources */,
+				65409F7818BE95C200589F66 /* ViewMessageViewController.m in Sources */,
+				65409F6E18BE66B100589F66 /* Message.m in Sources */,
 				65413CF41843990200543C1A /* LogInViewController.m in Sources */,
 				5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */,
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
-				5034EEB818A7E3D100DBDCCF /* Message.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
 				50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */,
+				65409F7118BE855300589F66 /* Message+Utilities.m in Sources */,
 				5054C93B18BC46230044CB5F /* SignUpViewController.m in Sources */,
 				6522693B18AECB2B004ABEDC /* FriendQuestViewController.m in Sources */,
 			);
@@ -961,7 +999,8 @@
 				5034EEB418A7E2CD00DBDCCF /* DataModel.xcdatamodel */,
 			);
 			currentVersion = 5034EEB418A7E2CD00DBDCCF /* DataModel.xcdatamodel */;
-			path = DataModel.xcdatamodeld;
+			name = DataModel.xcdatamodeld;
+			path = ../DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
