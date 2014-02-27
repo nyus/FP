@@ -59,10 +59,12 @@
     if (friendQusetVC.isOnScreen) {
         friendQusetVC.isOnScreen = NO;
         [friendQusetVC removeSelfFromParent];
+        [self.view endEditing:YES];
     }
     
     if (expirationTimePickerVC.isOnScreen) {
         [expirationTimePickerVC removeSelfFromParent];
+        [self.view endEditing:YES];
     }
 }
 
