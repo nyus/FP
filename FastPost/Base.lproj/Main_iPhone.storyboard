@@ -116,6 +116,17 @@
                                     <action selector="signUpButtonTapped:" destination="XCh-a4-zHP" eventType="touchUpInside" id="B4i-zC-Z95"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38b-a5-JpF">
+                                <rect key="frame" x="73" y="297" width="175" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.10588236149999999" green="0.82745105029999999" blue="0.97254908080000002" alpha="1" colorSpace="deviceRGB"/>
+                                <state key="normal" title="Forgot Password">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="forgotPasswrodTapped:" destination="XCh-a4-zHP" eventType="touchUpInside" id="abY-d1-nwg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -126,8 +137,10 @@
                             <constraint firstItem="7gd-23-Xcj" firstAttribute="leading" secondItem="kTj-ki-wkG" secondAttribute="leading" constant="73" id="6hd-Aw-lZp"/>
                             <constraint firstItem="kB6-RJ-ydx" firstAttribute="leading" secondItem="JmF-oI-Pdr" secondAttribute="trailing" constant="-27" id="DrE-y5-M74"/>
                             <constraint firstItem="Ow2-1z-xab" firstAttribute="top" secondItem="HZ2-nP-8jN" secondAttribute="bottom" constant="-80" id="Drx-3x-9D6"/>
+                            <constraint firstItem="38b-a5-JpF" firstAttribute="leading" secondItem="kTj-ki-wkG" secondAttribute="leading" constant="73" id="RZs-HL-twR"/>
                             <constraint firstItem="HZ2-nP-8jN" firstAttribute="leading" secondItem="kTj-ki-wkG" secondAttribute="leading" constant="120" id="Syd-GE-ule"/>
                             <constraint firstItem="qE6-go-hiX" firstAttribute="leading" secondItem="kTj-ki-wkG" secondAttribute="leading" constant="125" id="W8A-zD-4qc"/>
+                            <constraint firstItem="38b-a5-JpF" firstAttribute="top" secondItem="JmF-oI-Pdr" secondAttribute="bottom" constant="16" id="Xuq-ir-xDj"/>
                             <constraint firstItem="kB6-RJ-ydx" firstAttribute="top" secondItem="JmF-oI-Pdr" secondAttribute="bottom" constant="-25" id="ZMR-A1-Hdk"/>
                             <constraint firstItem="JmF-oI-Pdr" firstAttribute="leading" secondItem="kTj-ki-wkG" secondAttribute="leading" constant="73" id="ZUl-TW-aQT"/>
                             <constraint firstItem="rkg-jc-qeJ" firstAttribute="leading" secondItem="kTj-ki-wkG" secondAttribute="leading" constant="20" id="Zeu-hg-aP8"/>
@@ -135,6 +148,7 @@
                             <constraint firstItem="ITP-QC-38P" firstAttribute="top" secondItem="rkg-jc-qeJ" secondAttribute="bottom" constant="20" id="ldg-fk-KPX"/>
                             <constraint firstItem="CM1-vk-58q" firstAttribute="leading" secondItem="kTj-ki-wkG" secondAttribute="leading" constant="133" id="nFW-Wv-wAF"/>
                             <constraint firstItem="VOW-hH-fQz" firstAttribute="leading" secondItem="kTj-ki-wkG" secondAttribute="leading" constant="73" id="t1s-oT-Wnq"/>
+                            <constraint firstAttribute="trailing" secondItem="38b-a5-JpF" secondAttribute="trailing" constant="72" id="tJv-LE-CIK"/>
                             <constraint firstItem="qE6-go-hiX" firstAttribute="top" secondItem="HZ2-nP-8jN" secondAttribute="bottom" constant="-1" id="wD2-Tr-46O"/>
                             <constraint firstItem="JmF-oI-Pdr" firstAttribute="top" secondItem="7gd-23-Xcj" secondAttribute="bottom" constant="20" id="zcS-Le-1a0"/>
                         </constraints>
@@ -299,7 +313,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kQK-kA-pan">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kQK-kA-pan">
                                 <rect key="frame" x="218" y="274" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
@@ -416,6 +430,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="5eY-2V-bCP" kind="relationship" relationship="viewControllers" id="gkZ-Nq-RAA"/>
+                        <segue destination="n3v-xO-M5p" kind="relationship" relationship="viewControllers" id="Bth-Sf-Bnd"/>
                         <segue destination="sme-J3-ZVm" kind="relationship" relationship="viewControllers" id="HIR-hm-nYo"/>
                         <segue destination="Ebn-Ih-Nn7" kind="relationship" relationship="viewControllers" id="cwR-g9-JY4"/>
                     </connections>
@@ -676,6 +691,20 @@
                                 <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JJH-Dv-rFg">
+                                <rect key="frame" x="25" y="192" width="271" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Follow">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lSH-ZU-teQ">
+                                <rect key="frame" x="25" y="192" width="271" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Edit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="y3f-gt-4gm">
                                 <rect key="frame" x="0.0" y="237" width="320" height="193"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -814,6 +843,8 @@
                     <connections>
                         <outlet property="avatarImageView" destination="Dhz-Jb-AZq" id="fjX-Bp-oBy"/>
                         <outlet property="dwindleLabel" destination="sOz-ur-weK" id="7h2-re-CSh"/>
+                        <outlet property="editButton" destination="lSH-ZU-teQ" id="hLX-hy-7qX"/>
+                        <outlet property="followButton" destination="JJH-Dv-rFg" id="aKy-bG-1qe"/>
                         <outlet property="followerLabel" destination="aI2-iB-FhZ" id="Or0-T9-C0V"/>
                         <outlet property="followingLabel" destination="abB-jk-NVd" id="UNt-Zx-oMb"/>
                         <outlet property="leftAvatarImageView" destination="quJ-Pb-XBq" id="R7b-HQ-dvA"/>
@@ -830,6 +861,25 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-810" y="2199"/>
+        </scene>
+        <!--View Controller - Search-->
+        <scene sceneID="vDm-hv-ZJR">
+            <objects>
+                <viewController id="n3v-xO-M5p" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7VZ-zL-XMp"/>
+                        <viewControllerLayoutGuide type="bottom" id="O5V-j4-5aI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1mE-gZ-5XV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Search" image="search_tab.png" id="P8E-fZ-6R2"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vdB-7m-1ic" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-298" y="1355"/>
         </scene>
         <!--Message Table View View Controller - Messages-->
         <scene sceneID="1o4-yo-iHr">
@@ -1506,6 +1556,7 @@
         <image name="placeholder_picture.png" width="512" height="320"/>
         <image name="profile_tab.png" width="32" height="32"/>
         <image name="revine_icon.png" width="40" height="40"/>
+        <image name="search_tab.png" width="32" height="32"/>
         <image name="share.png" width="512" height="512"/>
         <image name="time_add.png" width="128" height="128"/>
         <image name="wordLogo.png" width="80" height="80"/>

@@ -15,4 +15,5 @@
 - (IBAction)facebookButtonTapped:(id)sender;
 - (IBAction)logInButtonTapped:(id)sender;
 - (IBAction)signUpButtonTapped:(id)sender;
+- (IBAction)forgotPasswrodTapped:(id)sender;
 @end

@@ -86,7 +86,6 @@
         hasTimerArray = [NSMutableArray array];
     }
     
-#warning need to cache result
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Message"];
     [query whereKey:@"receiverUsername" equalTo:[PFUser currentUser].username];
     [query orderByDescending:@"createdAt"];
@@ -108,7 +107,12 @@
                 message.objectid = object.objectId;
                 message.expirationDate = object[@"expirationDate"];
                 message.expirationTimeInSec = object[@"expirationTimeInSec"];
-                message.countDown = object[@"expirationTimeInSec"];
+                NSInteger timeInterval = [[NSDate date] timeIntervalSinceDate:message.expirationDate];
+                int remainingSec = message.expirationTimeInSec.intValue - timeInterval;
+                if (remainingSec<0) {
+                    remainingSec = 0;
+                }
+                message.countDown = [NSNumber numberWithInt:remainingSec];
                 
                 //before we could have fetched some old messages first so we need the new ones to be the top
                 [dataSource insertObject:message atIndex:0];

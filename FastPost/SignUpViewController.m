@@ -9,7 +9,9 @@
 #import "SignUpViewController.h"
 #import <Parse/Parse.h>
 #import "LogInViewController.h"
-@interface SignUpViewController ()
+@interface SignUpViewController ()<UIAlertViewDelegate>{
+    UIAlertView *signUpSuccessAlert;
+}
 
 @end
 
@@ -28,6 +30,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.activityIndicator.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -37,6 +40,7 @@
 }
 
 -(void)showStatusTableView{
+    [signUpSuccessAlert dismissWithClickedButtonIndex:0 animated:YES];
     [self dismissViewControllerAnimated:NO completion:^{
         [self.loginVC dismissViewControllerAnimated:NO completion:nil];
     }];
@@ -69,15 +73,20 @@
                 [[PFUser currentUser] addObject:[PFUser currentUser].username forKey:@"friends"];
                 [[PFUser currentUser] saveInBackground];
 
-                //if success
-                [self showStatusTableView];
-
+                
+                signUpSuccessAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Congrats! You have successfully signed up!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+                signUpSuccessAlert.tag = 0;
+                [signUpSuccessAlert show];
+                [self performSelector:@selector(showStatusTableView) withObject:nil afterDelay:.5];
             }else{
 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:error.userInfo[@"error"] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                alert.tag = 1;
                 [alert show];
                 
             }
+            
+            [self.activityIndicator stopAnimating];
         }];
     }
 }
@@ -117,4 +126,13 @@
                                      self.view.frame.size.height);
     }];
 }
+
+#pragma mark UIAlertViewDelegate
+
+//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    //successfully signed up
+//    if (alertView.tag == 0) {
+//        [self showStatusTableView];
+//    }
+//}
 @end

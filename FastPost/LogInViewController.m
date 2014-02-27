@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "StatusTableViewController.h"
 #import "SignUpViewController.h"
-@interface LogInViewController ()
+@interface LogInViewController ()<UIAlertViewDelegate>
 
 @end
 
@@ -155,6 +155,12 @@
 
 }
 
+- (IBAction)forgotPasswrodTapped:(id)sender {
+    UIAlertView *input = [[UIAlertView alloc] initWithTitle:nil message:@"Enter your email to reset password" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reset", nil];
+    input.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [input show];
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
 
 }
@@ -209,6 +215,7 @@
 }
 
 -(void)showStatusTableView{
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 //    [self performSegueWithIdentifier:@"toStatus" sender:self];
 //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
@@ -217,6 +224,27 @@
 //    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
 //    [viewControllers replaceObjectAtIndex:viewControllers.count-1 withObject:vc];
 //    [self.navigationController setViewControllers:viewControllers animated:NO];
+}
+
+#pragma mark - UIAlertView
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        
+        BOOL regexPassed = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @".+@.+\\..+"] evaluateWithObject:[alertView textFieldAtIndex:0].text];
+
+        if (!regexPassed){
+            return;
+        }
+        
+        [PFUser requestPasswordResetForEmailInBackground:[alertView textFieldAtIndex:0].text block:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                
+            }else{
+                NSLog(@"password reset failed");
+            }
+        }];
+    }
 }
 
 #pragma mark - FB SDK code to find friends
