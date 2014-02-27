@@ -208,6 +208,7 @@
     //do nothing if the msg has expired
     Message *msg = (Message *)dataSource[indexPath.row];
     if (msg.countDown.intValue == 0) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }else{
         messageToPass = msg.message;
