@@ -69,10 +69,18 @@
 
             if(succeeded){
 
+                //
                 [PFUser logInWithUsername:self.usernameTextField.text password:self.passwordTextField.text];
                 [[PFUser currentUser] addObject:[PFUser currentUser].username forKey:@"friends"];
                 [[PFUser currentUser] saveInBackground];
-
+                
+                //set user on PFInstallation object so that we can send out targeted pushes
+                [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
+                [[PFInstallation currentInstallation] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        NSLog(@"successfully set PFUser on PFInstallation");
+                    }
+                }];
                 
                 signUpSuccessAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Congrats! You have successfully signed up!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
                 signUpSuccessAlert.tag = 0;
@@ -80,7 +88,7 @@
                 [self performSelector:@selector(showStatusTableView) withObject:nil afterDelay:.5];
             }else{
 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:error.userInfo[@"error"] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Sign up failed. Please try again" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
                 alert.tag = 1;
                 [alert show];
                 
