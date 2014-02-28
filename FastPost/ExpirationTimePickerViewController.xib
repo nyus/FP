@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
@@ -52,7 +52,6 @@
                     </state>
                     <connections>
                         <action selector="cancelButtonTapped:" destination="-1" eventType="touchUpInside" id="hpx-Jp-KqD"/>
-                        <action selector="doneButtonTapped:" destination="-1" eventType="touchUpInside" id="jfy-sx-Z0E"/>
                     </connections>
                 </button>
             </subviews>

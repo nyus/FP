@@ -142,7 +142,7 @@
     if (_type == PickerTypeRevive) {
         return 20;
     }else if (_type == PickerTypeFilter){
-        return 40;
+        return 25;
     }else{
         return 0;
     }

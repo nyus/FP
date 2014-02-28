@@ -43,9 +43,12 @@
     //set a reference so that can remove it
     self.blurToolBar = blurEffectToolBar;
     [self.view insertSubview:blurEffectToolBar belowSubview:self.containerView];
+  
+}
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self pullFriendRequest];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,8 +62,7 @@
     //1. accepted 2. denied 3. not now 4. new request
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"FriendRequest"];
     //dont pull accepted/denied request
-    [query whereKey:@"requestStatus" notEqualTo:[NSNumber numberWithInt:1]];
-    [query whereKey:@"requestStatus" notEqualTo:[NSNumber numberWithInt:2]];
+    [query whereKey:@"requestStatus" greaterThanOrEqualTo:[NSNumber numberWithInt:3]];
     [query whereKey:@"receiverUsername" equalTo:[PFUser currentUser].username];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects && objects.count != 0) {
@@ -134,13 +136,22 @@
         }else{
             
             //create a new FriendRequest object and send it to parse
-            PFObject *object = [[PFObject alloc] initWithClassName:@"FriendRequest"];
-            object[@"senderUsername"] = [PFUser currentUser].username;
-            object[@"receiverUsername"] = ((PFUser *)object).username;
+            PFObject *request = [[PFObject alloc] initWithClassName:@"FriendRequest"];
+            request[@"senderUsername"] = [PFUser currentUser].username;
+            request[@"receiverUsername"] = ((PFUser *)object).username;
             //FriendRequest.requestStatus
             //1. accepted 2. denied 3. not now 4. new request
-            object[@"requestStatus"] = [NSNumber numberWithInt:4];
-            [object saveInBackground];
+            request[@"requestStatus"] = [NSNumber numberWithInt:4];
+            [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    NSLog(@"request %@ sent",request);
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                    [alert show];
+                }else{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Something went wrong, please try again." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+            }];
 #warning cant modify other PFUser objects, need to do it on the cloud
 #warning when the friend request is approved, save in cloud code.
             
