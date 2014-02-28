@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *msgCellProfileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *msgCellUsernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *msgCellCountDownLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @end

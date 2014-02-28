@@ -53,6 +53,9 @@
     
     //add refresh control
     [self addRefreshControll];
+    
+    //
+    self.dataSource = [NSMutableArray array];
 }
 
 -(void)handleTapGesture:(id)sender{
@@ -71,14 +74,10 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    if (self.dataSource==nil) {
-        [self fetchNewStatusWithCount:25 remainingTime:nil];
-    }
-    else{
-        //this is a fix for a bug, where you come back from compose, the views in the cell get messed up
-        [self.tableView reloadData];
-    }
+    [self fetchNewStatusWithCount:25 remainingTime:nil];
 
+    //this is a fix for a bug, where you come back from compose, the views in the cell get messed up
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -111,6 +110,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         if (objects.count != 0) {
+            
             [refreshControl endRefreshing];
             if (self.dataSource.count > 0) {
                 [self.dataSource removeAllObjects];
@@ -210,6 +210,7 @@
 //    }
     
 }
+
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     

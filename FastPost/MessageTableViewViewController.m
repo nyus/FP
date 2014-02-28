@@ -17,7 +17,7 @@
 @interface MessageTableViewViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *dataSource;
     NSMutableArray *hasTimerArray;
-    NSString *messageToPass;
+    Message *messageToPass;
 }
 
 @end
@@ -58,7 +58,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    messageToPass = nil;
 }
 
 -(void)refreshControlTriggerred:(id)sender{
@@ -187,6 +186,14 @@
     return dataSource.count;
 }
 
+//hides the liine separtors when data source has 0 objects
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] init];
+    
+    return view;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -201,6 +208,13 @@
     cell.msgCellUsernameLabel.text = msg.senderUsername;
     //count down label
     cell.msgCellCountDownLabel.text = [self minAndTimeFormatWithSecond:msg.countDown.intValue];
+    //status label, read, missed
+    if (msg.read.boolValue == NO && msg.countDown.intValue == 0) {
+        cell.statusLabel.hidden = NO;
+        cell.statusLabel.text = @"Missed";
+        cell.statusLabel.textColor = [UIColor redColor];
+    }
+    
     return cell;
 }
 
@@ -211,7 +225,7 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }else{
-        messageToPass = msg.message;
+        messageToPass = msg;
         [self performSegueWithIdentifier:@"toViewMessage" sender:self];
     }
 }
@@ -277,7 +291,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"toViewMessage"]) {
         ViewMessageViewController *vc = (ViewMessageViewController *)segue.destinationViewController;
-        vc.message = messageToPass;
+        vc.messageObject = messageToPass;
     }
 }
 @end

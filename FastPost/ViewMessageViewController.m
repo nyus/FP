@@ -7,7 +7,7 @@
 //
 
 #import "ViewMessageViewController.h"
-
+#import <Parse/Parse.h>
 @interface ViewMessageViewController ()
 
 @end
@@ -27,7 +27,20 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.messageTextView.text = self.message;
+    self.messageTextView.text = self.messageObject.message;
+    
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Message"];
+    [query whereKey:@"objectId" equalTo:self.messageObject.objectid];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error && object) {
+            object[@"read"] = [NSNumber numberWithBool:YES];
+            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!succeeded) {
+                    NSLog(@"set message %@ status to read",object);
+                }
+            }];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning

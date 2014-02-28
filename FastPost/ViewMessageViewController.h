@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Message.h"
 @interface ViewMessageViewController : UIViewController
-@property (nonatomic, strong) NSString *message;
+@property (nonatomic, strong) Message *messageObject;
 @property (weak, nonatomic) IBOutlet UITextView *messageTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *messageTextViewHeightContraint;
 @end
