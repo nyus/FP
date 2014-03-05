@@ -36,6 +36,7 @@
     //register for keyboard notification
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     dataSource = [NSMutableArray array];
     //skip current user's username
@@ -46,6 +47,9 @@
         [dataSource addObject:username];
     }
     
+    //sort dataSource alphabetically
+    [dataSource sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+   
     [self.tableView reloadData];
 }
 
@@ -66,6 +70,21 @@
 
     } completion:^(BOOL finished) {
         self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = keyboardRect.size.height;
+    }];
+}
+
+-(void)keyboardWillHide:(NSNotification *)sender{
+    
+    CGRect keyboardRect = [sender.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    [UIView animateWithDuration:[sender.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] delay:0 options:[sender.userInfo[UIKeyboardAnimationCurveUserInfoKey] intValue] animations:^{
+        self.enterMessageContainerView.frame = CGRectMake(self.enterMessageContainerView.frame.origin.x,
+                                                          self.enterMessageContainerView.frame.origin.y + keyboardRect.size.height,
+                                                          self.enterMessageContainerView.frame.size.width,
+                                                          self.enterMessageContainerView.frame.size.height);
+        
+    } completion:^(BOOL finished) {
+        self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = 0;
     }];
 }
 
@@ -119,7 +138,10 @@
 #pragma mark - UITextView
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
-
+    [UIView animateWithDuration:.3 animations:^{
+        expirationTimePickerVC.view.alpha = 0.0f;
+        expirationTimePickerVC.blurToolBar.alpha = 0.0f;
+    }];
 }
 
 - (IBAction)cancelButtonTapped:(id)sender {
@@ -179,6 +201,9 @@
 }
 
 - (IBAction)setTimeButtonTapped:(id)sender {
+    
+    [self.view endEditing:YES];
+    
     //show picker
     //filter button typed
     if (!expirationTimePickerVC) {
