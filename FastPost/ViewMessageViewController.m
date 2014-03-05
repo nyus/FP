@@ -8,6 +8,7 @@
 
 #import "ViewMessageViewController.h"
 #import <Parse/Parse.h>
+#import "SharedDataManager.h"
 @interface ViewMessageViewController ()
 
 @end
@@ -29,6 +30,11 @@
 	// Do any additional setup after loading the view.
     self.messageTextView.text = self.messageObject.message;
     
+    //update read property in core data
+    self.messageObject.read = [NSNumber numberWithBool:YES];
+    [[SharedDataManager sharedInstance] saveContext];
+    
+    //update read property on the server
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Message"];
     [query whereKey:@"objectId" equalTo:self.messageObject.objectid];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {

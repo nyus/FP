@@ -213,6 +213,8 @@
         cell.statusLabel.hidden = NO;
         cell.statusLabel.text = @"Missed";
         cell.statusLabel.textColor = [UIColor redColor];
+    }else{
+        cell.statusLabel.hidden = YES;
     }
     
     return cell;
@@ -247,8 +249,18 @@
     msg.countDown = [NSNumber numberWithInt:msg.countDown.intValue - 1];
 
     if (msg.countDown.intValue < 0) {
+        
         msg.countDown = [NSNumber numberWithInt:0];
         [timer invalidate];
+        
+        //set missed label
+        if (msg.read.boolValue == NO && msg.countDown.intValue == 0) {
+            MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView cellForRowAtIndexPath:path];
+            cell.statusLabel.hidden = NO;
+            cell.statusLabel.text = @"Missed";
+            cell.statusLabel.textColor = [UIColor redColor];
+        }
+
     }else{
         MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView cellForRowAtIndexPath:path];
         cell.msgCellCountDownLabel.text = [self minAndTimeFormatWithSecond:msg.countDown.intValue];
