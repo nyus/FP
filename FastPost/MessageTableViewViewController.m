@@ -130,8 +130,9 @@
             [[SharedDataManager sharedInstance] saveContext];
             //reload
             [self.tableView reloadData];
-            [self.refreshControl endRefreshing];
         }
+        
+        [self.refreshControl endRefreshing];
         
         
     }];
