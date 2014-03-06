@@ -269,6 +269,14 @@
             cell.statusLabel.hidden = NO;
             cell.statusLabel.text = @"Missed";
             cell.statusLabel.textColor = [UIColor redColor];
+        }else if(msg.read.boolValue == YES && msg.countDown.intValue == 0){
+            MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView cellForRowAtIndexPath:path];
+            cell.statusLabel.hidden = NO;
+            cell.statusLabel.text = @"Expired";
+            cell.statusLabel.textColor = [UIColor redColor];
+        }else{
+            MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView cellForRowAtIndexPath:path];
+            cell.statusLabel.hidden = YES;
         }
 
     }else{
