@@ -98,6 +98,9 @@
 
 -(void)fetchNewStatusWithCount:(int)count remainingTime:(NSNumber *)remainingTimeInSec{
     
+    //refresh to get the most recent @"friends"
+    [[PFUser currentUser] refresh];
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Status"];
     query.limit = count;
     [query orderByDescending:@"createdAt"];

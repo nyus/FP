@@ -40,6 +40,8 @@
     
     dataSource = [NSMutableArray array];
     //skip current user's username
+    //need to pull self.friends
+    [[PFUser currentUser] refresh];
     for (NSString *username in [[PFUser currentUser] objectForKey:@"friends"]) {
         if([username isEqualToString:[PFUser currentUser].username]){
             continue;

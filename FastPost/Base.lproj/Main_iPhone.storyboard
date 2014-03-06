@@ -466,7 +466,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="396"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="nrn-gN-Ggx" userLabel="avatar">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="nrn-gN-Ggx" userLabel="avatar">
                                                             <rect key="frame" x="12" y="18" width="60" height="60"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
@@ -768,7 +768,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="362"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="igx-ra-ajG" userLabel="avatar">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="igx-ra-ajG" userLabel="avatar">
                                                             <rect key="frame" x="12" y="18" width="60" height="60"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
@@ -923,7 +923,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="86"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="WDd-6I-o9Y">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="WDd-6I-o9Y">
                                             <rect key="frame" x="20" y="8" width="70" height="70"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
@@ -1261,7 +1261,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="p2T-LK-mhL">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="p2T-LK-mhL">
                                                             <rect key="frame" x="14" y="0.0" width="50" height="50"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>

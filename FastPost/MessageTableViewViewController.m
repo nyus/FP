@@ -87,6 +87,7 @@
     
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Message"];
     [query whereKey:@"receiverUsername" equalTo:[PFUser currentUser].username];
+    [query whereKey:@"read" equalTo:[NSNumber numberWithBool:NO]];
     [query orderByDescending:@"createdAt"];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -106,11 +107,11 @@
                 message.objectid = object.objectId;
                 message.expirationDate = object[@"expirationDate"];
                 message.expirationTimeInSec = object[@"expirationTimeInSec"];
-                NSInteger timeInterval = [[NSDate date] timeIntervalSinceDate:message.expirationDate];
-                int remainingSec = message.expirationTimeInSec.intValue - timeInterval;
-                if (remainingSec<0) {
-                    remainingSec = 0;
-                }
+                
+                //time interval from now to expiration date. if timeInterval is negative, that means the message has already expired
+                NSInteger timeInterval = [message.expirationDate timeIntervalSinceDate:[NSDate date]];
+                int remainingSec = timeInterval>0?timeInterval:0;
+
                 message.countDown = [NSNumber numberWithInt:remainingSec];
                 
                 //before we could have fetched some old messages first so we need the new ones to be the top
@@ -207,11 +208,20 @@
     //sender name
     cell.msgCellUsernameLabel.text = msg.senderUsername;
     //count down label
+    //time interval from now to expiration date. if timeInterval is negative, that means the message has already expired
+    NSInteger timeInterval = [msg.expirationDate timeIntervalSinceDate:[NSDate date]];
+    int remainingSec = timeInterval>0?timeInterval:0;
+    msg.countDown = [NSNumber numberWithInt:remainingSec];
     cell.msgCellCountDownLabel.text = [self minAndTimeFormatWithSecond:msg.countDown.intValue];
+    
     //status label, read, missed
     if (msg.read.boolValue == NO && msg.countDown.intValue == 0) {
         cell.statusLabel.hidden = NO;
         cell.statusLabel.text = @"Missed";
+        cell.statusLabel.textColor = [UIColor redColor];
+    }else if(msg.read.boolValue == YES && msg.countDown.intValue == 0){
+        cell.statusLabel.hidden = NO;
+        cell.statusLabel.text = @"Expired";
         cell.statusLabel.textColor = [UIColor redColor];
     }else{
         cell.statusLabel.hidden = YES;

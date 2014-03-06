@@ -144,6 +144,10 @@
             request[@"requestStatus"] = [NSNumber numberWithInt:4];
             [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
+                    self.textField.text = nil;
+                    [self removeSelfFromParent];
+                    [self.textField resignFirstResponder];
+                    
                     NSLog(@"request %@ sent",request);
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
                     [alert show];
