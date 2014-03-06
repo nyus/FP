@@ -131,47 +131,62 @@
     [queryExist getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         //this user doenst exist
         if (!object) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"This user doesn't exist" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"This user doesn't exist." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
             [alert show];
+            self.textField.text = nil;
         }else{
             
-            //create a new FriendRequest object and send it to parse
-            PFObject *request = [[PFObject alloc] initWithClassName:@"FriendRequest"];
-            request[@"senderUsername"] = [PFUser currentUser].username;
-            request[@"receiverUsername"] = ((PFUser *)object).username;
-            //FriendRequest.requestStatus
-            //1. accepted 2. denied 3. not now 4. new request
-            request[@"requestStatus"] = [NSNumber numberWithInt:4];
-            [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
+            //if such request already existed, dont do it again
+            PFQuery *query = [[PFQuery alloc] initWithClassName:@"FriendRequest"];
+            [query whereKey:@"senderUsername" equalTo:[PFUser currentUser].username];
+            [query whereKey:@"receiverUsername" equalTo:((PFUser *)object).username];
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                if (!error && object) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"You have already sent a request to this user." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                    [alert show];
                     self.textField.text = nil;
-                    [self removeSelfFromParent];
-                    [self.textField resignFirstResponder];
-                    
-                    NSLog(@"request %@ sent",request);
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                    [alert show];
                 }else{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Something went wrong, please try again." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                    [alert show];
-                }
-            }];
+                    
+                    //create a new FriendRequest object and send it to parse
+                    PFObject *request = [[PFObject alloc] initWithClassName:@"FriendRequest"];
+                    request[@"senderUsername"] = [PFUser currentUser].username;
+                    request[@"receiverUsername"] = ((PFUser *)object).username;
+                    //FriendRequest.requestStatus
+                    //1. accepted 2. denied 3. not now 4. new request
+                    request[@"requestStatus"] = [NSNumber numberWithInt:4];
+                    [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        if (succeeded) {
+                            self.textField.text = nil;
+                            [self removeSelfFromParent];
+                            [self.textField resignFirstResponder];
+                            
+                            NSLog(@"request %@ sent",request);
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                            [alert show];
+                        }else{
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Something went wrong, please try again." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                            [alert show];
+                        }
+                    }];
 #warning cant modify other PFUser objects, need to do it on the cloud
 #warning when the friend request is approved, save in cloud code.
-            
-            
-            
-            
-            //                [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
-            //                [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            //                    if (!succeeded) {
-            //                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Failed to follow %@, please try again",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-            //                        [alert show];
-            //                    }else{
-            //                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Success! You can now see posts from %@",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-            //                        [alert show];
-            //                    }
-            //                }];
+                    
+                    
+                    
+                    
+                    //                [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
+                    //                [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    //                    if (!succeeded) {
+                    //                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Failed to follow %@, please try again",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                    //                        [alert show];
+                    //                    }else{
+                    //                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Success! You can now see posts from %@",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                    //                        [alert show];
+                    //                    }
+                    //                }];
+                    
+                }
+            }];
         }
     }];
 
