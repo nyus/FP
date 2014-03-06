@@ -44,6 +44,8 @@
     self.blurToolBar = blurEffectToolBar;
     [self.view insertSubview:blurEffectToolBar belowSubview:self.containerView];
   
+    //KVO on view.alpha. everytime alpha goes to 1, need to pull to see if there is new friend
+    [self.view addObserver:self forKeyPath:@"alpha" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -55,6 +57,14 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - KVO
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"alpha"] && self.view.alpha == 1.0f) {
+        [self pullFriendRequest];
+    }
 }
 
 -(void)pullFriendRequest{
@@ -140,8 +150,8 @@
             PFQuery *query = [[PFQuery alloc] initWithClassName:@"FriendRequest"];
             [query whereKey:@"senderUsername" equalTo:[PFUser currentUser].username];
             [query whereKey:@"receiverUsername" equalTo:((PFUser *)object).username];
-            [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                if (!error && object) {
+            [query getFirstObjectInBackgroundWithBlock:^(PFObject *result, NSError *error) {
+                if (!error && result) {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"You have already sent a request to this user." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
                     [alert show];
                     self.textField.text = nil;

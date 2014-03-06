@@ -80,6 +80,8 @@
     BOOL revivable = [[self.dataSource[indexPath.row] pfObject][@"revivable"] boolValue];
     if (!revivable) {
         cell.statusCellReviveButton.hidden = YES;
+    }else{
+        cell.statusCellReviveButton.hidden = NO;
     }
     //
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -144,5 +146,9 @@
         }
         
     }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 @end
