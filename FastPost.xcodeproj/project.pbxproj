@@ -95,6 +95,7 @@
 		658AA5C9184F95420097383B /* StatusTableViewHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 658AA5C7184F95420097383B /* StatusTableViewHeaderViewController.xib */; };
 		658AA5CB184F963E0097383B /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 658AA5CA184F963E0097383B /* clock.png */; };
 		658AA5D3184FADFB0097383B /* ComposeNewStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 658AA5D2184FADFB0097383B /* ComposeNewStatusViewController.m */; };
+		65A8B09818CA7AE000C46DD6 /* NotificatonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A8B09718CA7AE000C46DD6 /* NotificatonViewController.m */; };
 		65C6087218707AA5006C1899 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C6087118707AA5006C1899 /* FacebookSDK.framework */; };
 		65C6087918721E46006C1899 /* time_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65C6087718721E46006C1899 /* time_add@2x.png */; };
 		65C6087A18721E46006C1899 /* time_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 65C6087818721E46006C1899 /* time_add.png */; };
@@ -233,6 +234,8 @@
 		658AA5CA184F963E0097383B /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock.png; sourceTree = "<group>"; };
 		658AA5D1184FADFB0097383B /* ComposeNewStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeNewStatusViewController.h; sourceTree = "<group>"; };
 		658AA5D2184FADFB0097383B /* ComposeNewStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeNewStatusViewController.m; sourceTree = "<group>"; };
+		65A8B09618CA7AE000C46DD6 /* NotificatonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificatonViewController.h; sourceTree = "<group>"; };
+		65A8B09718CA7AE000C46DD6 /* NotificatonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificatonViewController.m; sourceTree = "<group>"; };
 		65C6087118707AA5006C1899 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		65C6087718721E46006C1899 /* time_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "time_add@2x.png"; sourceTree = "<group>"; };
 		65C6087818721E46006C1899 /* time_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = time_add.png; sourceTree = "<group>"; };
@@ -389,6 +392,7 @@
 		50FCEA0A187B68A2000A91AF /* View controller */ = {
 			isa = PBXGroup;
 			children = (
+				65A8B09518CA7AD400C46DD6 /* Notification */,
 				65409F7518BE959400589F66 /* Login */,
 				65409F7218BE956200589F66 /* Status */,
 				65409F7318BE957100589F66 /* Profile */,
@@ -569,6 +573,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		65A8B09518CA7AD400C46DD6 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				65A8B09618CA7AE000C46DD6 /* NotificatonViewController.h */,
+				65A8B09718CA7AE000C46DD6 /* NotificatonViewController.m */,
+			);
+			name = Notification;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -713,6 +726,7 @@
 				658AA5C8184F95420097383B /* StatusTableViewHeaderViewController.m in Sources */,
 				65413D141843B6AA00543C1A /* StatusTableViewController.m in Sources */,
 				653ACE42185926FD007B9A47 /* ExpirationTimePickerViewController.m in Sources */,
+				65A8B09818CA7AE000C46DD6 /* NotificatonViewController.m in Sources */,
 				507F614C1883594F00B57DDA /* Helper.m in Sources */,
 				509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */,
 				5034EF0518A8061200DBDCCF /* ComposeNewMessageViewController.m in Sources */,
