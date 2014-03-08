@@ -27,8 +27,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    
 	// Do any additional setup after loading the view.
     self.messageTextView.text = self.messageObject.message;
+    
+    //bring up keyboard
+    [self.enterMsgTextView becomeFirstResponder];
+    
     
     if (self.messageObject.read.boolValue != YES) {
         //update read property in core data
@@ -49,6 +57,17 @@
             }
         }];
     }
+}
+
+-(void)keyboardWillShow:(NSNotification *)sender{
+    CGRect keyboardRect = [sender.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    self.enterMsgContainerViewBottomSpaceToBottomLayoutConstraint.constant = keyboardRect.size.height - self.bottomLayoutGuide.length;
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning

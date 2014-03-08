@@ -12,4 +12,7 @@
 @property (nonatomic, strong) Message *messageObject;
 @property (weak, nonatomic) IBOutlet UITextView *messageTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *messageTextViewHeightContraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *enterMsgContainerViewBottomSpaceToBottomLayoutConstraint;
+@property (weak, nonatomic) IBOutlet UITextView *enterMsgTextView;
+@property (weak, nonatomic) IBOutlet UIView *enterMessageContainerView;
 @end
