@@ -110,6 +110,7 @@
                                 <rect key="frame" x="133" y="518" width="55" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Sign Up">
+                                    <color key="titleColor" red="0.1019607931" green="0.81176477670000002" blue="0.95686280729999995" alpha="1" colorSpace="deviceRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -321,6 +322,7 @@
                                 <rect key="frame" x="73" y="268" width="175" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Sign Up">
+                                    <color key="titleColor" red="0.1019607931" green="0.81176477670000002" blue="0.95686280729999995" alpha="1" colorSpace="deviceRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -372,6 +374,7 @@
                                 <rect key="frame" x="112" y="524" width="96" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Back to Login">
+                                    <color key="titleColor" red="0.1019607931" green="0.81176477670000002" blue="0.95686280729999995" alpha="1" colorSpace="deviceRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -417,10 +420,10 @@
             </objects>
             <point key="canvasLocation" x="-1532" y="341"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Tab Bar View Controller-->
         <scene sceneID="gyD-KA-QIN">
             <objects>
-                <tabBarController definesPresentationContext="YES" id="23r-a4-4MC" sceneMemberID="viewController">
+                <tabBarController definesPresentationContext="YES" id="23r-a4-4MC" customClass="TabBarViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="8sj-NX-5re"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="36W-jT-1IP">
@@ -799,8 +802,6 @@
                                                             </state>
                                                             <connections>
                                                                 <action selector="reviveStatusButtonTapped:" destination="sBr-om-MD5" eventType="touchUpInside" id="DPL-ay-lOM"/>
-                                                                <action selector="reviveStatusButtonTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="YGU-iR-dKm"/>
-                                                                <action selector="reviveStatusButtonTapped:" destination="2D4-Xx-f6S" eventType="touchUpInside" id="kc7-Er-Mav"/>
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kp9-Fn-fPK">
@@ -828,7 +829,6 @@
                                             <outlet property="statusCellDateLabel" destination="Nm9-ZK-v2e" id="GXE-yf-0LM"/>
                                             <outlet property="statusCellMessageLabel" destination="WkU-o5-Xo7" id="cql-9z-K43"/>
                                             <outlet property="statusCellPhotoImageView" destination="gdu-im-vyY" id="t8o-XD-eVT"/>
-                                            <outlet property="statusCellReviveButton" destination="cwq-H9-QOP" id="FZc-A7-Vp8"/>
                                             <outlet property="statusCellUsernameLabel" destination="kp9-Fn-fPK" id="azW-7g-Grb"/>
                                         </connections>
                                     </tableViewCell>
@@ -838,13 +838,6 @@
                                     <outlet property="delegate" destination="sme-J3-ZVm" id="UhK-Eu-qgm"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="257-Uj-7pa">
-                                <rect key="frame" x="20" y="20" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="quJ-Pb-XBq">
                                 <rect key="frame" x="54" y="68" width="71" height="71"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -964,11 +957,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Messages" id="JHX-6F-fvm">
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="HjR-9c-oVo">
-                            <connections>
-                                <action selector="composeNewMessageButtonTapped:" destination="kFe-Vp-905" id="9TD-1b-qQM"/>
-                                <segue destination="RSC-os-yIQ" kind="modal" id="IRZ-Ml-T98"/>
-                            </connections>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="bj9-2B-vSD">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kfX-Pa-1vb">
+                                <rect key="frame" x="264" y="2" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" image="compose_icon.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="RSC-os-yIQ" kind="modal" id="vbs-6V-Mo2"/>
+                                </connections>
+                            </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -1038,6 +1038,7 @@
                                 <items>
                                     <navigationItem title="Compose" id="3Ga-HQ-Onv">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="BqC-u2-7AD">
+                                            <color key="tintColor" red="0.1019607931" green="0.81176477670000002" blue="0.95686280729999995" alpha="1" colorSpace="deviceRGB"/>
                                             <connections>
                                                 <action selector="cancelButtonTapped:" destination="RSC-os-yIQ" id="Yaf-tA-bVV"/>
                                             </connections>
@@ -1116,7 +1117,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJm-b4-cHa">
                                         <rect key="frame" x="6" y="6" width="31" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button" image="clock.png">
+                                        <state key="normal" title="Button" image="revine_icon.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1127,6 +1128,7 @@
                                         <rect key="frame" x="264" y="7" width="36" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Send">
+                                            <color key="titleColor" red="0.1019607931" green="0.81176477670000002" blue="0.95686280729999995" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1457,7 +1459,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EHf-Ml-R03">
                                         <rect key="frame" x="133" y="13" width="40" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button" image="clock.png">
+                                        <state key="normal" title="Button" image="revine_icon.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1504,11 +1506,13 @@
                                 <items>
                                     <navigationItem title="Title" id="0gm-bJ-uRa">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="Wak-N1-qyg">
+                                            <color key="tintColor" red="0.1019607931" green="0.81176477670000002" blue="0.95686280729999995" alpha="1" colorSpace="deviceRGB"/>
                                             <connections>
                                                 <action selector="cancelButtonTapped:" destination="i4o-0h-o3C" id="Uak-Eb-wB8"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Send" id="cmH-9Y-I9t">
+                                            <color key="tintColor" red="0.1019607931" green="0.81176477670000002" blue="0.95686280729999995" alpha="1" colorSpace="deviceRGB"/>
                                             <connections>
                                                 <action selector="sendButtonTapped:" destination="i4o-0h-o3C" id="qKN-Ws-hY9"/>
                                             </connections>
@@ -1564,7 +1568,7 @@
         <scene sceneID="oHf-tp-KV4">
             <objects>
                 <navigationController title="Home" definesPresentationContext="YES" navigationBarHidden="YES" id="5eY-2V-bCP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="feed_tab.png" id="xpw-hA-qPq"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="55EEF07E-2468-44BF-B2A5-A9AA7F659B41" id="xpw-hA-qPq"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="81F-D5-Wlr">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1579,12 +1583,149 @@
         </scene>
     </scenes>
     <resources>
+        <image name="55EEF07E-2468-44BF-B2A5-A9AA7F659B41" width="32" height="32">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
+GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
+DBIAwAAAgAKACtISCRMVWk5TLm9iamVjdHOhFIADgAnSEgkXGqIYGYAEgAWACBAA0h0JHh9fEBROU1RJ
+RkZSZXByZXNlbnRhdGlvboAGgAdPER0OTU0AKgAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgIACAP//AQAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AQAAAAAAAAAAAP//AQAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAABAP//AgD//wIA//8CAP//AQAAAAAAAAAAAAAAAQD//wEAAAAAJLbbDlWq/wMAAAAA
+AICAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wEAgIACAAAAACyx0zQts9XG
+LrPVgAAAAAAAAAAAAP//AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAJrPZFC621E0utdRTLrLUUy652CEAAAAAAP//AQAAAAAttdY+
+LbTV0zDA4/8ttNX+LLTVhDPMzAUAAAAAAP//AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAAgAAAAAttdY+LbbW5S211vstttb6LLTVbQAAAAAAAAAA
+LrfYTi211eMvvuH/LbXW6C211vwvvN7/LrXWlyS22w4AAAAAAP//AgAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgIACAAAAAC211j4ttdfoL7zg/y+84P8ttthb
+AAAAAC212GEttdjvMMLn/y632L4wtdowLbXZci222P8wwOP/LbbXqiu13xgAAAAAAID/AgAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAgAIAAAAALLTXOi232eYvvuH/
+LrfYkS650Qstt9lxLbfZ+TDC5v8tttmvK7XVGEC/vwQAAAAALLfYYy232fMwwub/LbfZuyy72ikAAAAA
+AID/AgAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAAgAAAAAut91D
+Lbja9C2424grqtUGLbjafS253P8vv+T/LbfaoCCfvwgst9guLbbayC242n0AAAAALrjaUy242ukww+n/
+LrjaySy63TQAAAAAAP//AQD//wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8B
+AAAAACu43EEtuNtrLbThES663ZAvweX/Lrzf/yy53IoAAAAALbfbOS25290vwuf/Lrve/y2624gAAAAA
+LrjePS2429wwxuv/Lbnc2yy53kUAAAAAAAAAAAD//wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAA//8CAAAAACy83hctutypL8Tp/y273fotud14AAAAAC693k0tut3oLsDk/y263Pstu97/
+Lr/j/y273Z0kttsHK7raMC263cswx+z/Lbvd6Cy53FcAAAAAAAAAAACAgAIAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAP8BAP//AgAAAAApuuMlLbzfvS/I7f8svN7yLb3fYQAAAAArutxgLLzf9C3B5f8tvN/8
+LLzf/yy73/0svN//LcHl/yu837AruNUSLLncHSy73rsvyO3/LLvf9Cy932gAAAAAAAAAAAD//wIAAAAA
+AAAAAAAAAAAAAAAAAP//AQD//wEAAAAALcDgOSy94NAvzPH/LL3g4yu93k0AAAAALb3feCy94PstweX/
+LL3g/Cy94P8sveD/LL3g/yy94P4sveD+LsTo/yu838IsveIjK7/qDCy84aguxuv/LL3g/i284X5Av/8E
+AAAAAAD//wIAAAAAAAAAAAD//wEAAAAAAAAAAC294EksvuLdL8zy/yy+49gtwOQ5AP//ASu+4o0sv+P/
+LcHl/yy94v0svuL/LL7i/yy+4v8svuL/LL7i/yy/4v4svuP9LsXq/yy+4tMvweUxAKqqAyy+4pUtxOn/
+LcDl/yy945Arv9UMAAAAAAD//wEAAAAAAAAAACC//wgsv+NjLMDk6S/P9f8swOPJKcHjJSC/3wgswOSh
+LcTp/yzB5f8swOT9LMDk/yy/4/8sv+P/LL/j/yy/4/8sv+P/LMDk/yy/4/8swOT9Lsbr/yzA5OMrwORB
+AAAAACy/44Asv+P/Lsft/yy/46Qrv+MkAAAAAAD//wEAAAAALr3mMizB5ugv0Pj/LMHktSnC4BkmzPIU
+LcLmty3H7f8sweX/LMHl/izB5v8sweb/LMHm/yzB5v8sweb/LMHm/yzB5v8sweb/LMHm/yzB5f8sweb8
+Lcft/yzB5e8rweZaAAAAACzC5W0swebzL8/3/y3B5oMAAAAAAP//AQAAAAAzzMwFLMPncyzD56Etw+ER
+J8TrDSvC6Lwuy/L/LMLn/izD5/4swuf/LMLn/yzC5/8swuf/LMLn/yzC5/8swuf/LMLn/yzC5/8swuf/
+LMLn/yzC5/8twuj8Lcft/yzC5/gtw+dVAAAAACvC6GUswuenLcbmKAAAAAAA//8BAAD/AQAAAAAAAAAA
+IL/fCAAAAAArwuk7K8Po6y3G7P8sxOn9LMTp/yzE6P8sxOj/LMTo/yzE6P8sxOj/LMTo/yzE6P8sxOj/
+LMTo/yzE6P8sxOj/LMTo/yzD6P8tw+n8Lsvx/y3E6I4AAAAAAAAAACTb/wcAAAAAAAAAAAAAAAAAAAAA
+AP//AQAAAAAAAAAAAAAAACzE6zQsxezgLcnv/yzF6/4sxev/LMXr/yzF6/8sxev/LMXr/yzF6/8sxev/
+LMXr/yzF6/8sxev/LMXr/yzF6/8sxev/LMXq/yzF6/4tyO//K8brggAAAAAAAAAAAAAAAAD//wEAAAAA
+AAAAAAAAAAAAAAAAAAAAAAD//wIAAAAALMTrNCzH7OItyvH/LMbs/izG7P8sxuz/LMbs/yzG7P8sxuz/
+LMbs/yzG7P8sxuz/LMbs/yzG7P8sxuz/LMbs/yzG7P8sxuz/LMft/i3L8f8tx+2DAAAAAAAAAAAA//8B
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID/AgAAAAAsyfA0LMju4i3M8/8syO7+LMju/yzI7v8syO7/
+LMju/yzI7v8syO7/LMju/yzI7v8syO7/LMju/yzI7v8syO7/LMju/yzH7v8syO/+Lczz/y3I74MAAAAA
+AAAAAAAA/wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP8CAAAAACzJ8DQsyfDiLc31/yzJ8P4syfD/
+LMnw/yzJ8P8syfD+LMnw/SzJ8P0syfD9LMnw/SzJ8P0syfD+LMnw/yzJ8P8syfD/LMnw/yzJ8P4tzfX/
+LcrxgwAAAAAAAAAAAP//AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA/wIAAAAALMnwNCzK8eIszvb/
+K8rx/izK8f8sy/H/LMrx/yzN9f8t0/v/LdP8/y3T+/8t0/v/LdP8/y3Q+P8sy/L/LMrx/yzK8f8ryvH/
+K8vy/izP9v8ryvGDAAAAAAAAAAAA//8BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID/AgAAAAAszvU0
+K8zz4izQ+P8rzPL+K8zz/yvM8/4sz/b/K8zz5CzN9KMszfSeK830oivL8qIrzPObK8zyxCvM8/4rzPP/
+K8zz/yvL8v8rzPP+LND4/yvM84MAAAAAAAAAAAD//wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP8C
+AAAAACzO9TQrzfTiLNH5/yvN9P4rzfT/K830/S3X//8szfWYQL//BEC/vwQr1f8GJNv/BwAAAAAsz/NA
+LM308CzQ9/8rzfT+K830/yvO9P4s0vn/K871gwAAAAAAAAAAAP//AQAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAACA/wIAAAAALM71NCvN9eIs0vr/K871/ivO9v8rzvX9Ldn//yrO9JEAAAAAAAAAAAAAAAAAAAAA
+AAAAACvQ9jYrzvXuLNH5/yvO9f4rzvX/K872/izS+/8rzvWDAAAAAAAAAAAA//8BAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAID/AgAAAAAszvU0K8734izT/P8rz/f+K8/3/yzP9/wt2f//K873lgAAAAAAAAAA
+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
+AAAAAAAAAAAsUmVmZXJlbmNlIFZpZXdpbmcgQ29uZGl0aW9uIGluIElFQzYxOTY2LTIuMQAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAdmlldwAAAAAAE6T+ABRfLgAQzxQAA+3MAAQTCwADXJ4AAAABWFlaIAAA
+AAAATAlWAFAAAABXH+dtZWFzAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAACjwAAAAJzaWcgAAAAAENS
+VCBjdXJ2AAAAAAAABAAAAAAFAAoADwAUABkAHgAjACgALQAyADcAOwBAAEUASgBPAFQAWQBeAGMAaABt
+AHIAdwB8AIEAhgCLAJAAlQCaAJ8ApACpAK4AsgC3ALwAwQDGAMsA0ADVANsA4ADlAOsA8AD2APsBAQEH
+AQ0BEwEZAR8BJQErATIBOAE+AUUBTAFSAVkBYAFnAW4BdQF8AYMBiwGSAZoBoQGpAbEBuQHBAckB0QHZ
+AeEB6QHyAfoCAwIMAhQCHQImAi8COAJBAksCVAJdAmcCcQJ6AoQCjgKYAqICrAK2AsECywLVAuAC6wL1
+AwADCwMWAyEDLQM4A0MDTwNaA2YDcgN+A4oDlgOiA64DugPHA9MD4APsA/kEBgQTBCAELQQ7BEgEVQRj
+BHEEfgSMBJoEqAS2BMQE0wThBPAE/gUNBRwFKwU6BUkFWAVnBXcFhgWWBaYFtQXFBdUF5QX2BgYGFgYn
+BjcGSAZZBmoGewaMBp0GrwbABtEG4wb1BwcHGQcrBz0HTwdhB3QHhgeZB6wHvwfSB+UH+AgLCB8IMghG
+CFoIbgiCCJYIqgi+CNII5wj7CRAJJQk6CU8JZAl5CY8JpAm6Cc8J5Qn7ChEKJwo9ClQKagqBCpgKrgrF
+CtwK8wsLCyILOQtRC2kLgAuYC7ALyAvhC/kMEgwqDEMMXAx1DI4MpwzADNkM8w0NDSYNQA1aDXQNjg2p
+DcMN3g34DhMOLg5JDmQOfw6bDrYO0g7uDwkPJQ9BD14Peg+WD7MPzw/sEAkQJhBDEGEQfhCbELkQ1xD1
+ERMRMRFPEW0RjBGqEckR6BIHEiYSRRJkEoQSoxLDEuMTAxMjE0MTYxODE6QTxRPlFAYUJxRJFGoUixSt
+FM4U8BUSFTQVVhV4FZsVvRXgFgMWJhZJFmwWjxayFtYW+hcdF0EXZReJF64X0hf3GBsYQBhlGIoYrxjV
+GPoZIBlFGWsZkRm3Gd0aBBoqGlEadxqeGsUa7BsUGzsbYxuKG7Ib2hwCHCocUhx7HKMczBz1HR4dRx1w
+HZkdwx3sHhYeQB5qHpQevh7pHxMfPh9pH5Qfvx/qIBUgQSBsIJggxCDwIRwhSCF1IaEhziH7IiciVSKC
+Iq8i3SMKIzgjZiOUI8Ij8CQfJE0kfCSrJNolCSU4JWgllyXHJfcmJyZXJocmtyboJxgnSSd6J6sn3CgN
+KD8ocSiiKNQpBik4KWspnSnQKgIqNSpoKpsqzysCKzYraSudK9EsBSw5LG4soizXLQwtQS12Last4S4W
+Lkwugi63Lu4vJC9aL5Evxy/+MDUwbDCkMNsxEjFKMYIxujHyMioyYzKbMtQzDTNGM38zuDPxNCs0ZTSe
+NNg1EzVNNYc1wjX9Njc2cjauNuk3JDdgN5w31zgUOFA4jDjIOQU5Qjl/Obw5+To2OnQ6sjrvOy07azuq
+O+g8JzxlPKQ84z0iPWE9oT3gPiA+YD6gPuA/IT9hP6I/4kAjQGRApkDnQSlBakGsQe5CMEJyQrVC90M6
+Q31DwEQDREdEikTORRJFVUWaRd5GIkZnRqtG8Ec1R3tHwEgFSEtIkUjXSR1JY0mpSfBKN0p9SsRLDEtT
+S5pL4kwqTHJMuk0CTUpNk03cTiVObk63TwBPSU+TT91QJ1BxULtRBlFQUZtR5lIxUnxSx1MTU19TqlP2
+VEJUj1TbVShVdVXCVg9WXFapVvdXRFeSV+BYL1h9WMtZGllpWbhaB1pWWqZa9VtFW5Vb5Vw1XIZc1l0n
+XXhdyV4aXmxevV8PX2Ffs2AFYFdgqmD8YU9homH1YklinGLwY0Njl2PrZEBklGTpZT1lkmXnZj1mkmbo
+Zz1nk2fpaD9olmjsaUNpmmnxakhqn2r3a09rp2v/bFdsr20IbWBtuW4SbmtuxG8eb3hv0XArcIZw4HE6
+cZVx8HJLcqZzAXNdc7h0FHRwdMx1KHWFdeF2Pnabdvh3VnezeBF4bnjMeSp5iXnnekZ6pXsEe2N7wnwh
+fIF84X1BfaF+AX5ifsJ/I3+Ef+WAR4CogQqBa4HNgjCCkoL0g1eDuoQdhICE44VHhauGDoZyhteHO4ef
+iASIaYjOiTOJmYn+imSKyoswi5aL/IxjjMqNMY2Yjf+OZo7OjzaPnpAGkG6Q1pE/kaiSEZJ6kuOTTZO2
+lCCUipT0lV+VyZY0lp+XCpd1l+CYTJi4mSSZkJn8mmia1ZtCm6+cHJyJnPedZJ3SnkCerp8dn4uf+qBp
+oNihR6G2oiailqMGo3aj5qRWpMelOKWpphqmi6b9p26n4KhSqMSpN6mpqhyqj6sCq3Wr6axcrNCtRK24
+ri2uoa8Wr4uwALB1sOqxYLHWskuywrM4s660JbSctRO1irYBtnm28Ldot+C4WbjRuUq5wro7urW7Lrun
+vCG8m70VvY++Cr6Evv+/er/1wHDA7MFnwePCX8Lbw1jD1MRRxM7FS8XIxkbGw8dBx7/IPci8yTrJuco4
+yrfLNsu2zDXMtc01zbXONs62zzfPuNA50LrRPNG+0j/SwdNE08bUSdTL1U7V0dZV1tjXXNfg2GTY6Nls
+2fHadtr724DcBdyK3RDdlt4c3qLfKd+v4DbgveFE4cziU+Lb42Pj6+Rz5PzlhOYN5pbnH+ep6DLovOlG
+6dDqW+rl63Dr++yG7RHtnO4o7rTvQO/M8Fjw5fFy8f/yjPMZ86f0NPTC9VD13vZt9vv3ivgZ+Kj5OPnH
++lf65/t3/Af8mP0p/br+S/7c/23//9IiIyQlWiRjbGFzc25hbWVYJGNsYXNzZXNfEBBOU0JpdG1hcElt
+YWdlUmVwoyYnKF8QEE5TQml0bWFwSW1hZ2VSZXBaTlNJbWFnZVJlcFhOU09iamVjdNIiIyorV05TQXJy
+YXmiKijSIiMtLl5OU011dGFibGVBcnJheaMtKijTMDEJMjM0V05TV2hpdGVcTlNDb2xvclNwYWNlRDAg
+MAAQA4AL0iIjNjdXTlNDb2xvcqI2KNIiIzk6V05TSW1hZ2WiOShfEA9OU0tleWVkQXJjaGl2ZXLRPT5U
+cm9vdIABAAgAEQAaACMALQAyADcARQBLAFQAWwBoAG8AdwB5AH4AgACCAIcAkgCUAJYAmACdAKAAogCk
+AKYAqACtAMQAxgDIHdod3x3qHfMeBh4KHh0eKB4xHjYePh5BHkYeVR5ZHmAeaB51HnoefB5+HoMeix6O
+HpMemx6eHrAesx64AAAAAAAAAgEAAAAAAAAAPwAAAAAAAAAAAAAAAAAAHro
+</mutableData>
+        </image>
         <image name="butterfly-green-blue.png" width="358" height="256"/>
         <image name="camera_icon_blue.png" width="60" height="45"/>
-        <image name="clock.png" width="256" height="256"/>
         <image name="comment.png" width="48" height="48"/>
+        <image name="compose_icon.png" width="40" height="40"/>
         <image name="default-user-icon-profile.png" width="200" height="200"/>
-        <image name="feed_tab.png" width="32" height="32"/>
         <image name="like.png" width="48" height="45"/>
         <image name="message_tab.png" width="32" height="32"/>
         <image name="placeholder_picture.png" width="512" height="320"/>

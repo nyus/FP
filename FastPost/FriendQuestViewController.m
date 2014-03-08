@@ -222,7 +222,9 @@
     NSDictionary *dict = @{@"senderUsername":object[@"senderUsername"],
                            @"receiverUsername":object[@"receiverUsername"]};
     [PFCloud callFunctionInBackground:@"addToFollowers" withParameters:dict block:^(id object, NSError *error) {
-        
+        if (error) {
+            NSLog(@"add to followers failed with error: %@",error);
+        }
     }];
     //here in cloud code, we should add [PFUser currentUser].username to sender's followers
 }

@@ -10,5 +10,4 @@
 
 @interface MessageTableViewViewController : UITableViewController
 
-- (IBAction)composeNewMessageButtonTapped:(id)sender;
 @end

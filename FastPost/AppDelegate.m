@@ -21,7 +21,7 @@
     [PFFacebookUtils initializeFacebook];
     //crittercism
     [Crittercism enableWithAppID: @"52c576648b2e334a25000001"];
-    
+
     return YES;
 }
 
