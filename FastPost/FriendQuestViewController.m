@@ -178,23 +178,6 @@
                             [alert show];
                         }
                     }];
-#warning cant modify other PFUser objects, need to do it on the cloud
-#warning when the friend request is approved, save in cloud code.
-                    
-                    
-                    
-                    
-                    //                [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
-                    //                [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    //                    if (!succeeded) {
-                    //                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Failed to follow %@, please try again",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                    //                        [alert show];
-                    //                    }else{
-                    //                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"Success! You can now see posts from %@",foundUser.username] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                    //                        [alert show];
-                    //                    }
-                    //                }];
-                    
                 }
             }];
         }
@@ -218,12 +201,13 @@
     [object setObject:[NSNumber numberWithInt:1] forKey:@"requestStatus"];
     [object saveInBackground];
 
-#warning cloud code here.
     NSDictionary *dict = @{@"senderUsername":object[@"senderUsername"],
                            @"receiverUsername":object[@"receiverUsername"]};
     [PFCloud callFunctionInBackground:@"addToFollowers" withParameters:dict block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"add to followers failed with error: %@",error);
+        }else{
+            [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:cell]] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }];
     //here in cloud code, we should add [PFUser currentUser].username to sender's followers

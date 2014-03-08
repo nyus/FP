@@ -14,6 +14,7 @@
     NSMutableArray *dataSource;
     ExpirationTimePickerViewController *expirationTimePickerVC;
     int expirationTimeInSec;
+    NSRange textRange;
 }
 
 @end
@@ -139,6 +140,25 @@
 
 #pragma mark - UITextView
 
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+//    textRange = range;
+    return YES;
+}
+
+-(void)textViewDidChange:(UITextView *)textView{
+//    [textView scrollRangeToVisible:textRange];
+    [self performSelector:@selector(scrollTextViewToVisible) withObject:nil afterDelay:0.1];
+    
+}
+
+-(void)scrollTextViewToVisible{
+    [self.textView scrollRectToVisible:CGRectMake(0,
+                                                  self.textView.contentSize.height - 38,
+                                                  self.textView.frame.size.width,
+                                                  self.textView.frame.size.height)
+                              animated:YES];
+}
+
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     [UIView animateWithDuration:.3 animations:^{
         expirationTimePickerVC.view.alpha = 0.0f;
@@ -237,6 +257,6 @@
 #pragma mark - ExpirationTimePickerViewControllerDelegate
 -(void)revivePickerViewExpirationTimeSetToMins:(NSInteger)min andSecs:(NSInteger)sec andPickerView:(UIPickerView *)pickerView{
     //add time to status remotely
-    expirationTimeInSec = min * 60 + sec;
+    expirationTimeInSec = (int)min * 60 + (int)sec;
 }
 @end

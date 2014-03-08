@@ -20,5 +20,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *enterMessageContainerViewBottomSpaceToBottomLayoutContraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *recipientContainerViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIView *recipientContainerView;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
 - (IBAction)setTimeButtonTapped:(id)sender;
 @end

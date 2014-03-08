@@ -18,7 +18,7 @@
     [Parse setApplicationId:@"7kAP1QqQlth9UZNELdSui4WBS4Yzpo3EFLAvl18t"
                   clientKey:@"mAlCa1iyHCgP8aPsfFbKSw82ncA0h2F3actQSsg8"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    [PFFacebookUtils initializeFacebook];
+//    [PFFacebookUtils initializeFacebook];
     //crittercism
     [Crittercism enableWithAppID: @"52c576648b2e334a25000001"];
 
