@@ -98,54 +98,64 @@
 
 -(void)fetchNewStatusWithCount:(int)count remainingTime:(NSNumber *)remainingTimeInSec{
     
-    //refresh to get the most recent @"friends"
-    [[PFUser currentUser] refresh];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Status"];
-    query.limit = count;
-    [query orderByDescending:@"createdAt"];
-    [query whereKey:@"expirationDate" greaterThan:[NSDate date]];
-    
-    if (remainingTimeInSec) {
-        [query whereKey:@"expirationDate" lessThan:[[NSDate date] dateByAddingTimeInterval:remainingTimeInSec.intValue]];
-    }
-    [query whereKey:@"posterUsername" containedIn:[[PFUser currentUser] objectForKey:@"friends"]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    dispatch_queue_t queue = dispatch_queue_create("refresh user", NULL);
+    dispatch_async(queue, ^{
+        //refresh to get the most recent @"friends"
+        [[PFUser currentUser] refresh];
         
-        if (objects.count != 0) {
-            
-            [refreshControl endRefreshing];
-            if (self.dataSource.count > 0) {
-                [self.dataSource removeAllObjects];
-                
-                for (int i = 0 ; i<objects.count; i++) {
-                    Status *newStatus = [[Status alloc] initWithPFObject:objects[i]];
-                    newStatus.delegate = self;
-                    if (!self.dataSource) {
-                        self.dataSource = [NSMutableArray array];
-                    }
-                    [self.dataSource addObject:newStatus];
-                }
-                
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-            }else{
-                for (PFObject *status in objects) {
-                    Status *newStatus = [[Status alloc] initWithPFObject:status];
-                    newStatus.delegate = self;
-                    if (!self.dataSource) {
-                        self.dataSource = [NSMutableArray array];
-                    }
-                    [self.dataSource addObject:newStatus];
-                }
-                [self.tableView reloadData];
-            }
-        }else{
-            //
-            NSLog(@"0 items fetched from parse");
-            [refreshControl endRefreshing];
+        PFQuery *query = [PFQuery queryWithClassName:@"Status"];
+        query.limit = count;
+        [query orderByDescending:@"createdAt"];
+        [query whereKey:@"expirationDate" greaterThan:[NSDate date]];
+        
+        if (remainingTimeInSec) {
+            [query whereKey:@"expirationDate" lessThan:[[NSDate date] dateByAddingTimeInterval:remainingTimeInSec.intValue]];
         }
-        
-    }];
+        [query whereKey:@"posterUsername" containedIn:[[PFUser currentUser] objectForKey:@"friends"]];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            
+            if (objects.count != 0) {
+                
+                [refreshControl endRefreshing];
+                if (self.dataSource.count > 0) {
+                    [self.dataSource removeAllObjects];
+                    
+                    for (int i = 0 ; i<objects.count; i++) {
+                        Status *newStatus = [[Status alloc] initWithPFObject:objects[i]];
+                        newStatus.delegate = self;
+                        if (!self.dataSource) {
+                            self.dataSource = [NSMutableArray array];
+                        }
+                        [self.dataSource addObject:newStatus];
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                    });
+                    
+                }else{
+                    for (PFObject *status in objects) {
+                        Status *newStatus = [[Status alloc] initWithPFObject:status];
+                        newStatus.delegate = self;
+                        if (!self.dataSource) {
+                            self.dataSource = [NSMutableArray array];
+                        }
+                        [self.dataSource addObject:newStatus];
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableView reloadData];
+                    });
+                }
+            }else{
+                //
+                NSLog(@"0 items fetched from parse");
+                [refreshControl endRefreshing];
+            }
+            
+        }];
+
+    });
 }
 
 #pragma mark - Status Object Delegate
