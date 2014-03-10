@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *enterMsgContainerViewBottomSpaceToBottomLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UITextView *enterMsgTextView;
 @property (weak, nonatomic) IBOutlet UIView *enterMessageContainerView;
+- (IBAction)replayButtonTapped:(id)sender;
+- (IBAction)setTimeButtonTapped:(id)sender;
 @end

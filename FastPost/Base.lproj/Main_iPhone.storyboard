@@ -1120,7 +1120,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="setTimeButtonTapped:" destination="RSC-os-yIQ" eventType="touchUpInside" id="Awb-cI-QbL"/>
+                                            <action selector="setTimeButtonTapped:" destination="fVr-DH-FDM" eventType="touchUpInside" id="fYH-Wr-er1"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KI3-l3-A3o">
@@ -1131,7 +1131,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="sendButtonTapped:" destination="RSC-os-yIQ" eventType="touchUpInside" id="CxQ-Aa-YTf"/>
+                                            <action selector="replayButtonTapped:" destination="fVr-DH-FDM" eventType="touchUpInside" id="aPw-in-4kN"/>
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hQX-NV-1Il">
@@ -1141,7 +1141,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         <connections>
-                                            <outlet property="delegate" destination="RSC-os-yIQ" id="WB7-5Q-IRx"/>
+                                            <outlet property="delegate" destination="fVr-DH-FDM" id="5pA-EX-uLD"/>
                                         </connections>
                                     </textView>
                                 </subviews>
@@ -1178,6 +1178,7 @@
                         <outlet property="enterMessageContainerView" destination="zeO-EE-OvB" id="ee1-C5-r13"/>
                         <outlet property="enterMsgContainerViewBottomSpaceToBottomLayoutConstraint" destination="lcB-iG-90X" id="Vdt-CI-6PJ"/>
                         <outlet property="enterMsgTextView" destination="hQX-NV-1Il" id="VpP-n6-lBo"/>
+                        <outlet property="messageTextView" destination="I1e-Eo-tHo" id="lpL-PN-sOm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9dQ-r5-7mp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1733,7 +1734,7 @@
         <scene sceneID="oHf-tp-KV4">
             <objects>
                 <navigationController title="Home" definesPresentationContext="YES" navigationBarHidden="YES" id="5eY-2V-bCP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="485E591C-19A6-496D-BA85-8E58C0F96DCA" id="xpw-hA-qPq"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="53558A89-674D-4C65-9B87-E44F803779D0" id="xpw-hA-qPq"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="81F-D5-Wlr">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1748,7 +1749,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="485E591C-19A6-496D-BA85-8E58C0F96DCA" width="32" height="32">
+        <image name="53558A89-674D-4C65-9B87-E44F803779D0" width="32" height="32">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

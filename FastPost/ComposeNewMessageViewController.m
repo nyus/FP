@@ -42,18 +42,24 @@
     dataSource = [NSMutableArray array];
     //skip current user's username
     //need to pull self.friends
-    [[PFUser currentUser] refresh];
-    for (NSString *username in [[PFUser currentUser] objectForKey:@"friends"]) {
-        if([username isEqualToString:[PFUser currentUser].username]){
-            continue;
-        }
-        [dataSource addObject:username];
-    }
     
-    //sort dataSource alphabetically
-    [dataSource sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-   
-    [self.tableView reloadData];
+    dispatch_queue_t queue = dispatch_queue_create("refreshUser", NULL);
+    dispatch_async(queue, ^{
+        [[PFUser currentUser] refresh];
+        for (NSString *username in [[PFUser currentUser] objectForKey:@"friends"]) {
+            if([username isEqualToString:[PFUser currentUser].username]){
+                continue;
+            }
+            [dataSource addObject:username];
+        }
+        
+        //sort dataSource alphabetically
+        [dataSource sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,7 +73,7 @@
 
     [UIView animateWithDuration:[sender.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] delay:0 options:[sender.userInfo[UIKeyboardAnimationCurveUserInfoKey] intValue] animations:^{
         self.enterMessageContainerView.frame = CGRectMake(self.enterMessageContainerView.frame.origin.x,
-                                                          self.enterMessageContainerView.frame.origin.y - keyboardRect.size.height,
+                                                          keyboardRect.size.height,
                                                           self.enterMessageContainerView.frame.size.width,
                                                           self.enterMessageContainerView.frame.size.height);
 
@@ -139,11 +145,6 @@
 }
 
 #pragma mark - UITextView
-
--(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-//    textRange = range;
-    return YES;
-}
 
 -(void)textViewDidChange:(UITextView *)textView{
 //    [textView scrollRangeToVisible:textRange];
