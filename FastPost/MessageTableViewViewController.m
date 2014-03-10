@@ -90,6 +90,7 @@
     [query whereKey:@"read" equalTo:[NSNumber numberWithBool:NO]];
     [query orderByDescending:@"createdAt"];
 
+    NSLog(@"number of old messages is %d",dataSource.count);
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects && objects.count!=0) {
             
@@ -128,6 +129,7 @@
             
             //save before we pull old messages from database
             [[SharedDataManager sharedInstance] saveContext];
+            
             //reload
             [self.tableView reloadData];
         }
@@ -184,7 +186,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-
+    NSLog(@"number of messages is %d",dataSource.count);
     return dataSource.count;
 }
 

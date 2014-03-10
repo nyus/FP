@@ -93,6 +93,12 @@
 }
 
 - (IBAction)replayButtonTapped:(id)sender {
+    
+    //do nothing is there is no recipient or no message
+    if ([self.enterMsgTextView.text isEqualToString:@""]) {
+        return;
+    }
+    
     PFObject *message = [PFObject objectWithClassName:@"Message"];
     message[@"senderUsername"] = [PFUser currentUser].username;
     //we are replying this sender
@@ -111,6 +117,8 @@
     expirationTimeInSec = 0;
     
     [message saveInBackground];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)setTimeButtonTapped:(id)sender {
