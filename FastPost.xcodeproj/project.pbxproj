@@ -29,8 +29,8 @@
 		5054C91518BA68F50044CB5F /* compose_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C91418BA68F50044CB5F /* compose_icon.png */; };
 		5054C91B18BA6B9F0044CB5F /* message_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C91A18BA6B9F0044CB5F /* message_tab.png */; };
 		5054C91D18BA6BBA0044CB5F /* message_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C91C18BA6BBA0044CB5F /* message_tab@2x.png */; };
-		5054C92418BA6C1B0044CB5F /* search_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C91E18BA6C1B0044CB5F /* search_tab@2x.png */; };
-		5054C92518BA6C1B0044CB5F /* search_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C91F18BA6C1B0044CB5F /* search_tab.png */; };
+		5054C92418BA6C1B0044CB5F /* notification_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C91E18BA6C1B0044CB5F /* notification_tab@2x.png */; };
+		5054C92518BA6C1B0044CB5F /* notification_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C91F18BA6C1B0044CB5F /* notification_tab.png */; };
 		5054C92618BA6C1B0044CB5F /* profile_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C92018BA6C1B0044CB5F /* profile_tab@2x.png */; };
 		5054C92718BA6C1B0044CB5F /* profile_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C92118BA6C1B0044CB5F /* profile_tab.png */; };
 		5054C92818BA6C1B0044CB5F /* feed_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C92218BA6C1B0044CB5F /* feed_tab@2x.png */; };
@@ -145,8 +145,8 @@
 		5054C91418BA68F50044CB5F /* compose_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compose_icon.png; sourceTree = "<group>"; };
 		5054C91A18BA6B9F0044CB5F /* message_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message_tab.png; sourceTree = "<group>"; };
 		5054C91C18BA6BBA0044CB5F /* message_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message_tab@2x.png"; sourceTree = "<group>"; };
-		5054C91E18BA6C1B0044CB5F /* search_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_tab@2x.png"; sourceTree = "<group>"; };
-		5054C91F18BA6C1B0044CB5F /* search_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_tab.png; sourceTree = "<group>"; };
+		5054C91E18BA6C1B0044CB5F /* notification_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification_tab@2x.png"; sourceTree = "<group>"; };
+		5054C91F18BA6C1B0044CB5F /* notification_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification_tab.png; sourceTree = "<group>"; };
 		5054C92018BA6C1B0044CB5F /* profile_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_tab@2x.png"; sourceTree = "<group>"; };
 		5054C92118BA6C1B0044CB5F /* profile_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_tab.png; sourceTree = "<group>"; };
 		5054C92218BA6C1B0044CB5F /* feed_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feed_tab@2x.png"; sourceTree = "<group>"; };
@@ -320,8 +320,8 @@
 		5054C8F418BA68230044CB5F /* tabbar */ = {
 			isa = PBXGroup;
 			children = (
-				5054C91E18BA6C1B0044CB5F /* search_tab@2x.png */,
-				5054C91F18BA6C1B0044CB5F /* search_tab.png */,
+				5054C91E18BA6C1B0044CB5F /* notification_tab@2x.png */,
+				5054C91F18BA6C1B0044CB5F /* notification_tab.png */,
 				5054C92018BA6C1B0044CB5F /* profile_tab@2x.png */,
 				5054C92118BA6C1B0044CB5F /* profile_tab.png */,
 				5054C92218BA6C1B0044CB5F /* feed_tab@2x.png */,
@@ -708,8 +708,8 @@
 				658AA5CB184F963E0097383B /* clock.png in Resources */,
 				65413CEE1843990200543C1A /* Main_iPhone.storyboard in Resources */,
 				65413CE51843990200543C1A /* InfoPlist.strings in Resources */,
-				5054C92418BA6C1B0044CB5F /* search_tab@2x.png in Resources */,
-				5054C92518BA6C1B0044CB5F /* search_tab.png in Resources */,
+				5054C92418BA6C1B0044CB5F /* notification_tab@2x.png in Resources */,
+				5054C92518BA6C1B0044CB5F /* notification_tab.png in Resources */,
 				5054C90918BA68CD0044CB5F /* add_friend@2x.png in Resources */,
 				5054C91218BA68E10044CB5F /* search_icon.png in Resources */,
 				658AA5B8184E70480097383B /* default-user-icon-profile.png in Resources */,

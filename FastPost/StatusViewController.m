@@ -341,7 +341,8 @@
         [self.view addSubview:friendQusetVC.view];
     }
     
-
+    
+    [friendQusetVC.textField becomeFirstResponder];
 //    friendQusetVC.blurToolBar.alpha = 1.0f;
 //    [UIView animateWithDuration:.2 animations:^{
     
