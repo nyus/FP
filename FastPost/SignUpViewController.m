@@ -72,6 +72,9 @@
                 //
                 [PFUser logInWithUsername:self.usernameTextField.text password:self.passwordTextField.text];
                 [[PFUser currentUser] addObject:[PFUser currentUser].username forKey:@"friends"];
+                [[PFUser currentUser] setObject:[NSNull null] forKey:@"avatar"];
+                [[PFUser currentUser] setObject:[NSNull null] forKey:@"avatarUpdateDate"];
+                [[PFUser currentUser] setObject:[NSNull null] forKey:@"followers"];
                 [[PFUser currentUser] saveInBackground];
                 
                 //set user on PFInstallation object so that we can send out targeted pushes
