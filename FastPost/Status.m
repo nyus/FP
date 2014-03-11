@@ -18,8 +18,17 @@
 -(id)initWithPFObject:(PFObject *)pfObject{
     self = [super init];
     if (self) {
-        self.pfObject = pfObject;
-//        self.message = [pfObject objectForKey:@"message"];
+//        self.pfObject = pfObject;
+        self.message = [pfObject objectForKey:@"message"];
+        self.createdAt = pfObject.createdAt;
+        self.updatedAt = pfObject.updatedAt;
+        self.picture = pfObject[@"picture"];
+        self.posterUsername = pfObject[@"posterUsername"];
+        self.expirationDate = pfObject[@"expirationDate"];
+        self.revivable = pfObject[@"revivable"];
+        self.expirationTimeInSec = pfObject[@"expirationTimeInSec"];
+        self.likeCount = pfObject[@"likeCount"];
+        self.reviveCount = pfObject[@"reviveCount"];
         
         //StatusTableCell.countDownLabel.text needs to be based on self.countDownMessage and converted to xx:xx
         self.countDownMessage = [NSString stringWithFormat:@"%d",(int)[pfObject[@"expirationDate"] timeIntervalSinceDate:[NSDate date]]];
@@ -42,13 +51,13 @@
         
     }else{
         self.countDownMessage = [NSString stringWithFormat:@"%d",self.countDownMessage.intValue - 1];
-        [self.delegate statusObjectTimerCount:self.countDownMessage.integerValue-1 withStatusObject:self];
+        [self.delegate statusObjectTimerCount:self.countDownMessage.intValue-1 withStatusObject:self];
     }
 }
 
--(NSString *)description{
-    return [NSString stringWithFormat:@"message %@\ncreatedAt %@\nupdatedAt %@\navatar %@\nuserId %@\npicture %@\nexpirationTimeInSec %@",
-            self.pfObject[@"message"],self.pfObject[@"createdAt"],self.pfObject[@"updatedAt"],self.pfObject[@"avatar"],self.pfObject[@"userId"],self.pfObject[@"picture"],self.pfObject[@"expirationTimeInSec"]];
-}
+//-(NSString *)description{
+//    return [NSString stringWithFormat:@"message %@\ncreatedAt %@\nupdatedAt %@\navatar %@\nuserId %@\npicture %@\nexpirationTimeInSec %@",
+//            self.pfObject[@"message"],self.pfObject[@"createdAt"],self.pfObject[@"updatedAt"],self.pfObject[@"avatar"],self.pfObject[@"userId"],self.pfObject[@"picture"],self.pfObject[@"expirationTimeInSec"]];
+//}
 
 @end

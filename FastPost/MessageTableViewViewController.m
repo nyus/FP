@@ -90,11 +90,11 @@
     [query whereKey:@"read" equalTo:[NSNumber numberWithBool:NO]];
     [query orderByDescending:@"createdAt"];
 
-    NSLog(@"number of old messages is %d",dataSource.count);
+    NSLog(@"number of old messages is %d",(int)dataSource.count);
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects && objects.count!=0) {
             
-            int delta =  objects.count - dataSource.count;
+            int delta =  (int)objects.count - (int)dataSource.count;
             //these are the new messages
             for(int i = 1; i<=delta;i++){
                 PFObject *object = objects[i-1];

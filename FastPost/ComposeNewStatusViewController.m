@@ -252,6 +252,10 @@
 
 - (IBAction)sendButtonTapped:(id)sender {
 
+    if ([[self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+        return;
+    }
+    
     //send to parse
     [self dismissViewControllerAnimated:YES completion:^{
         

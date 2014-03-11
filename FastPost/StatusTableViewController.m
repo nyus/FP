@@ -129,7 +129,7 @@
 -(void)statusObjectTimeUpWithObject:(Status *)object{
     NSInteger index = [dataSource indexOfObject:object];
     StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
+    if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
 //        [cell blurCell];
         [dataSource removeObject:object];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
@@ -144,7 +144,7 @@
 -(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
     NSInteger index = [dataSource indexOfObject:object];
     StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
+    if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
         //convert seconds into min and second
         cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:object.countDownMessage.intValue];
     }
@@ -188,8 +188,8 @@
         cell.delegate = self;
         // Configure the cell...
         cell.statusCellMessageLabel.text = [[dataSource objectAtIndex:indexPath.row] message];
-        cell.statusCellUsernameLabel.text = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"posterUsername"];
-        PFFile *picture = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
+        cell.statusCellUsernameLabel.text = [dataSource[indexPath.row] posterUsername];
+        PFFile *picture = [dataSource[indexPath.row] picture];
         cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[dataSource[indexPath.row] countDownMessage] intValue]];
         if (picture != (PFFile *)[NSNull null] && picture != nil) {
             [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -243,7 +243,7 @@
         
         //determine if there is a picture
         
-        PFFile *picture = [[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
+        PFFile *picture = (PFFile *)[dataSource[indexPath.row] picture];//[[[dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
         if (picture == (PFFile *)[NSNull null] || picture == nil) {
             //68 y origin of label
             return 68 + heightOfLabel + 10;
@@ -412,11 +412,11 @@
 
 #pragma mark - ExpirationTimePickerViewControllerDelegate
 
--(void)revivePickerViewExpirationTimeSetToMins:(int)min andSecs:(int)sec andPickerView:(UIPickerView *)pickerView{
+-(void)revivePickerViewExpirationTimeSetToMins:(NSInteger)min andSecs:(NSInteger)sec andPickerView:(UIPickerView *)pickerView{
     Status *status = dataSource[[[self.tableView indexPathForCell:cellToRevive] row]];
     
     //add time to status remotely
-    int timeInterval = min * 60 + sec + status.countDownMessage.intValue;
+    int timeInterval = (int)min * 60 + (int)sec + status.countDownMessage.intValue;
     
     status.pfObject[@"expirationTimeInSec"] = [NSNumber numberWithInt:timeInterval];
     status.pfObject[@"expirationDate"] = [NSDate dateWithTimeInterval:timeInterval sinceDate:[NSDate date]];

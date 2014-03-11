@@ -102,7 +102,7 @@
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     if (_type == PickerTypeRevive) {
         if (component == 0 || component == 2) {
-            return [NSString stringWithFormat:@"%d",row];
+            return [NSString stringWithFormat:@"%d",(int)row];
         }else if(component == 1){
             return @"mins";
         }else{

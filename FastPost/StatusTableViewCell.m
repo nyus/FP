@@ -27,25 +27,32 @@
 }
 
 -(void)layoutSubviews{
+    
+//    NSLog(@"layout subviews for : %@",self);
     [self resizeCellToFitStatusContent];
 }
 
 -(void)resizeCellToFitStatusContent{
+NSLog(@"section %d row %d",self.indexPath.section, self.indexPath.row);
+    NSString *key =[NSString stringWithFormat:@"%d%d",(int)self.indexPath.section,(int)self.indexPath.row];
 
-    
-    CGSize size = [self.statusCellMessageLabel.text sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]}];
-    
-    float labelHeight = ceilf(size.width / self.statusCellMessageLabel.frame.size.width) * ceilf(size.height);
-    
     self.statusCellMessageLabel.frame = CGRectMake(self.statusCellMessageLabel.frame.origin.x,
                                                    self.statusCellMessageLabel.frame.origin.y,
                                                    self.statusCellMessageLabel.frame.size.width,
-                                                   labelHeight);
+                                                   [[self.labelHeightMap objectForKey:key] floatValue]);
+
+    if ([[self.isTherePhotoMap objectForKey:key] boolValue]) {
+        self.statusCellPhotoImageView.frame = CGRectMake(self.statusCellPhotoImageView.frame.origin.x,
+                                                         CGRectGetMaxY(self.statusCellMessageLabel.frame) + 10,
+                                                         self.statusCellPhotoImageView.frame.size.width,
+                                                         self.statusCellPhotoImageView.frame.size.height);
+        //layout like, comment
+        //
+    }else{
+        //layout like, comment
+        //
+    }
     
-    self.statusCellPhotoImageView.frame = CGRectMake(self.statusCellPhotoImageView.frame.origin.x,
-                                             CGRectGetMaxY(self.statusCellMessageLabel.frame) + 10,
-                                             self.statusCellPhotoImageView.frame.size.width,
-                                             self.statusCellPhotoImageView.frame.size.height);
 }
 
 - (IBAction)reviveStatusButtonTapped:(id)sender {

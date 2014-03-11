@@ -163,7 +163,7 @@
 -(void)statusObjectTimeUpWithObject:(Status *)object{
     NSInteger index = [self.dataSource indexOfObject:object];
     StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
+    if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
         //        [cell blurCell];
         [self.dataSource removeObject:object];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
@@ -179,7 +179,7 @@
 -(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
     NSInteger index = [self.dataSource indexOfObject:object];
     StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    if ([cell.statusCellMessageLabel.text isEqualToString:[object.pfObject objectForKey:@"message"]]) {
+    if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
         //convert seconds into min and second
         cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:object.countDownMessage.intValue];
     }
@@ -233,7 +233,7 @@
         
         //update the count down text
         StatusTableViewCell *scell = (StatusTableViewCell *)cell;
-        if ([scell.statusCellMessageLabel.text isEqualToString:[self.dataSource[indexPath.row] pfObject][@"message"]]) {
+        if ([scell.statusCellMessageLabel.text isEqualToString:[self.dataSource[indexPath.row] message]]) {
             scell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[self.dataSource[indexPath.row] countDownMessage] intValue]];
             if (![scell.statusCellCountDownLabel.text isEqualToString:@"0:00"]) {
             }else{
@@ -343,15 +343,14 @@
     
     
     [friendQusetVC.textField becomeFirstResponder];
-//    friendQusetVC.blurToolBar.alpha = 1.0f;
-//    [UIView animateWithDuration:.2 animations:^{
-    
+
+    [UIView animateWithDuration:.3 animations:^{
+        friendQusetVC.blurToolBar.alpha = 1.0f;
         friendQusetVC.view.alpha = 1.0f;
-    
         
-//    } completion:^(BOOL finished) {
+    } completion:^(BOOL finished) {
         friendQusetVC.isOnScreen = YES;
-//    }];
+    }];
     
     //Facebook add friend code
 //    friendPickerVC = [[FBFriendPickerViewController alloc] initWithNibName:nil bundle:nil];
@@ -399,11 +398,11 @@
 
 #pragma mark - ExpirationTimePickerViewControllerDelegate
 
--(void)revivePickerViewExpirationTimeSetToMins:(int)min andSecs:(int)sec andPickerView:(UIPickerView *)pickerView{
+-(void)revivePickerViewExpirationTimeSetToMins:(NSInteger)min andSecs:(NSInteger)sec andPickerView:(UIPickerView *)pickerView{
     Status *status = self.dataSource[[[self.tableView indexPathForCell:cellToRevive] row]];
     
     //add time to status remotely
-    int timeInterval = min * 60 + sec + status.countDownMessage.intValue;
+    int timeInterval = (int)min * 60 + (int)sec + status.countDownMessage.intValue;
     
     status.pfObject[@"expirationTimeInSec"] = [NSNumber numberWithInt:timeInterval];
     status.pfObject[@"expirationDate"] = [NSDate dateWithTimeInterval:timeInterval sinceDate:[NSDate date]];

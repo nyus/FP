@@ -25,7 +25,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusCellDateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *statusCellAvatarImageView;
 @property (weak, nonatomic) IBOutlet UIButton *statusCellReviveButton;
-
+//cache calculated label height
+@property (weak, nonatomic) NSMapTable *labelHeightMap;
+//cache is there photo
+@property (weak, nonatomic) NSMapTable *isTherePhotoMap;
+//cache cell height
+@property (weak, nonatomic) NSMapTable *cellHeightMap;
+@property (strong, nonatomic) NSIndexPath *indexPath;
 -(void)resizeCellToFitStatusContent;
 //-(void)setPlaceHolderImage;
 

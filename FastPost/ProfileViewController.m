@@ -48,8 +48,11 @@
     
     [super viewWillAppear:animated];
     
-    [self fetchNewStatusWithCount:25 remainingTime:nil];
+#warning STORE POSTS THE SELF SENDS LOCALLY SO TAHT WE CAN PULL PREVIOUS POSTS INSTANTLY AND ALSO SAVE RESOURCES. WHEN THIS TAB SHOWS, FIRST CHECK IF THERE IS ANY POST LOCALLY, IF NOT, CHECK IF THIS USER EXISTS IN OUR DATABASE, IF SO, PULL OLD STATUSES FROM PARSE AND STORE THEM LOCALLY
     
+#warning need to do something here. dont grab everything when user comes back to this tab
+    [self fetchNewStatusWithCount:25 remainingTime:nil];
+#warning this method needs rework
     [self updateUserInfoValues];
 }
 
@@ -80,9 +83,9 @@
     
     //set following. # of following is the count of friends minus one(since user is friend of himself)
     PFUser *me = [PFUser currentUser];
-    self.followingLabel.text = [NSString stringWithFormat:@"%d",[me[@"friends"] count]-1];
+    self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"friends"] count]-1];
     //set follower.
-    self.followerLabel.text = [NSString stringWithFormat:@"%d",[me[@"followers"] count]];
+    self.followerLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"followers"] count]];
 }
 
 - (void)didReceiveMemoryWarning
