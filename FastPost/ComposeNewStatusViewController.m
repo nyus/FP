@@ -9,6 +9,8 @@
 #import "ComposeNewStatusViewController.h"
 #import "ComposeStatusPhotoCollectionViewCell.h"
 #import <Parse/Parse.h>
+#import "StatusObject.h"
+#import "SharedDataManager.h"
 #define CELL_IMAGEVIEW_SIZE_HEIGHT 204.0f
 #define CELL_IMAGEVIEW_SIZE_WIDTH 280.0f
 @interface ComposeNewStatusViewController ()<UIPickerViewDelegate, UIPickerViewDataSource,UITextViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIActionSheetDelegate,UICollectionViewDataSource,UICollectionViewDelegate>{
@@ -259,56 +261,68 @@
     //send to parse
     [self dismissViewControllerAnimated:YES completion:^{
         
-        if (!collectionViewDataSource && !collectionViewDataSource[0]) {
+        dispatch_queue_t queue = dispatch_queue_create("save to parse and local", NULL);
+        dispatch_async(queue, ^{
+            
+            //save to core data
+            StatusObject *status = [NSEntityDescription insertNewObjectForEntityForName:@"StatusObject" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
+            status.message = self.textView.text;
+            status.posterUsername = [[PFUser currentUser] username];
+            status.createdAt = [NSDate date];
+            
+            
+            //save to server
             PFObject *object = [PFObject objectWithClassName:@"Status"];
             object[@"message"] = self.textView.text;
-            //        object[@"expirationTimeInSec"] = [NSNumber numberWithInt:[self.pickerView selectedRowInComponent:0]*60 + [self.pickerView selectedRowInComponent:2]];
-            //        object[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[self.pickerView selectedRowInComponent:0]*60 + [self.pickerView selectedRowInComponent:2]];
-            
             object[@"expirationTimeInSec"] = [NSNumber numberWithInt:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue] *60];
             object[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue]*60];
             object[@"posterUsername"] = [[PFUser currentUser] username];
             object[@"revivable"] = [NSNumber numberWithBool:self.revivableSwitch.on];
-            [object saveInBackground];
-        }else{
-            UIImage *chosenImage = collectionViewDataSource[0];
-            //
-            float scale = 0.0f;
-            if (chosenImage.size.width > chosenImage.size.height) {
-                scale = CELL_IMAGEVIEW_SIZE_WIDTH/chosenImage.size.width;
-            }else{
-                scale = CELL_IMAGEVIEW_SIZE_HEIGHT/chosenImage.size.height;
-            }
-            //reason for scale*2. UIImageJPEGRepresentation's compressionQuality seems to be 2 times the value of scale
-            //for example, if compressionQuality is 0.8, then the size would be appro 0.4 time of the original size
-            NSData *data = UIImageJPEGRepresentation(collectionViewDataSource[0],scale*2);
-            PFFile *image = [PFFile fileWithData:data];
-            [image saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded && !error) {
-                    PFObject *object = [PFObject objectWithClassName:@"Status"];
-                    object[@"message"] = self.textView.text;
-                    object[@"picture"] = image;
-                    //        object[@"expirationTimeInSec"] = [NSNumber numberWithInt:[self.pickerView selectedRowInComponent:0]*60 + [self.pickerView selectedRowInComponent:2]];
-                    //        object[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[self.pickerView selectedRowInComponent:0]*60 + [self.pickerView selectedRowInComponent:2]];
-                    
-                    object[@"expirationTimeInSec"] = [NSNumber numberWithInt:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue] *60];
-                    object[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue]*60];
-                    object[@"posterUsername"] = [[PFUser currentUser] username];
-                    object[@"revivable"] = [NSNumber numberWithBool:self.revivableSwitch.on];
-                    [object saveInBackground];
+            
+            //picture
+            if (collectionViewDataSource && collectionViewDataSource[0]) {
+                UIImage *chosenImage = collectionViewDataSource[0];
+                //
+                float scale = 0.0f;
+                if (chosenImage.size.width > chosenImage.size.height) {
+                    scale = CELL_IMAGEVIEW_SIZE_WIDTH/chosenImage.size.width;
+                }else{
+                    scale = CELL_IMAGEVIEW_SIZE_HEIGHT/chosenImage.size.height;
                 }
-            }];
-        }
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
-        //first time use
-        if (!numberPosts) {
-            [defaults setObject:[NSNumber numberWithInt:1] forKey:@"numberofposts"];
-        }else{
-            [defaults setObject:[NSNumber numberWithInt:numberPosts.intValue+1] forKey:@"numberofposts"];
-        }
-        [defaults synchronize];
+                //reason for scale*2. UIImageJPEGRepresentation's compressionQuality seems to be 2 times the value of scale
+                //for example, if compressionQuality is 0.8, then the size would be appro 0.4 time of the original size
+                NSData *data = UIImageJPEGRepresentation(collectionViewDataSource[0],scale*2);
+                object[@"picture"] = [PFFile fileWithData:data];
+                
+                
+                //save picture to local
+                //if user avatar is saved, pull locally; otherwise pull from server and save it locally
+                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                NSString *documentDirectory = paths[0];
+                NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",status.posterUsername,status.createdAt];
+                NSError *writeError;
+                [data writeToFile:path options:NSDataWritingAtomic error:&writeError];
+                if (writeError) {
+                    NSLog(@"failed save status to local with error %@",writeError);
+                }
+                status.picture = path;
+                
+            }
+            //save to parse
+            [object saveInBackground];
+            //save to local
+            [[SharedDataManager sharedInstance] saveContext];
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
+            //first time use
+            if (!numberPosts) {
+                [defaults setObject:[NSNumber numberWithInt:1] forKey:@"numberofposts"];
+            }else{
+                [defaults setObject:[NSNumber numberWithInt:numberPosts.intValue+1] forKey:@"numberofposts"];
+            }
+            [defaults synchronize];
+        });
     }];
 }
 

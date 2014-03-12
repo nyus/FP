@@ -1,5 +1,5 @@
 //
-//  Status.m
+//  StatusObject.m
 //  FastPost
 //
 //  Created by Sihang Huang on 3/11/14.
@@ -12,9 +12,9 @@
 @implementation StatusObject
 
 @dynamic avatar;
-@dynamic date;
+@dynamic createdAt;
 @dynamic message;
 @dynamic picture;
-@dynamic username;
+@dynamic posterUsername;
 
 @end

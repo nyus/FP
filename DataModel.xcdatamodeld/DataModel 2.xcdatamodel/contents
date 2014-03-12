@@ -14,13 +14,13 @@
     </entity>
     <entity name="StatusObject" representedClassName="StatusObject" syncable="YES">
         <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="picture" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="posterUsername" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Message" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="StatusObject" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Message" positionX="0" positionY="0" width="128" height="195"/>
+        <element name="StatusObject" positionX="0" positionY="0" width="128" height="120"/>
     </elements>
 </model>

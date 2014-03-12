@@ -184,10 +184,10 @@ static Helper *_helper;
                             NSError *writeError;
                             [data writeToFile:path options:NSDataWritingAtomic error:&writeError];
                             
-                            [[NSFileManager defaultManager]
-                                 createFileAtPath:path
-                                 contents:data
-                                 attributes:@{NSFileCreationDate:user[@"avatarUpdateDate"]}];
+//                            [[NSFileManager defaultManager]
+//                                 createFileAtPath:path
+//                                 contents:data
+//                                 attributes:@{NSFileCreationDate:user[@"avatarUpdateDate"]}];
 
                         }else{
                             NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);

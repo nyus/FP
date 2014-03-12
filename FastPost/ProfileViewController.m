@@ -11,6 +11,8 @@
 #import <Parse/Parse.h>
 #import "Status.h"
 #import "Helper.h"
+#import <CoreData/CoreData.h>
+#import "SharedDataManager.h"
 //#import "StatusTableViewHeaderViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
@@ -48,11 +50,24 @@
     
     [super viewWillAppear:animated];
     
-#warning STORE POSTS THE SELF SENDS LOCALLY SO TAHT WE CAN PULL PREVIOUS POSTS INSTANTLY AND ALSO SAVE RESOURCES. WHEN THIS TAB SHOWS, FIRST CHECK IF THERE IS ANY POST LOCALLY, IF NOT, CHECK IF THIS USER EXISTS IN OUR DATABASE, IF SO, PULL OLD STATUSES FROM PARSE AND STORE THEM LOCALLY
+//STORE POSTS THE SELF SENDS LOCALLY SO TAHT WE CAN PULL PREVIOUS POSTS INSTANTLY AND ALSO SAVE RESOURCES. WHEN THIS TAB SHOWS, FIRST CHECK IF THERE IS ANY POST LOCALLY, IF NOT, CHECK IF THIS USER EXISTS IN OUR DATABASE, IF SO, PULL OLD STATUSES FROM PARSE AND STORE THEM LOCALLY
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Status"];
+    NSSortDescriptor *des = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+    request.sortDescriptors = @[des];
+    NSError *error;
+    NSArray *results = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&error];
+    //if no status has been stored, two possibilities:
+    //1. this is a new user
+    //2. this is a returning user
+    if (results.count == 0) {
+        
+    }else{
+        //display result
+    }
     
-#warning need to do something here. dont grab everything when user comes back to this tab
+//need to do something here. dont grab everything when user comes back to this tab
     [self fetchNewStatusWithCount:25 remainingTime:nil];
-#warning this method needs rework
+//this method needs rework
     [self updateUserInfoValues];
 }
 

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		501F60411875AE3A00B26F65 /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 501F603F1875AE3A00B26F65 /* dsym_upload.sh */; };
 		501F60421875AE3A00B26F65 /* libCrittercism_v4_3_0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */; };
-		50200C4118CFE342003CEBBE /* StatusObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 50200C4018CFE342003CEBBE /* StatusObject.m */; };
 		50200C4418CFE365003CEBBE /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 50200C4318CFE365003CEBBE /* Status.m */; };
 		50275F76186F22E200CD9680 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50275F75186F22E200CD9680 /* icon.png */; };
 		5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */; };
@@ -18,6 +17,7 @@
 		5034EF0018A7E7FC00DBDCCF /* SharedDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */; };
 		5034EF0218A7E9AB00DBDCCF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5034EF0118A7E9AB00DBDCCF /* CoreData.framework */; };
 		5034EF0518A8061200DBDCCF /* ComposeNewMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */; };
+		5039DA8418CFEE37000DF268 /* StatusObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5039DA8318CFEE37000DF268 /* StatusObject.m */; };
 		503CABD718739318006BBF51 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503CABD618739318006BBF51 /* FacebookSDK.framework */; };
 		503CABDF18739751006BBF51 /* butterfly-green-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 503CABDE18739751006BBF51 /* butterfly-green-blue.png */; };
 		50424F8E18C952EB00F7D826 /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50424F8D18C952EB00F7D826 /* TabBarViewController.m */; };
@@ -120,8 +120,6 @@
 		501F603F1875AE3A00B26F65 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
 		501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_3_0.a; sourceTree = "<group>"; };
 		50200C3218CFE037003CEBBE /* DataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataModel 2.xcdatamodel"; sourceTree = "<group>"; };
-		50200C3F18CFE342003CEBBE /* StatusObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusObject.h; sourceTree = "<group>"; };
-		50200C4018CFE342003CEBBE /* StatusObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusObject.m; sourceTree = "<group>"; };
 		50200C4218CFE365003CEBBE /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		50200C4318CFE365003CEBBE /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		50275F75186F22E200CD9680 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
@@ -135,6 +133,8 @@
 		5034EF0118A7E9AB00DBDCCF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5034EF0318A8061200DBDCCF /* ComposeNewMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeNewMessageViewController.h; sourceTree = "<group>"; };
 		5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeNewMessageViewController.m; sourceTree = "<group>"; };
+		5039DA8218CFEE37000DF268 /* StatusObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusObject.h; sourceTree = "<group>"; };
+		5039DA8318CFEE37000DF268 /* StatusObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusObject.m; sourceTree = "<group>"; };
 		503A980D188381C7000892B8 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		503CABD618739318006BBF51 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		503CABDE18739751006BBF51 /* butterfly-green-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butterfly-green-blue.png"; sourceTree = "<group>"; };
@@ -301,9 +301,9 @@
 		5034EEB918A7E3D900DBDCCF /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				5039DA8218CFEE37000DF268 /* StatusObject.h */,
+				5039DA8318CFEE37000DF268 /* StatusObject.m */,
 				5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */,
-				50200C3F18CFE342003CEBBE /* StatusObject.h */,
-				50200C4018CFE342003CEBBE /* StatusObject.m */,
 				65409F6C18BE66B100589F66 /* Message.h */,
 				65409F6D18BE66B100589F66 /* Message.m */,
 				5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */,
@@ -753,11 +753,11 @@
 				658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */,
 				658AA5D3184FADFB0097383B /* ComposeNewStatusViewController.m in Sources */,
 				50200C4418CFE365003CEBBE /* Status.m in Sources */,
+				5039DA8418CFEE37000DF268 /* StatusObject.m in Sources */,
 				5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */,
 				658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */,
 				653ACDF118525405007B9A47 /* ComposeStatusPhotoCollectionViewCell.m in Sources */,
 				50424F8E18C952EB00F7D826 /* TabBarViewController.m in Sources */,
-				50200C4118CFE342003CEBBE /* StatusObject.m in Sources */,
 				65409F7818BE95C200589F66 /* ViewMessageViewController.m in Sources */,
 				65409F6E18BE66B100589F66 /* Message.m in Sources */,
 				65413CF41843990200543C1A /* LogInViewController.m in Sources */,

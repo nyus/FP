@@ -1,5 +1,5 @@
 //
-//  Status.h
+//  StatusObject.h
 //  FastPost
 //
 //  Created by Sihang Huang on 3/11/14.
@@ -13,9 +13,9 @@
 @interface StatusObject : NSManagedObject
 
 @property (nonatomic, retain) NSString * avatar;
-@property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSString * message;
 @property (nonatomic, retain) NSString * picture;
-@property (nonatomic, retain) NSString * username;
+@property (nonatomic, retain) NSString * posterUsername;
 
 @end
