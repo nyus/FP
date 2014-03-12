@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		501F60411875AE3A00B26F65 /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 501F603F1875AE3A00B26F65 /* dsym_upload.sh */; };
 		501F60421875AE3A00B26F65 /* libCrittercism_v4_3_0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */; };
+		50200C4118CFE342003CEBBE /* StatusObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 50200C4018CFE342003CEBBE /* StatusObject.m */; };
+		50200C4418CFE365003CEBBE /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 50200C4318CFE365003CEBBE /* Status.m */; };
 		50275F76186F22E200CD9680 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50275F75186F22E200CD9680 /* icon.png */; };
 		5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */; };
 		5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */; };
@@ -75,7 +77,6 @@
 		65413D091843990200543C1A /* FastPostTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65413D081843990200543C1A /* FastPostTests.m */; };
 		65413D141843B6AA00543C1A /* StatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65413D131843B6AA00543C1A /* StatusTableViewController.m */; };
 		65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65413D161843B6EF00543C1A /* StatusTableViewCell.m */; };
-		65413D1E18452C6A00543C1A /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 65413D1D18452C6A00543C1A /* Status.m */; };
 		65413D2E184641B800543C1A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413D2D184641B800543C1A /* AudioToolbox.framework */; };
 		65413D30184641BD00543C1A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413D2F184641BD00543C1A /* CFNetwork.framework */; };
 		65413D32184641C900543C1A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413D31184641C900543C1A /* CoreLocation.framework */; };
@@ -118,6 +119,11 @@
 		501F603E1875AE3A00B26F65 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
 		501F603F1875AE3A00B26F65 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
 		501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_3_0.a; sourceTree = "<group>"; };
+		50200C3218CFE037003CEBBE /* DataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		50200C3F18CFE342003CEBBE /* StatusObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusObject.h; sourceTree = "<group>"; };
+		50200C4018CFE342003CEBBE /* StatusObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusObject.m; sourceTree = "<group>"; };
+		50200C4218CFE365003CEBBE /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
+		50200C4318CFE365003CEBBE /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		50275F75186F22E200CD9680 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		5034EEAD18A7D09F00DBDCCF /* MessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewCell.h; sourceTree = "<group>"; };
 		5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; };
@@ -210,8 +216,6 @@
 		65413D131843B6AA00543C1A /* StatusTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusTableViewController.m; sourceTree = "<group>"; };
 		65413D151843B6EF00543C1A /* StatusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusTableViewCell.h; sourceTree = "<group>"; };
 		65413D161843B6EF00543C1A /* StatusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusTableViewCell.m; sourceTree = "<group>"; };
-		65413D1C18452C6A00543C1A /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
-		65413D1D18452C6A00543C1A /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		65413D2D184641B800543C1A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		65413D2F184641BD00543C1A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		65413D31184641C900543C1A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -298,6 +302,8 @@
 			isa = PBXGroup;
 			children = (
 				5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */,
+				50200C3F18CFE342003CEBBE /* StatusObject.h */,
+				50200C4018CFE342003CEBBE /* StatusObject.m */,
 				65409F6C18BE66B100589F66 /* Message.h */,
 				65409F6D18BE66B100589F66 /* Message.m */,
 				5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */,
@@ -370,10 +376,10 @@
 		507F61481883591C00B57DDA /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				50200C4218CFE365003CEBBE /* Status.h */,
+				50200C4318CFE365003CEBBE /* Status.m */,
 				65413D151843B6EF00543C1A /* StatusTableViewCell.h */,
 				65413D161843B6EF00543C1A /* StatusTableViewCell.m */,
-				65413D1C18452C6A00543C1A /* Status.h */,
-				65413D1D18452C6A00543C1A /* Status.m */,
 				65413CE91843990200543C1A /* AppDelegate.h */,
 				65413CEA1843990200543C1A /* AppDelegate.m */,
 				507F614A1883594F00B57DDA /* Helper.h */,
@@ -744,13 +750,14 @@
 				507F614C1883594F00B57DDA /* Helper.m in Sources */,
 				509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */,
 				5034EF0518A8061200DBDCCF /* ComposeNewMessageViewController.m in Sources */,
-				65413D1E18452C6A00543C1A /* Status.m in Sources */,
 				658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */,
 				658AA5D3184FADFB0097383B /* ComposeNewStatusViewController.m in Sources */,
+				50200C4418CFE365003CEBBE /* Status.m in Sources */,
 				5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */,
 				658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */,
 				653ACDF118525405007B9A47 /* ComposeStatusPhotoCollectionViewCell.m in Sources */,
 				50424F8E18C952EB00F7D826 /* TabBarViewController.m in Sources */,
+				50200C4118CFE342003CEBBE /* StatusObject.m in Sources */,
 				65409F7818BE95C200589F66 /* ViewMessageViewController.m in Sources */,
 				65409F6E18BE66B100589F66 /* Message.m in Sources */,
 				65413CF41843990200543C1A /* LogInViewController.m in Sources */,
@@ -1025,9 +1032,10 @@
 		5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				50200C3218CFE037003CEBBE /* DataModel 2.xcdatamodel */,
 				5034EEB418A7E2CD00DBDCCF /* DataModel.xcdatamodel */,
 			);
-			currentVersion = 5034EEB418A7E2CD00DBDCCF /* DataModel.xcdatamodel */;
+			currentVersion = 50200C3218CFE037003CEBBE /* DataModel 2.xcdatamodel */;
 			name = DataModel.xcdatamodeld;
 			path = ../DataModel.xcdatamodeld;
 			sourceTree = "<group>";
