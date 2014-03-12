@@ -75,9 +75,9 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return dataSource?dataSource.count:1;
+        return 2;//dataSource?dataSource.count:1;
     }else{
-        return 0;
+        return 1;
     }
 }
 
@@ -85,7 +85,7 @@
     
     if (indexPath.section == 0) {
         //no friend request
-        if (!dataSource || dataSource.count == 0) {
+        if (indexPath.row==0){//(!dataSource || dataSource.count == 0) {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noRequestCell" forIndexPath:indexPath];
             return cell;
         }else{
@@ -93,11 +93,14 @@
             FriendQuestTableViewCell *cell = (FriendQuestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"friendRequestCell" forIndexPath:indexPath];
             cell.delegate = self;
             //set avatar
-            [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] forImageView:cell.profileImageView];
+//            [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] forImageView:cell.profileImageView];
             //set sender username
-            cell.usernameLabel.text = [dataSource[indexPath.row] objectForKey:@"senderUsername"];
+//            cell.usernameLabel.text = [dataSource[indexPath.row] objectForKey:@"senderUsername"];
             return cell;
         }
+    }else{
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"fakeCell" forIndexPath:indexPath];
+        return cell;
     }
     
     return nil;
@@ -113,7 +116,16 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+    if(indexPath.section == 0){
+        if (indexPath.row == 0) {
+            return 44;
+        }else{
+            return 84;
+        }
+    }else{
+        return 44;
+    }
+    
 }
 //-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 //    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];

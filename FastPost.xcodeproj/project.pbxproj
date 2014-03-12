@@ -640,6 +640,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Huang, Jason";
 				TargetAttributes = {
+					65413CD61843990200543C1A = {
+						DevelopmentTeam = 24QWF4M939;
+					};
 					65413CFA1843990200543C1A = {
 						TestTargetID = 65413CD61843990200543C1A;
 					};
@@ -851,6 +854,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = FastPost;
+				PROVISIONING_PROFILE = "1A12327B-12D6-4B78-BB02-6C29D2182C52";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -884,6 +888,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = FastPost;
+				PROVISIONING_PROFILE = "01CE605C-00FE-4964-B125-5E20313A52C5";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -895,7 +900,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -911,7 +916,7 @@
 					"$(SRCROOT)/CrittercismSDK",
 				);
 				PRODUCT_NAME = FastPost;
-				PROVISIONING_PROFILE = "388CD747-123B-4CD3-B2C3-095747F7809F";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -922,7 +927,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Sihang Huang (24QWF4M939)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/FacebookSDK",
@@ -937,7 +943,7 @@
 					"$(SRCROOT)/CrittercismSDK",
 				);
 				PRODUCT_NAME = FastPost;
-				PROVISIONING_PROFILE = "717ADB78-F9AB-4C8E-8E4D-5786F5FB35B6";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
