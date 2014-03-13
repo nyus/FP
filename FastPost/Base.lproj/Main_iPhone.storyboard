@@ -583,20 +583,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="v3a-0Q-jHL">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="v3a-0Q-jHL">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="435"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="344" id="ubd-ay-Emu" customClass="StatusTableViewCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="344"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="377" id="ubd-ay-Emu" customClass="StatusTableViewCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="377"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ubd-ay-Emu" id="Jgs-Wc-seL">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="343"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="377"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vRI-kZ-zde">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="396"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="376"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="nrn-gN-Ggx" userLabel="avatar">
@@ -618,19 +618,9 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="placeholder_picture.png" translatesAutoresizingMaskIntoConstraints="NO" id="N8t-0z-a4g">
-                                                            <rect key="frame" x="20" y="143" width="280" height="204"/>
+                                                            <rect key="frame" x="20" y="113" width="280" height="204"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ias-Xi-dP6">
-                                                            <rect key="frame" x="236" y="0.0" width="37" height="37"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" title="Button" image="revine_icon.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="reviveStatusButtonTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="u1N-Pv-HsG"/>
-                                                            </connections>
-                                                        </button>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NE6-2Q-6hG" userLabel="username button">
                                                             <rect key="frame" x="80" y="13" width="88" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -656,53 +646,77 @@
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdU-U3-5I7" userLabel="like button">
-                                                            <rect key="frame" x="21" y="349" width="44" height="44"/>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YEP-9J-nrK">
+                                                            <rect key="frame" x="0.0" y="319" width="320" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="like.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                        </button>
-                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6G6-zh-gFz" userLabel="like num label">
-                                                            <rect key="frame" x="60" y="377" width="39" height="12"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdU-U3-5I7" userLabel="like button">
+                                                                    <rect key="frame" x="22" y="0.0" width="44" height="44"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal" image="like_icon.png">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="likeButtonTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="kAS-yX-jRg"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6G6-zh-gFz" userLabel="like num label">
+                                                                    <rect key="frame" x="59" y="21" width="39" height="12"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMo-Mr-2bZ" userLabel="comment button">
+                                                                    <rect key="frame" x="131" y="0.0" width="44" height="44"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal" image="comment_icon.png">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="commentButtonTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="hHI-Oc-gcs"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bok-Nu-QOx" userLabel="comment number label">
+                                                                    <rect key="frame" x="172" y="20" width="39" height="12"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ias-Xi-dP6">
+                                                                    <rect key="frame" x="229" y="0.0" width="44" height="44"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal" image="revine_icon.png">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="reviveStatusButtonTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="u1N-Pv-HsG"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RwB-cA-DZ6" userLabel="revive number label">
+                                                                    <rect key="frame" x="273" y="21" width="39" height="12"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rJa-MY-go2" userLabel="line separator">
+                                                            <rect key="frame" x="0.0" y="188" width="320" height="1"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMo-Mr-2bZ" userLabel="comment button">
-                                                            <rect key="frame" x="116" y="349" width="44" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="comment.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                        </button>
-                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bok-Nu-QOx" userLabel="comment number label">
-                                                            <rect key="frame" x="162" y="377" width="39" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJc-mR-T2p" userLabel="share button">
-                                                            <rect key="frame" x="209" y="349" width="44" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <state key="normal" image="share.png"/>
-                                                        </button>
-                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RwB-cA-DZ6" userLabel="share number label">
-                                                            <rect key="frame" x="261" y="377" width="39" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="buttonsContainerView" destination="YEP-9J-nrK" id="e0t-5e-8y4"/>
+                                            <outlet property="cellLineSeparator" destination="rJa-MY-go2" id="D9V-q0-qXi"/>
                                             <outlet property="statusCellAvatarImageView" destination="nrn-gN-Ggx" id="btL-OJ-noM"/>
                                             <outlet property="statusCellCountDownLabel" destination="hGs-hN-Bii" id="iTl-cy-sSM"/>
                                             <outlet property="statusCellDateLabel" destination="58g-09-ppF" id="CIX-A8-8y1"/>
@@ -713,10 +727,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BackgroundCell" rowHeight="300" id="wWi-aH-qLx" customClass="StatusTableViewCell">
-                                        <rect key="frame" x="0.0" y="366" width="320" height="300"/>
+                                        <rect key="frame" x="0.0" y="399" width="320" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wWi-aH-qLx" id="daP-iZ-an8">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="299"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4u6-Op-gHc">
@@ -884,7 +898,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="y3f-gt-4gm">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="y3f-gt-4gm">
                                 <rect key="frame" x="0.0" y="184" width="320" height="246"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -893,13 +907,20 @@
                                         <rect key="frame" x="0.0" y="22" width="320" height="362"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sBr-om-MD5" id="JnH-u0-pPz">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="361"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="362"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eAt-2I-V9e">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="362"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10:12PM 11/12/13" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nm9-ZK-v2e">
+                                                            <rect key="frame" x="80" y="50" width="117" height="24"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-user-icon-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="igx-ra-ajG" userLabel="avatar">
                                                             <rect key="frame" x="12" y="18" width="60" height="60"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -920,7 +941,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="placeholder_picture.png" translatesAutoresizingMaskIntoConstraints="NO" id="gdu-im-vyY">
-                                                            <rect key="frame" x="20" y="146" width="280" height="204"/>
+                                                            <rect key="frame" x="20" y="117" width="280" height="204"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwq-H9-QOP">
@@ -940,19 +961,18 @@
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tkq-ZJ-cx3" userLabel="Line Separator">
+                                                            <rect key="frame" x="0.0" y="340" width="320" height="1"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10:12PM 11/12/13" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nm9-ZK-v2e">
-                                                    <rect key="frame" x="80" y="45" width="117" height="24"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="cellLineSeparator" destination="tkq-ZJ-cx3" id="K37-eM-Q7Q"/>
                                             <outlet property="statusCellAvatarImageView" destination="igx-ra-ajG" id="zqU-2y-uqQ"/>
                                             <outlet property="statusCellCountDownLabel" destination="ea2-qH-3RS" id="Ja7-Gw-krO"/>
                                             <outlet property="statusCellDateLabel" destination="Nm9-ZK-v2e" id="GXE-yf-0LM"/>
@@ -1664,7 +1684,7 @@
         <scene sceneID="oHf-tp-KV4">
             <objects>
                 <navigationController title="Home" definesPresentationContext="YES" navigationBarHidden="YES" id="5eY-2V-bCP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="0749677D-A270-4BE6-92A4-3ECB1461AC89" id="xpw-hA-qPq"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="BF96832A-5DD6-4AEF-AC87-CE65F5FF7016" id="xpw-hA-qPq"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="81F-D5-Wlr">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1679,7 +1699,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="0749677D-A270-4BE6-92A4-3ECB1461AC89" width="32" height="32">
+        <image name="BF96832A-5DD6-4AEF-AC87-CE65F5FF7016" width="32" height="32">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -1819,16 +1839,15 @@ HpMemx6eHrAesx64AAAAAAAAAgEAAAAAAAAAPwAAAAAAAAAAAAAAAAAAHro
         </image>
         <image name="butterfly-green-blue.png" width="358" height="256"/>
         <image name="camera_icon_blue.png" width="60" height="45"/>
-        <image name="comment.png" width="48" height="48"/>
+        <image name="comment_icon.png" width="30" height="30"/>
         <image name="compose_icon.png" width="40" height="40"/>
         <image name="default-user-icon-profile.png" width="200" height="200"/>
-        <image name="like.png" width="48" height="45"/>
+        <image name="like_icon.png" width="30" height="30"/>
         <image name="message_tab.png" width="32" height="32"/>
         <image name="notification_tab.png" width="32" height="32"/>
         <image name="placeholder_picture.png" width="512" height="320"/>
         <image name="profile_tab.png" width="32" height="32"/>
-        <image name="revine_icon.png" width="40" height="40"/>
-        <image name="share.png" width="512" height="512"/>
+        <image name="revine_icon.png" width="30" height="30"/>
         <image name="time_add.png" width="128" height="128"/>
         <image name="wordLogo.png" width="80" height="80"/>
         <image name="yes.png" width="64" height="64"/>

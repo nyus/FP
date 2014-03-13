@@ -10,4 +10,5 @@
 #import "StatusTableViewCell.h"
 @interface BaseViewControllerWithStatusTableView : UIViewController<UITableViewDataSource, UITableViewDelegate,StatusTableViewCellDelegate>
 @property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, assign) BOOL needSocialButtons;
 @end

@@ -32,6 +32,13 @@
 //cache cell height
 @property (weak, nonatomic) NSMapTable *cellHeightMap;
 @property (strong, nonatomic) NSIndexPath *indexPath;
+@property (weak, nonatomic) IBOutlet UIView *buttonsContainerView;
+@property (weak, nonatomic) IBOutlet UIView *cellLineSeparator;
+//
+@property (nonatomic, assign) BOOL needSocialButtons;
+
+- (IBAction)likeButtonTapped:(id)sender;
+- (IBAction)commentButtonTapped:(id)sender;
 -(void)resizeCellToFitStatusContent;
 //-(void)setPlaceHolderImage;
 

@@ -18,6 +18,8 @@
 		5034EF0218A7E9AB00DBDCCF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5034EF0118A7E9AB00DBDCCF /* CoreData.framework */; };
 		5034EF0518A8061200DBDCCF /* ComposeNewMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */; };
 		5039DA8418CFEE37000DF268 /* StatusObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5039DA8318CFEE37000DF268 /* StatusObject.m */; };
+		5039DA8818D11FC4000DF268 /* comment_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5039DA8618D11FC4000DF268 /* comment_icon.png */; };
+		5039DA8C18D1204C000DF268 /* comment_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5039DA8B18D1204C000DF268 /* comment_icon@2x.png */; };
 		503CABD718739318006BBF51 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503CABD618739318006BBF51 /* FacebookSDK.framework */; };
 		503CABDF18739751006BBF51 /* butterfly-green-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 503CABDE18739751006BBF51 /* butterfly-green-blue.png */; };
 		50424F8E18C952EB00F7D826 /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50424F8D18C952EB00F7D826 /* TabBarViewController.m */; };
@@ -135,6 +137,8 @@
 		5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeNewMessageViewController.m; sourceTree = "<group>"; };
 		5039DA8218CFEE37000DF268 /* StatusObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusObject.h; sourceTree = "<group>"; };
 		5039DA8318CFEE37000DF268 /* StatusObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusObject.m; sourceTree = "<group>"; };
+		5039DA8618D11FC4000DF268 /* comment_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_icon.png; sourceTree = "<group>"; };
+		5039DA8B18D1204C000DF268 /* comment_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment_icon@2x.png"; sourceTree = "<group>"; };
 		503A980D188381C7000892B8 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		503CABD618739318006BBF51 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		503CABDE18739751006BBF51 /* butterfly-green-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butterfly-green-blue.png"; sourceTree = "<group>"; };
@@ -339,6 +343,8 @@
 		5054C90518BA68400044CB5F /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				5039DA8B18D1204C000DF268 /* comment_icon@2x.png */,
+				5039DA8618D11FC4000DF268 /* comment_icon.png */,
 				5054C92A18BA6D060044CB5F /* like_icon.png */,
 				5054C92B18BA6D060044CB5F /* like_icon@2x.png */,
 				5054C90618BA68C60044CB5F /* add_friend.png */,
@@ -679,6 +685,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5039DA8818D11FC4000DF268 /* comment_icon.png in Resources */,
 				5054C92818BA6C1B0044CB5F /* feed_tab@2x.png in Resources */,
 				501F60411875AE3A00B26F65 /* dsym_upload.sh in Resources */,
 				5054C92918BA6C1B0044CB5F /* feed_tab.png in Resources */,
@@ -705,6 +712,7 @@
 				5054C91018BA68E10044CB5F /* revine_icon.png in Resources */,
 				5054C90718BA68C60044CB5F /* add_friend.png in Resources */,
 				507F61451882EEF000B57DDA /* comment.png in Resources */,
+				5039DA8C18D1204C000DF268 /* comment_icon@2x.png in Resources */,
 				507F61441882EEF000B57DDA /* share.png in Resources */,
 				5054C91B18BA6B9F0044CB5F /* message_tab.png in Resources */,
 				65C6087A18721E46006C1899 /* time_add.png in Resources */,

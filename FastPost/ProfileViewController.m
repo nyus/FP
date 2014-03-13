@@ -44,26 +44,29 @@
     }else{
         self.followButton.hidden = YES;
     }
+    
+    //if yes, table view cell will make room for like, comment and revive buttons
+    self.needSocialButtons = NO;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
     
-//STORE POSTS THE SELF SENDS LOCALLY SO TAHT WE CAN PULL PREVIOUS POSTS INSTANTLY AND ALSO SAVE RESOURCES. WHEN THIS TAB SHOWS, FIRST CHECK IF THERE IS ANY POST LOCALLY, IF NOT, CHECK IF THIS USER EXISTS IN OUR DATABASE, IF SO, PULL OLD STATUSES FROM PARSE AND STORE THEM LOCALLY
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Status"];
-    NSSortDescriptor *des = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-    request.sortDescriptors = @[des];
-    NSError *error;
-    NSArray *results = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&error];
-    //if no status has been stored, two possibilities:
-    //1. this is a new user
-    //2. this is a returning user
-    if (results.count == 0) {
-        
-    }else{
-        //display result
-    }
+////STORE POSTS THE SELF SENDS LOCALLY SO TAHT WE CAN PULL PREVIOUS POSTS INSTANTLY AND ALSO SAVE RESOURCES. WHEN THIS TAB SHOWS, FIRST CHECK IF THERE IS ANY POST LOCALLY, IF NOT, CHECK IF THIS USER EXISTS IN OUR DATABASE, IF SO, PULL OLD STATUSES FROM PARSE AND STORE THEM LOCALLY
+//    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Status"];
+//    NSSortDescriptor *des = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+//    request.sortDescriptors = @[des];
+//    NSError *error;
+//    NSArray *results = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&error];
+//    //if no status has been stored, two possibilities:
+//    //1. this is a new user
+//    //2. this is a returning user
+//    if (results.count == 0) {
+//        
+//    }else{
+//        //display result
+//    }
     
 //need to do something here. dont grab everything when user comes back to this tab
     [self fetchNewStatusWithCount:25 remainingTime:nil];

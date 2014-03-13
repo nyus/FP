@@ -13,6 +13,7 @@
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 #define CELL_MESSAGE_LABEL_WIDTH 280.0f
+#define CELL_BUTTONS_CONTAINER_HEIGHT 44.0f
 @interface BaseViewControllerWithStatusTableView (){
 
     //cache calculated label height
@@ -86,13 +87,11 @@
     
     static NSString *CellIdentifier = @"Cell";
     StatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    cell.delegate = self;
     // Configure the cell...
-    
+    cell.delegate = self;
+    cell.needSocialButtons = self.needSocialButtons;
+
     //message
-    if (indexPath.row == 4) {
-        
-    }
     cell.statusCellMessageLabel.text = [[self.dataSource objectAtIndex:indexPath.row] message];
     
     //username
@@ -156,7 +155,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 300;
+    return 200;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -207,6 +206,15 @@
             if (pictureHeight !=0) {
                 cellHeight += pictureHeight+10;
             }
+            
+            if(self.needSocialButtons){
+                //this container view has like, comment, revive buttons
+                cellHeight += CELL_BUTTONS_CONTAINER_HEIGHT;
+            }
+            
+            //cell line separator
+            cellHeight = cellHeight+10;
+            
             [cellHeightMap setObject:[NSNumber numberWithFloat:cellHeight]
                               forKey:key];
             return cellHeight;

@@ -32,25 +32,79 @@
     [self resizeCellToFitStatusContent];
 }
 
+- (IBAction)likeButtonTapped:(id)sender {
+}
+
+- (IBAction)commentButtonTapped:(id)sender {
+}
+
 -(void)resizeCellToFitStatusContent{
-NSLog(@"section %d row %d",self.indexPath.section, self.indexPath.row);
+ 
     NSString *key =[NSString stringWithFormat:@"%d%d",(int)self.indexPath.section,(int)self.indexPath.row];
 
     self.statusCellMessageLabel.frame = CGRectMake(self.statusCellMessageLabel.frame.origin.x,
                                                    self.statusCellMessageLabel.frame.origin.y,
                                                    self.statusCellMessageLabel.frame.size.width,
                                                    [[self.labelHeightMap objectForKey:key] floatValue]);
-
+    
+    //photo and buttons container view
     if ([[self.isTherePhotoMap objectForKey:key] boolValue]) {
+        //
+        
         self.statusCellPhotoImageView.frame = CGRectMake(self.statusCellPhotoImageView.frame.origin.x,
                                                          CGRectGetMaxY(self.statusCellMessageLabel.frame) + 10,
                                                          self.statusCellPhotoImageView.frame.size.width,
                                                          self.statusCellPhotoImageView.frame.size.height);
-        //layout like, comment
-        //
+
+        if (self.needSocialButtons) {
+            //layout like, comment
+            self.buttonsContainerView.frame = CGRectMake(self.buttonsContainerView.frame.origin.x,
+                                                         CGRectGetMaxY(self.statusCellPhotoImageView.frame)+10,
+                                                         self.buttonsContainerView.frame.size.width,
+                                                         self.buttonsContainerView.frame.size.height);
+        }
+        
     }else{
-        //layout like, comment
-        //
+        
+        //no photo
+        if (self.needSocialButtons) {
+            //layout like, comment
+            self.buttonsContainerView.frame = CGRectMake(self.buttonsContainerView.frame.origin.x,
+                                                         CGRectGetMaxY(self.statusCellMessageLabel.frame)+10,
+                                                         self.buttonsContainerView.frame.size.width,
+                                                         self.buttonsContainerView.frame.size.height);
+        }
+    }
+    
+    //line separator
+    if ([[self.isTherePhotoMap objectForKey:key] boolValue]) {
+        if (self.needSocialButtons) {
+            
+            self.cellLineSeparator.frame = CGRectMake(self.cellLineSeparator.frame.origin.x,
+                                                      CGRectGetMaxY(self.buttonsContainerView.frame)+10,
+                                                      self.cellLineSeparator.frame.size.width,
+                                                      self.cellLineSeparator.frame.size.height);
+        }else{
+        
+            self.cellLineSeparator.frame = CGRectMake(self.cellLineSeparator.frame.origin.x,
+                                                      CGRectGetMaxY(self.statusCellPhotoImageView.frame)+10,
+                                                      self.cellLineSeparator.frame.size.width,
+                                                      self.cellLineSeparator.frame.size.height);
+        }
+    }else{
+        if (self.needSocialButtons) {
+            
+            self.cellLineSeparator.frame = CGRectMake(self.cellLineSeparator.frame.origin.x,
+                                                      CGRectGetMaxY(self.buttonsContainerView.frame)+10,
+                                                      self.cellLineSeparator.frame.size.width,
+                                                      self.cellLineSeparator.frame.size.height);
+            
+        }else{
+            self.cellLineSeparator.frame = CGRectMake(self.cellLineSeparator.frame.origin.x,
+                                                      CGRectGetMaxY(self.statusCellMessageLabel.frame)+10,
+                                                      self.cellLineSeparator.frame.size.width,
+                                                      self.cellLineSeparator.frame.size.height);
+        }
     }
     
 }

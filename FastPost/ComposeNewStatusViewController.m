@@ -264,12 +264,11 @@
         dispatch_queue_t queue = dispatch_queue_create("save to parse and local", NULL);
         dispatch_async(queue, ^{
             
-            //save to core data
-            StatusObject *status = [NSEntityDescription insertNewObjectForEntityForName:@"StatusObject" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
-            status.message = self.textView.text;
-            status.posterUsername = [[PFUser currentUser] username];
-            status.createdAt = [NSDate date];
-            
+//            //save to core data
+//            StatusObject *status = [NSEntityDescription insertNewObjectForEntityForName:@"StatusObject" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
+//            status.message = self.textView.text;
+//            status.posterUsername = [[PFUser currentUser] username];
+//            status.createdAt = [NSDate date];
             
             //save to server
             PFObject *object = [PFObject objectWithClassName:@"Status"];
@@ -295,17 +294,17 @@
                 object[@"picture"] = [PFFile fileWithData:data];
                 
                 
-                //save picture to local
-                //if user avatar is saved, pull locally; otherwise pull from server and save it locally
-                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                NSString *documentDirectory = paths[0];
-                NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",status.posterUsername,status.createdAt];
-                NSError *writeError;
-                [data writeToFile:path options:NSDataWritingAtomic error:&writeError];
-                if (writeError) {
-                    NSLog(@"failed save status to local with error %@",writeError);
-                }
-                status.picture = path;
+//                //save picture to local
+//                //if user avatar is saved, pull locally; otherwise pull from server and save it locally
+//                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//                NSString *documentDirectory = paths[0];
+//                NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",status.posterUsername,status.createdAt];
+//                NSError *writeError;
+//                [data writeToFile:path options:NSDataWritingAtomic error:&writeError];
+//                if (writeError) {
+//                    NSLog(@"failed save status to local with error %@",writeError);
+//                }
+//                status.picture = path;
                 
             }
             //save to parse
