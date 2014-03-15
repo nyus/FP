@@ -49,6 +49,7 @@
 		507F614C1883594F00B57DDA /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 507F614B1883594F00B57DDA /* Helper.m */; };
 		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
 		50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */; };
+		50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F3304318D1411300A0878D /* CommentStatusViewController.m */; };
 		50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEA0C187B68C3000A91AF /* StatusViewController.m */; };
 		6522693B18AECB2B004ABEDC /* FriendQuestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */; };
 		6522693E18AED82C004ABEDC /* FriendQuestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6522693D18AED82C004ABEDC /* FriendQuestTableViewCell.m */; };
@@ -174,6 +175,8 @@
 		509CB821187CE6D8009E9A9F /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		50B31CCD18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewControllerWithStatusTableView.h; sourceTree = "<group>"; };
 		50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewControllerWithStatusTableView.m; sourceTree = "<group>"; };
+		50F3304218D1411300A0878D /* CommentStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentStatusViewController.h; sourceTree = "<group>"; };
+		50F3304318D1411300A0878D /* CommentStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentStatusViewController.m; sourceTree = "<group>"; };
 		50FCEA0B187B68C3000A91AF /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusViewController.h; sourceTree = "<group>"; };
 		50FCEA0C187B68C3000A91AF /* StatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusViewController.m; sourceTree = "<group>"; };
 		6522693918AECB2B004ABEDC /* FriendQuestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendQuestViewController.h; sourceTree = "<group>"; };
@@ -465,6 +468,8 @@
 				658AA5C6184F95420097383B /* StatusTableViewHeaderViewController.m */,
 				65413D121843B6AA00543C1A /* StatusTableViewController.h */,
 				65413D131843B6AA00543C1A /* StatusTableViewController.m */,
+				50F3304218D1411300A0878D /* CommentStatusViewController.h */,
+				50F3304318D1411300A0878D /* CommentStatusViewController.m */,
 			);
 			name = Status;
 			sourceTree = "<group>";
@@ -773,6 +778,7 @@
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
+				50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */,
 				50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */,
 				65409F7118BE855300589F66 /* Message+Utilities.m in Sources */,
 				5054C93B18BC46230044CB5F /* SignUpViewController.m in Sources */,

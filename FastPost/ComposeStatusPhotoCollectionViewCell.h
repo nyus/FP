@@ -2,8 +2,8 @@
 //  ComposeStatusPhotoCollectionViewCell.h
 //  FastPost
 //
-//  Created by Huang, Jason on 12/6/13.
-//  Copyright (c) 2013 Huang, Jason. All rights reserved.
+//  Created by Huang, Sihang on 12/6/13.
+//  Copyright (c) 2013 Huang, Sihang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

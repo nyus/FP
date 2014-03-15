@@ -2,8 +2,8 @@
 //  FriendQuestViewController.h
 //  FastPost
 //
-//  Created by Huang, Jason on 2/14/14.
-//  Copyright (c) 2014 Huang, Jason. All rights reserved.
+//  Created by Huang, Sihang on 2/14/14.
+//  Copyright (c) 2014 Huang, Sihang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

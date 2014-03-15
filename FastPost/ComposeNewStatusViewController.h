@@ -2,8 +2,8 @@
 //  ComposeNewStatusViewController.h
 //  FastPost
 //
-//  Created by Huang, Jason on 12/4/13.
-//  Copyright (c) 2013 Huang, Jason. All rights reserved.
+//  Created by Huang, Sihang on 12/4/13.
+//  Copyright (c) 2013 Huang, Sihang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

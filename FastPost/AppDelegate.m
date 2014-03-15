@@ -2,8 +2,8 @@
 //  AppDelegate.m
 //  FastPost
 //
-//  Created by Huang, Jason on 11/25/13.
-//  Copyright (c) 2013 Huang, Jason. All rights reserved.
+//  Created by Huang, Sihang on 11/25/13.
+//  Copyright (c) 2013 Huang, Sihang. All rights reserved.
 //
 
 #import "AppDelegate.h"

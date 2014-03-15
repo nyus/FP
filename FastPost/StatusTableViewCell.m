@@ -2,8 +2,8 @@
 //  StatusTableCell.m
 //  FastPost
 //
-//  Created by Huang, Jason on 11/25/13.
-//  Copyright (c) 2013 Huang, Jason. All rights reserved.
+//  Created by Huang, Sihang on 11/25/13.
+//  Copyright (c) 2013 Huang, Sihang. All rights reserved.
 //
 
 #import "StatusTableViewCell.h"
@@ -30,12 +30,6 @@
     
 //    NSLog(@"layout subviews for : %@",self);
     [self resizeCellToFitStatusContent];
-}
-
-- (IBAction)likeButtonTapped:(id)sender {
-}
-
-- (IBAction)commentButtonTapped:(id)sender {
 }
 
 -(void)resizeCellToFitStatusContent{
@@ -118,6 +112,14 @@
 
 -(void)usernameLabelTapped:(UITapGestureRecognizer *)tap{
     [self.delegate usernameLabelTappedOnCell:self];
+}
+
+- (IBAction)likeButtonTapped:(id)sender {
+    [self.delegate likeButtonTappedOnCell:self];
+}
+
+- (IBAction)commentButtonTapped:(id)sender {
+    [self.delegate commentButtonTappedOnCell:self];
 }
 
 //-(void)blurCell{

@@ -2,8 +2,8 @@
 //  DisplayObject.m
 //  FastPost
 //
-//  Created by Huang, Jason on 11/26/13.
-//  Copyright (c) 2013 Huang, Jason. All rights reserved.
+//  Created by Huang, Sihang on 11/26/13.
+//  Copyright (c) 2013 Huang, Sihang. All rights reserved.
 //
 
 #import "Status.h"
@@ -19,6 +19,7 @@
     self = [super init];
     if (self) {
 //        self.pfObject = pfObject;
+        self.objectid = pfObject.objectId;
         self.message = [pfObject objectForKey:@"message"];
         self.createdAt = pfObject.createdAt;
         self.updatedAt = pfObject.updatedAt;
@@ -28,7 +29,8 @@
         self.revivable = pfObject[@"revivable"];
         self.expirationTimeInSec = pfObject[@"expirationTimeInSec"];
         self.likeCount = pfObject[@"likeCount"];
-        self.reviveCount = pfObject[@"reviveCount"];
+//        self.reviveCount = pfObject[@"reviveCount"];
+        self.commentCount = pfObject[@"commentCount"];
         
         //StatusTableCell.countDownLabel.text needs to be based on self.countDownMessage and converted to xx:xx
         self.countDownMessage = [NSString stringWithFormat:@"%d",(int)[pfObject[@"expirationDate"] timeIntervalSinceDate:[NSDate date]]];

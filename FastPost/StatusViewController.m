@@ -3,7 +3,7 @@
 //  FastPost
 //
 //  Created by Sihang Huang on 1/6/14.
-//  Copyright (c) 2014 Huang, Jason. All rights reserved.
+//  Copyright (c) 2014 Huang, Sihang. All rights reserved.
 //
 
 #import "StatusViewController.h"
@@ -17,6 +17,7 @@
 #import "ProfileViewController.h"
 #import "Helper.h"
 #import "FriendQuestViewController.h"
+#import "CommentStatusViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 @interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate, StatusTableViewHeaderViewDelegate,ExpirationTimePickerViewControllerDelegate>{
@@ -28,6 +29,8 @@
     UIRefreshControl *refreshControl;
     UITapGestureRecognizer *tapGesture;
     FriendQuestViewController *friendQusetVC;
+    
+    NSString *statusIdToPass;
 }
 
 @end
@@ -332,6 +335,41 @@
     }];
 }
 
+-(void)likeButtonTappedOnCell:(StatusTableViewCell *)cell{
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    Status *status = self.dataSource[indexPath.row];
+    
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
+    [query whereKey:@"objectId" equalTo:status.objectid];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            
+            //create like object
+            PFObject *like = [[PFObject alloc] initWithClassName:@"Like"];
+            like[@"senderUsername"] = [PFUser currentUser].username;
+            like[@"statusId"] = status.objectid;
+            
+            //increate like count on Status object
+            object[@"likeCount"] = [NSNumber numberWithInt:[object[@"likeCount"] intValue] +1];
+            
+            [like saveInBackground];
+            [object saveInBackground];
+        }
+    }];
+
+}
+
+-(void)commentButtonTappedOnCell:(StatusTableViewCell *)cell{
+    
+    //take user to comment status view controller
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    Status *status = self.dataSource[indexPath.row];
+    statusIdToPass = status.objectid;
+    [self performSegueWithIdentifier:@"toCommentStatus" sender:self];
+
+}
+
 #pragma mark - StatusTableHeaderViewDelegate
 
 -(void)tbHeaderAddFriendButtonTapped{
@@ -424,6 +462,11 @@
     if([segue.identifier isEqualToString:@"toProfile"]){
         ProfileViewController *pvc = (ProfileViewController *)segue.destinationViewController;
         pvc.presentingSource = @"statusViewController";
+    }else if ([segue.identifier isEqualToString:@"toCommentStatus"]){
+        CommentStatusViewController *vc = (CommentStatusViewController *)segue.destinationViewController;
+        //
+        
+        vc.statusObjectId = statusIdToPass;
     }
 }
 @end

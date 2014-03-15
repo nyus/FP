@@ -3,7 +3,7 @@
 //  FastPost
 //
 //  Created by Sihang Huang on 1/14/14.
-//  Copyright (c) 2014 Huang, Jason. All rights reserved.
+//  Copyright (c) 2014 Huang, Sihang. All rights reserved.
 //
 
 #import "BaseViewControllerWithStatusTableView.h"
@@ -11,7 +11,7 @@
 #import "Helper.h"
 #import "Status.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
-#define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
+#define ORIGIN_Y_CELL_MESSAGE_LABEL 76.0f
 #define CELL_MESSAGE_LABEL_WIDTH 280.0f
 #define CELL_BUTTONS_CONTAINER_HEIGHT 44.0f
 @interface BaseViewControllerWithStatusTableView (){
@@ -138,6 +138,12 @@
         }];
     }else{
         cell.statusCellPhotoImageView.hidden = YES;
+    }
+    
+    //social buttons
+    if (self.needSocialButtons) {
+        cell.likeCountLabel.text = [[self.dataSource[indexPath.row] likeCount] stringValue];
+        cell.commentCountLabel.text = [[self.dataSource[indexPath.row] likeCount] stringValue];
     }
     
     //passing reference

@@ -2,8 +2,8 @@
 //  StatusTableCell.h
 //  FastPost
 //
-//  Created by Huang, Jason on 11/25/13.
-//  Copyright (c) 2013 Huang, Jason. All rights reserved.
+//  Created by Huang, Sihang on 11/25/13.
+//  Copyright (c) 2013 Huang, Sihang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -13,6 +13,8 @@
 @optional
 -(void)reviveStatusButtonTappedOnCell:(StatusTableViewCell *)cell;
 -(void)usernameLabelTappedOnCell:(StatusTableViewCell *)cell;
+-(void)likeButtonTappedOnCell:(StatusTableViewCell *)cell;
+-(void)commentButtonTappedOnCell:(StatusTableViewCell *)cell;
 @end
 
 @interface StatusTableViewCell : UITableViewCell
@@ -34,6 +36,8 @@
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @property (weak, nonatomic) IBOutlet UIView *buttonsContainerView;
 @property (weak, nonatomic) IBOutlet UIView *cellLineSeparator;
+@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
 //
 @property (nonatomic, assign) BOOL needSocialButtons;
 

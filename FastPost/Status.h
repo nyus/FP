@@ -2,8 +2,8 @@
 //  DisplayObject.h
 //  FastPost
 //
-//  Created by Huang, Jason on 11/26/13.
-//  Copyright (c) 2013 Huang, Jason. All rights reserved.
+//  Created by Huang, Sihang on 11/26/13.
+//  Copyright (c) 2013 Huang, Sihang. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -18,7 +18,7 @@
 @interface Status : NSObject
 //@property (nonatomic, strong) PFObject *pfObject;
 
-
+@property (nonatomic, strong) NSString *objectid;
 @property (nonatomic, strong) NSString *message;
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSDate *updatedAt;
@@ -28,7 +28,8 @@
 @property (nonatomic, assign) NSNumber *revivable;
 @property (nonatomic, strong) NSNumber *expirationTimeInSec;
 @property (nonatomic, strong) NSNumber *likeCount;
-@property (nonatomic, strong) NSNumber *reviveCount;
+//@property (nonatomic, strong) NSNumber *reviveCount;
+@property (nonatomic, strong) NSNumber *commentCount;
 @property (nonatomic, strong) NSString *countDownMessage;
 @property (nonatomic, strong, readonly) NSTimer *timer;
 @property (nonatomic, assign) id<StatusObjectDelegate>delegate;
