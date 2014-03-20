@@ -74,6 +74,47 @@
     [self updateUserInfoValues];
 }
 
+-(void)fetchNewStatusWithCount:(int)count remainingTime:(NSNumber *)remainingTimeInSec{
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Status"];
+    query.limit = count;
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        if (objects.count != 0) {
+            
+            if (self.dataSource.count > 0) {
+                [self.dataSource removeAllObjects];
+                
+                for (int i = 0 ; i<objects.count; i++) {
+                    Status *newStatus = [[Status alloc] initWithPFObject:objects[i]];
+                    if (!self.dataSource) {
+                        self.dataSource = [NSMutableArray array];
+                    }
+                    [self.dataSource addObject:newStatus];
+                }
+                
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+            }else{
+                for (PFObject *status in objects) {
+                    Status *newStatus = [[Status alloc] initWithPFObject:status];
+                    if (!self.dataSource) {
+                        self.dataSource = [NSMutableArray array];
+                    }
+                    [self.dataSource addObject:newStatus];
+                }
+                [self.tableView reloadData];
+            }
+        }else{
+            //
+            NSLog(@"0 items fetched from parse");
+        }
+        
+    }];
+}
+
+
 -(void)updateUserInfoValues{
     
     //name
@@ -101,9 +142,19 @@
     
     //set following. # of following is the count of friends minus one(since user is friend of himself)
     PFUser *me = [PFUser currentUser];
-    self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"friends"] count]-1];
+    if (me[@"friends"] != [NSNull null]) {
+        self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"friends"] count]-1];
+    }else{
+        self.followingLabel.text = [NSString stringWithFormat:@"%d",0];
+    }
+    
     //set follower.
-    self.followerLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"followers"] count]];
+    if (me[@"followers"] != [NSNull null]) {
+        self.followerLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"followers"] count]];
+    }else{
+        self.followerLabel.text = [NSString stringWithFormat:@"%d",0];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -184,46 +235,6 @@
     
     [picker dismissViewControllerAnimated:YES completion:^{
         self.avatarImageView.image = chosenImage;
-    }];
-}
-
--(void)fetchNewStatusWithCount:(int)count remainingTime:(NSNumber *)remainingTimeInSec{
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Status"];
-    query.limit = count;
-    [query orderByDescending:@"createdAt"];
-    [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        
-        if (objects.count != 0) {
-
-            if (self.dataSource.count > 0) {
-                [self.dataSource removeAllObjects];
-                
-                for (int i = 0 ; i<objects.count; i++) {
-                    Status *newStatus = [[Status alloc] initWithPFObject:objects[i]];
-                    if (!self.dataSource) {
-                        self.dataSource = [NSMutableArray array];
-                    }
-                    [self.dataSource addObject:newStatus];
-                }
-                
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-            }else{
-                for (PFObject *status in objects) {
-                    Status *newStatus = [[Status alloc] initWithPFObject:status];
-                    if (!self.dataSource) {
-                        self.dataSource = [NSMutableArray array];
-                    }
-                    [self.dataSource addObject:newStatus];
-                }
-                [self.tableView reloadData];
-            }
-        }else{
-            //
-            NSLog(@"0 items fetched from parse");
-        }
-        
     }];
 }
 

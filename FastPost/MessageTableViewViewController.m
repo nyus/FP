@@ -18,6 +18,7 @@
     NSMutableArray *dataSource;
     NSMutableArray *hasTimerArray;
     Message *messageToPass;
+    BOOL comingSoon;
 }
 
 @end
@@ -37,11 +38,17 @@
 {
     [super viewDidLoad];
     
-    //refresh control
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshControlTriggerred:) forControlEvents:UIControlEventValueChanged];
-    //on start up, fetch old messages
-    [self fetchLocalMessage];
+    comingSoon = YES;
+    //compose button on the top right has been deleted. it modally presents compose new message view controller
+    if (!comingSoon) {
+        
+        //refresh control
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.refreshControl addTarget:self action:@selector(refreshControlTriggerred:) forControlEvents:UIControlEventValueChanged];
+        //on start up, fetch old messages
+        [self fetchLocalMessage];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,8 +59,11 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.refreshControl beginRefreshing];
-    [self fetchNewMessage];
+    if (!comingSoon) {
+        [self.refreshControl beginRefreshing];
+        [self fetchNewMessage];
+    }
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -186,8 +196,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"number of messages is %d",dataSource.count);
-    return dataSource.count;
+    if (comingSoon) {
+        return 1;
+    }else{
+        return dataSource.count;
+    }
 }
 
 //hides the liine separtors when data source has 0 objects
@@ -201,39 +214,49 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    static NSString *CellIdentifier = @"cell";
-    MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    //sender profile picture
-    Message *msg = (Message *)dataSource[indexPath.row];
-    [Helper getAvatarForUser:msg.senderUsername forImageView:cell.msgCellProfileImageView];
-    //sender name
-    cell.msgCellUsernameLabel.text = msg.senderUsername;
-    //count down label
-    //time interval from now to expiration date. if timeInterval is negative, that means the message has already expired
-    NSInteger timeInterval = [msg.expirationDate timeIntervalSinceDate:[NSDate date]];
-    int remainingSec = timeInterval>0?timeInterval:0;
-    msg.countDown = [NSNumber numberWithInt:remainingSec];
-    cell.msgCellCountDownLabel.text = [self minAndTimeFormatWithSecond:msg.countDown.intValue];
-    
-    //status label, read, missed
-    if (msg.read.boolValue == NO && msg.countDown.intValue == 0) {
-        cell.statusLabel.hidden = NO;
-        cell.statusLabel.text = @"Missed";
-        cell.statusLabel.textColor = [UIColor redColor];
-    }else if(msg.read.boolValue == YES && msg.countDown.intValue == 0){
-        cell.statusLabel.hidden = NO;
-        cell.statusLabel.text = @"Expired";
-        cell.statusLabel.textColor = [UIColor redColor];
+    if (comingSoon) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"comingSoon" forIndexPath:indexPath];
+        return cell;
     }else{
-        cell.statusLabel.hidden = YES;
+        static NSString *CellIdentifier = @"cell";
+        MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        // Configure the cell...
+        //sender profile picture
+        Message *msg = (Message *)dataSource[indexPath.row];
+        [Helper getAvatarForUser:msg.senderUsername forImageView:cell.msgCellProfileImageView];
+        //sender name
+        cell.msgCellUsernameLabel.text = msg.senderUsername;
+        //count down label
+        //time interval from now to expiration date. if timeInterval is negative, that means the message has already expired
+        NSInteger timeInterval = [msg.expirationDate timeIntervalSinceDate:[NSDate date]];
+        int remainingSec = timeInterval>0?timeInterval:0;
+        msg.countDown = [NSNumber numberWithInt:remainingSec];
+        cell.msgCellCountDownLabel.text = [self minAndTimeFormatWithSecond:msg.countDown.intValue];
+        
+        //status label, read, missed
+        if (msg.read.boolValue == NO && msg.countDown.intValue == 0) {
+            cell.statusLabel.hidden = NO;
+            cell.statusLabel.text = @"Missed";
+            cell.statusLabel.textColor = [UIColor redColor];
+        }else if(msg.read.boolValue == YES && msg.countDown.intValue == 0){
+            cell.statusLabel.hidden = NO;
+            cell.statusLabel.text = @"Expired";
+            cell.statusLabel.textColor = [UIColor redColor];
+        }else{
+            cell.statusLabel.hidden = YES;
+        }
+        
+        return cell;
     }
-    
-    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (comingSoon) {
+        return;
+    }
+    
     //do nothing if the msg has expired
     Message *msg = (Message *)dataSource[indexPath.row];
     if (msg.countDown.intValue == 0) {
@@ -246,6 +269,10 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (comingSoon) {
+        return;
+    }
     
     if (![hasTimerArray[indexPath.row] boolValue]) {
         [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(handleTimer:) userInfo:indexPath repeats:YES];

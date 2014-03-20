@@ -18,9 +18,12 @@
 #import "Helper.h"
 #import "FriendQuestViewController.h"
 #import "CommentStatusViewController.h"
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
-@interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate, StatusTableViewHeaderViewDelegate,ExpirationTimePickerViewControllerDelegate>{
+@interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate, StatusTableViewHeaderViewDelegate,ExpirationTimePickerViewControllerDelegate,UIActionSheetDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate>{
     
     FBFriendPickerViewController *friendPickerVC;
     StatusTableViewHeaderViewController *headerViewVC;
@@ -47,9 +50,7 @@
     //    self.navigationItem.titleView =view;
     
     LogInViewController *vc = (LogInViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"logInView"];
-    [self presentViewController:vc animated:NO completion:^{
-        
-    }];
+    [self presentViewController:vc animated:NO completion:nil];
 
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.view addGestureRecognizer:tapGesture];
@@ -57,8 +58,9 @@
     //add refresh control
     [self addRefreshControll];
     
+#warning version 1.0 doesnt require like and comment
     //if yes, table view cell will make room for like, comment and revive buttons
-    self.needSocialButtons = YES;
+    self.needSocialButtons = NO;
     //
     self.dataSource = [NSMutableArray array];
 }
@@ -404,7 +406,16 @@
     [self performSegueWithIdentifier:@"toCompose" sender:self];
 }
 
+
+
 -(void)tbHeaderSettingButtonTapped{
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"About",@"Contact",@"Log out", nil];
+    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+    
+    
+//this is fiter posts by time left
+    /*
     //filter button typed
     if (!expirationTimePickerVC) {
         expirationTimePickerVC = [[ExpirationTimePickerViewController alloc] initWithNibName:@"ExpirationTimePickerViewController" bundle:nil type:PickerTypeFilter];
@@ -434,6 +445,25 @@
     } completion:^(BOOL finished) {
         expirationTimePickerVC.isOnScreen = YES;
     }];
+    */
+}
+
+#pragma mark - UIActionSheetDelegate
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    //0:About 1:Contact 2:Log out
+    if (buttonIndex == 0) {
+        
+    }else if (buttonIndex == 1){
+        MFMailComposeViewController *vc = [[MFMailComposeViewController alloc] init];
+        [vc setToRecipients:@[@"dwndlr@gmail.com"]];
+        vc.mailComposeDelegate = self;
+
+        [self presentViewController:vc animated:YES completion:nil];
+    }else if (buttonIndex == 2){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Log out", nil];
+        [alert show];
+    }
 }
 
 #pragma mark - ExpirationTimePickerViewControllerDelegate
@@ -467,6 +497,25 @@
         //
         
         vc.statusObjectId = statusIdToPass;
+    }
+}
+
+#pragma mark - MFMail
+
+-(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+#pragma mark - UIAlertViewDelegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    //log out alert
+    if (buttonIndex == 1) {
+        [PFUser logOut];
+        LogInViewController *vc = (LogInViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"logInView"];
+        [self presentViewController:vc animated:NO completion:nil];
     }
 }
 @end

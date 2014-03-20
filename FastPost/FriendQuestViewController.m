@@ -170,8 +170,21 @@
                             [self removeSelfFromParent];
                             [self.textField resignFirstResponder];
                             
+                            //send out push notification to Friend Requrest receiver
+                            //first query the PFUser(recipient) with the specific username
+                            PFQuery *innerQuery = [PFQuery queryWithClassName:[PFUser parseClassName]];
+                            [innerQuery whereKey:@"username" equalTo:((PFUser *)object).username];
+                            //then query this PFuser set on PFInstallation
+                            PFQuery *query = [PFInstallation query];
+                            [query whereKey:@"user" matchesQuery:innerQuery];
+                            
+                            PFPush *push = [[PFPush alloc] init];
+                            [push setQuery:query];
+                            [push setMessage:[NSString stringWithFormat:@"%@ has sent you a follow request",[PFUser currentUser].username]];
+                            [push sendPushInBackground];
+                            
                             NSLog(@"request %@ sent",request);
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Done" otherButtonTitles:nil, nil];
                             [alert show];
                         }else{
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Something went wrong, please try again." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];

@@ -70,12 +70,12 @@
 #pragma mark - uitableview 
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return 2;//dataSource?dataSource.count:1;
+        return dataSource?dataSource.count:1;
     }else{
         return 1;
     }
@@ -85,7 +85,7 @@
     
     if (indexPath.section == 0) {
         //no friend request
-        if (indexPath.row==0){//(!dataSource || dataSource.count == 0) {
+        if (!dataSource || dataSource.count == 0) {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noRequestCell" forIndexPath:indexPath];
             return cell;
         }else{
@@ -93,9 +93,9 @@
             FriendQuestTableViewCell *cell = (FriendQuestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"friendRequestCell" forIndexPath:indexPath];
             cell.delegate = self;
             //set avatar
-//            [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] forImageView:cell.profileImageView];
+            [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] forImageView:cell.profileImageView];
             //set sender username
-//            cell.usernameLabel.text = [dataSource[indexPath.row] objectForKey:@"senderUsername"];
+            cell.usernameLabel.text = [dataSource[indexPath.row] objectForKey:@"senderUsername"];
             return cell;
         }
     }else{
@@ -103,7 +103,6 @@
         return cell;
     }
     
-    return nil;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -117,24 +116,18 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section == 0){
-        if (indexPath.row == 0) {
-            return 44;
+        
+        if (!dataSource || dataSource.count == 0) {
+            return 47;
         }else{
             return 84;
         }
+        
     }else{
         return 44;
     }
     
 }
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    if([cell.reuseIdentifier isEqualToString:@"noRequestCell"]){
-//        return 47;
-//    }else{
-//        return 84;
-//    }
-//}
 
 #pragma mark - FriendQuestTableViewCellDelegate
 

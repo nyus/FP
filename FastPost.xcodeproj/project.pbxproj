@@ -50,6 +50,7 @@
 		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
 		50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */; };
 		50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F3304318D1411300A0878D /* CommentStatusViewController.m */; };
+		50F5264518D7CCE500091953 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F5264418D7CCE500091953 /* MessageUI.framework */; };
 		50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEA0C187B68C3000A91AF /* StatusViewController.m */; };
 		6522693B18AECB2B004ABEDC /* FriendQuestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */; };
 		6522693E18AED82C004ABEDC /* FriendQuestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6522693D18AED82C004ABEDC /* FriendQuestTableViewCell.m */; };
@@ -177,6 +178,7 @@
 		50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewControllerWithStatusTableView.m; sourceTree = "<group>"; };
 		50F3304218D1411300A0878D /* CommentStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentStatusViewController.h; sourceTree = "<group>"; };
 		50F3304318D1411300A0878D /* CommentStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentStatusViewController.m; sourceTree = "<group>"; };
+		50F5264418D7CCE500091953 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		50FCEA0B187B68C3000A91AF /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusViewController.h; sourceTree = "<group>"; };
 		50FCEA0C187B68C3000A91AF /* StatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusViewController.m; sourceTree = "<group>"; };
 		6522693918AECB2B004ABEDC /* FriendQuestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendQuestViewController.h; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50F5264518D7CCE500091953 /* MessageUI.framework in Frameworks */,
 				5034EF0218A7E9AB00DBDCCF /* CoreData.framework in Frameworks */,
 				65C6087C18731719006C1899 /* AssetsLibrary.framework in Frameworks */,
 				65413D3E184641F800543C1A /* SystemConfiguration.framework in Frameworks */,
@@ -414,6 +417,13 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
+		50F5264618D917A500091953 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		50FCEA0A187B68A2000A91AF /* View controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -529,6 +539,7 @@
 		65413CD91843990200543C1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				50F5264418D7CCE500091953 /* MessageUI.framework */,
 				5034EF0118A7E9AB00DBDCCF /* CoreData.framework */,
 				65570C84188862EE006759C6 /* Parse.framework */,
 				501F603B1875AE3A00B26F65 /* CrittercismSDK */,
@@ -564,6 +575,7 @@
 				507F61471883591100B57DDA /* Category */,
 				50FCEA0A187B68A2000A91AF /* View controller */,
 				653ACE021857A2DD007B9A47 /* Resources */,
+				50F5264618D917A500091953 /* iPad */,
 				65413CF51843990200543C1A /* Images.xcassets */,
 				65413CE11843990200543C1A /* Supporting Files */,
 			);
@@ -875,7 +887,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = FastPost;
-				PROVISIONING_PROFILE = "1A12327B-12D6-4B78-BB02-6C29D2182C52";
+				PROVISIONING_PROFILE = "33B820A0-5EA1-42F2-BC81-96EBAD64B414";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -909,7 +921,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = FastPost;
-				PROVISIONING_PROFILE = "01CE605C-00FE-4964-B125-5E20313A52C5";
+				PROVISIONING_PROFILE = "68AB1C3E-CB66-41AD-891A-0158145E8741";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -921,8 +933,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/FacebookSDK",
@@ -932,12 +944,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FastPost/FastPost-Prefix.pch";
 				INFOPLIST_FILE = "FastPost/FastPost-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/CrittercismSDK",
 				);
 				PRODUCT_NAME = FastPost;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "33B820A0-5EA1-42F2-BC81-96EBAD64B414";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -948,8 +961,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/FacebookSDK",
@@ -959,12 +972,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FastPost/FastPost-Prefix.pch";
 				INFOPLIST_FILE = "FastPost/FastPost-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/CrittercismSDK",
 				);
 				PRODUCT_NAME = FastPost;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "68AB1C3E-CB66-41AD-891A-0158145E8741";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

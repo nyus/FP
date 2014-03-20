@@ -62,25 +62,27 @@ static Helper *_helper;
             
         }else{
             PFFile *avatar = [PFUser currentUser][@"avatar"];
-            [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                
-                //user has the app installed but deleted it, and then redownload, pull avatar from parse
-                if (data && !error) {
-                    imageView.image = [UIImage imageWithData:data];
-
-                    //save image to local
-                    [[NSFileManager defaultManager]
-                     createFileAtPath:path
-                     contents:data
-                     attributes:@{NSFileCreationDate:[PFUser currentUser][@"avatarUpdateDate"]}];
-
-                }else{
-                    UIImage *image = [UIImage imageNamed:@"default-user-icon-profile"];
-                    imageView.image = image;
-                }
-                //first time usage. user the default place holder
-                //else{}
-            }];
+            if (avatar != (PFFile *)[NSNull null] && avatar != nil) {
+                [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                    
+                    //user has the app installed but deleted it, and then redownload, pull avatar from parse
+                    if (data && !error) {
+                        imageView.image = [UIImage imageWithData:data];
+                        
+                        //save image to local
+                        [[NSFileManager defaultManager]
+                         createFileAtPath:path
+                         contents:data
+                         attributes:@{NSFileCreationDate:[PFUser currentUser][@"avatarUpdateDate"]}];
+                        
+                    }else{
+                        UIImage *image = [UIImage imageNamed:@"default-user-icon-profile"];
+                        imageView.image = image;
+                    }
+                    //first time usage. user the default place holder
+                    //else{}
+                }];
+            }
         }
     });
 }

@@ -21,19 +21,30 @@
 //    [PFFacebookUtils initializeFacebook];
     //crittercism
     [Crittercism enableWithAppID: @"52c576648b2e334a25000001"];
+    
+    // Register for push notifications
+    [application registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeBadge |
+     UIRemoteNotificationTypeAlert |
+     UIRemoteNotificationTypeSound];
 
     return YES;
 }
 
 
 // If you decide to send notifications from the client SDKs, you will need to set Client Push Enabled in the Push Notifications settings of your Parse app.
-//- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
-//    //push notification
-//    // Store the deviceToken in the current Installation and save it to Parse.
-//    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-//    [currentInstallation setDeviceTokenFromData:deviceToken];
-//    [currentInstallation saveInBackground];
-//}
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    //push notification
+    // Store the deviceToken in the current Installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    [currentInstallation saveInBackground];
+}
+
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [PFPush handlePush:userInfo];
+}
 
 //- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
 //    return [PFFacebookUtils handleOpenURL:url];
@@ -43,6 +54,7 @@
 //  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
 //    return [PFFacebookUtils handleOpenURL:url];
 //}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
