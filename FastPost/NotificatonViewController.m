@@ -12,7 +12,7 @@
 #import "Helper.h"
 @interface NotificatonViewController ()<UITableViewDataSource,UITableViewDelegate,FriendQuestTableViewCellDelegate>{
     //this contains friend quests
-    NSArray *dataSource;
+    NSMutableArray *dataSource;
 }
 
 @end
@@ -34,7 +34,8 @@
 	// Do any additional setup after loading the view.
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
+    self.tableView.delaysContentTouches = NO;
+    self.tableView.canCancelContentTouches = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -61,7 +62,7 @@
     [query whereKey:@"receiverUsername" equalTo:[PFUser currentUser].username];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects && objects.count != 0) {
-            dataSource = objects;
+            dataSource = [objects mutableCopy];
             [self.tableView reloadData];
         }
     }];
@@ -134,8 +135,8 @@
 -(void)friendQuestTBCellAcceptButtonTappedWithCell:(FriendQuestTableViewCell *)cell{
     NSIndexPath *path = [self.tableView indexPathForCell:cell];
     PFObject *object = (PFObject *)dataSource[path.row];
-    [object setObject:[NSNumber numberWithInt:1] forKey:@"requestStatus"];
-    [object saveInBackground];
+//    [object setObject:[NSNumber numberWithInt:1] forKey:@"requestStatus"];
+//    [object saveInBackground];
     
     NSDictionary *dict = @{@"senderUsername":object[@"senderUsername"],
                            @"receiverUsername":object[@"receiverUsername"]};
@@ -143,7 +144,9 @@
         if (error) {
             NSLog(@"add to followers failed with error: %@",error);
         }else{
-            [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:cell]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            NSIndexPath *path = [self.tableView indexPathForCell:cell];
+            [dataSource removeObjectAtIndex:path.row];
+            [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }];
     //here in cloud code, we should add [PFUser currentUser].username to sender's followers

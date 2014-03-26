@@ -56,49 +56,70 @@
         self.activityIndicator.hidden = NO;
         [self.activityIndicator startAnimating];
 
-        //hit api and store user info
-        PFUser *newUser = [PFUser user];
-        [PFUser enableAutomaticUser];
-        newUser.email = self.emailTextField.text;
-        if (![self.usernameTextField.text isEqualToString:@""]) {
-            newUser.username = self.usernameTextField.text;
-        }
-        newUser.password = self.passwordTextField.text;
-        [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            [self.activityIndicator stopAnimating];
-
-            if(succeeded){
-
-                //
-                [PFUser logInWithUsername:self.usernameTextField.text password:self.passwordTextField.text];
-                [[PFUser currentUser] addObject:[PFUser currentUser].username forKey:@"friends"];
-                [[PFUser currentUser] setObject:[NSNull null] forKey:@"avatar"];
-                [[PFUser currentUser] setObject:[NSNull null] forKey:@"avatarUpdateDate"];
-                [[PFUser currentUser] setObject:[NSNull null] forKey:@"followers"];
-                [[PFUser currentUser] saveInBackground];
+        
+        //compound query. OR two conditions together
+        PFQuery *username = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
+        [username whereKey:@"username" equalTo:self.usernameTextField.text];
+        PFQuery *email = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
+        [email whereKey:@"email" equalTo:self.emailTextField.text];
+        PFQuery *alreadyExist = [PFQuery orQueryWithSubqueries:@[username,email]];
+        
+        [alreadyExist getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            
+            if (object == nil) {
+                //email and username are available
+                //hit api and store user info
+                PFUser *newUser = [PFUser user];
+                newUser.email = self.emailTextField.text;
+                newUser.username = self.usernameTextField.text;
+                newUser.password = self.passwordTextField.text;
                 
-                //set user on PFInstallation object so that we can send out targeted pushes
-                [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
-                [[PFInstallation currentInstallation] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (succeeded) {
-                        NSLog(@"successfully set PFUser on PFInstallation");
+                [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    
+                    if(succeeded){
+                        
+                        //
+                        [PFUser logInWithUsername:self.usernameTextField.text password:self.passwordTextField.text];
+                        [[PFUser currentUser] addObject:[PFUser currentUser].username forKey:@"friends"];
+                        [[PFUser currentUser] setObject:nil forKey:@"avatar"];
+                        [[PFUser currentUser] setObject:nil forKey:@"avatarUpdateDate"];
+                        [[PFUser currentUser] setObject:nil forKey:@"followers"];
+                        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            [self.activityIndicator stopAnimating];
+                        }];
+                        
+                        //set user on PFInstallation object so that we can send out targeted pushes
+                        [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
+                        [[PFInstallation currentInstallation] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            if (succeeded) {
+                                NSLog(@"successfully set PFUser on PFInstallation");
+                            }
+                        }];
+                        
+                        signUpSuccessAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Congrats! You have successfully signed up!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+                        signUpSuccessAlert.tag = 0;
+                        [signUpSuccessAlert show];
+                        [self performSelector:@selector(showStatusTableView) withObject:nil afterDelay:.5];
+                        
+                    }else{
+                        [self.activityIndicator stopAnimating];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Sign up failed. Please try again" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                        alert.tag = 1;
+                        [alert show];
+                        
                     }
                 }];
                 
-                signUpSuccessAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Congrats! You have successfully signed up!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
-                signUpSuccessAlert.tag = 0;
-                [signUpSuccessAlert show];
-                [self performSelector:@selector(showStatusTableView) withObject:nil afterDelay:.5];
             }else{
-
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Sign up failed. Please try again" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                alert.tag = 1;
-                [alert show];
                 
+                [self.activityIndicator stopAnimating];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Email or username is already registered. Please try again." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                [alert show];
             }
-            
-            [self.activityIndicator stopAnimating];
         }];
+        
+        
+        
     }
 }
 
@@ -116,26 +137,11 @@
         [self.passwordTextField becomeFirstResponder];
     }
     else if(textField == self.passwordTextField){
-        [self animateMoveViewUp];
         textField.text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         [textField resignFirstResponder];
     }
     
     return NO;
-}
-
--(void)animateMoveViewUp{
-    
-    if (self.view.frame.origin.y < 0) {
-        return;
-    }
-    
-    [UIView animateWithDuration:.3 animations:^{
-        self.view.frame = CGRectMake(self.view.frame.origin.x,
-                                     self.view.frame.origin.y - 50,
-                                     self.view.frame.size.width,
-                                     self.view.frame.size.height);
-    }];
 }
 
 #pragma mark UIAlertViewDelegate

@@ -52,6 +52,8 @@
 		50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F3304318D1411300A0878D /* CommentStatusViewController.m */; };
 		50F5264518D7CCE500091953 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F5264418D7CCE500091953 /* MessageUI.framework */; };
 		50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEA0C187B68C3000A91AF /* StatusViewController.m */; };
+		50FE569B18E25E6E00B85B35 /* NoDelayTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FE569A18E25E6E00B85B35 /* NoDelayTableView.m */; };
+		50FE569E18E2610A00B85B35 /* NoDelayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FE569D18E2610A00B85B35 /* NoDelayButton.m */; };
 		6522693B18AECB2B004ABEDC /* FriendQuestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */; };
 		6522693E18AED82C004ABEDC /* FriendQuestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6522693D18AED82C004ABEDC /* FriendQuestTableViewCell.m */; };
 		653ACDE618510BEE007B9A47 /* PaperClip-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 653ACDE518510BEE007B9A47 /* PaperClip-512.png */; };
@@ -181,6 +183,10 @@
 		50F5264418D7CCE500091953 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		50FCEA0B187B68C3000A91AF /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusViewController.h; sourceTree = "<group>"; };
 		50FCEA0C187B68C3000A91AF /* StatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusViewController.m; sourceTree = "<group>"; };
+		50FE569918E25E6E00B85B35 /* NoDelayTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoDelayTableView.h; sourceTree = "<group>"; };
+		50FE569A18E25E6E00B85B35 /* NoDelayTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoDelayTableView.m; sourceTree = "<group>"; };
+		50FE569C18E2610A00B85B35 /* NoDelayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoDelayButton.h; sourceTree = "<group>"; };
+		50FE569D18E2610A00B85B35 /* NoDelayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoDelayButton.m; sourceTree = "<group>"; };
 		6522693918AECB2B004ABEDC /* FriendQuestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendQuestViewController.h; sourceTree = "<group>"; };
 		6522693A18AECB2B004ABEDC /* FriendQuestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendQuestViewController.m; sourceTree = "<group>"; };
 		6522693C18AED82C004ABEDC /* FriendQuestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendQuestTableViewCell.h; sourceTree = "<group>"; };
@@ -578,6 +584,10 @@
 				50F5264618D917A500091953 /* iPad */,
 				65413CF51843990200543C1A /* Images.xcassets */,
 				65413CE11843990200543C1A /* Supporting Files */,
+				50FE569918E25E6E00B85B35 /* NoDelayTableView.h */,
+				50FE569A18E25E6E00B85B35 /* NoDelayTableView.m */,
+				50FE569C18E2610A00B85B35 /* NoDelayButton.h */,
+				50FE569D18E2610A00B85B35 /* NoDelayButton.m */,
 			);
 			path = FastPost;
 			sourceTree = "<group>";
@@ -768,6 +778,7 @@
 				5034EF0018A7E7FC00DBDCCF /* SharedDataManager.m in Sources */,
 				6522693E18AED82C004ABEDC /* FriendQuestTableViewCell.m in Sources */,
 				50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */,
+				50FE569E18E2610A00B85B35 /* NoDelayButton.m in Sources */,
 				658AA5C8184F95420097383B /* StatusTableViewHeaderViewController.m in Sources */,
 				65413D141843B6AA00543C1A /* StatusTableViewController.m in Sources */,
 				653ACE42185926FD007B9A47 /* ExpirationTimePickerViewController.m in Sources */,
@@ -792,6 +803,7 @@
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
 				50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */,
 				50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */,
+				50FE569B18E25E6E00B85B35 /* NoDelayTableView.m in Sources */,
 				65409F7118BE855300589F66 /* Message+Utilities.m in Sources */,
 				5054C93B18BC46230044CB5F /* SignUpViewController.m in Sources */,
 				6522693B18AECB2B004ABEDC /* FriendQuestViewController.m in Sources */,

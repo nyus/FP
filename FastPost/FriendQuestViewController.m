@@ -181,7 +181,9 @@
                             PFPush *push = [[PFPush alloc] init];
                             [push setQuery:query];
                             [push setMessage:[NSString stringWithFormat:@"%@ has sent you a follow request",[PFUser currentUser].username]];
-                            [push sendPushInBackground];
+                            [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                
+                            }];
                             
                             NSLog(@"request %@ sent",request);
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Done" otherButtonTitles:nil, nil];
@@ -212,7 +214,6 @@
     NSIndexPath *path = [self.tableView indexPathForCell:cell];
     PFObject *object = (PFObject *)dataSource[path.row];
     [object setObject:[NSNumber numberWithInt:1] forKey:@"requestStatus"];
-    [object saveInBackground];
 
     NSDictionary *dict = @{@"senderUsername":object[@"senderUsername"],
                            @"receiverUsername":object[@"receiverUsername"]};
@@ -224,6 +225,8 @@
         }
     }];
     //here in cloud code, we should add [PFUser currentUser].username to sender's followers
+    
+    [object saveInBackground];
 }
 
 -(void)friendQuestTBCellNotNowButtonTappedWithCell:(FriendQuestTableViewCell *)cell{

@@ -42,8 +42,8 @@
             [tabBarItem setImage:unselectedImage];
             [tabBarItem setSelectedImage: [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         }else if (i==1){
-            UIImage *unselectedImage = [UIImage imageNamed:@"profile_tab"];
-            UIImage *selectedImage = [UIImage imageNamed:@"profile_tab"];
+            UIImage *unselectedImage = [UIImage imageNamed:@"notification_tab"];
+            UIImage *selectedImage = [UIImage imageNamed:@"notification_tab"];
             
             [tabBarItem setImage:unselectedImage];
             [tabBarItem setSelectedImage: [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
