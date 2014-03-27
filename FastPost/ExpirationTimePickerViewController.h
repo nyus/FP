@@ -28,6 +28,7 @@ typedef enum{
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 @property (nonatomic, assign) id<ExpirationTimePickerViewControllerDelegate>delegate;
 @property (nonatomic) BOOL isOnScreen;
+@property (nonatomic) int allowableReviveTimeInSec;
 - (IBAction)doneButtonTapped:(id)sender;
 - (IBAction)cancelButtonTapped:(id)sender;
 -(void)removeSelfFromParent;

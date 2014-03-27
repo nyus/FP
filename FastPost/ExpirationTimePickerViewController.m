@@ -79,16 +79,16 @@
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    
+
     if (_type == PickerTypeRevive) {
         if (component == 0) {
-            //min  0 -29
-            return 30;
+            //min. a post can have up to 30 mins in longevity
+            return (30*60 - self.allowableReviveTimeInSec)/60;
         }else if (component == 1){
             return 1;
         }else if(component == 2){
-            //sec 0 - 59
-            return 60;
+            //sec a post can have up to 30 mins in longevity
+            return (30*60 - self.allowableReviveTimeInSec)%60;
         }else{
             return 1;
         }

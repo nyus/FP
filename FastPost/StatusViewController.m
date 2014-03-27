@@ -58,7 +58,7 @@
     //add refresh control
     [self addRefreshControll];
     
-#warning version 1.0 doesnt require like and comment
+//#warning version 1.0 doesnt require like and comment
     //if yes, table view cell will make room for like, comment and revive buttons
     self.needSocialButtons = NO;
     //
@@ -317,6 +317,8 @@
                                                        expirationTimePickerVC.view.frame.size.width,
                                                        expirationTimePickerVC.view.frame.size.height);
         expirationTimePickerVC.titleLabel.text = @"Revive Status";
+        //need this to construct datasource
+        expirationTimePickerVC.allowableReviveTimeInSec = [self convertCountDownTextToSecond:cell.statusCellCountDownLabel.text];
         
         UIToolbar *blurEffectToolBar = [[UIToolbar alloc] initWithFrame:expirationTimePickerVC.view.frame];
         blurEffectToolBar.barStyle = UIBarStyleDefault;
@@ -330,11 +332,23 @@
     }
     
     expirationTimePickerVC.type = PickerTypeRevive;
+    //need this to construct datasource. update this value
+    expirationTimePickerVC.allowableReviveTimeInSec = [self convertCountDownTextToSecond:cell.statusCellCountDownLabel.text];
+    
     
     [UIView animateWithDuration:.3 animations:^{
         expirationTimePickerVC.view.alpha = 1.0f;
         expirationTimePickerVC.blurToolBar.alpha = 1.0f;
     }];
+}
+
+-(int)convertCountDownTextToSecond:(NSString *)coundDownText{
+    NSArray *components = [coundDownText componentsSeparatedByString:@":"];
+    
+    int min = [[components objectAtIndex:0] intValue];
+    int sec = [[components objectAtIndex:1] intValue];
+    
+    return min*60+sec;
 }
 
 -(void)likeButtonTappedOnCell:(StatusTableViewCell *)cell{
