@@ -142,8 +142,8 @@
     
     //set following. # of following is the count of friends minus one(since user is friend of himself)
     PFUser *me = [PFUser currentUser];
-    if (me[@"friends"] != [NSNull null]) {
-        self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"friends"] count]-1];
+    if (me[@"usersIFollow"] != [NSNull null]) {
+        self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"usersIFollow"] count]-1];
     }else{
         self.followingLabel.text = [NSString stringWithFormat:@"%d",0];
     }

@@ -86,7 +86,7 @@
     if (remainingTimeInSec) {
         [query whereKey:@"expirationDate" lessThan:[[NSDate date] dateByAddingTimeInterval:remainingTimeInSec.intValue]];
     }
-    [query whereKey:@"posterUsername" containedIn:[[PFUser currentUser] objectForKey:@"friends"]];
+    [query whereKey:@"posterUsername" containedIn:[[PFUser currentUser] objectForKey:@"usersIFollow"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         if (objects.count != 0) {
@@ -286,7 +286,7 @@
                 [alert show];
             }else{
                 PFUser *foundUser = (PFUser *)object;
-                [[PFUser currentUser] addObject:foundUser.username forKey:@"friends"];
+                [[PFUser currentUser] addObject:foundUser.username forKey:@"usersIFollow"];
                 [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (!succeeded) {
                         NSLog(@"save new friend failed");

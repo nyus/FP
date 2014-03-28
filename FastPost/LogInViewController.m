@@ -216,14 +216,7 @@
 
 -(void)showStatusTableView{
     
-    [self dismissViewControllerAnimated:YES completion:nil];
-//    [self performSegueWithIdentifier:@"toStatus" sender:self];
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
-//    StatusTableViewController *vc = (StatusTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"statusView"];
-//    
-//    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
-//    [viewControllers replaceObjectAtIndex:viewControllers.count-1 withObject:vc];
-//    [self.navigationController setViewControllers:viewControllers animated:NO];
+    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 #pragma mark - UIAlertView

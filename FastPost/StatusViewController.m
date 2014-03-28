@@ -107,8 +107,6 @@
     
     dispatch_queue_t queue = dispatch_queue_create("refresh user", NULL);
     dispatch_async(queue, ^{
-        //refresh to get the most recent @"friends"
-        [[PFUser currentUser] refresh];
         
         PFQuery *query = [PFQuery queryWithClassName:@"Status"];
         query.limit = count;
@@ -118,7 +116,7 @@
         if (remainingTimeInSec) {
             [query whereKey:@"expirationDate" lessThan:[[NSDate date] dateByAddingTimeInterval:remainingTimeInSec.intValue]];
         }
-        [query whereKey:@"posterUsername" containedIn:[[PFUser currentUser] objectForKey:@"friends"]];
+        [query whereKey:@"posterUsername" containedIn:[[PFUser currentUser] objectForKey:@"usersIFollow"]];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
             if (objects.count != 0) {
