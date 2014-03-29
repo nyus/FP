@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class StatusTableViewCell;
+@class Status;
 @protocol StatusTableViewCellDelegate <NSObject>
 @optional
 -(void)reviveStatusButtonTappedOnCell:(StatusTableViewCell *)cell;
@@ -33,6 +34,8 @@
 @property (weak, nonatomic) NSMapTable *isTherePhotoMap;
 //cache cell height
 @property (weak, nonatomic) NSMapTable *cellHeightMap;
+@property (strong,nonatomic) Status *status;
+
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @property (weak, nonatomic) IBOutlet UIView *buttonsContainerView;
 @property (weak, nonatomic) IBOutlet UIView *cellLineSeparator;

@@ -9,10 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface FriendQuestViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
-
 @property (nonatomic) BOOL isOnScreen;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) UIToolbar *blurToolBar;

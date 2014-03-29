@@ -11,7 +11,7 @@
 #import "FriendQuestTableViewCell.h"
 #import <Parse/Parse.h>
 #import "Helper.h"
-@interface FriendQuestViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,FriendQuestTableViewCellDelegate>{
+@interface FriendQuestViewController ()<UITextFieldDelegate,FriendQuestTableViewCellDelegate>{
     NSArray *dataSource;
 }
 
@@ -43,73 +43,14 @@
     //set a reference so that can remove it
     self.blurToolBar = blurEffectToolBar;
     [self.view insertSubview:blurEffectToolBar belowSubview:self.containerView];
-  
-    //KVO on view.alpha. everytime alpha goes to 1, need to pull to see if there is new friend
-    [self.view addObserver:self forKeyPath:@"alpha" options:NSKeyValueObservingOptionNew context:NULL];
+
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self pullFriendRequest];
-}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - KVO
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"alpha"] && self.view.alpha == 1.0f) {
-        [self pullFriendRequest];
-    }
-}
-
--(void)pullFriendRequest{
-    //FriendRequest.requestStatus
-    //1. accepted 2. denied 3. not now 4. new request
-    PFQuery *query = [[PFQuery alloc] initWithClassName:@"FriendRequest"];
-    //dont pull accepted/denied request
-    [query whereKey:@"requestStatus" greaterThanOrEqualTo:[NSNumber numberWithInt:3]];
-    [query whereKey:@"receiverUsername" equalTo:[PFUser currentUser].username];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error && objects && objects.count != 0) {
-            dataSource = objects;
-            [self.tableView reloadData];
-        }
-    }];
-}
-
-#pragma mark - Table View
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return dataSource?dataSource.count:1;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    //no friend request
-    if (!dataSource || dataSource.count == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noRequestCell" forIndexPath:indexPath];
-        return cell;
-    }else{
-        
-        FriendQuestTableViewCell *cell = (FriendQuestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-        cell.delegate = self;
-        //set avatar
-        [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] forImageView:cell.profileImageView];
-        //set sender username
-        cell.usernameLabel.text = [dataSource[indexPath.row] objectForKey:@"senderUsername"];
-        return cell;
-    }
 }
 
 -(void)removeSelfFromParent{
@@ -205,7 +146,6 @@
             }];
         }
     }];
-
 }
 
 #pragma mark - UITextField
@@ -216,42 +156,5 @@
     return YES;
 }
 
-#pragma mark - FriendQuestTableViewCellDelegate
-
--(void)friendQuestTBCellAcceptButtonTappedWithCell:(FriendQuestTableViewCell *)cell{
-    NSIndexPath *path = [self.tableView indexPathForCell:cell];
-    PFObject *object = (PFObject *)dataSource[path.row];
-    [object setObject:[NSNumber numberWithInt:1] forKey:@"requestStatus"];
-
-    NSDictionary *dict = @{@"senderUsername":object[@"senderUsername"],
-                           @"receiverUsername":object[@"receiverUsername"]};
-    [PFCloud callFunctionInBackground:@"addToFollowers" withParameters:dict block:^(id object, NSError *error) {
-        if (error) {
-            NSLog(@"add to followers failed with error: %@",error);
-        }else{
-            [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:cell]] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-    }];
-    //here in cloud code, we should add [PFUser currentUser].username to sender's followers
-    
-    [object saveInBackground];
-}
-
--(void)friendQuestTBCellNotNowButtonTappedWithCell:(FriendQuestTableViewCell *)cell{
-    NSIndexPath *path = [self.tableView indexPathForCell:cell];
-    PFObject *object = (PFObject *)dataSource[path.row];
-    [object setObject:[NSNumber numberWithInt:3] forKey:@"requestStatus"];
-    [object saveInBackground];
-}
-
--(void)friendQuestTBCellDeclineButtonTappedWithCell:(FriendQuestTableViewCell *)cell{
-    NSIndexPath *path = [self.tableView indexPathForCell:cell];
-    PFObject *object = (PFObject *)dataSource[path.row];
-    [object setObject:[NSNumber numberWithInt:2] forKey:@"requestStatus"];
-    [object saveInBackground];
-}
-- (IBAction)findButtonTapped:(id)sender {
-    
-}
 @end
 

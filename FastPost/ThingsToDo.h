@@ -50,3 +50,7 @@ Is it possible to have all your posts remain in your history but in no one elses
                                                                                    
 A like button but I wanna call it something else... not sure what though
 
+
+#######concepts
+//If A sends a request to B by tapping the "Add" button on the top left, A will be able to send messages to B (Only if B accepts) and A will NOT see B's posts on A's feed until B accepts A.Correct!
+//and If B accepts A, B can send messages to A but can not see A's posts until B send a request to follow A.

@@ -83,22 +83,25 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSString *key =[NSString stringWithFormat:@"%d%d",(int)indexPath.section,(int)indexPath.row];
+    Status *status = self.dataSource[indexPath.row];
+    NSString *key =[NSString stringWithFormat:@"%d",status.hash];
     
     static NSString *CellIdentifier = @"Cell";
     StatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     // Configure the cell...
     cell.delegate = self;
     cell.needSocialButtons = self.needSocialButtons;
-
+    //pass a reference so in statusTableViewCell can use status.hash to access stuff
+    cell.status = status;
+    
     //message
-    cell.statusCellMessageLabel.text = [[self.dataSource objectAtIndex:indexPath.row] message];
+    cell.statusCellMessageLabel.text = [status message];
     
     //username
-    cell.statusCellUsernameLabel.text = [[self.dataSource objectAtIndex:indexPath.row] posterUsername];
+    cell.statusCellUsernameLabel.text = [status posterUsername];
     
     //revivable button
-    BOOL revivable = [[self.dataSource[indexPath.row] revivable] boolValue];
+    BOOL revivable = [[status revivable] boolValue];
     if (!revivable) {
         cell.statusCellReviveButton.hidden = YES;
     }else{
@@ -108,7 +111,7 @@
     //cell date
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm MM/dd/yy"];
-    NSString *str = [formatter stringFromDate:[[self.dataSource objectAtIndex:indexPath.row] updatedAt]];
+    NSString *str = [formatter stringFromDate:[status updatedAt]];
     cell.statusCellDateLabel.text = str;
     
     //get avatar
@@ -119,7 +122,7 @@
         
         cell.statusCellPhotoImageView.hidden = NO;
 
-        PFFile *picture = (PFFile *)[self.dataSource[indexPath.row] picture];
+        PFFile *picture = (PFFile *)[status picture];
         //add spinner on image view to indicate pulling image
         UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         spinner.center = CGPointMake((int)cell.statusCellPhotoImageView.frame.size.width/2, (int)cell.statusCellPhotoImageView.frame.size.height/2);
@@ -131,7 +134,7 @@
             if (data && !error) {
                 cell.statusCellPhotoImageView.image = [UIImage imageWithData:data];
             }else{
-                NSLog(@"error (%@) getting status photo with status id %@",error.localizedDescription,[[self.dataSource objectAtIndex:indexPath.row] objectId]);
+                NSLog(@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid);
             }
             
             [spinner stopAnimating];
@@ -142,8 +145,8 @@
     
     //social buttons
     if (self.needSocialButtons) {
-        cell.likeCountLabel.text = [[self.dataSource[indexPath.row] likeCount] stringValue];
-        cell.commentCountLabel.text = [[self.dataSource[indexPath.row] likeCount] stringValue];
+        cell.likeCountLabel.text = [[status likeCount] stringValue];
+        cell.commentCountLabel.text = [[status likeCount] stringValue];
     }
     
     //passing reference
@@ -170,11 +173,12 @@
         return BACKGROUND_CELL_HEIGHT;
     }else{
 
-        NSString *key =[NSString stringWithFormat:@"%d%d",(int)indexPath.section,(int)indexPath.row];
-        
+        Status *status = self.dataSource[indexPath.row];
+        NSString *key =[NSString stringWithFormat:@"%d",status.hash];
+        NSLog(@"indexPath:%@",indexPath);
         //is cell height has been calculated, return it
         if ([cellHeightMap objectForKey:key]) {
-
+            NSLog(@"return stored cell height: %f",[[cellHeightMap objectForKey:key] floatValue]);
             return [[cellHeightMap objectForKey:key] floatValue];
             
         }else{
@@ -184,17 +188,19 @@
             //number of lines must be set to zero so that sizeToFit would work correctly
             label.numberOfLines = 0;
             label.font = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];
-            label.text = [self.dataSource[indexPath.row] message];
+            label.text = [status message];
+            CGSize aSize = [label sizeThatFits:label.frame.size];
+            NSLog(@"aSize is %@",NSStringFromCGSize(aSize));
             
-            CGSize size = [label.text sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]}];
-            
-            float labelHeight = ceilf(size.width / CELL_MESSAGE_LABEL_WIDTH)*ceilf(size.height);
+//            CGSize size = [label.text sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]}];
+//            NSLog(@"size is %@",NSStringFromCGSize(size));
+            float labelHeight = aSize.height;//ceilf(ceilf(size.width) / CELL_MESSAGE_LABEL_WIDTH)*ceilf(size.height)+10;
             [labelHeightMap setObject:[NSNumber numberWithFloat:labelHeight] forKey:key];
             
             
             //determine if there is a picture
             float pictureHeight = 0;;
-            PFFile *picture = (PFFile *)[self.dataSource[indexPath.row] picture];//[[[self.dataSource objectAtIndex:indexPath.row] pfObject] objectForKey:@"picture"];
+            PFFile *picture = (PFFile *)status.picture;
             if (picture == (PFFile *)[NSNull null] || picture == nil) {
                 
                 [isTherePhotoMap setObject:[NSNumber numberWithBool:NO] forKey:key];
@@ -208,18 +214,18 @@
 
             }
             
-            float cellHeight = ORIGIN_Y_CELL_MESSAGE_LABEL + labelHeight + 10;
+            float cellHeight = ORIGIN_Y_CELL_MESSAGE_LABEL + labelHeight;
             if (pictureHeight !=0) {
-                cellHeight += pictureHeight+10;
+                cellHeight += 10 + pictureHeight;
             }
             
             if(self.needSocialButtons){
                 //this container view has like, comment, revive buttons
-                cellHeight += CELL_BUTTONS_CONTAINER_HEIGHT;
+                cellHeight += 10 + CELL_BUTTONS_CONTAINER_HEIGHT;
             }
             
-            //cell line separator
-            cellHeight = cellHeight+10;
+            //cell line separator is on the 10th pixel. so +11.
+            cellHeight = cellHeight+11;
             
             [cellHeightMap setObject:[NSNumber numberWithFloat:cellHeight]
                               forKey:key];
@@ -230,5 +236,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(void)removeStoredHeightForStatus:(Status *)status{
+    NSString *key =[NSString stringWithFormat:@"%d",status.hash];
+    [cellHeightMap removeObjectForKey:key];
 }
 @end

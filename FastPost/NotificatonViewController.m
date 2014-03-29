@@ -135,8 +135,12 @@
 -(void)friendQuestTBCellAcceptButtonTappedWithCell:(FriendQuestTableViewCell *)cell{
     NSIndexPath *path = [self.tableView indexPathForCell:cell];
     PFObject *object = (PFObject *)dataSource[path.row];
-//    [object setObject:[NSNumber numberWithInt:1] forKey:@"requestStatus"];
-//    [object saveInBackground];
+    [object setObject:[NSNumber numberWithInt:1] forKey:@"requestStatus"];
+    [object saveInBackground];
+
+    //add quest sender to my "usersICanMessage" array
+    [[PFUser currentUser] addUniqueObject:object[@"senderUsername"] forKey:@"usersICanMessage"];
+    [[PFUser currentUser] saveInBackground];
     
     NSDictionary *dict = @{@"senderUsername":object[@"senderUsername"],
                            @"receiverUsername":object[@"receiverUsername"]};

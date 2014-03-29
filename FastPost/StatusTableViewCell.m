@@ -8,6 +8,7 @@
 
 #import "StatusTableViewCell.h"
 #import "UIImage+ImageEffects.h"
+#import "Status.h"
 @interface StatusTableViewCell(){
     int timeCount;
     BOOL timerStarted;
@@ -21,6 +22,11 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self.statusCellUsernameLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(usernameLabelTapped:)]];
+        //turn off autolayout on the cells
+        self.statusCellMessageLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        self.statusCellPhotoImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.buttonsContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.cellLineSeparator.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
     return self;
@@ -30,11 +36,12 @@
     
 //    NSLog(@"layout subviews for : %@",self);
     [self resizeCellToFitStatusContent];
+    [super layoutSubviews];
 }
 
 -(void)resizeCellToFitStatusContent{
  
-    NSString *key =[NSString stringWithFormat:@"%d%d",(int)self.indexPath.section,(int)self.indexPath.row];
+    NSString *key =[NSString stringWithFormat:@"%d",self.status.hash];
 
     self.statusCellMessageLabel.frame = CGRectMake(self.statusCellMessageLabel.frame.origin.x,
                                                    self.statusCellMessageLabel.frame.origin.y,
@@ -44,14 +51,13 @@
     //photo and buttons container view
     if ([[self.isTherePhotoMap objectForKey:key] boolValue]) {
         //
-        
-        self.statusCellPhotoImageView.frame = CGRectMake(self.statusCellPhotoImageView.frame.origin.x,
+         self.statusCellPhotoImageView.frame = CGRectMake(self.statusCellPhotoImageView.frame.origin.x,
                                                          CGRectGetMaxY(self.statusCellMessageLabel.frame) + 10,
                                                          self.statusCellPhotoImageView.frame.size.width,
                                                          self.statusCellPhotoImageView.frame.size.height);
 
         if (self.needSocialButtons) {
-            //layout like, comment
+             //layout like, comment
             self.buttonsContainerView.frame = CGRectMake(self.buttonsContainerView.frame.origin.x,
                                                          CGRectGetMaxY(self.statusCellPhotoImageView.frame)+10,
                                                          self.buttonsContainerView.frame.size.width,
@@ -59,10 +65,9 @@
         }
         
     }else{
-        
-        //no photo
+         //no photo
         if (self.needSocialButtons) {
-            //layout like, comment
+             //layout like, comment
             self.buttonsContainerView.frame = CGRectMake(self.buttonsContainerView.frame.origin.x,
                                                          CGRectGetMaxY(self.statusCellMessageLabel.frame)+10,
                                                          self.buttonsContainerView.frame.size.width,
@@ -72,7 +77,7 @@
     
     //line separator
     if ([[self.isTherePhotoMap objectForKey:key] boolValue]) {
-        if (self.needSocialButtons) {
+         if (self.needSocialButtons) {
             
             self.cellLineSeparator.frame = CGRectMake(self.cellLineSeparator.frame.origin.x,
                                                       CGRectGetMaxY(self.buttonsContainerView.frame)+10,

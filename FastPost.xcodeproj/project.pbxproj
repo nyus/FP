@@ -80,7 +80,6 @@
 		65413CFF1843990200543C1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413CDE1843990200543C1A /* UIKit.framework */; };
 		65413D071843990200543C1A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65413D051843990200543C1A /* InfoPlist.strings */; };
 		65413D091843990200543C1A /* FastPostTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65413D081843990200543C1A /* FastPostTests.m */; };
-		65413D141843B6AA00543C1A /* StatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65413D131843B6AA00543C1A /* StatusTableViewController.m */; };
 		65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65413D161843B6EF00543C1A /* StatusTableViewCell.m */; };
 		65413D2E184641B800543C1A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413D2D184641B800543C1A /* AudioToolbox.framework */; };
 		65413D30184641BD00543C1A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413D2F184641BD00543C1A /* CFNetwork.framework */; };
@@ -224,8 +223,6 @@
 		65413D041843990200543C1A /* FastPostTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FastPostTests-Info.plist"; sourceTree = "<group>"; };
 		65413D061843990200543C1A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65413D081843990200543C1A /* FastPostTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FastPostTests.m; sourceTree = "<group>"; };
-		65413D121843B6AA00543C1A /* StatusTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusTableViewController.h; sourceTree = "<group>"; };
-		65413D131843B6AA00543C1A /* StatusTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusTableViewController.m; sourceTree = "<group>"; };
 		65413D151843B6EF00543C1A /* StatusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusTableViewCell.h; sourceTree = "<group>"; };
 		65413D161843B6EF00543C1A /* StatusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusTableViewCell.m; sourceTree = "<group>"; };
 		65413D2D184641B800543C1A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -479,8 +476,6 @@
 				658AA5D2184FADFB0097383B /* ComposeNewStatusViewController.m */,
 				658AA5C5184F95420097383B /* StatusTableViewHeaderViewController.h */,
 				658AA5C6184F95420097383B /* StatusTableViewHeaderViewController.m */,
-				65413D121843B6AA00543C1A /* StatusTableViewController.h */,
-				65413D131843B6AA00543C1A /* StatusTableViewController.m */,
 				50F3304218D1411300A0878D /* CommentStatusViewController.h */,
 				50F3304318D1411300A0878D /* CommentStatusViewController.m */,
 			);
@@ -775,7 +770,6 @@
 				50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */,
 				50FE569E18E2610A00B85B35 /* NoDelayButton.m in Sources */,
 				658AA5C8184F95420097383B /* StatusTableViewHeaderViewController.m in Sources */,
-				65413D141843B6AA00543C1A /* StatusTableViewController.m in Sources */,
 				653ACE42185926FD007B9A47 /* ExpirationTimePickerViewController.m in Sources */,
 				65A8B09818CA7AE000C46DD6 /* NotificatonViewController.m in Sources */,
 				507F614C1883594F00B57DDA /* Helper.m in Sources */,

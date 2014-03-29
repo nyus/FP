@@ -8,7 +8,6 @@
 
 #import "LogInViewController.h"
 #import <Parse/Parse.h>
-#import "StatusTableViewController.h"
 #import "SignUpViewController.h"
 @interface LogInViewController ()<UIAlertViewDelegate>
 

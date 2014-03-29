@@ -9,7 +9,7 @@
 #import "SignUpViewController.h"
 #import <Parse/Parse.h>
 #import "LogInViewController.h"
-@interface SignUpViewController ()<UIAlertViewDelegate>{
+@interface SignUpViewController (){
     UIAlertView *signUpSuccessAlert;
 }
 
@@ -40,17 +40,21 @@
 }
 
 -(void)showStatusTableView{
-    [signUpSuccessAlert dismissWithClickedButtonIndex:0 animated:YES];
-    [self dismissViewControllerAnimated:NO completion:^{
-        [self.loginVC dismissViewControllerAnimated:NO completion:^{
-//            //set user on PFInstallation object so that we can send out targeted pushes
-//            [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
-//            [[PFInstallation currentInstallation] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//                if (succeeded) {
-//                    NSLog(@"successfully set PFUser on PFInstallation");
-//                }
-//            }];
+    //set user on PFInstallation object so that we can send out targeted pushes
+    [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
+    [[PFInstallation currentInstallation] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"successfully set PFUser on PFInstallation");
+        }else{
+            NSLog(@"set PFUser on PFInstallation falied");
+        }
+        
+        [signUpSuccessAlert dismissWithClickedButtonIndex:0 animated:YES];
+        [self dismissViewControllerAnimated:NO completion:^{
+            [self.loginVC dismissViewControllerAnimated:NO completion:^{
+            }];
         }];
+
     }];
 }
 
@@ -83,7 +87,7 @@
                     newUser.email = self.emailTextField.text;
                     newUser.username = self.usernameTextField.text;
                     newUser.password = self.passwordTextField.text;
-                    [newUser setObject:@[self.usernameTextField.text] forKey:@"usersIFollow"];
+                    [newUser setObject:@[self.usernameTextField.text] forKey:@"usersAllowMeToFollow"];
 
                     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                         
@@ -137,12 +141,4 @@
     return NO;
 }
 
-#pragma mark UIAlertViewDelegate
-
-//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-//    //successfully signed up
-//    if (alertView.tag == 0) {
-//        [self showStatusTableView];
-//    }
-//}
 @end

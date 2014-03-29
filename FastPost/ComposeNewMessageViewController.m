@@ -46,7 +46,7 @@
     dispatch_queue_t queue = dispatch_queue_create("refreshUser", NULL);
     dispatch_async(queue, ^{
         [[PFUser currentUser] refresh];
-        for (NSString *username in [[PFUser currentUser] objectForKey:@"usersIFollow"]) {
+        for (NSString *username in [[PFUser currentUser] objectForKey:@"usersAllowMeToFollow"]) {
             if([username isEqualToString:[PFUser currentUser].username]){
                 continue;
             }
