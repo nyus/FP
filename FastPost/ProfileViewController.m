@@ -144,6 +144,17 @@
     }
 
     
+    
+    //pull from defaults for faster loading
+    NSString *numOfFollowing = [defaults objectForKey:@"numOfFollowing"];
+    if (numOfFollowing != nil) {
+        self.followingLabel.text = numOfFollowing;
+    }
+    NSString *numOfFollowers = [defaults objectForKey:@"numOfFollowers"];
+    if (numOfFollowing != nil) {
+        self.followerLabel.text = numOfFollowers;
+    }
+    
     //set following. # of following is the count of friends minus one(since user is friend of himself)
     [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         PFUser *me = (PFUser *)object;
@@ -153,12 +164,17 @@
             self.followingLabel.text = [NSString stringWithFormat:@"%d",0];
         }
         
+        [defaults setObject:self.followingLabel.text forKey:@"numOfFollowing"];
+        
         //set follower.
         if (me[@"followers"] != [NSNull null]) {
             self.followerLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"usersICanMessage"] count]];
         }else{
             self.followerLabel.text = [NSString stringWithFormat:@"%d",0];
         }
+        
+        [defaults setObject:self.followerLabel.text forKey:@"numOfFollowers"];
+        [defaults synchronize];
     }];
 }
 
