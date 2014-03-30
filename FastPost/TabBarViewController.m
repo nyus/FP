@@ -48,14 +48,14 @@
             [tabBarItem setImage:unselectedImage];
             [tabBarItem setSelectedImage: [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         }else if (i==2){
-            UIImage *unselectedImage = [UIImage imageNamed:@"message_tab"];
-            UIImage *selectedImage = [UIImage imageNamed:@"message_tab"];
+            UIImage *unselectedImage = [UIImage imageNamed:@"profile_tab"];
+            UIImage *selectedImage = [UIImage imageNamed:@"profile_tab"];
             
             [tabBarItem setImage:unselectedImage];
             [tabBarItem setSelectedImage: [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         }else{
-            UIImage *unselectedImage = [UIImage imageNamed:@"profile_tab"];
-            UIImage *selectedImage = [UIImage imageNamed:@"profile_tab"];
+            UIImage *unselectedImage = [UIImage imageNamed:@"message_tab"];
+            UIImage *selectedImage = [UIImage imageNamed:@"message_tab"];
             
             [tabBarItem setImage:unselectedImage];
             [tabBarItem setSelectedImage: [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];

@@ -11,6 +11,7 @@
 #import "FriendQuestTableViewCell.h"
 #import <Parse/Parse.h>
 #import "Helper.h"
+#import "FPLogger.h"
 @interface FriendQuestViewController ()<UITextFieldDelegate,FriendQuestTableViewCellDelegate>{
     NSArray *dataSource;
 }
@@ -133,8 +134,8 @@
                             [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                                 
                             }];
-                            
-                            NSLog(@"request %@ sent",request);
+                            [FPLogger record:[NSString stringWithFormat:@"friend request %@ sent",request]];
+                            NSLog(@"friend request %@ sent",request);
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Done" otherButtonTitles:nil, nil];
                             [alert show];
                         }else{

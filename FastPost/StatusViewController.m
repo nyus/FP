@@ -20,7 +20,7 @@
 #import "CommentStatusViewController.h"
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
-
+#import "FPLogger.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 @interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate, StatusTableViewHeaderViewDelegate,ExpirationTimePickerViewControllerDelegate,UIActionSheetDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate>{
@@ -427,7 +427,7 @@
 
 -(void)tbHeaderSettingButtonTapped{
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"About",@"Contact",@"Log out", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"About",@"Contact",@"Log out",@"Send Disgnosis", nil];
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
     
     
@@ -480,6 +480,8 @@
     }else if (buttonIndex == 2){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Log out", nil];
         [alert show];
+    }else if (buttonIndex == 3){
+        [FPLogger sendReport];
     }
 }
 

@@ -13,6 +13,7 @@
 #import "Helper.h"
 #import <CoreData/CoreData.h>
 #import "SharedDataManager.h"
+#import "FPLogger.h"
 //#import "StatusTableViewHeaderViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
@@ -148,15 +149,18 @@
     //pull from defaults for faster loading
     NSString *numOfFollowing = [defaults objectForKey:@"numOfFollowing"];
     if (numOfFollowing != nil) {
+        [FPLogger record:[NSString stringWithFormat:@"load number of following:%@ from user default",self.followingLabel.text]];
         self.followingLabel.text = numOfFollowing;
     }
     NSString *numOfFollowers = [defaults objectForKey:@"numOfFollowers"];
     if (numOfFollowing != nil) {
+        [FPLogger record:[NSString stringWithFormat:@"load number of followers:%@ from user default",self.followerLabel.text]];
         self.followerLabel.text = numOfFollowers;
     }
     
     //set following. # of following is the count of friends minus one(since user is friend of himself)
     [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        
         PFUser *me = (PFUser *)object;
         if (me[@"usersIFollow"] != [NSNull null]) {
             self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"usersIFollow"] count]];
@@ -172,7 +176,7 @@
         }else{
             self.followerLabel.text = [NSString stringWithFormat:@"%d",0];
         }
-        
+        [FPLogger record:[NSString stringWithFormat:@"load number of following:%@ and followers:%@ after refreshing current user obj",self.followingLabel.text,self.followerLabel.text]];
         [defaults setObject:self.followerLabel.text forKey:@"numOfFollowers"];
         [defaults synchronize];
     }];

@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "Helper.h"
 #import "Status.h"
+#import "FPLogger.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 76.0f
 #define CELL_MESSAGE_LABEL_WIDTH 280.0f
@@ -103,6 +104,7 @@
             if (data && !error) {
                 cell.statusCellPhotoImageView.image = [UIImage imageWithData:data];
             }else{
+                [FPLogger record:[NSString stringWithFormat:@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid]];
                 NSLog(@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid);
             }
             
@@ -233,7 +235,7 @@
     }else{
         
         Status *status = self.dataSource[indexPath.row];
-        NSString *key =[NSString stringWithFormat:@"%d",status.hash];
+        NSString *key =[NSString stringWithFormat:@"%lu",(unsigned long)status.hash];
         NSLog(@"indexPath:%@",indexPath);
         //is cell height has been calculated, return it
         if ([cellHeightMap objectForKey:key]) {

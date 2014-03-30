@@ -8,6 +8,7 @@
 
 #import "Helper.h"
 #import <Parse/Parse.h>
+#import "FPLogger.h"
 static Helper *_helper;
 @implementation Helper
 
@@ -50,13 +51,15 @@ static Helper *_helper;
                                 [user saveInBackground];
                                 
                             }else{
+                                [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
                                 NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
                             }
                         }];
                     }
                     
                 }else{
-                    NSLog(@"fet avatar error %@",error.localizedDescription);
+                    [FPLogger record:[NSString stringWithFormat:@"fetch avatar error %@",error.localizedDescription]];
+                    NSLog(@"fetch avatar error %@",error.localizedDescription);
                 }
             }];
             
@@ -103,7 +106,8 @@ static Helper *_helper;
     [user saveInBackground];
     
     if (writeError) {
-        NSLog(@"write to file error %@",writeError.localizedDescription);
+        [FPLogger record:[NSString stringWithFormat:@"write self avatar to file error %@",writeError.localizedDescription]];
+        NSLog(@"write self avatar to file error %@",writeError.localizedDescription);
     }
     
 }
@@ -150,13 +154,15 @@ static Helper *_helper;
                             [user saveInBackground];
                             
                         }else{
+                            [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
                             NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
                         }
                     }];
                 }
 
             }else{
-                NSLog(@"fet avatar error %@",error.localizedDescription);
+                [FPLogger record:[NSString stringWithFormat:@"fetch avatar error %@",error.localizedDescription]];
+                NSLog(@"fetch avatar error %@",error.localizedDescription);
             }
         }];
         
@@ -192,10 +198,12 @@ static Helper *_helper;
 //                                 attributes:@{NSFileCreationDate:user[@"avatarUpdateDate"]}];
 
                         }else{
+                            [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
                             NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
                         }
                     }];
                 }else{
+                    [FPLogger record:[NSString stringWithFormat:@"no avater for user %@", user.username]];
                     NSLog(@"no avater for user %@", user.username);
                 }
             }

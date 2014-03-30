@@ -120,7 +120,7 @@
                 message.expirationTimeInSec = object[@"expirationTimeInSec"];
                 
                 //time interval from now to expiration date. if timeInterval is negative, that means the message has already expired
-                NSInteger timeInterval = [message.expirationDate timeIntervalSinceDate:[NSDate date]];
+                int timeInterval = (int)[message.expirationDate timeIntervalSinceDate:[NSDate date]];
                 int remainingSec = timeInterval>0?timeInterval:0;
 
                 message.countDown = [NSNumber numberWithInt:remainingSec];

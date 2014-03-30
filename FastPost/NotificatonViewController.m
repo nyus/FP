@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "FriendQuestTableViewCell.h"
 #import "Helper.h"
+#import "FPLogger.h"
 @interface NotificatonViewController ()<UITableViewDataSource,UITableViewDelegate,FriendQuestTableViewCellDelegate>{
     //this contains friend quests
     NSMutableArray *dataSource;
@@ -146,11 +147,17 @@
                            @"receiverUsername":object[@"receiverUsername"]};
     [PFCloud callFunctionInBackground:@"addToFollowers" withParameters:dict block:^(id object, NSError *error) {
         if (error) {
+            [FPLogger record:[NSString stringWithFormat:@"add to followers failed with error: %@",error]];
             NSLog(@"add to followers failed with error: %@",error);
         }else{
             NSIndexPath *path = [self.tableView indexPathForCell:cell];
             [dataSource removeObjectAtIndex:path.row];
             [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+            //show the "No New Follow Request Cell"
+            if (dataSource.count == 0) {
+                dataSource = nil;
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
         }
     }];
     //here in cloud code, we should add [PFUser currentUser].username to sender's followers

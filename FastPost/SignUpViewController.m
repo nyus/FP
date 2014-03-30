@@ -9,6 +9,7 @@
 #import "SignUpViewController.h"
 #import <Parse/Parse.h>
 #import "LogInViewController.h"
+#import "FPLogger.h"
 @interface SignUpViewController (){
     UIAlertView *signUpSuccessAlert;
 }
@@ -44,8 +45,10 @@
     [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
     [[PFInstallation currentInstallation] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
+            [FPLogger record:@"successfully set PFUser on PFInstallation"];
             NSLog(@"successfully set PFUser on PFInstallation");
         }else{
+            [FPLogger record:@"set PFUser on PFInstallation falied"];
             NSLog(@"set PFUser on PFInstallation falied");
         }
         

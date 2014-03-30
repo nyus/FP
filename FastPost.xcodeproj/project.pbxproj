@@ -11,6 +11,7 @@
 		501F60421875AE3A00B26F65 /* libCrittercism_v4_3_0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */; };
 		50200C4418CFE365003CEBBE /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 50200C4318CFE365003CEBBE /* Status.m */; };
 		50275F76186F22E200CD9680 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50275F75186F22E200CD9680 /* icon.png */; };
+		502C6A4718E8BD800047EA49 /* FPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 502C6A4618E8BD800047EA49 /* FPLogger.m */; };
 		5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */; };
 		5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */; };
 		5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */; };
@@ -127,6 +128,8 @@
 		50200C4218CFE365003CEBBE /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		50200C4318CFE365003CEBBE /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		50275F75186F22E200CD9680 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		502C6A4518E8BD800047EA49 /* FPLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPLogger.h; sourceTree = "<group>"; };
+		502C6A4618E8BD800047EA49 /* FPLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPLogger.m; sourceTree = "<group>"; };
 		5034EEAD18A7D09F00DBDCCF /* MessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewCell.h; sourceTree = "<group>"; };
 		5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; };
 		5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewViewController.h; sourceTree = "<group>"; };
@@ -402,6 +405,8 @@
 				5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */,
 				6522693C18AED82C004ABEDC /* FriendQuestTableViewCell.h */,
 				6522693D18AED82C004ABEDC /* FriendQuestTableViewCell.m */,
+				502C6A4518E8BD800047EA49 /* FPLogger.h */,
+				502C6A4618E8BD800047EA49 /* FPLogger.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -791,6 +796,7 @@
 				65413CE71843990200543C1A /* main.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
 				50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */,
+				502C6A4718E8BD800047EA49 /* FPLogger.m in Sources */,
 				50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */,
 				65409F7118BE855300589F66 /* Message+Utilities.m in Sources */,
 				5054C93B18BC46230044CB5F /* SignUpViewController.m in Sources */,
