@@ -22,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusCellMessageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellCountDownLabel;
 @property (assign, nonatomic) id<StatusTableViewCellDelegate>delegate;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIImageView *statusCellPhotoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellUsernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellDateLabel;
@@ -38,7 +37,6 @@
 
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @property (weak, nonatomic) IBOutlet UIView *buttonsContainerView;
-@property (weak, nonatomic) IBOutlet UIView *cellLineSeparator;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
 //
@@ -46,7 +44,7 @@
 
 - (IBAction)likeButtonTapped:(id)sender;
 - (IBAction)commentButtonTapped:(id)sender;
--(void)resizeCellToFitStatusContent;
+//-(void)resizeCellToFitStatusContent;
 //-(void)setPlaceHolderImage;
 
 //-(void)blurCell;

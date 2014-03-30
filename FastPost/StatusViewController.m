@@ -166,6 +166,7 @@
     });
 }
 
+
 #pragma mark - Status Object Delegate
 
 -(void)statusObjectTimeUpWithObject:(Status *)object{
@@ -255,8 +256,6 @@
                 }
             }
         }
-        
-        [cell layoutSubviews];
     }
 }
 

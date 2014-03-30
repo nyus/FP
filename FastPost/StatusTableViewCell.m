@@ -26,19 +26,18 @@
         self.statusCellMessageLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.statusCellPhotoImageView.translatesAutoresizingMaskIntoConstraints = NO;
         self.buttonsContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-        self.cellLineSeparator.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
     return self;
 }
 
--(void)layoutSubviews{
-    
-//    NSLog(@"layout subviews for : %@",self);
-    [self resizeCellToFitStatusContent];
-    [super layoutSubviews];
-}
-
+//-(void)layoutSubviews{
+//    
+////    NSLog(@"layout subviews for : %@",self);
+//    [self resizeCellToFitStatusContent];
+//    [super layoutSubviews];
+//}
+/*
 -(void)resizeCellToFitStatusContent{
  
     NSString *key =[NSString stringWithFormat:@"%d",self.status.hash];
@@ -107,7 +106,7 @@
     }
     
 }
-
+*/
 - (IBAction)reviveStatusButtonTapped:(id)sender {
     [self.delegate reviveStatusButtonTappedOnCell:self];
 }

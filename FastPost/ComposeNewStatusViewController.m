@@ -308,7 +308,19 @@
                 
             }
             //save to parse
-            [object saveInBackground];
+            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                    NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
+                    if (numberPosts==nil) {
+                        [defaults setObject:@1 forKey:@"numberofposts"];
+                    }else{
+                        [defaults setObject:[NSNumber numberWithInt:numberPosts.intValue+1] forKey:@"numberofposts"];
+                    }
+                    
+                    [defaults synchronize];
+                }
+            }];
             //save to local
             [[SharedDataManager sharedInstance] saveContext];
             

@@ -125,36 +125,41 @@
     
     //# of dwindles.
     //first try to pull from user default, and when a user posts a new status, increase this user default value. for first time user, this will work but for existing users, need to pull from parse to get the # of posts already out there
+   
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
-    if (numberPosts) {
-        self.dwindleLabel.text = numberPosts.stringValue;
-    }else{
+    NSNumber *hasDoneInitialStatusCount = [defaults objectForKey:@"hasDoneInitialStatusCount"];
+    if (hasDoneInitialStatusCount.boolValue == NO) {
         PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
         [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
         [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
             self.dwindleLabel.text = [NSString stringWithFormat:@"%d", number];
             [defaults setObject:[NSNumber numberWithInt:number] forKey:@"numberofposts"];
+            [defaults setBool:YES forKey:@"hasDoneInitialStatusCount"];
             [defaults synchronize];
         }];
+    }else{
+        NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
+        self.dwindleLabel.text = numberPosts.stringValue;
     }
-    
+
     
     //set following. # of following is the count of friends minus one(since user is friend of himself)
-    PFUser *me = [PFUser currentUser];
-    if (me[@"usersIFollow"] != [NSNull null]) {
-        self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"usersIFollow"] count]-1];
-    }else{
-        self.followingLabel.text = [NSString stringWithFormat:@"%d",0];
-    }
-    
-    //set follower.
-    if (me[@"followers"] != [NSNull null]) {
-        self.followerLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"followers"] count]];
-    }else{
-        self.followerLabel.text = [NSString stringWithFormat:@"%d",0];
-    }
-    
+    [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        PFUser *me = (PFUser *)object;
+        if (me[@"usersIFollow"] != [NSNull null]) {
+            self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"usersIFollow"] count]];
+        }else{
+            self.followingLabel.text = [NSString stringWithFormat:@"%d",0];
+        }
+        
+        //set follower.
+        if (me[@"followers"] != [NSNull null]) {
+            self.followerLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"usersICanMessage"] count]];
+        }else{
+            self.followerLabel.text = [NSString stringWithFormat:@"%d",0];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning
