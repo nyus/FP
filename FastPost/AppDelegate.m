@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "Crittercism.h"
+#import "Status.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -28,9 +29,11 @@
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
 
+    void(^blockName)(void) = ^{};
+    blockName= ^{};
+
     return YES;
 }
-
 
 // If you decide to send notifications from the client SDKs, you will need to set Client Push Enabled in the Push Notifications settings of your Parse app.
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{

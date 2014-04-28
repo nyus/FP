@@ -68,7 +68,6 @@
 }
 
 -(void)configurePickerView{
-
     //choose 0 min 10 secs by default
     [self.pickerView selectRow:0 inComponent:0 animated:NO];
 //    [self.pickerView selectRow:10 inComponent:2 animated:NO];

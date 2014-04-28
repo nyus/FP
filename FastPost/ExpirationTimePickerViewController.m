@@ -67,6 +67,10 @@
                               nil];
 }
 
+-(void)setAllowableReviveTimeInSec:(int)allowableReviveTimeInSec{
+    _allowableReviveTimeInSec = allowableReviveTimeInSec;
+    [self.pickerView reloadAllComponents];
+}
 #pragma mark - uipickerview delegate
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
@@ -83,12 +87,14 @@
     if (_type == PickerTypeRevive) {
         if (component == 0) {
             //min. a post can have up to 30 mins in longevity
-            return (30*60 - self.allowableReviveTimeInSec)/60;
+            //+1 take 0 min into consideration
+            return (30*60 - self.allowableReviveTimeInSec)/60+1;
         }else if (component == 1){
             return 1;
         }else if(component == 2){
             //sec a post can have up to 30 mins in longevity
-            return (30*60 - self.allowableReviveTimeInSec)%60;
+            //+1 take 0 sec into consideration
+            return (30*60 - self.allowableReviveTimeInSec)%60+1;
         }else{
             return 1;
         }

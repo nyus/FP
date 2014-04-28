@@ -86,7 +86,9 @@
     StatusTableViewCell *cell = nil;
     Status *status = self.dataSource[indexPath.row];
     PFFile *picture = (PFFile *)status.picture;
+    
     if (picture == (PFFile *)[NSNull null] || picture == nil) {
+        
         cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:@"messageAndPhotoCell" forIndexPath:indexPath];
@@ -139,7 +141,7 @@
     cell.statusCellDateLabel.text = str;
     
     //get avatar
-    [Helper getAvatarForSelfOnImageView:cell.statusCellAvatarImageView];
+    [Helper getAvatarForUser:status.posterUsername forImageView:cell.statusCellAvatarImageView];
     
     return cell;
 /*

@@ -63,6 +63,13 @@
     self.needSocialButtons = NO;
     //
     self.dataSource = [NSMutableArray array];
+    
+    //register for UIApplicationWillEnterForegroundNotification notification since timer will not work in the background for more than 10 mins. when user comes back, we refresh table view to update the status count down time
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleApplicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+-(void)handleApplicationWillEnterForeground{
+    [self fetchNewStatusWithCount:25 remainingTime:nil];
 }
 
 -(void)handleTapGesture:(id)sender{
@@ -76,6 +83,11 @@
         [expirationTimePickerVC removeSelfFromParent];
         [self.view endEditing:YES];
     }
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    //stop observing UIApplicationWillEnterForegroundNotification
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -423,8 +435,6 @@
     [self performSegueWithIdentifier:@"toCompose" sender:self];
 }
 
-
-
 -(void)tbHeaderSettingButtonTapped{
     
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"About",@"Contact",@"Log out",@"Send Disgnosis", nil];
@@ -493,9 +503,21 @@
     //add time to status remotely
     int timeInterval = (int)min * 60 + (int)sec + status.countDownMessage.intValue;
     
-    status.pfObject[@"expirationTimeInSec"] = [NSNumber numberWithInt:timeInterval];
-    status.pfObject[@"expirationDate"] = [NSDate dateWithTimeInterval:timeInterval sinceDate:[NSDate date]];
-    [status.pfObject saveInBackground];
+    PFQuery *queryStatusObj = [[PFQuery alloc] initWithClassName:@"Status"];
+    [queryStatusObj whereKey:@"objectId" equalTo:status.objectid];
+    [queryStatusObj getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            object[@"expirationTimeInSec"] = [NSNumber numberWithInt:timeInterval];
+            object[@"expirationDate"] = [NSDate dateWithTimeInterval:timeInterval sinceDate:[NSDate date]];
+            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ succeeded",object]];
+                }else{
+                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ failed",object]];
+                }
+            }];
+        }
+    }];
     
     //add time to the status locally
     status.countDownMessage = [NSString stringWithFormat:@"%d",timeInterval];

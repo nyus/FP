@@ -25,14 +25,18 @@ static NSString *_string;
 }
 
 +(void)sendReport{
-    PFObject *debugLog = [[PFObject alloc] initWithClassName:@"Log"];
-    [debugLog setObject:_string forKey:@"Log"];
-    [debugLog setObject:[PFUser currentUser].username forKey:@"senderUsername"];
-    [debugLog saveInBackground];
     
-    //clear for the next report
-    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"diagnosis"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if(_string){
+        PFObject *debugLog = [[PFObject alloc] initWithClassName:@"Log"];
+        [debugLog setObject:_string forKey:@"Log"];
+        [debugLog setObject:[PFUser currentUser].username forKey:@"senderUsername"];
+        [debugLog saveInBackground];
+        
+        //clear for the next report
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"diagnosis"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
 }
 
 @end
