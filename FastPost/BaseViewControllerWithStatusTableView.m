@@ -90,6 +90,7 @@
     if (picture == (PFFile *)[NSNull null] || picture == nil) {
         
         cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
+        
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:@"messageAndPhotoCell" forIndexPath:indexPath];
     
@@ -100,9 +101,7 @@
         spinner.center = CGPointMake((int)cell.statusCellPhotoImageView.frame.size.width/2, (int)cell.statusCellPhotoImageView.frame.size.height/2);
         [cell.statusCellPhotoImageView addSubview:spinner];
         [spinner startAnimating];
-        
         [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            
             if (data && !error) {
                 cell.statusCellPhotoImageView.image = [UIImage imageWithData:data];
             }else{

@@ -1916,7 +1916,7 @@
         <scene sceneID="oHf-tp-KV4">
             <objects>
                 <navigationController title="Home" definesPresentationContext="YES" navigationBarHidden="YES" id="5eY-2V-bCP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="DD626232-E788-498E-881A-5E65D227864E" id="xpw-hA-qPq"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="38DB395F-3F0A-4C9B-9AC7-CAC4B36E6D0C" id="xpw-hA-qPq"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="81F-D5-Wlr">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1931,7 +1931,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="DD626232-E788-498E-881A-5E65D227864E" width="32" height="32">
+        <image name="38DB395F-3F0A-4C9B-9AC7-CAC4B36E6D0C" width="32" height="32">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

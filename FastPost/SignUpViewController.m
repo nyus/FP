@@ -63,64 +63,66 @@
 
 - (IBAction)signUpButtonTapped:(id)sender {
     
-        if (![[self.emailTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""] &&
-            ![[self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""] &&
-            ![[self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+    
+    NSString *userNameString =[self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *emailString =[self.emailTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *passWordString = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (![emailString isEqualToString:@""] && ![userNameString isEqualToString:@""] && ![passWordString isEqualToString:@""]) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //spinner starts spinning
+            self.activityIndicator.hidden = NO;
+            [self.activityIndicator startAnimating];
+        });
+        
+        //compound query. OR two conditions together
+        PFQuery *username = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
+        [username whereKey:@"username" equalTo:userNameString];
+        PFQuery *email = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
+        [email whereKey:@"email" equalTo:emailString];
+        PFQuery *alreadyExist = [PFQuery orQueryWithSubqueries:@[username,email]];
+        
+        [alreadyExist getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
             
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //spinner starts spinning
-                self.activityIndicator.hidden = NO;
-                [self.activityIndicator startAnimating];
-            });
-            
-            //compound query. OR two conditions together
-            PFQuery *username = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
-            [username whereKey:@"username" equalTo:self.usernameTextField.text];
-            PFQuery *email = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
-            [email whereKey:@"email" equalTo:self.emailTextField.text];
-            PFQuery *alreadyExist = [PFQuery orQueryWithSubqueries:@[username,email]];
-            
-            [alreadyExist getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                
-                if (object == nil) {
-                    //email and username are available
-                    //hit api and store user info
-                    PFUser *newUser = [PFUser user];
-                    newUser.email = self.emailTextField.text;
-                    newUser.username = self.usernameTextField.text;
-                    newUser.password = self.passwordTextField.text;
-                    [newUser setObject:@[self.usernameTextField.text] forKey:@"usersAllowMeToFollow"];
+            if (object == nil) {
+                //email and username are available
+                //hit api and store user info
+                PFUser *newUser = [PFUser user];
+                newUser.email = emailString;
+                newUser.username = userNameString;
+                newUser.password = passWordString;
+                [newUser setObject:@[userNameString] forKey:@"usersAllowMeToFollow"];
 
-                    [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    
+                    if(succeeded){
                         
-                        if(succeeded){
-                            
-                            [self.activityIndicator stopAnimating];
-                            
-                            signUpSuccessAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Congrats! You have successfully signed up!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
-                            signUpSuccessAlert.tag = 0;
-                            [signUpSuccessAlert show];
-                            [self performSelector:@selector(showStatusTableView) withObject:nil afterDelay:.5];
-                            
-                        }else{
+                        [self.activityIndicator stopAnimating];
+                        
+                        signUpSuccessAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Congrats! You have successfully signed up!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+                        signUpSuccessAlert.tag = 0;
+                        [signUpSuccessAlert show];
+                        [self performSelector:@selector(showStatusTableView) withObject:nil afterDelay:.5];
+                        
+                    }else{
 
-                            [self.activityIndicator stopAnimating];
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Sign up failed. Please try again" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                            alert.tag = 1;
-                            [alert show];
+                        [self.activityIndicator stopAnimating];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Sign up failed. Please try again" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                        alert.tag = 1;
+                        [alert show];
 
-                        }
-                    }];
-                    
-                }else{
-                    
-                    [self.activityIndicator stopAnimating];
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Email or username is already registered. Please try again." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-                    [alert show];
-                }
-            }];
-        }
+                    }
+                }];
+                
+            }else{
+                
+                [self.activityIndicator stopAnimating];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Email or username is already registered. Please try again." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+        }];
+    }
 }
 
 - (IBAction)backToLoginButtonTapped:(id)sender {

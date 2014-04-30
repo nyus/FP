@@ -58,8 +58,8 @@ static Helper *_helper;
                     }
                     
                 }else{
-                    [FPLogger record:[NSString stringWithFormat:@"fetch avatar error %@",error.localizedDescription]];
-                    NSLog(@"fetch avatar error %@",error.localizedDescription);
+                    [FPLogger record:[NSString stringWithFormat:@"-getAvatarForSelfOnImageView fetch avatar error %@",error.localizedDescription]];
+                    NSLog(@"-getAvatarForSelfOnImageView fetch avatar error %@",error.localizedDescription);
                 }
             }];
             
@@ -92,24 +92,26 @@ static Helper *_helper;
 
 +(void)saveAvatar:(NSData *)data forUser:(NSString *)username{
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentDirectory = paths[0];
-    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@",username];
-    
-    NSError *writeError = nil;
-    [data writeToFile:path options:NSDataWritingAtomic error:&writeError];
-    
-    PFUser *user = [PFUser currentUser];
-    user[@"avatar"] = [PFFile fileWithData:data];
-    user[@"avatarUpdateDate"] = [NSDate date];
-    user[@"avatarUpdated"] = [NSNumber numberWithBool:YES];
-    [user saveInBackground];
-    
-    if (writeError) {
-        [FPLogger record:[NSString stringWithFormat:@"write self avatar to file error %@",writeError.localizedDescription]];
-        NSLog(@"write self avatar to file error %@",writeError.localizedDescription);
-    }
-    
+    dispatch_queue_t queue = dispatch_queue_create("save avatar", NULL);
+    dispatch_async(queue, ^{
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDirectory = paths[0];
+        NSString *path = [documentDirectory stringByAppendingFormat:@"/%@",username];
+        
+        NSError *writeError = nil;
+        [data writeToFile:path options:NSDataWritingAtomic error:&writeError];
+        
+        PFUser *user = [PFUser currentUser];
+        user[@"avatar"] = [PFFile fileWithData:data];
+        user[@"avatarUpdateDate"] = [NSDate date];
+        user[@"avatarUpdated"] = [NSNumber numberWithBool:YES];
+        [user saveInBackground];
+        
+        if (writeError) {
+            [FPLogger record:[NSString stringWithFormat:@"-saveAvatar write self avatar to file error %@",writeError.localizedDescription]];
+            NSLog(@"-saveAvatar write self avatar to file error %@",writeError.localizedDescription);
+        }
+    });
 }
 
 //this method first checks if there is a locally saved avatar image, if so, check if this avatar still matches the one on the server by comparing avatarUpdateDate. If no longer valid, pull from server and then save to local again.
@@ -151,18 +153,45 @@ static Helper *_helper;
                             
                             //set PFUser's avatarUpdated to NO so that next time if avatar gets updated we will know
                             user[@"avatarUpdated"] = [NSNumber numberWithBool:NO];
-                            [user saveInBackground];
                             
                         }else{
                             [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
                             NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
                         }
+                    } progressBlock:^(int percentDone) {
+                        if (percentDone == 100) {
+                            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                NSLog(@"getAvatarForUser update user[@\"avatarUpdated\"] to No");
+                                [FPLogger record:@"getAvatarForUser update user[@\"avatarUpdated\"] to No"];
+                            }];
+                        }
                     }];
+//                    [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+//                        if (data && !error) {
+//                            imageView.image = [UIImage imageWithData:data];
+//                            
+//                            //save image to local
+//                            [[NSFileManager defaultManager]
+//                             createFileAtPath:path
+//                             contents:data
+//                             attributes:@{NSFileCreationDate:user[@"avatarUpdateDate"]}];
+//                            
+//                            //set PFUser's avatarUpdated to NO so that next time if avatar gets updated we will know
+//                            user[@"avatarUpdated"] = [NSNumber numberWithBool:NO];
+//                            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                                
+//                            }];
+//                            
+//                        }else{
+//                            [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
+//                            NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
+//                        }
+//                    }];
                 }
 
             }else{
-                [FPLogger record:[NSString stringWithFormat:@"fetch avatar error %@",error.localizedDescription]];
-                NSLog(@"fetch avatar error %@",error.localizedDescription);
+                [FPLogger record:[NSString stringWithFormat:@"-getAvatarForUser fetch avatar error %@",error.localizedDescription]];
+                NSLog(@"-getAvatarForUser fetch avatar error %@",error.localizedDescription);
             }
         }];
         

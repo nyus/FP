@@ -212,7 +212,9 @@
             imagePicker.delegate = self;
         }
         
-        [self presentViewController:imagePicker animated:YES completion:nil];
+        [self presentViewController:imagePicker animated:YES completion:^{
+            imagePicker = nil;
+        }];
         
     }else if(buttonIndex == 1){
         // this is for a bug when you first add from gallery, then take a photo, the picker view controller shifts down
@@ -221,7 +223,9 @@
         }
         imagePicker.delegate = self;
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:imagePicker animated:YES completion:nil];
+        [self presentViewController:imagePicker animated:YES completion:^{
+            imagePicker = nil;
+        }];
     }
 }
 
