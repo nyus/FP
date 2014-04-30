@@ -48,11 +48,25 @@ static Helper *_helper;
                                 
                                 //set PFUser's avatarUpdated to NO so that next time if avatar gets updated we will know
                                 user[@"avatarUpdated"] = [NSNumber numberWithBool:NO];
-                                [user saveInBackground];
+                                
                                 
                             }else{
                                 [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
                                 NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
+                            }
+                        } progressBlock:^(int percentDone) {
+                            //we need to wait until avatar call is done before we can save user in backgound. Otherwise parse will crash
+                            if (percentDone == 100) {
+                                [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                    if (succeeded) {
+                                        NSLog(@"getAvatarForSelfOnImageView updated user[@\"avatarUpdated\"] to No so that next time if avatar gets updated we will know");
+                                        [FPLogger record:@"getAvatarForUser updated user[@\"avatarUpdated\"] to No so that next time if avatar gets updated we will know"];
+                                    }else{
+                                        NSLog(@"getAvatarForSelfOnImageView failed to update user[@\"avatarUpdated\"] to No");
+                                        [FPLogger record:@"getAvatarForUser failed update user[@\"avatarUpdated\"] to No"];
+                                    }
+                                    
+                                }];
                             }
                         }];
                     }
@@ -159,10 +173,18 @@ static Helper *_helper;
                             NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
                         }
                     } progressBlock:^(int percentDone) {
+                        
+                        //we need to wait until avatar call is done before we can save user in backgound. Otherwise parse will crash
                         if (percentDone == 100) {
                             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                NSLog(@"getAvatarForUser update user[@\"avatarUpdated\"] to No");
-                                [FPLogger record:@"getAvatarForUser update user[@\"avatarUpdated\"] to No"];
+                                if (succeeded) {
+                                    NSLog(@"getAvatarForUser updated user[@\"avatarUpdated\"] to No so that next time if avatar gets updated we will know");
+                                    [FPLogger record:@"getAvatarForUser updated user[@\"avatarUpdated\"] to No so that next time if avatar gets updated we will know"];
+                                }else{
+                                    NSLog(@"getAvatarForUser failed to update user[@\"avatarUpdated\"] to No so that next time if avatar gets updated we will know");
+                                    [FPLogger record:@"getAvatarForUser failed update user[@\"avatarUpdated\"] to No so that next time if avatar gets updated we will know"];
+                                }
+                                
                             }];
                         }
                     }];
