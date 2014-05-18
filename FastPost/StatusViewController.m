@@ -519,14 +519,13 @@
 #pragma mark - UISegue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:@"toProfile"]){
-        ProfileViewController *pvc = (ProfileViewController *)segue.destinationViewController;
-        pvc.presentingSource = @"statusViewController";
-    }else if ([segue.identifier isEqualToString:@"toCommentStatus"]){
+    if ([segue.identifier isEqualToString:@"toCommentStatus"]){
         CommentStatusViewController *vc = (CommentStatusViewController *)segue.destinationViewController;
-        //
-        
         vc.statusObjectId = statusIdToPass;
+    }else if ([segue.identifier isEqualToString:@"toUserProfile"]){
+        ProfileViewController *pvc = (ProfileViewController *)segue.destinationViewController;
+        UIButton *btn = (UIButton *)sender;
+        pvc.userNameOfUserProfileToDisplay = btn.titleLabel.text;
     }
 }
 

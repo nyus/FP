@@ -40,10 +40,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    if([self.presentingSource isEqualToString:@"statusViewController"]){
+    if(!self.userNameOfUserProfileToDisplay){
         self.editButton.hidden = YES;
     }else{
         self.followButton.hidden = YES;
+        self.fakeNavigationBar.hidden = NO;
+        self.userNameLabelTopSpaceToTopLayoutConstraint.constant = 49;
     }
     
     //if yes, table view cell will make room for like, comment and revive buttons
@@ -80,7 +82,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Status"];
     query.limit = count;
     [query orderByDescending:@"createdAt"];
-    [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
+    [query whereKey:@"posterUsername" equalTo:self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         if (objects.count != 0) {
@@ -119,10 +121,10 @@
 -(void)updateUserInfoValues{
     
     //name
-    self.userNameLabel.text = [PFUser currentUser].username;
+    self.userNameLabel.text = self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username;
     
     //set avatar
-    [Helper getAvatarForSelfOnImageView:self.avatarImageView];
+    [Helper getAvatarForUser:self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username forImageView:self.avatarImageView];
     
     //# of dwindles.
     //first try to pull from user default, and when a user posts a new status, increase this user default value. for first time user, this will work but for existing users, need to pull from parse to get the # of posts already out there
@@ -283,4 +285,8 @@
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
+- (IBAction)navigationBarBackButtonTapped:(id)sender {
+    //self.navigationController is not self.fakeNavigationBar. self.navi
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

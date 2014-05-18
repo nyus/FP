@@ -188,27 +188,7 @@ static Helper *_helper;
                             }];
                         }
                     }];
-//                    [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-//                        if (data && !error) {
-//                            imageView.image = [UIImage imageWithData:data];
-//                            
-//                            //save image to local
-//                            [[NSFileManager defaultManager]
-//                             createFileAtPath:path
-//                             contents:data
-//                             attributes:@{NSFileCreationDate:user[@"avatarUpdateDate"]}];
-//                            
-//                            //set PFUser's avatarUpdated to NO so that next time if avatar gets updated we will know
-//                            user[@"avatarUpdated"] = [NSNumber numberWithBool:NO];
-//                            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//                                
-//                            }];
-//                            
-//                        }else{
-//                            [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
-//                            NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
-//                        }
-//                    }];
+
                 }
 
             }else{

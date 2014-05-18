@@ -124,6 +124,7 @@
     
     //username
     cell.statusCellUsernameLabel.text = [status posterUsername];
+    cell.userNameButton.titleLabel.text =[status posterUsername];
     
     //revivable button
     BOOL revivable = [[status revivable] boolValue];

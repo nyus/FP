@@ -41,6 +41,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
 //
 @property (nonatomic, assign) BOOL needSocialButtons;
+@property (weak, nonatomic) IBOutlet UIButton *userNameButton;
 
 - (IBAction)likeButtonTapped:(id)sender;
 - (IBAction)commentButtonTapped:(id)sender;
