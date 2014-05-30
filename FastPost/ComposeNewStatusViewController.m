@@ -63,14 +63,12 @@
 }
 
 -(void)configureExpirationTimeLabel{
-   // self.experiationTimeLabel.text = [NSString stringWithFormat:@"%d:%02d",[self.pickerView selectedRowInComponent:0],[self.pickerView selectedRowInComponent:2]];
     self.experiationTimeLabel.text = [NSString stringWithFormat:@"%d:00",[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue]];
 }
 
 -(void)configurePickerView{
     //choose 0 min 10 secs by default
     [self.pickerView selectRow:0 inComponent:0 animated:NO];
-//    [self.pickerView selectRow:10 inComponent:2 animated:NO];
 }
 
 -(void)configurePickerViewDataSource{
@@ -145,17 +143,7 @@
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-//    if (component == 0) {
-//        //min  0 -9
-//        return 10;
-//    }else if (component == 1){
-//        return 1;
-//    }else if(component == 2){
-//        //sec 0 - 59
-//        return 60;
-//    }else{
-//        return 1;
-//    }
+
     if (component == 0) {
         //min  1 -10 15 20 30
         return pickerDataSource.count;
@@ -166,13 +154,7 @@
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-//    if (component == 0 || component == 2) {
-//        return [NSString stringWithFormat:@"%d",row];
-//    }else if(component == 1){
-//        return @"mins";
-//    }else{
-//        return @"sec";
-//    }
+
     if (component == 0) {
         return pickerDataSource[row];
     }else{
@@ -202,7 +184,6 @@
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-//    self.experiationTimeLabel.text = [NSString stringWithFormat:@"%d:%02d",[pickerView selectedRowInComponent:0],[pickerView selectedRowInComponent:2]];
     self.experiationTimeLabel.text = [NSString stringWithFormat:@"%d:00",[pickerDataSource[[pickerView selectedRowInComponent:0]] intValue]];
 }
 

@@ -18,7 +18,6 @@
 -(id)initWithPFObject:(PFObject *)pfObject{
     self = [super init];
     if (self) {
-//        self.pfObject = pfObject;
         self.objectid = pfObject.objectId;
         self.message = [pfObject objectForKey:@"message"];
         self.createdAt = pfObject.createdAt;

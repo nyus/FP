@@ -64,13 +64,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    if(!dataSource){
-    //        //return background cell
-    //        return 1;
-    //    }else{
-    // Return the number of rows in the section.
+
     return self.dataSource.count;
-    //    }
 }
 
 //hides the liine separtors when data source has 0 objects
@@ -254,9 +249,7 @@
             label.text = [status message];
             CGSize aSize = [label sizeThatFits:label.frame.size];
             NSLog(@"aSize is %@",NSStringFromCGSize(aSize));
-            
-            //            CGSize size = [label.text sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17]}];
-            //            NSLog(@"size is %@",NSStringFromCGSize(size));
+
             float labelHeight = aSize.height;//ceilf(ceilf(size.width) / CELL_MESSAGE_LABEL_WIDTH)*ceilf(size.height)+10;
             [labelHeightMap setObject:[NSNumber numberWithFloat:labelHeight] forKey:key];
             

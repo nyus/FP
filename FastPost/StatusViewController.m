@@ -210,29 +210,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    if(!self.dataSource){
-//        //return background cell
-//        [self fetchNewStatusWithCount:25 remainingTime:nil];
-//        return 1;
-//    }else{
-        // Return the number of rows in the section.
-        return [super tableView:tableView numberOfRowsInSection:section];
-//    }
+    return [super tableView:tableView numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-//    if(!self.dataSource || self.dataSource.count == 0){
-//        //no status background cell
-//        static NSString *CellIdentifier = @"BackgroundCell";
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-//        
-//        return cell;
-//    }else{
-        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
-//    }
-    
+    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 
 
