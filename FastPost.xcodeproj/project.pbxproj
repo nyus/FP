@@ -119,6 +119,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+//teset//	
+	34113DBD193AC72C00CA9F50 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		501F603C1875AE3A00B26F65 /* CRFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRFilter.h; sourceTree = "<group>"; };
 		501F603D1875AE3A00B26F65 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
 		501F603E1875AE3A00B26F65 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				6522693D18AED82C004ABEDC /* FriendQuestTableViewCell.m */,
 				502C6A4518E8BD800047EA49 /* FPLogger.h */,
 				502C6A4618E8BD800047EA49 /* FPLogger.m */,
+				34113DBD193AC72C00CA9F50 /* Header.h */,
 			);
 			name = Class;
 			sourceTree = "<group>";
