@@ -32,7 +32,8 @@
         self.commentCount = pfObject[@"commentCount"];
         
         //StatusTableCell.countDownLabel.text needs to be based on self.countDownMessage and converted to xx:xx
-        self.countDownMessage = [NSString stringWithFormat:@"%d",(int)[pfObject[@"expirationDate"] timeIntervalSinceDate:[NSDate date]]];
+//        self.countDownMessage = [NSString stringWithFormat:@"%d",(int)[pfObject[@"expirationDate"] timeIntervalSinceDate:[NSDate date]]];
+        self.countDownTime = (int)[pfObject[@"expirationDate"] timeIntervalSinceDate:[NSDate date]];
         
     }
     return self;
@@ -45,15 +46,24 @@
 }
 
 -(void)timerCalled:(NSTimer *)timer{
-    if ([self.countDownMessage isEqualToString:@"0"]) {
+    if (self.countDownTime == 0) {
         [_timer invalidate];
         _timer = nil;
         [self.delegate statusObjectTimeUpWithObject:self];
-        
     }else{
-        self.countDownMessage = [NSString stringWithFormat:@"%d",self.countDownMessage.intValue - 1];
-        [self.delegate statusObjectTimerCount:self.countDownMessage.intValue-1 withStatusObject:self];
+        self.countDownTime -=1;
+        [self.delegate statusObjectTimerCount:self.countDownTime withStatusObject:self];
     }
+    
+//    if ([self.countDownMessage isEqualToString:@"0"]) {
+//        [_timer invalidate];
+//        _timer = nil;
+//        [self.delegate statusObjectTimeUpWithObject:self];
+//        
+//    }else{
+//        self.countDownMessage = [NSString stringWithFormat:@"%d",self.countDownMessage.intValue - 1];
+//        [self.delegate statusObjectTimerCount:self.countDownMessage.intValue-1 withStatusObject:self];
+//    }
 }
 
 //-(NSString *)description{

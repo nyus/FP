@@ -29,7 +29,8 @@
 @property (nonatomic, strong) NSNumber *likeCount;
 @property (nonatomic, strong) NSNumber *reviveCount;
 @property (nonatomic, strong) NSNumber *commentCount;
-@property (nonatomic, strong) NSString *countDownMessage;
+//@property (nonatomic, strong) NSString *countDownMessage;
+@property (nonatomic) int countDownTime;
 @property (nonatomic, strong, readonly) NSTimer *timer;
 @property (nonatomic, assign) id<StatusObjectDelegate>delegate;
 

@@ -22,7 +22,8 @@
 #import "FPLogger.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
-@interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate, StatusTableViewHeaderViewDelegate,UIActionSheetDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate>{
+#define POST_TOTAL_LONGEVITY 1800//30 mins
+@interface StatusViewController ()<StatusObjectDelegate, StatusTableViewHeaderViewDelegate,UIActionSheetDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate>{
     
     FBFriendPickerViewController *friendPickerVC;
     StatusTableViewHeaderViewController *headerViewVC;
@@ -179,16 +180,11 @@
 }
 
 -(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
-    NSInteger index = [self.dataSource indexOfObject:object];
-    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
-        //convert seconds into min and second
-//       cell.countDownLabel.text = [self minAndTimeFormatWithSecond:object.countDownMessage.intValue];
-    }
-}
-
--(NSString *)minAndTimeFormatWithSecond:(int)seconds{
-    return [NSString stringWithFormat:@"%d:%02d",seconds/60,seconds%60];
+    NSLog(@"%d seconds left for post",count);
+//    NSInteger index = [self.dataSource indexOfObject:object];
+//    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+//    if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
+//    }
 }
 
 #pragma mark - Table view data source
@@ -218,7 +214,7 @@
         //update the count down text
         StatusTableViewCell *scell = (StatusTableViewCell *)cell;
         Status *object = self.dataSource[indexPath.row];
-        if ([scell.statusCellMessageLabel.text isEqualToString: object.message] && object.countDownMessage.intValue == 0) {
+        if ([scell.statusCellMessageLabel.text isEqualToString: object.message] && object.countDownTime == 0) {
             
             [self.dataSource removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
@@ -260,19 +256,6 @@
     
 }
 
-#pragma mark - FBViewControllerDelegate
-- (void)facebookViewControllerCancelWasPressed:(id)sender{
-    [self dismissViewControllerAnimated:YES completion:^{
-        friendPickerVC = nil;
-    }];
-    
-}
-
-- (void)facebookViewControllerDoneWasPressed:(id)sender{
-    [self dismissViewControllerAnimated:YES completion:^{
-        //        NSArray *selectedFriends = friendPickerVC.selection;
-    }];
-}
 
 #pragma mark - StatusTableCellDelegate
 
@@ -325,7 +308,33 @@
 }
 
 -(void)reviveAnimationDidEndOnCell:(StatusTableViewCell *)cell withProgress:(float)percentage{
-    NSLog(@"progress %f",percentage);
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    Status *status = self.dataSource[indexPath.row];
+    int timeToAdd = (POST_TOTAL_LONGEVITY - status.countDownTime)*percentage;
+    
+    //add time to the status locally
+    status.countDownTime += timeToAdd;
+    NSLog(@"percentage %f, added %d seconds",percentage, timeToAdd);
+    //
+    PFQuery *queryStatusObj = [[PFQuery alloc] initWithClassName:@"Status"];
+    [queryStatusObj whereKey:@"objectId" equalTo:status.objectid];
+    [queryStatusObj getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            object[@"expirationTimeInSec"] = [NSNumber numberWithInt:status.countDownTime];
+            object[@"expirationDate"] = [NSDate dateWithTimeInterval:status.countDownTime sinceDate:[NSDate date]];
+            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ succeeded",object]];
+                }else{
+                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ failed",object]];
+                }
+            }];
+        }else{
+            [FPLogger record:[NSString stringWithFormat:@"cannot find post with id %@ to revive",object.objectId]];
+        }
+    }];
+
 }
 #pragma mark - StatusTableHeaderViewDelegate
 

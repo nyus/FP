@@ -113,11 +113,11 @@
     cell.status = status;
     
     //message
-    cell.statusCellMessageLabel.text = [status message];
+    cell.statusCellMessageLabel.text = status.message;
     
     //username
-    cell.statusCellUsernameLabel.text = [status posterUsername];
-    cell.userNameButton.titleLabel.text =[status posterUsername];
+    cell.statusCellUsernameLabel.text = status.posterUsername;
+    cell.userNameButton.titleLabel.text = nil;
     
     //revivable button
     if (status.revivable.boolValue) {
@@ -132,6 +132,12 @@
     NSString *str = [formatter stringFromDate:[status updatedAt]];
     cell.statusCellDateLabel.text = str;
     
+    //like count
+    cell.likeCountLabel.text = status.likeCount.stringValue;
+    
+    //comment count
+    cell.commentCountLabel.text = status.commentCount.stringValue;
+    
     //get avatar
     [Helper getAvatarForUser:status.posterUsername forImageView:cell.statusCellAvatarImageView];
     
@@ -144,7 +150,6 @@
 //    
 //}
 
-
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 200;
 }
@@ -156,10 +161,10 @@
         
         Status *status = self.dataSource[indexPath.row];
         NSString *key =[NSString stringWithFormat:@"%lu",(unsigned long)status.hash];
-        NSLog(@"indexPath:%@",indexPath);
+//        NSLog(@"indexPath:%@",indexPath);
         //is cell height has been calculated, return it
         if ([cellHeightMap objectForKey:key]) {
-            NSLog(@"return stored cell height: %f",[[cellHeightMap objectForKey:key] floatValue]);
+//            NSLog(@"return stored cell height: %f",[[cellHeightMap objectForKey:key] floatValue]);
             return [[cellHeightMap objectForKey:key] floatValue];
             
         }else{
@@ -171,7 +176,7 @@
             label.font = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];
             label.text = [status message];
             CGSize aSize = [label sizeThatFits:label.frame.size];
-            NSLog(@"aSize is %@",NSStringFromCGSize(aSize));
+//            NSLog(@"aSize is %@",NSStringFromCGSize(aSize));
 
             float labelHeight = aSize.height;//ceilf(ceilf(size.width) / CELL_MESSAGE_LABEL_WIDTH)*ceilf(size.height)+10;
             [labelHeightMap setObject:[NSNumber numberWithFloat:labelHeight] forKey:key];
