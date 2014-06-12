@@ -19,22 +19,21 @@
 @end
 
 @interface StatusTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *statusCellMessageLabel;
-@property (weak, nonatomic) IBOutlet UILabel *statusCellCountDownLabel;
+@property (strong,nonatomic) Status *status;
 @property (assign, nonatomic) id<StatusTableViewCellDelegate>delegate;
+@property (weak, nonatomic) IBOutlet UILabel *statusCellMessageLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *statusCellPhotoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellUsernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellDateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *statusCellAvatarImageView;
-@property (strong,nonatomic) Status *status;
 @property (weak, nonatomic) IBOutlet UIView *reviveProgressView;
-@property (weak, nonatomic) IBOutlet UIView *buttonsContainerView;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
-//
-@property (nonatomic, assign) BOOL needSocialButtons;
 @property (weak, nonatomic) IBOutlet UIButton *userNameButton;
 
+-(void)disableRevivePressHoldGesture;
+-(void)enableRevivePressHoldGesture;
 - (IBAction)likeButtonTapped:(id)sender;
 - (IBAction)commentButtonTapped:(id)sender;
+
 @end

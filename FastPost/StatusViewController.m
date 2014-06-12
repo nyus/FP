@@ -56,9 +56,6 @@
     //add refresh control
     [self addRefreshControll];
     
-//#warning version 1.0 doesnt require like and comment
-    //if yes, table view cell will make room for like, comment and revive buttons
-    self.needSocialButtons = NO;
     //
     self.dataSource = [NSMutableArray array];
     
@@ -186,7 +183,7 @@
     StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
         //convert seconds into min and second
-        cell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:object.countDownMessage.intValue];
+//       cell.countDownLabel.text = [self minAndTimeFormatWithSecond:object.countDownMessage.intValue];
     }
 }
 
@@ -220,17 +217,15 @@
         
         //update the count down text
         StatusTableViewCell *scell = (StatusTableViewCell *)cell;
-        if ([scell.statusCellMessageLabel.text isEqualToString:[self.dataSource[indexPath.row] message]]) {
-            scell.statusCellCountDownLabel.text = [self minAndTimeFormatWithSecond:[[self.dataSource[indexPath.row] countDownMessage] intValue]];
-            if (![scell.statusCellCountDownLabel.text isEqualToString:@"0:00"]) {
-            }else{
-                [self.dataSource removeObjectAtIndex:indexPath.row];
-                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-                
-                if(self.dataSource.count == 0){
-                    self.dataSource = nil;
-                    [self.tableView reloadData];
-                }
+        Status *object = self.dataSource[indexPath.row];
+        if ([scell.statusCellMessageLabel.text isEqualToString: object.message] && object.countDownMessage.intValue == 0) {
+            
+            [self.dataSource removeObjectAtIndex:indexPath.row];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+            
+            if(self.dataSource.count == 0){
+                self.dataSource = nil;
+                [self.tableView reloadData];
             }
         }
     }

@@ -11,7 +11,5 @@
 @class Status;
 @interface BaseViewControllerWithStatusTableView : UIViewController<UITableViewDataSource, UITableViewDelegate,StatusTableViewCellDelegate>
 @property (nonatomic, strong) NSMutableArray *dataSource;
-@property (nonatomic, assign) BOOL needSocialButtons;
-
 -(void)removeStoredHeightForStatus:(Status *)status;
 @end

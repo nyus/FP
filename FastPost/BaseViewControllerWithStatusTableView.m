@@ -14,7 +14,6 @@
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 76.0f
 #define CELL_MESSAGE_LABEL_WIDTH 280.0f
-#define CELL_BUTTONS_CONTAINER_HEIGHT 44.0f
 @interface BaseViewControllerWithStatusTableView (){
 
     //cache calculated label height
@@ -110,7 +109,6 @@
     
     // Configure the cell...
     cell.delegate = self;
-    cell.needSocialButtons = self.needSocialButtons;
     //pass a reference so in statusTableViewCell can use status.hash to access stuff
     cell.status = status;
     
@@ -122,8 +120,12 @@
     cell.userNameButton.titleLabel.text =[status posterUsername];
     
     //revivable button
-    BOOL revivable = [[status revivable] boolValue];
-#warning need logic to determine if cell can be revived
+    if (status.revivable.boolValue) {
+        [cell enableRevivePressHoldGesture];
+    }else{
+        [cell disableRevivePressHoldGesture];
+    }
+
     //cell date
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm MM/dd/yy"];
@@ -194,11 +196,6 @@
             float cellHeight = ORIGIN_Y_CELL_MESSAGE_LABEL + labelHeight;
             if (pictureHeight !=0) {
                 cellHeight += 10 + pictureHeight;
-            }
-            
-            if(self.needSocialButtons){
-                //this container view has like, comment, revive buttons
-                cellHeight += 10 + CELL_BUTTONS_CONTAINER_HEIGHT;
             }
             
             cellHeight = cellHeight+10;

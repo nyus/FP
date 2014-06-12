@@ -28,7 +28,7 @@
         self.revivable = pfObject[@"revivable"];
         self.expirationTimeInSec = pfObject[@"expirationTimeInSec"];
         self.likeCount = pfObject[@"likeCount"];
-//        self.reviveCount = pfObject[@"reviveCount"];
+        self.reviveCount = pfObject[@"reviveCount"];
         self.commentCount = pfObject[@"commentCount"];
         
         //StatusTableCell.countDownLabel.text needs to be based on self.countDownMessage and converted to xx:xx

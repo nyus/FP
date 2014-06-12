@@ -516,7 +516,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NE6-2Q-6hG" userLabel="username button">
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NE6-2Q-6hG" userLabel="username button">
                                                     <rect key="frame" x="84" y="32" width="88" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal">
@@ -526,42 +526,8 @@
                                                         <segue destination="w14-2P-gxh" kind="push" identifier="toUserProfile" id="2nC-Fy-3qA"/>
                                                     </connections>
                                                 </button>
-                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YEP-9J-nrK">
-                                                    <rect key="frame" x="0.0" y="100" width="320" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdU-U3-5I7" userLabel="like button">
-                                                            <rect key="frame" x="84" y="0.0" width="44" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="like_icon.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="likeButtonTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="kAS-yX-jRg"/>
-                                                            </connections>
-                                                        </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6G6-zh-gFz" userLabel="like num label">
-                                                            <rect key="frame" x="121" y="21" width="39" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="39" id="eNE-6q-uLI"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="bottom" secondItem="6G6-zh-gFz" secondAttribute="bottom" constant="11" id="CFW-it-Dc7"/>
-                                                        <constraint firstItem="CdU-U3-5I7" firstAttribute="leading" secondItem="YEP-9J-nrK" secondAttribute="leading" constant="84" id="KrD-Ed-2v5"/>
-                                                        <constraint firstAttribute="bottom" secondItem="CdU-U3-5I7" secondAttribute="bottom" id="a2P-Ai-awv"/>
-                                                        <constraint firstItem="6G6-zh-gFz" firstAttribute="top" secondItem="YEP-9J-nrK" secondAttribute="top" constant="21" id="iCc-Nm-mPh"/>
-                                                        <constraint firstItem="CdU-U3-5I7" firstAttribute="top" secondItem="YEP-9J-nrK" secondAttribute="top" id="vcd-DT-hHc"/>
-                                                    </constraints>
-                                                </view>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMo-Mr-2bZ" userLabel="comment button">
-                                                    <rect key="frame" x="235" y="0.0" width="44" height="44"/>
+                                                    <rect key="frame" x="224" y="0.0" width="44" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" image="comment_icon.png">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -570,8 +536,25 @@
                                                         <action selector="commentButtonTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="hHI-Oc-gcs"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bok-Nu-QOx" userLabel="comment number label">
-                                                    <rect key="frame" x="222" y="37" width="39" height="12"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bok-Nu-QOx" userLabel="comment number label">
+                                                    <rect key="frame" x="200" y="37" width="39" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdU-U3-5I7" userLabel="like button">
+                                                    <rect key="frame" x="276" y="0.0" width="44" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="like_icon.png">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="likeButtonTapped:" destination="ubd-ay-Emu" eventType="touchUpInside" id="kAS-yX-jRg"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6G6-zh-gFz" userLabel="like num label">
+                                                    <rect key="frame" x="253" y="37" width="39" height="12"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -585,21 +568,16 @@
                                                 <constraint firstItem="Ayw-Ly-Z5m" firstAttribute="top" secondItem="Jgs-Wc-seL" secondAttribute="top" constant="73" id="56Q-Di-77J"/>
                                                 <constraint firstItem="58g-09-ppF" firstAttribute="leading" secondItem="nrn-gN-Ggx" secondAttribute="trailing" constant="7" id="7hi-Pt-obn"/>
                                                 <constraint firstItem="eLM-PV-m9i" firstAttribute="top" secondItem="Jgs-Wc-seL" secondAttribute="top" id="ADm-OE-aJK"/>
-                                                <constraint firstItem="YEP-9J-nrK" firstAttribute="top" secondItem="Jgs-Wc-seL" secondAttribute="top" constant="328" id="BCt-YZ-qdR"/>
                                                 <constraint firstItem="3He-OD-vem" firstAttribute="leading" secondItem="nrn-gN-Ggx" secondAttribute="trailing" constant="7" id="EJh-e6-tmz"/>
                                                 <constraint firstItem="nrn-gN-Ggx" firstAttribute="leading" secondItem="Jgs-Wc-seL" secondAttribute="leading" constant="20" id="JkI-xi-Kog"/>
                                                 <constraint firstAttribute="trailing" secondItem="58g-09-ppF" secondAttribute="trailing" constant="116" id="KNB-D3-tFu"/>
-                                                <constraint firstAttribute="trailing" secondItem="YEP-9J-nrK" secondAttribute="trailing" id="P5z-Bn-ebc"/>
-                                                <constraint firstItem="YEP-9J-nrK" firstAttribute="centerX" secondItem="NE6-2Q-6hG" secondAttribute="centerX" constant="32" id="ayO-ZM-dOg"/>
                                                 <constraint firstAttribute="bottom" secondItem="eLM-PV-m9i" secondAttribute="bottom" constant="-2" id="cjs-1w-sTW"/>
                                                 <constraint firstItem="nrn-gN-Ggx" firstAttribute="top" secondItem="Jgs-Wc-seL" secondAttribute="top" constant="5" id="h1P-2y-PuD"/>
-                                                <constraint firstItem="YEP-9J-nrK" firstAttribute="leading" secondItem="Jgs-Wc-seL" secondAttribute="leading" id="x46-VR-fKu"/>
                                                 <constraint firstItem="NE6-2Q-6hG" firstAttribute="top" secondItem="58g-09-ppF" secondAttribute="bottom" constant="2" id="xRX-9p-bZ7"/>
                                                 <constraint firstItem="58g-09-ppF" firstAttribute="top" secondItem="Jgs-Wc-seL" secondAttribute="top" constant="6" id="zu7-zO-cbH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="buttonsContainerView" destination="YEP-9J-nrK" id="e0t-5e-8y4"/>
                                             <outlet property="commentCountLabel" destination="bok-Nu-QOx" id="H6r-Xj-sGI"/>
                                             <outlet property="likeCountLabel" destination="6G6-zh-gFz" id="WKH-VX-Lvs"/>
                                             <outlet property="reviveProgressView" destination="eLM-PV-m9i" id="Ecl-E2-fwQ"/>
@@ -671,69 +649,6 @@
                                                         <segue destination="w14-2P-gxh" kind="push" identifier="toUserProfile" id="RZA-Nb-UN0"/>
                                                     </connections>
                                                 </button>
-                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hso-PB-rnk">
-                                                    <rect key="frame" x="0.0" y="328" width="320" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GAu-wm-ouu" userLabel="like button">
-                                                            <rect key="frame" x="84" y="0.0" width="44" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="like_icon.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="likeButtonTapped:" destination="UhG-jz-Qkl" eventType="touchUpInside" id="6s7-F9-Mqs"/>
-                                                            </connections>
-                                                        </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aRu-YA-n8G" userLabel="like num label">
-                                                            <rect key="frame" x="121" y="21" width="39" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="39" id="4DR-1R-FfA"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yem-yh-5pN" userLabel="comment button">
-                                                            <rect key="frame" x="193" y="0.0" width="44" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="comment_icon.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="commentButtonTapped:" destination="UhG-jz-Qkl" eventType="touchUpInside" id="hPM-B7-xYY"/>
-                                                            </connections>
-                                                        </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zVB-sq-wgG" userLabel="comment number label">
-                                                            <rect key="frame" x="234" y="20" width="39" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="39" id="cwA-zG-sSa"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstItem="GAu-wm-ouu" firstAttribute="top" secondItem="Hso-PB-rnk" secondAttribute="top" id="2pN-np-nhf"/>
-                                                        <constraint firstItem="zVB-sq-wgG" firstAttribute="leading" secondItem="aRu-YA-n8G" secondAttribute="trailing" constant="74" id="8EK-C4-FsQ"/>
-                                                        <constraint firstItem="GAu-wm-ouu" firstAttribute="leading" secondItem="Hso-PB-rnk" secondAttribute="leading" constant="84" id="Iii-1W-6RP"/>
-                                                        <constraint firstAttribute="bottom" secondItem="aRu-YA-n8G" secondAttribute="bottom" constant="11" id="N7f-1P-Y6d"/>
-                                                        <constraint firstItem="Yem-yh-5pN" firstAttribute="baseline" secondItem="GAu-wm-ouu" secondAttribute="baseline" id="NQn-av-V6O"/>
-                                                        <constraint firstAttribute="trailing" secondItem="Yem-yh-5pN" secondAttribute="trailing" constant="83" id="OSo-YW-w9e"/>
-                                                        <constraint firstItem="Yem-yh-5pN" firstAttribute="leading" secondItem="GAu-wm-ouu" secondAttribute="trailing" constant="65" id="VOg-Xa-IcN"/>
-                                                        <constraint firstAttribute="bottom" secondItem="GAu-wm-ouu" secondAttribute="bottom" id="bZk-1u-k4w"/>
-                                                        <constraint firstAttribute="trailing" secondItem="zVB-sq-wgG" secondAttribute="trailing" constant="47" id="g1v-NS-uOE"/>
-                                                        <constraint firstItem="Yem-yh-5pN" firstAttribute="leading" secondItem="aRu-YA-n8G" secondAttribute="trailing" constant="33" id="hN6-0R-bzy"/>
-                                                        <constraint firstItem="GAu-wm-ouu" firstAttribute="bottom" secondItem="Yem-yh-5pN" secondAttribute="bottom" id="na4-N5-slu"/>
-                                                        <constraint firstItem="zVB-sq-wgG" firstAttribute="top" secondItem="Hso-PB-rnk" secondAttribute="top" constant="20" symbolic="YES" id="oxb-qb-hts"/>
-                                                        <constraint firstItem="GAu-wm-ouu" firstAttribute="top" secondItem="Yem-yh-5pN" secondAttribute="top" id="ubo-uo-xeg"/>
-                                                        <constraint firstItem="aRu-YA-n8G" firstAttribute="top" secondItem="Hso-PB-rnk" secondAttribute="top" constant="21" id="unU-Lk-pUk"/>
-                                                    </constraints>
-                                                </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="VDc-C8-Q2d">
                                                     <rect key="frame" x="21" y="133" width="279" height="204"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -742,6 +657,40 @@
                                                         <constraint firstAttribute="height" constant="204" id="lOA-EY-KC8"/>
                                                     </constraints>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GAu-wm-ouu" userLabel="like button">
+                                                    <rect key="frame" x="276" y="0.0" width="44" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="like_icon.png">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="likeButtonTapped:" destination="UhG-jz-Qkl" eventType="touchUpInside" id="6s7-F9-Mqs"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aRu-YA-n8G" userLabel="like num label">
+                                                    <rect key="frame" x="253" y="37" width="39" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yem-yh-5pN" userLabel="comment button">
+                                                    <rect key="frame" x="224" y="0.0" width="44" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="comment_icon.png">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="commentButtonTapped:" destination="UhG-jz-Qkl" eventType="touchUpInside" id="hPM-B7-xYY"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zVB-sq-wgG" userLabel="comment number label">
+                                                    <rect key="frame" x="200" y="37" width="39" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="d1u-zn-Kcd" firstAttribute="top" secondItem="vNn-uF-ktM" secondAttribute="top" id="2tV-T7-ZBL"/>
@@ -749,12 +698,9 @@
                                                 <constraint firstItem="VDc-C8-Q2d" firstAttribute="top" secondItem="0zp-lN-avz" secondAttribute="bottom" constant="13" id="9DE-rM-RqL"/>
                                                 <constraint firstItem="2wy-tw-oTg" firstAttribute="leading" secondItem="jeU-24-vmQ" secondAttribute="trailing" constant="8" id="9mY-Lw-cNn"/>
                                                 <constraint firstItem="VDc-C8-Q2d" firstAttribute="leading" secondItem="vNn-uF-ktM" secondAttribute="leading" constant="21" id="CAP-Wj-TLw"/>
-                                                <constraint firstItem="Hso-PB-rnk" firstAttribute="centerX" secondItem="VDc-C8-Q2d" secondAttribute="centerX" id="CNt-5j-anC"/>
-                                                <constraint firstItem="Hso-PB-rnk" firstAttribute="top" secondItem="VDc-C8-Q2d" secondAttribute="bottom" constant="-9" id="RQp-eV-IKf"/>
                                                 <constraint firstItem="0zp-lN-avz" firstAttribute="top" secondItem="vNn-uF-ktM" secondAttribute="top" constant="73" id="S1J-8z-7cs"/>
                                                 <constraint firstItem="jeU-24-vmQ" firstAttribute="leading" secondItem="vNn-uF-ktM" secondAttribute="leading" constant="20" id="TL8-LM-vCB"/>
                                                 <constraint firstAttribute="trailing" secondItem="NMN-3H-rFV" secondAttribute="trailing" constant="116" id="Yew-mV-Uso"/>
-                                                <constraint firstItem="Hso-PB-rnk" firstAttribute="leading" secondItem="vNn-uF-ktM" secondAttribute="leading" id="aAo-cx-Ty3"/>
                                                 <constraint firstItem="jeU-24-vmQ" firstAttribute="top" secondItem="vNn-uF-ktM" secondAttribute="top" constant="5" id="aDt-AS-boQ"/>
                                                 <constraint firstItem="NMN-3H-rFV" firstAttribute="top" secondItem="vNn-uF-ktM" secondAttribute="top" constant="6" id="ab9-FQ-4pW"/>
                                                 <constraint firstAttribute="bottom" secondItem="d1u-zn-Kcd" secondAttribute="bottom" constant="-21" id="fjI-cF-7Jf"/>
@@ -766,7 +712,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="buttonsContainerView" destination="Hso-PB-rnk" id="m4S-pk-9zc"/>
                                             <outlet property="commentCountLabel" destination="zVB-sq-wgG" id="Zbi-0a-Wev"/>
                                             <outlet property="likeCountLabel" destination="aRu-YA-n8G" id="w9J-jP-VGD"/>
                                             <outlet property="reviveProgressView" destination="d1u-zn-Kcd" id="jaj-nO-qdQ"/>
@@ -1472,7 +1417,7 @@
             <objects>
                 <navigationController title="Home" definesPresentationContext="YES" navigationBarHidden="YES" id="5eY-2V-bCP" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <tabBarItem key="tabBarItem" title="Home" image="378896FF-FF1F-4536-A558-58A17FB19CC0" id="xpw-hA-qPq"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="5D005DD6-838E-402D-8B5B-48F8EA294F12" id="xpw-hA-qPq"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="81F-D5-Wlr">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1658,47 +1603,6 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ty-C4-z7u">
-                                                    <rect key="frame" x="0.0" y="328" width="320" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7G-aQ-RX9" userLabel="like button">
-                                                            <rect key="frame" x="84" y="0.0" width="44" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="like_icon.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="likeButtonTapped:" destination="rgq-mL-Qx1" eventType="touchUpInside" id="4xL-Gg-IKM"/>
-                                                            </connections>
-                                                        </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uku-Ed-8Rx" userLabel="like num label">
-                                                            <rect key="frame" x="121" y="21" width="39" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frj-JR-9pj" userLabel="comment button">
-                                                            <rect key="frame" x="193" y="0.0" width="44" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="comment_icon.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="commentButtonTapped:" destination="rgq-mL-Qx1" eventType="touchUpInside" id="kO2-jL-Jf2"/>
-                                                            </connections>
-                                                        </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zda-JW-Bpg" userLabel="comment number label">
-                                                            <rect key="frame" x="234" y="20" width="39" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="ZW6-wf-CCW" firstAttribute="top" secondItem="41h-4S-yoR" secondAttribute="top" constant="6" id="9yK-Gh-9Zf"/>
@@ -1713,9 +1617,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="buttonsContainerView" destination="2Ty-C4-z7u" id="dhx-EW-pAw"/>
-                                            <outlet property="commentCountLabel" destination="Zda-JW-Bpg" id="W0X-bP-pVr"/>
-                                            <outlet property="likeCountLabel" destination="Uku-Ed-8Rx" id="agJ-Wp-B1q"/>
                                             <outlet property="statusCellAvatarImageView" destination="jgM-sO-cmL" id="T75-oL-ful"/>
                                             <outlet property="statusCellDateLabel" destination="ZW6-wf-CCW" id="Ed5-hS-4yx"/>
                                             <outlet property="statusCellMessageLabel" destination="iGY-kP-C4V" id="qLa-ts-EYx"/>
@@ -1772,47 +1673,6 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sJD-oD-hF9">
-                                                    <rect key="frame" x="0.0" y="328" width="320" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9n2-Yd-Zzl" userLabel="like button">
-                                                            <rect key="frame" x="84" y="0.0" width="44" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="like_icon.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="likeButtonTapped:" destination="4lj-4e-wAT" eventType="touchUpInside" id="0Gc-NH-zH1"/>
-                                                            </connections>
-                                                        </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2x2-ac-o14" userLabel="like num label">
-                                                            <rect key="frame" x="121" y="21" width="39" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uMT-5i-9c4" userLabel="comment button">
-                                                            <rect key="frame" x="193" y="0.0" width="44" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="comment_icon.png">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="commentButtonTapped:" destination="4lj-4e-wAT" eventType="touchUpInside" id="ktA-EP-mMR"/>
-                                                            </connections>
-                                                        </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLM-qN-rIO" userLabel="comment number label">
-                                                            <rect key="frame" x="234" y="20" width="39" height="12"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="placeholder_picture.png" translatesAutoresizingMaskIntoConstraints="NO" id="hwu-sv-nHN">
                                                     <rect key="frame" x="21" y="133" width="279" height="204"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1837,9 +1697,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="buttonsContainerView" destination="sJD-oD-hF9" id="nRM-aj-k4J"/>
-                                            <outlet property="commentCountLabel" destination="fLM-qN-rIO" id="nOH-NB-T2Q"/>
-                                            <outlet property="likeCountLabel" destination="2x2-ac-o14" id="lZ3-30-SLt"/>
                                             <outlet property="statusCellAvatarImageView" destination="qDR-sc-Lvi" id="VAQ-Ii-Jdz"/>
                                             <outlet property="statusCellDateLabel" destination="joy-NE-jlR" id="yJS-Cl-ynz"/>
                                             <outlet property="statusCellMessageLabel" destination="wQq-B5-9po" id="dIt-Kj-bJn"/>
@@ -1930,7 +1787,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="378896FF-FF1F-4536-A558-58A17FB19CC0" width="32" height="32">
+        <image name="5D005DD6-838E-402D-8B5B-48F8EA294F12" width="32" height="32">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

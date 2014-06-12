@@ -16,7 +16,6 @@
 @end
 
 @interface Status : NSObject
-//@property (nonatomic, strong) PFObject *pfObject;
 
 @property (nonatomic, strong) NSString *objectid;
 @property (nonatomic, strong) NSString *message;
@@ -28,7 +27,7 @@
 @property (nonatomic, assign) NSNumber *revivable;
 @property (nonatomic, strong) NSNumber *expirationTimeInSec;
 @property (nonatomic, strong) NSNumber *likeCount;
-//@property (nonatomic, strong) NSNumber *reviveCount;
+@property (nonatomic, strong) NSNumber *reviveCount;
 @property (nonatomic, strong) NSNumber *commentCount;
 @property (nonatomic, strong) NSString *countDownMessage;
 @property (nonatomic, strong, readonly) NSTimer *timer;

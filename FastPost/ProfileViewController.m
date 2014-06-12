@@ -47,9 +47,6 @@
         self.fakeNavigationBar.hidden = NO;
         self.userNameLabelTopSpaceToTopLayoutConstraint.constant = 49;
     }
-    
-    //if yes, table view cell will make room for like, comment and revive buttons
-    self.needSocialButtons = NO;
 }
 
 -(void)viewWillAppear:(BOOL)animated{

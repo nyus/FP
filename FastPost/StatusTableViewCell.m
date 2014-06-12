@@ -13,6 +13,7 @@
 #define REVIVE_PROGRESS_VIEW_INIT_ALPHA .5f
 @interface StatusTableViewCell(){
     BOOL pressAndHoldRecognized;
+    PressAndHoldGesture *pressHoldGesture;
 }
 @end
 
@@ -26,8 +27,7 @@
         //turn off autolayout on the cells
         self.statusCellMessageLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.statusCellPhotoImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        self.buttonsContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addGestureRecognizer:[[PressAndHoldGesture alloc] initWithTarget:self action:@selector(handlePressAndHold:)]];
+        
     }
     
     return self;
@@ -48,6 +48,19 @@
 
 - (IBAction)commentButtonTapped:(id)sender {
     [self.delegate commentButtonTappedOnCell:self];
+}
+
+-(void)disableRevivePressHoldGesture{
+    if (pressHoldGesture) {
+        [self removeGestureRecognizer:pressHoldGesture];
+    }
+}
+
+-(void)enableRevivePressHoldGesture{
+    if (!pressHoldGesture) {
+        pressHoldGesture = [[PressAndHoldGesture alloc] initWithTarget:self action:@selector(handlePressAndHold:)];
+        [self addGestureRecognizer:pressHoldGesture];
+    }
 }
 
 -(void)handlePressAndHold:(PressAndHoldGesture *)gesture{
