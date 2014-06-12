@@ -80,6 +80,7 @@
     query.limit = count;
     [query orderByDescending:@"createdAt"];
     [query whereKey:@"posterUsername" equalTo:self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username];
+    [query whereKey:@"expirationDate" greaterThan:[NSDate date]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         if (objects.count != 0) {
