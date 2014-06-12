@@ -123,12 +123,7 @@
     
     //revivable button
     BOOL revivable = [[status revivable] boolValue];
-    if (!revivable) {
-        cell.statusCellReviveButton.hidden = YES;
-    }else{
-        cell.statusCellReviveButton.hidden = NO;
-    }
-    
+#warning need logic to determine if cell can be revived
     //cell date
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm MM/dd/yy"];
@@ -139,87 +134,13 @@
     [Helper getAvatarForUser:status.posterUsername forImageView:cell.statusCellAvatarImageView];
     
     return cell;
-/*
-    Status *status = self.dataSource[indexPath.row];
-    NSString *key =[NSString stringWithFormat:@"%d",status.hash];
-    
-    static NSString *CellIdentifier = @"Cell";
-    StatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    // Configure the cell...
-    cell.delegate = self;
-    cell.needSocialButtons = self.needSocialButtons;
-    //pass a reference so in statusTableViewCell can use status.hash to access stuff
-    cell.status = status;
-    
-    //message
-    cell.statusCellMessageLabel.text = [status message];
-    
-    //username
-    cell.statusCellUsernameLabel.text = [status posterUsername];
-    
-    //revivable button
-    BOOL revivable = [[status revivable] boolValue];
-    if (!revivable) {
-        cell.statusCellReviveButton.hidden = YES;
-    }else{
-        cell.statusCellReviveButton.hidden = NO;
-    }
-    
-    //cell date
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm MM/dd/yy"];
-    NSString *str = [formatter stringFromDate:[status updatedAt]];
-    cell.statusCellDateLabel.text = str;
-    
-    //get avatar
-    [Helper getAvatarForSelfOnImageView:cell.statusCellAvatarImageView];
-    
-    //picture
-    if ([[isTherePhotoMap objectForKey:key] boolValue]) {
-        
-        cell.statusCellPhotoImageView.hidden = NO;
-
-        PFFile *picture = (PFFile *)[status picture];
-        //add spinner on image view to indicate pulling image
-        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        spinner.center = CGPointMake((int)cell.statusCellPhotoImageView.frame.size.width/2, (int)cell.statusCellPhotoImageView.frame.size.height/2);
-        [cell.statusCellPhotoImageView addSubview:spinner];
-        [spinner startAnimating];
-        
-        [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            
-            if (data && !error) {
-                cell.statusCellPhotoImageView.image = [UIImage imageWithData:data];
-            }else{
-                NSLog(@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid);
-            }
-            
-            [spinner stopAnimating];
-        }];
-    }else{
-        cell.statusCellPhotoImageView.hidden = YES;
-    }
-    
-    //social buttons
-    if (self.needSocialButtons) {
-        cell.likeCountLabel.text = [[status likeCount] stringValue];
-        cell.commentCountLabel.text = [[status likeCount] stringValue];
-    }
-*/
-    
-    //passing reference
-    cell.isTherePhotoMap = isTherePhotoMap;
-    cell.labelHeightMap = labelHeightMap;
-    cell.indexPath = indexPath;
-
-    return cell;
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    StatusTableViewCell *c = (StatusTableViewCell *)cell;
-    c.indexPath = indexPath;
-    
-}
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    StatusTableViewCell *c = (StatusTableViewCell *)cell;
+//    c.indexPath = indexPath;
+//    
+//}
 
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{

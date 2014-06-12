@@ -12,7 +12,6 @@
 #import <Parse/Parse.h>
 #import "StatusTableViewHeaderViewController.h"
 #import "ComposeNewStatusViewController.h"
-#import "ExpirationTimePickerViewController.h"
 #import "LogInViewController.h"
 #import "ProfileViewController.h"
 #import "Helper.h"
@@ -23,11 +22,10 @@
 #import "FPLogger.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
-@interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate, StatusTableViewHeaderViewDelegate,ExpirationTimePickerViewControllerDelegate,UIActionSheetDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate>{
+@interface StatusViewController ()<StatusObjectDelegate,FBFriendPickerDelegate,FBViewControllerDelegate, StatusTableViewHeaderViewDelegate,UIActionSheetDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate>{
     
     FBFriendPickerViewController *friendPickerVC;
     StatusTableViewHeaderViewController *headerViewVC;
-    ExpirationTimePickerViewController *expirationTimePickerVC;
     StatusTableViewCell *cellToRevive;
     UIRefreshControl *refreshControl;
     UITapGestureRecognizer *tapGesture;
@@ -76,11 +74,6 @@
     if (friendQusetVC.isOnScreen) {
         friendQusetVC.isOnScreen = NO;
         [friendQusetVC removeSelfFromParent];
-        [self.view endEditing:YES];
-    }
-    
-    if (expirationTimePickerVC.isOnScreen) {
-        [expirationTimePickerVC removeSelfFromParent];
         [self.view endEditing:YES];
     }
 }
@@ -292,43 +285,6 @@
     [self performSegueWithIdentifier:@"toProfile" sender:self];
 }
 
--(void)reviveStatusButtonTappedOnCell:(StatusTableViewCell *)cell{
-    
-    cellToRevive = cell;
-    
-    if (!expirationTimePickerVC) {
-        expirationTimePickerVC = [[ExpirationTimePickerViewController alloc] initWithNibName:@"ExpirationTimePickerViewController" bundle:nil type:PickerTypeRevive];
-        expirationTimePickerVC.delegate = self;
-        expirationTimePickerVC.view.frame = CGRectMake(0,
-                                                       (self.tableView.frame.size.height - expirationTimePickerVC.view.frame.size.height)/2,
-                                                       expirationTimePickerVC.view.frame.size.width,
-                                                       expirationTimePickerVC.view.frame.size.height);
-        expirationTimePickerVC.titleLabel.text = @"Revive Status";
-        //need this to construct datasource
-        expirationTimePickerVC.allowableReviveTimeInSec = [self convertCountDownTextToSecond:cell.statusCellCountDownLabel.text];
-        
-        UIToolbar *blurEffectToolBar = [[UIToolbar alloc] initWithFrame:expirationTimePickerVC.view.frame];
-        blurEffectToolBar.barStyle = UIBarStyleDefault;
-        //set a reference so that can remove it
-        expirationTimePickerVC.blurToolBar = blurEffectToolBar;
-        
-        expirationTimePickerVC.view.alpha = 0.0f;
-        expirationTimePickerVC.blurToolBar.alpha = 0.0f;
-        [self.view.window addSubview:expirationTimePickerVC.view];
-        [self.view.window insertSubview:blurEffectToolBar belowSubview:expirationTimePickerVC.view];
-    }
-    
-    expirationTimePickerVC.type = PickerTypeRevive;
-    //need this to construct datasource. update this value
-    expirationTimePickerVC.allowableReviveTimeInSec = [self convertCountDownTextToSecond:cell.statusCellCountDownLabel.text];
-    
-    
-    [UIView animateWithDuration:.3 animations:^{
-        expirationTimePickerVC.view.alpha = 1.0f;
-        expirationTimePickerVC.blurToolBar.alpha = 1.0f;
-    }];
-}
-
 -(int)convertCountDownTextToSecond:(NSString *)coundDownText{
     NSArray *components = [coundDownText componentsSeparatedByString:@":"];
     
@@ -373,6 +329,9 @@
 
 }
 
+-(void)reviveAnimationDidEndOnCell:(StatusTableViewCell *)cell withProgress:(float)percentage{
+    NSLog(@"progress %f",percentage);
+}
 #pragma mark - StatusTableHeaderViewDelegate
 
 -(void)tbHeaderAddFriendButtonTapped{
@@ -469,35 +428,35 @@
 
 #pragma mark - ExpirationTimePickerViewControllerDelegate
 
--(void)revivePickerViewExpirationTimeSetToMins:(NSInteger)min andSecs:(NSInteger)sec andPickerView:(UIPickerView *)pickerView{
-    Status *status = self.dataSource[[[self.tableView indexPathForCell:cellToRevive] row]];
-    
-    //add time to status remotely
-    int timeInterval = (int)min * 60 + (int)sec + status.countDownMessage.intValue;
-    
-    PFQuery *queryStatusObj = [[PFQuery alloc] initWithClassName:@"Status"];
-    [queryStatusObj whereKey:@"objectId" equalTo:status.objectid];
-    [queryStatusObj getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!error) {
-            object[@"expirationTimeInSec"] = [NSNumber numberWithInt:timeInterval];
-            object[@"expirationDate"] = [NSDate dateWithTimeInterval:timeInterval sinceDate:[NSDate date]];
-            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ succeeded",object]];
-                }else{
-                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ failed",object]];
-                }
-            }];
-        }
-    }];
-    
-    //add time to the status locally
-    status.countDownMessage = [NSString stringWithFormat:@"%d",timeInterval];
-}
-
--(void)filterPickerViewExpirationTimeSetToLessThanMins:(int)min andPickerView:(UIPickerView *)pickerView{
-    [self fetchNewStatusWithCount:25 remainingTime:[NSNumber numberWithInt:min*60]];
-}
+//-(void)revivePickerViewExpirationTimeSetToMins:(NSInteger)min andSecs:(NSInteger)sec andPickerView:(UIPickerView *)pickerView{
+//    Status *status = self.dataSource[[[self.tableView indexPathForCell:cellToRevive] row]];
+//    
+//    //add time to status remotely
+//    int timeInterval = (int)min * 60 + (int)sec + status.countDownMessage.intValue;
+//    
+//    PFQuery *queryStatusObj = [[PFQuery alloc] initWithClassName:@"Status"];
+//    [queryStatusObj whereKey:@"objectId" equalTo:status.objectid];
+//    [queryStatusObj getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//        if (!error) {
+//            object[@"expirationTimeInSec"] = [NSNumber numberWithInt:timeInterval];
+//            object[@"expirationDate"] = [NSDate dateWithTimeInterval:timeInterval sinceDate:[NSDate date]];
+//            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                if (succeeded) {
+//                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ succeeded",object]];
+//                }else{
+//                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ failed",object]];
+//                }
+//            }];
+//        }
+//    }];
+//    
+//    //add time to the status locally
+//    status.countDownMessage = [NSString stringWithFormat:@"%d",timeInterval];
+//}
+//
+//-(void)filterPickerViewExpirationTimeSetToLessThanMins:(int)min andPickerView:(UIPickerView *)pickerView{
+//    [self fetchNewStatusWithCount:25 remainingTime:[NSNumber numberWithInt:min*60]];
+//}
 
 #pragma mark - UISegue
 
@@ -517,7 +476,6 @@
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 
 #pragma mark - UIAlertViewDelegate

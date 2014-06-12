@@ -12,10 +12,10 @@
 @class Status;
 @protocol StatusTableViewCellDelegate <NSObject>
 @optional
--(void)reviveStatusButtonTappedOnCell:(StatusTableViewCell *)cell;
 -(void)usernameLabelTappedOnCell:(StatusTableViewCell *)cell;
 -(void)likeButtonTappedOnCell:(StatusTableViewCell *)cell;
 -(void)commentButtonTappedOnCell:(StatusTableViewCell *)cell;
+-(void)reviveAnimationDidEndOnCell:(StatusTableViewCell *)cell withProgress:(float)percentage;
 @end
 
 @interface StatusTableViewCell : UITableViewCell
@@ -26,16 +26,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusCellUsernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellDateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *statusCellAvatarImageView;
-@property (weak, nonatomic) IBOutlet UIButton *statusCellReviveButton;
-//cache calculated label height
-@property (weak, nonatomic) NSMapTable *labelHeightMap;
-//cache is there photo
-@property (weak, nonatomic) NSMapTable *isTherePhotoMap;
-//cache cell height
-@property (weak, nonatomic) NSMapTable *cellHeightMap;
 @property (strong,nonatomic) Status *status;
-
-@property (strong, nonatomic) NSIndexPath *indexPath;
+@property (weak, nonatomic) IBOutlet UIView *reviveProgressView;
 @property (weak, nonatomic) IBOutlet UIView *buttonsContainerView;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
@@ -45,9 +37,4 @@
 
 - (IBAction)likeButtonTapped:(id)sender;
 - (IBAction)commentButtonTapped:(id)sender;
-//-(void)resizeCellToFitStatusContent;
-//-(void)setPlaceHolderImage;
-
-//-(void)blurCell;
-//-(void)unblurCell;
 @end
