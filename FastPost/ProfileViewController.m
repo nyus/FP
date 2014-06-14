@@ -14,11 +14,14 @@
 #import <CoreData/CoreData.h>
 #import "SharedDataManager.h"
 #import "FPLogger.h"
+#import "ELCImagePickerController.h"
+#import "ELCAlbumPickerController.h"
+#import "ELCAssetTablePicker.h"
 //#import "StatusTableViewHeaderViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
-
-@interface ProfileViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
+#define TB_HEADER_HEIGHT 20.0f
+@interface ProfileViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,ELCImagePickerControllerDelegate>{
     UIImagePickerController *imagePicker;
 //    StatusTableViewHeaderViewController *headerViewVC;
 }
@@ -121,13 +124,8 @@
     //name
     self.userNameLabel.text = self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username;
     
-    //set avatar
-    [Helper getAvatarForUser:self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username forImageView:self.avatarImageView];
-    
     //# of dwindles.
     //first try to pull from user default, and when a user posts a new status, increase this user default value. for first time user, this will work but for existing users, need to pull from parse to get the # of posts already out there
-   
-    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *hasDoneInitialStatusCount = [defaults objectForKey:@"hasDoneInitialStatusCount"];
     if (hasDoneInitialStatusCount.boolValue == NO) {
@@ -158,6 +156,11 @@
         self.followerLabel.text = numOfFollowers;
     }
     
+    
+    //set avatar
+    
+    BOOL isLocalAvatarExisted = [Helper getLocalAvatarForUser:self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username avatarType:AvatarTypeMid forImageView:self.avatarImageView];
+    
     //set following. # of following is the count of friends minus one(since user is friend of himself)
     [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         
@@ -171,11 +174,16 @@
         [defaults setObject:self.followingLabel.text forKey:@"numOfFollowing"];
         
         //set follower.
-        if (me[@"followers"] != [NSNull null]) {
+        if (me[@"usersICanMessage"] != [NSNull null]) {
             self.followerLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"usersICanMessage"] count]];
         }else{
             self.followerLabel.text = [NSString stringWithFormat:@"%d",0];
         }
+        
+        if (!isLocalAvatarExisted) {
+            [Helper getServerAvatarForUser:me.username avatarType:AvatarTypeMid forImageView:self.avatarImageView];
+        }
+        
         [FPLogger record:[NSString stringWithFormat:@"load number of following:%@ and followers:%@ after refreshing current user obj",self.followingLabel.text,self.followerLabel.text]];
         [defaults setObject:self.followerLabel.text forKey:@"numOfFollowers"];
         [defaults synchronize];
@@ -188,7 +196,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)avatarImageViewTapped:(id)sender {
+- (IBAction)avatarImageViewTapped:(UIImageView *)sender {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera",@"Gallery", nil];
     [sheet showFromTabBar:self.tabBarController.tabBar];
 }
@@ -217,15 +225,13 @@
         }];
         
     }else if(buttonIndex == 1){
-        // this is for a bug when you first add from gallery, then take a photo, the picker view controller shifts down
-        if (imagePicker == nil) {
-            imagePicker = [[UIImagePickerController alloc] init];
-        }
-        imagePicker.delegate = self;
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:imagePicker animated:YES completion:^{
-            imagePicker = nil;
-        }];
+        
+        ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initImagePicker];
+        elcPicker.maximumImagesCount = 3;
+        elcPicker.returnsOriginalImage = NO; //Only return the fullScreenImage, not the fullResolutionImage
+        elcPicker.imagePickerDelegate = self;
+        
+        [self presentViewController:elcPicker animated:YES completion:nil];
     }
 }
 
@@ -234,20 +240,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *chosenImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-  
-//    // If photot did not come from photo album, add photo to our custom album and the regular camera roll
-//    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-//        [self saveImageToAlbum:image];
-//    } else {
-//        //If photo came from regular album, add to custom album only
-//        [self saveImageFromAssetURL:[info objectForKey:@"UIImagePickerControllerReferenceURL"]];
-//    }
-    
-    //save
-//    NSError *error;
-//    [[SharedDataManager sharedInstance].managedObjectContext save:&error];
-    
-    //save to parse
+    //save to parse and local
     
     float scale = 0.0f;
     if (chosenImage.size.width > chosenImage.size.height) {
@@ -260,12 +253,119 @@
     NSData *data = UIImageJPEGRepresentation(chosenImage,scale);
     
     //save profile image to local and server
-    [Helper saveAvatar:data forUser:[PFUser currentUser].username];
+    [Helper saveAvatar:data avatarType:AvatarTypeMid forUser:[PFUser currentUser].username];
     
     [picker dismissViewControllerAnimated:YES completion:^{
         self.avatarImageView.image = chosenImage;
     }];
 }
+
+#pragma mark ELCImagePickerControllerDelegate Methods
+
+-(void)setAvatarImagesOnImageViewsForUser:(NSString *)username{
+    //first get it out
+    BOOL leftAvatarExisted = [Helper getLocalAvatarForUser:username avatarType:AvatarTypeLeft forImageView:self.leftAvatarImageView];
+    BOOL midAvatarExisted = [Helper getLocalAvatarForUser:username avatarType:AvatarTypeMid forImageView:self.leftAvatarImageView];
+    BOOL rightAvatarExisted = [Helper getLocalAvatarForUser:username avatarType:AvartarTypeRight forImageView:self.leftAvatarImageView];
+    
+    //then arrange positions property
+    if (!leftAvatarExisted && midAvatarExisted && !rightAvatarExisted) {
+        [self positionAvatarImageViewsWithCount:1];
+    }else if (leftAvatarExisted && midAvatarExisted && !rightAvatarExisted){
+        [self positionAvatarImageViewsWithCount:2];
+    }else if (leftAvatarExisted && midAvatarExisted && rightAvatarExisted){
+        [self positionAvatarImageViewsWithCount:3];
+    }else{
+        //pull from server
+    }
+}
+
+-(void)positionAvatarImageViewsWithCount:(int)count{
+    if (count == 1) {
+        self.avatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width/2, self.avatarImageView.center.y);
+        self.leftAvatarImageView.hidden = YES;
+        self.rightAvatarImageView.hidden = YES;
+    }else if (count==2){
+        self.leftAvatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width/4, self.leftAvatarImageView.center.y);
+        self.avatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width*3/4, self.avatarImageView.center.y);
+        self.rightAvatarImageView.hidden = YES;
+    }else if (count==3){
+        self.avatarImageView.center = CGPointMake((int)self.avatarImageView.frame.size.width/2, self.avatarImageView.center.y);
+        self.leftAvatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width*3/2, self.leftAvatarImageView.center.y);
+        self.rightAvatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width*5/2, self.rightAvatarImageView.center.y);
+        
+        self.avatarImageView.hidden=NO;
+        self.leftAvatarImageView.hidden=NO;
+        self.rightAvatarImageView.hidden=NO;
+    }
+}
+
+-(void)scaleDownImagesAndSave:(NSArray *)imageArray{
+    
+    for (int i =0; i<imageArray.count; i++) {
+
+        UIImage *chosenImage = imageArray[i];
+        float scale = 0.0f;
+        if (chosenImage.size.width > chosenImage.size.height) {
+            scale = self.avatarImageView.frame.size.width/chosenImage.size.width;
+        }else{
+            scale = self.avatarImageView.frame.size.height/chosenImage.size.height;
+        }
+        //reason for scale*2. UIImageJPEGRepresentation's compressionQuality seems to be 2 times the value of scale
+        //for example, if compressionQuality is 0.8, then the size would be appro 0.4 time of the original size
+        NSData *data = UIImageJPEGRepresentation(chosenImage,scale);
+        
+        [Helper saveAvatar:data avatarType:i forUser:[PFUser currentUser].username];
+    }
+}
+
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info
+{
+    
+    
+    NSMutableArray *array = [NSMutableArray array];
+    //we specify that ELC picker can only pick up to 3 images
+    if (info.count == 1) {
+
+        self.avatarImageView.image = [info[0] objectForKey:@"UIImagePickerControllerOriginalImage"];
+        
+        [self positionAvatarImageViewsWithCount:1];
+        
+        [array addObject:[info[0] objectForKey:@"UIImagePickerControllerOriginalImage"]];
+        
+    }else if (info.count == 2){
+        //if there are 2 photos only, use leftAvatarImageView and avatarImageView and position them property
+        self.leftAvatarImageView.image = [info[0] objectForKey:@"UIImagePickerControllerOriginalImage"];
+        self.avatarImageView.image = [info[1] objectForKey:@"UIImagePickerControllerOriginalImage"];
+        
+        [self positionAvatarImageViewsWithCount:2];
+        
+        [array addObject:[info[0] objectForKey:@"UIImagePickerControllerOriginalImage"]];
+        [array addObject:[info[1] objectForKey:@"UIImagePickerControllerOriginalImage"]];
+        
+    }else{
+        self.avatarImageView.image = [info[0] objectForKey:@"UIImagePickerControllerOriginalImage"];
+        self.leftAvatarImageView.image = [info[1] objectForKey:@"UIImagePickerControllerOriginalImage"];
+        self.rightAvatarImageView.image = [info[2] objectForKey:@"UIImagePickerControllerOriginalImage"];
+        
+        [self positionAvatarImageViewsWithCount:3];
+        
+        [array addObject:[info[0] objectForKey:@"UIImagePickerControllerOriginalImage"]];
+        [array addObject:[info[1] objectForKey:@"UIImagePickerControllerOriginalImage"]];
+        [array addObject:[info[2] objectForKey:@"UIImagePickerControllerOriginalImage"]];
+    }
+    
+    [self scaleDownImagesAndSave:array];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UITableView delegate
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [super numberOfSectionsInTableView:tableView];
@@ -283,8 +383,24 @@
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    if (self.dataSource.count != 0 && section == 0) {
+        UITableViewHeaderFooterView *view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"header"];
+        view.textLabel.text = @"Your live posts";
+        return view;
+    }
+    
+    return nil;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return self.dataSource.count==0?0:TB_HEADER_HEIGHT;
+}
+
 - (IBAction)navigationBarBackButtonTapped:(id)sender {
     //self.navigationController is not self.fakeNavigationBar. self.navi
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 @end

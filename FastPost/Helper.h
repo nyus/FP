@@ -7,9 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+typedef enum{
+    AvatarTypeLeft,
+    AvatarTypeMid,
+    AvartarTypeRight
+} AvatarType;
 
 @interface Helper : NSObject
-+(void)getAvatarForUser:(NSString *)username forImageView:(UIImageView *)imageView;
-+(void)saveAvatar:(NSData *)data forUser:(NSString *)username;
-+(void)getAvatarForSelfOnImageView:(UIImageView *)imageView;
++(void)getAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView;
++(BOOL)getLocalAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView;
++(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView;
++(void)saveAvatar:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username;
++(void)saveAvatarToLocal:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username;
 @end

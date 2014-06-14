@@ -60,6 +60,8 @@
     //
     self.dataSource = [NSMutableArray array];
     
+    [self fetchNewStatusWithCount:25 remainingTime:nil];
+    
     //register for UIApplicationWillEnterForegroundNotification notification since timer will not work in the background for more than 10 mins. when user comes back, we refresh table view to update the status count down time
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleApplicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
@@ -79,15 +81,6 @@
 -(void)viewWillDisappear:(BOOL)animated{
     //stop observing UIApplicationWillEnterForegroundNotification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    [self fetchNewStatusWithCount:25 remainingTime:nil];
-
-//    //this is a fix for a bug, where you come back from compose, the views in the cell get messed up
-//    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -334,8 +327,8 @@
             [FPLogger record:[NSString stringWithFormat:@"cannot find post with id %@ to revive",object.objectId]];
         }
     }];
-
 }
+
 #pragma mark - StatusTableHeaderViewDelegate
 
 -(void)tbHeaderAddFriendButtonTapped{

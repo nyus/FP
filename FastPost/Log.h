@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Huang, Sihang. All rights reserved.
 //
 
-#ifndef FastPost_Log_h
-#define FastPost_Log_h
 Jan 9
 added date label on status cell
 
@@ -19,5 +17,9 @@ no revive if the options is turned off
 cell size dynamic adjustment
 
 -----
-username case insensitive
-#endif
+username case insensitive and unique
+
+user can have "usersIFollow" "usersFollowMe" and "usersMutualFollow"
+"usersIFollow" holds users that I follow and they allow me to follow, but they do not follow me back
+"usersFollowMe" holds users that follow me and i allow them to follow, but i do not follow them back
+"usersMutualFollow" holds users that i follow, and they also follow me back

@@ -224,7 +224,7 @@
         // Configure the cell...
         //sender profile picture
         Message *msg = (Message *)dataSource[indexPath.row];
-        [Helper getAvatarForUser:msg.senderUsername forImageView:cell.msgCellProfileImageView];
+        [Helper getAvatarForUser:msg.senderUsername  avatarType:AvatarTypeMid forImageView:cell.msgCellProfileImageView];
         //sender name
         cell.msgCellUsernameLabel.text = msg.senderUsername;
         //count down label

@@ -133,13 +133,13 @@
     cell.statusCellDateLabel.text = str;
     
     //like count
-    cell.likeCountLabel.text = status.likeCount.stringValue;
+    cell.reviveCountLabel.text = status.reviveCount.stringValue;
     
     //comment count
     cell.commentCountLabel.text = status.commentCount.stringValue;
     
     //get avatar
-    [Helper getAvatarForUser:status.posterUsername forImageView:cell.statusCellAvatarImageView];
+    [Helper getAvatarForUser:status.posterUsername avatarType:AvatarTypeMid forImageView:cell.statusCellAvatarImageView];
     
     return cell;
 }

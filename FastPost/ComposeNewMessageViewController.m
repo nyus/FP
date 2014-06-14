@@ -112,7 +112,7 @@
     //username
     cell.textLabel.text = dataSource[indexPath.row];
     //profile picture
-    [Helper getAvatarForUser:dataSource[indexPath.row] forImageView:cell.imageView];
+    [Helper getAvatarForUser:dataSource[indexPath.row] avatarType:AvatarTypeMid forImageView:cell.imageView];
     
     return cell;
 }

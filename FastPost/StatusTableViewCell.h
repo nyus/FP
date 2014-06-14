@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusCellDateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *statusCellAvatarImageView;
 @property (weak, nonatomic) IBOutlet UIView *reviveProgressView;
-@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *reviveCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *userNameButton;
 
