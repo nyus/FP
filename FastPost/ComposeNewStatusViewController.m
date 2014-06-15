@@ -10,6 +10,7 @@
 #import "ComposeStatusPhotoCollectionViewCell.h"
 #import <Parse/Parse.h>
 #import "StatusObject.h"
+#import "UITextView+Utilities.h"
 #import "SharedDataManager.h"
 #define CELL_IMAGEVIEW_SIZE_HEIGHT 204.0f
 #define CELL_IMAGEVIEW_SIZE_WIDTH 280.0f
@@ -131,7 +132,7 @@
 }
 
 - (void)scrollTextViewToShowCursor {
-    [self.textView scrollRectToVisible:CGRectMake(0, 0, self.textView.frame.size.width, self.textView.contentSize.height) animated:YES];
+    [self.textView scrollTextViewToShowCursor];
 }
 
 #pragma mark - uipickerview delegate
@@ -244,12 +245,6 @@
         dispatch_queue_t queue = dispatch_queue_create("save to parse and local", NULL);
         dispatch_async(queue, ^{
             
-//            //save to core data
-//            StatusObject *status = [NSEntityDescription insertNewObjectForEntityForName:@"StatusObject" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
-//            status.message = self.textView.text;
-//            status.posterUsername = [[PFUser currentUser] username];
-//            status.createdAt = [NSDate date];
-            
             //save to server
             PFObject *object = [PFObject objectWithClassName:@"Status"];
             object[@"message"] = self.textView.text;
@@ -272,19 +267,6 @@
                 //for example, if compressionQuality is 0.8, then the size would be appro 0.4 time of the original size
                 NSData *data = UIImageJPEGRepresentation(collectionViewDataSource[0],scale*2);
                 object[@"picture"] = [PFFile fileWithData:data];
-                
-                
-//                //save picture to local
-//                //if user avatar is saved, pull locally; otherwise pull from server and save it locally
-//                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//                NSString *documentDirectory = paths[0];
-//                NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",status.posterUsername,status.createdAt];
-//                NSError *writeError;
-//                [data writeToFile:path options:NSDataWritingAtomic error:&writeError];
-//                if (writeError) {
-//                    NSLog(@"failed save status to local with error %@",writeError);
-//                }
-//                status.picture = path;
                 
             }
             //save to parse

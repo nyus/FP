@@ -1440,7 +1440,7 @@
                             <tableView clipsSubviews="YES" alpha="0.40000000000000002" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="78" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9hp-A0-GoV">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="6iD-YV-Orw"/>
                                     <constraint firstAttribute="height" constant="524" id="mzl-kg-tR6"/>
@@ -1515,6 +1515,9 @@
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="oma-C4-9Bn" id="hbq-2Z-RB3"/>
+                                        </connections>
                                     </textView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96862751250000001" green="0.96862751250000001" blue="0.96862751250000001" alpha="1" colorSpace="deviceRGB"/>
@@ -1524,7 +1527,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="5lp-4Y-EJ3" firstAttribute="top" secondItem="rPM-8G-5sX" secondAttribute="bottom" id="0zZ-GZ-Kr4"/>
                             <constraint firstItem="rPM-8G-5sX" firstAttribute="leading" secondItem="izf-XS-gYd" secondAttribute="leading" id="PLq-OU-3h7"/>
@@ -1537,6 +1540,7 @@
                         <outlet property="enterMessageContainerViewBottomSpaceConstraint" destination="0zZ-GZ-Kr4" id="24B-Od-Rxm"/>
                         <outlet property="tableView" destination="9hp-A0-GoV" id="AgS-AU-Z42"/>
                         <outlet property="tableViewHeightConstraint" destination="mzl-kg-tR6" id="HiR-uk-BAi"/>
+                        <outlet property="textView" destination="aTA-Ua-BBm" id="ktd-8w-GJL"/>
                         <outlet property="view" destination="izf-XS-gYd" id="kKJ-dv-ULh"/>
                     </connections>
                 </viewController>
@@ -1549,7 +1553,7 @@
             <objects>
                 <navigationController title="Home" definesPresentationContext="YES" navigationBarHidden="YES" id="5eY-2V-bCP" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <tabBarItem key="tabBarItem" title="Home" image="126BB6C7-694C-4E3A-A4D1-6BD0D63C2163" id="xpw-hA-qPq"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="24059B7D-00FC-4F74-890E-15B9455A589E" id="xpw-hA-qPq"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="81F-D5-Wlr">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1946,7 +1950,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="126BB6C7-694C-4E3A-A4D1-6BD0D63C2163" width="32" height="32">
+        <image name="24059B7D-00FC-4F74-890E-15B9455A589E" width="32" height="32">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

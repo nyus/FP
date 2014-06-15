@@ -10,8 +10,9 @@
 #import <Parse/Parse.h>
 #import "CommentTableViewCell.h"
 #import "Helper.h"
+#import "UITextView+Utilities.h"
 #define COMMENT_LABEL_WIDTH 234.0f
-@interface CommentStatusViewController ()<UITableViewDataSource,UITableViewDelegate>{
+@interface CommentStatusViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>{
     //cache cell height
     NSMutableDictionary *cellHeightMap;
     UISwipeGestureRecognizer *swipeGesture;
@@ -21,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIView *enterMessageContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *enterMessageContainerViewBottomSpaceConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
 
 @end
 
@@ -46,11 +48,27 @@
     [self.view addGestureRecognizer:swipeGesture];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe{
+    [self.textView resignFirstResponder];
+    self.enterMessageContainerView.hidden = YES;
     [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionTransitionNone animations:^{
         
         self.view.frame = CGRectMake(320, 100, 50,50);
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        self.enterMessageContainerView.hidden= NO;
+    }];
 }
 
 -(void)setStatusObjectId:(NSString *)statusObjectId{
@@ -93,6 +111,26 @@
             [comment saveInBackground];
             [object saveInBackground];
         }
+    }];
+}
+
+#pragma mark - keyboard notification 
+
+-(void)handleKeyboardWillShow:(NSNotification *)notification{
+    CGRect rect = [notification.userInfo[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+
+    CGRect convertedRect =  [self.view convertRect:rect fromView:nil];
+    self.enterMessageContainerViewBottomSpaceConstraint.constant += self.view.frame.size.height - convertedRect.origin.y;
+    [UIView animateWithDuration:.3 animations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-(void)handleKeyboardWillHide:(NSNotification *)notification{
+    CGRect rect = [notification.userInfo[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    self.enterMessageContainerViewBottomSpaceConstraint.constant = 0;
+    [UIView animateWithDuration:.3 animations:^{
+        [self.view layoutIfNeeded];
     }];
 }
 
@@ -150,6 +188,28 @@
             return boundingRect.size.height+10;
         }
     }
+}
+
+-(void)scrollTextViewToShowCursor{
+    [self.textView scrollTextViewToShowCursor];
+}
+
+#pragma mark - uitextview delegate
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    [self performSelector:@selector(scrollTextViewToShowCursor) withObject:nil afterDelay:0.1f];
+    return YES;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+//    if (textView.text.length == 1 && [text isEqualToString:@""]) {
+//        [self showPlaceHolderText];
+//    }else{
+//        [self hidePlaceHolderText];
+//    }
+    
+    [self performSelector:@selector(scrollTextViewToShowCursor) withObject:NSStringFromRange(range) afterDelay:0.1f];
+    return YES;
 }
 
 @end

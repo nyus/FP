@@ -11,7 +11,7 @@
 @interface PressAndHoldGesture(){
     double cur;
 }
-@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) CADisplayLink *timer;
 @end
 @implementation PressAndHoldGesture
 - (void)reset{
@@ -25,7 +25,9 @@
     }else{
         cur = CACurrentMediaTime();
         if (!self.timer) {
-            self.timer = [NSTimer scheduledTimerWithTimeInterval:1/30 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
+            self.timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleTimer)];
+            self.timer.frameInterval = 1;
+            [self.timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         }
     }
 }

@@ -62,6 +62,7 @@
 		50CE7737194A6CFA006E83F3 /* ELCAssetTablePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CE772D194A6CFA006E83F3 /* ELCAssetTablePicker.xib */; };
 		50CE7738194A6CFA006E83F3 /* Overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 50CE772E194A6CFA006E83F3 /* Overlay.png */; };
 		50CE7739194A6CFA006E83F3 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 50CE772F194A6CFA006E83F3 /* Overlay@2x.png */; };
+		50EFFD28194D2D0E00A4C212 /* UITextView+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 50EFFD27194D2D0E00A4C212 /* UITextView+Utilities.m */; };
 		50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F3304318D1411300A0878D /* CommentStatusViewController.m */; };
 		50F5264518D7CCE500091953 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F5264418D7CCE500091953 /* MessageUI.framework */; };
 		50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEA0C187B68C3000A91AF /* StatusViewController.m */; };
@@ -213,6 +214,8 @@
 		50CE772D194A6CFA006E83F3 /* ELCAssetTablePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCAssetTablePicker.xib; sourceTree = "<group>"; };
 		50CE772E194A6CFA006E83F3 /* Overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Overlay.png; sourceTree = "<group>"; };
 		50CE772F194A6CFA006E83F3 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
+		50EFFD26194D2D0E00A4C212 /* UITextView+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Utilities.h"; sourceTree = "<group>"; };
+		50EFFD27194D2D0E00A4C212 /* UITextView+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Utilities.m"; sourceTree = "<group>"; };
 		50F3304218D1411300A0878D /* CommentStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentStatusViewController.h; sourceTree = "<group>"; };
 		50F3304318D1411300A0878D /* CommentStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentStatusViewController.m; sourceTree = "<group>"; };
 		50F5264418D7CCE500091953 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -491,6 +494,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		50EFFD25194D2CF900A4C212 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				50EFFD26194D2D0E00A4C212 /* UITextView+Utilities.h */,
+				50EFFD27194D2D0E00A4C212 /* UITextView+Utilities.m */,
+			);
+			name = Category;
+			sourceTree = "<group>";
+		};
 		50F5264618D917A500091953 /* iPad */ = {
 			isa = PBXGroup;
 			children = (
@@ -640,6 +652,7 @@
 		65413CE01843990200543C1A /* FastPost */ = {
 			isa = PBXGroup;
 			children = (
+				50EFFD25194D2CF900A4C212 /* Category */,
 				50CE771D194A6CFA006E83F3 /* ELCImagePicker */,
 				5034EEB918A7E3D900DBDCCF /* Core Data */,
 				503A980D188381C7000892B8 /* Log.h */,
@@ -876,6 +889,7 @@
 				5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */,
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
+				50EFFD28194D2D0E00A4C212 /* UITextView+Utilities.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
 				50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */,
 				502C6A4718E8BD800047EA49 /* FPLogger.m in Sources */,

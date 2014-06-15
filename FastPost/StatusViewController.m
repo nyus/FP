@@ -155,7 +155,7 @@
     }];
 }
 
-#pragma mark - Status Object Delegate
+#pragma mark - Status Object Delegate Timer Count Down
 
 -(void)statusObjectTimeUpWithObject:(Status *)object{
     NSInteger index = [self.dataSource indexOfObject:object];
@@ -175,11 +175,11 @@
 }
 
 -(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
-//    NSLog(@"%d seconds left for post",count);
-//    NSInteger index = [self.dataSource indexOfObject:object];
-//    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-//    if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
-//    }
+#warning for debug purpose only. make sure the post wont go away
+    if (count == 0) {
+        //add time to the status locally
+        object.countDownTime = 2000;
+    }
 }
 
 #pragma mark - Table view data source
@@ -250,7 +250,6 @@
 -(void)friendPickerViewControllerSelectionDidChange:(FBFriendPickerViewController *)friendPicker{
     
 }
-
 
 #pragma mark - StatusTableCellDelegate
 

@@ -11,6 +11,7 @@
 #import "Status.h"
 #import "PressAndHoldGesture.h"
 #define REVIVE_PROGRESS_VIEW_INIT_ALPHA .7f
+#define PROGRESSION_RATE 0.5
 @interface StatusTableViewCell(){
     BOOL pressAndHoldRecognized;
     PressAndHoldGesture *pressHoldGesture;
@@ -95,7 +96,7 @@
         }];
     }else{
         if(self.reviveProgressView.center.x <= self.contentView.center.x){
-            self.reviveProgressView.center = CGPointMake(self.reviveProgressView.center.x+0.07, self.reviveProgressView.center.y);
+            self.reviveProgressView.center = CGPointMake(self.reviveProgressView.center.x+PROGRESSION_RATE, self.reviveProgressView.center.y);
         }else{
             
             //setting enabled to NO makes the gesture fall to Canceled state, but in this case it's recognized.
