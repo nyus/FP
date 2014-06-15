@@ -33,16 +33,13 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     self.state = UIGestureRecognizerStateFailed;
     [self reset];
-        NSLog(@"failed");
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     if (CACurrentMediaTime()-cur < 0.2) {
         self.state = UIGestureRecognizerStateFailed;
-        NSLog(@"failed");
     }else{
         self.state = UIGestureRecognizerStateEnded;
-        NSLog(@"ended");
     }
     
     [self reset];
@@ -50,7 +47,6 @@
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
     self.state = UIGestureRecognizerStateCancelled;
     [self reset];
-        NSLog(@"cancelled");
 }
 
 -(void)handleTimer{

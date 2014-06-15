@@ -10,10 +10,11 @@
 #import "UIImage+ImageEffects.h"
 #import "Status.h"
 #import "PressAndHoldGesture.h"
-#define REVIVE_PROGRESS_VIEW_INIT_ALPHA .5f
+#define REVIVE_PROGRESS_VIEW_INIT_ALPHA .7f
 @interface StatusTableViewCell(){
     BOOL pressAndHoldRecognized;
     PressAndHoldGesture *pressHoldGesture;
+    UISwipeGestureRecognizer *swipteGesture;
 }
 @end
 
@@ -24,6 +25,9 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self.statusCellUsernameLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(usernameLabelTapped:)]];
+        swipteGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+        swipteGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self addGestureRecognizer:swipteGesture];
         //turn off autolayout on the cells
         self.statusCellMessageLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.statusCellPhotoImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -40,10 +44,6 @@
 
 -(void)usernameLabelTapped:(UITapGestureRecognizer *)tap{
     [self.delegate usernameLabelTappedOnCell:self];
-}
-
-- (IBAction)likeButtonTapped:(id)sender {
-    [self.delegate likeButtonTappedOnCell:self];
 }
 
 - (IBAction)commentButtonTapped:(id)sender {
@@ -108,43 +108,8 @@
     }
 }
 
-/*
--(void)blurCell{
-
-    if (!self.blurImageView.image) {
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        dispatch_async(queue, ^{
-            UIGraphicsBeginImageContext(self.bounds.size);
-            [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-
-            CIFilter *blurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
-            [blurFilter setDefaults];
-
-            CIImage *imageToBlur = [CIImage imageWithCGImage:image.CGImage];
-            [blurFilter setValue:imageToBlur forKey:kCIInputImageKey];
-            [blurFilter setValue:@3.0 forKey:@"inputRadius"];
-
-            CIImage *outputImage = blurFilter.outputImage;
-
-            dispatch_queue_t main = dispatch_get_main_queue();
-            dispatch_sync(main, ^{
-                self.blurImageView.image = [UIImage imageWithCIImage:outputImage];
-            });
-        });
-
-
-    }
-
-    self.blurImageView.hidden = NO;
-
-    CGRect newFrame = self.containerView.frame;
-    newFrame.origin = CGPointMake(-newFrame.size.width/2, newFrame.origin.y);
-    [UIView animateWithDuration:.3 animations:^{
-        self.containerView.frame = newFrame;
-    }];
+-(void)handleSwipe:(UISwipeGestureRecognizer *)swipe{
+    [self.delegate swipeGestureRecognizedOnCell:self];
 }
-*/
 
 @end

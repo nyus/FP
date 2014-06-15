@@ -19,4 +19,5 @@ typedef enum{
 +(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView;
 +(void)saveAvatar:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username;
 +(void)saveAvatarToLocal:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username;
++(NSArray *)getAvatarsForSelf;
 @end

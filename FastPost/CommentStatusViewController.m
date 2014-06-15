@@ -8,7 +8,19 @@
 
 #import "CommentStatusViewController.h"
 #import <Parse/Parse.h>
-@interface CommentStatusViewController ()
+#import "CommentTableViewCell.h"
+#import "Helper.h"
+#define COMMENT_LABEL_WIDTH 234.0f
+@interface CommentStatusViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    //cache cell height
+    NSMutableDictionary *cellHeightMap;
+    UISwipeGestureRecognizer *swipeGesture;
+}
+@property (strong, nonatomic) NSArray *dataSource;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *enterMessageContainerView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *enterMessageContainerViewBottomSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
 
 @end
 
@@ -27,14 +39,41 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if (!swipeGesture) {
+        swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+        swipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+    }
+    [self.view addGestureRecognizer:swipeGesture];
 }
 
+-(void)handleSwipe:(UISwipeGestureRecognizer *)swipe{
+    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionTransitionNone animations:^{
+        
+        self.view.frame = CGRectMake(320, 100, 50,50);
+    } completion:nil];
+}
+
+-(void)setStatusObjectId:(NSString *)statusObjectId{
+    //fetch all the comments
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Comment"];
+    [query whereKey:@"statusId" equalTo:statusObjectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error && objects) {
+            self.dataSource = objects;
+            [self.tableView reloadData];
+        }
+    }];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(void)clearCommentTableView{
+    self.dataSource = nil;
+    [self.tableView reloadData];
+}
 
 -(void)sendComment{
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Comment"];
@@ -56,15 +95,61 @@
         }
     }];
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+#pragma mark - UITableViewDelete
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    // Return the number of sections.
+    return 1;
 }
-*/
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    return self.dataSource.count;
+}
+
+//hides the liine separtors when data source has 0 objects
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] init];
+    
+    return view;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 100;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CommentTableViewCell *cell = (CommentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    PFObject *comment = self.dataSource[indexPath.row];
+    cell.commentStringLabel.text = comment[@"contentString"];
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(!self.dataSource || self.dataSource.count == 0){
+        return 100.0f;
+    }else{
+        
+        PFObject *comment = self.dataSource[indexPath.row];
+        NSString *key =[NSString stringWithFormat:@"%lu",(unsigned long)comment.hash];
+        //        NSLog(@"indexPath:%@",indexPath);
+        //is cell height has been calculated, return it
+        if ([cellHeightMap objectForKey:key]) {
+            //            NSLog(@"return stored cell height: %f",[[cellHeightMap objectForKey:key] floatValue]);
+            return [[cellHeightMap objectForKey:key] floatValue];
+            
+        }else{
+            
+            NSString *contentString = comment[@"contentString"];
+            CGRect boundingRect =[contentString boundingRectWithSize:CGSizeMake(COMMENT_LABEL_WIDTH, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil];  
+            [cellHeightMap setObject:@(boundingRect.size.height+10) forKey:key];
+            return boundingRect.size.height+10;
+        }
+    }
+}
 
 @end

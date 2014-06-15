@@ -10,4 +10,5 @@
 
 @interface CommentStatusViewController : UIViewController
 @property (nonatomic, strong) NSString *statusObjectId;
+-(void)clearCommentTableView;
 @end

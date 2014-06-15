@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5006245F194D121C003A2922 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5006245E194D121C003A2922 /* CommentTableViewCell.m */; };
 		501F60411875AE3A00B26F65 /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 501F603F1875AE3A00B26F65 /* dsym_upload.sh */; };
 		501F60421875AE3A00B26F65 /* libCrittercism_v4_3_0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F60401875AE3A00B26F65 /* libCrittercism_v4_3_0.a */; };
 		50200C4418CFE365003CEBBE /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 50200C4318CFE365003CEBBE /* Status.m */; };
@@ -131,6 +132,8 @@
 
 /* Begin PBXFileReference section */
 		34113DBD193AC72C00CA9F50 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		5006245D194D121C003A2922 /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
+		5006245E194D121C003A2922 /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
 		501F603C1875AE3A00B26F65 /* CRFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRFilter.h; sourceTree = "<group>"; };
 		501F603D1875AE3A00B26F65 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
 		501F603E1875AE3A00B26F65 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
@@ -549,6 +552,8 @@
 				658AA5C6184F95420097383B /* StatusTableViewHeaderViewController.m */,
 				50F3304218D1411300A0878D /* CommentStatusViewController.h */,
 				50F3304318D1411300A0878D /* CommentStatusViewController.m */,
+				5006245D194D121C003A2922 /* CommentTableViewCell.h */,
+				5006245E194D121C003A2922 /* CommentTableViewCell.m */,
 			);
 			name = Status;
 			sourceTree = "<group>";
@@ -857,6 +862,7 @@
 				658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */,
 				658AA5D3184FADFB0097383B /* ComposeNewStatusViewController.m in Sources */,
 				50200C4418CFE365003CEBBE /* Status.m in Sources */,
+				5006245F194D121C003A2922 /* CommentTableViewCell.m in Sources */,
 				5039DA8418CFEE37000DF268 /* StatusObject.m in Sources */,
 				5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */,
 				50CE7732194A6CFA006E83F3 /* ELCAssetCell.m in Sources */,

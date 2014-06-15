@@ -17,11 +17,11 @@
 @interface BaseViewControllerWithStatusTableView (){
 
     //cache calculated label height
-    NSMapTable *labelHeightMap;
+    NSMutableDictionary *labelHeightMap;
     //cache is there photo
-    NSMapTable *isTherePhotoMap;
+    NSMutableDictionary *isTherePhotoMap;
     //cache cell height
-    NSMapTable *cellHeightMap;
+    NSMutableDictionary *cellHeightMap;
 }
 
 @end
@@ -41,9 +41,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    labelHeightMap = [NSMapTable strongToStrongObjectsMapTable];
-    isTherePhotoMap = [NSMapTable strongToStrongObjectsMapTable];
-    cellHeightMap = [NSMapTable strongToStrongObjectsMapTable];
+    labelHeightMap = [NSMutableDictionary dictionary];
+    isTherePhotoMap = [NSMutableDictionary dictionary];
+    cellHeightMap = [NSMutableDictionary dictionary];
 }
 
 - (void)didReceiveMemoryWarning

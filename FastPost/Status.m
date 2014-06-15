@@ -30,7 +30,7 @@
         self.likeCount = pfObject[@"likeCount"];
         self.reviveCount = pfObject[@"reviveCount"];
         self.commentCount = pfObject[@"commentCount"];
-        
+        self.pfObject = pfObject;
         //StatusTableCell.countDownLabel.text needs to be based on self.countDownMessage and converted to xx:xx
 //        self.countDownMessage = [NSString stringWithFormat:@"%d",(int)[pfObject[@"expirationDate"] timeIntervalSinceDate:[NSDate date]]];
         self.countDownTime = (int)[pfObject[@"expirationDate"] timeIntervalSinceDate:[NSDate date]];

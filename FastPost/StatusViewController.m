@@ -20,6 +20,7 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "FPLogger.h"
+#import "CommentStatusViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 #define POST_TOTAL_LONGEVITY 1800//30 mins
@@ -31,8 +32,9 @@
     UIRefreshControl *refreshControl;
     UITapGestureRecognizer *tapGesture;
     FriendQuestViewController *friendQusetVC;
-    
+    CommentStatusViewController *commentVC;
     NSString *statusIdToPass;
+    CGRect commentViewOriginalFrame;
 }
 
 @end
@@ -173,7 +175,7 @@
 }
 
 -(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
-    NSLog(@"%d seconds left for post",count);
+//    NSLog(@"%d seconds left for post",count);
 //    NSInteger index = [self.dataSource indexOfObject:object];
 //    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
 //    if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
@@ -252,6 +254,30 @@
 
 #pragma mark - StatusTableCellDelegate
 
+-(void)swipeGestureRecognizedOnCell:(StatusTableViewCell *)cell{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    Status *status = self.dataSource[indexPath.row];
+    
+    if (!commentVC) {
+        commentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"commentView"];
+        commentViewOriginalFrame = commentVC.view.frame;
+        commentVC.view.frame = CGRectMake(320, 200, 50, 50);
+        [self.view addSubview:commentVC.view];
+    }
+    [commentVC clearCommentTableView];
+    commentVC.statusObjectId = status.objectid;
+    commentVC.view.frame = CGRectMake(320, cell.frame.origin.y, 80, 50);
+    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionTransitionNone animations:^{
+        
+        commentVC.view.frame = CGRectMake(0, 0, commentViewOriginalFrame.size.width,commentViewOriginalFrame.size.height-50);
+
+    } completion:^(BOOL finished) {
+        [commentVC.view layoutIfNeeded];
+    }];
+    
+    
+}
+
 -(void)usernameLabelTappedOnCell:(StatusTableViewCell *)cell{
     [self performSegueWithIdentifier:@"toProfile" sender:self];
 }
@@ -263,31 +289,6 @@
     int sec = [[components objectAtIndex:1] intValue];
     
     return min*60+sec;
-}
-
--(void)likeButtonTappedOnCell:(StatusTableViewCell *)cell{
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    Status *status = self.dataSource[indexPath.row];
-    
-    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
-    [query whereKey:@"objectId" equalTo:status.objectid];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!error) {
-            
-            //create like object
-            PFObject *like = [[PFObject alloc] initWithClassName:@"Like"];
-            like[@"senderUsername"] = [PFUser currentUser].username;
-            like[@"statusId"] = status.objectid;
-            
-            //increate like count on Status object
-            object[@"likeCount"] = [NSNumber numberWithInt:[object[@"likeCount"] intValue] +1];
-            
-            [like saveInBackground];
-            [object saveInBackground];
-        }
-    }];
-
 }
 
 -(void)commentButtonTappedOnCell:(StatusTableViewCell *)cell{
@@ -327,6 +328,12 @@
             [FPLogger record:[NSString stringWithFormat:@"cannot find post with id %@ to revive",object.objectId]];
         }
     }];
+    
+    //add 1 to the revive count
+    int reviveCount = cell.reviveCountLabel.text.intValue;
+    cell.reviveCountLabel.text = [NSString stringWithFormat:@"%d",reviveCount+1];
+    [status.pfObject setObject:[NSNumber numberWithInt:reviveCount+1] forKey:@"reviveCount"];
+    [status.pfObject saveInBackground];
 }
 
 #pragma mark - StatusTableHeaderViewDelegate

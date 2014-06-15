@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "FPLogger.h"
 static Helper *_helper;
+static NSDictionary *_map;
 @implementation Helper
 
 +(void)saveAvatarToLocal:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username{
@@ -63,6 +64,14 @@ static Helper *_helper;
 
 +(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView{
     
+    if (_map == nil) {
+        _map = [NSDictionary dictionary];
+    }
+    //if the user doesnt have a profile picture, stop calling API for it for this particular usage. when the app starts next, it will try to hit the API again.
+    if ([[_map objectForKey:username] boolValue] == NO) {
+        return;
+    }
+    
     PFQuery *query = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
     [query whereKey:@"username" equalTo:username];
     [query whereKey:@"avatar" notEqualTo:[NSNull null]];
@@ -85,6 +94,8 @@ static Helper *_helper;
                     }
                 }];
             }else{
+                [_map setValue:@NO forKey:username];
+                
                 [FPLogger record:[NSString stringWithFormat:@"no avater for user %@", user.username]];
                 NSLog(@"no avater for user %@", user.username);
             }
@@ -103,5 +114,24 @@ static Helper *_helper;
         imageView.image = image;
         [Helper getServerAvatarForUser:username avatarType:type forImageView:imageView];
     }
+}
+
++(NSArray *)getAvatarsForSelf{
+    NSMutableArray *images = [NSMutableArray array];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = paths[0];
+    for (int i =0; i<3; i++) {
+        
+        NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",[PFUser currentUser].username,[NSString stringWithFormat:@"%d",i]];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            
+            //use local saved avatar right away, then see if the avatar has been updated on the server
+            NSData *imageData = [[NSFileManager defaultManager] contentsAtPath:path];
+            UIImage *image = [UIImage imageWithData:imageData];
+            [images addObject:image];
+        }
+    }
+    return images;
 }
 @end

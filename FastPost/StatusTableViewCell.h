@@ -13,9 +13,9 @@
 @protocol StatusTableViewCellDelegate <NSObject>
 @optional
 -(void)usernameLabelTappedOnCell:(StatusTableViewCell *)cell;
--(void)likeButtonTappedOnCell:(StatusTableViewCell *)cell;
 -(void)commentButtonTappedOnCell:(StatusTableViewCell *)cell;
 -(void)reviveAnimationDidEndOnCell:(StatusTableViewCell *)cell withProgress:(float)percentage;
+-(void)swipeGestureRecognizedOnCell:(StatusTableViewCell *)cell;
 @end
 
 @interface StatusTableViewCell : UITableViewCell
@@ -33,7 +33,6 @@
 
 -(void)disableRevivePressHoldGesture;
 -(void)enableRevivePressHoldGesture;
-- (IBAction)likeButtonTapped:(id)sender;
 - (IBAction)commentButtonTapped:(id)sender;
 
 @end

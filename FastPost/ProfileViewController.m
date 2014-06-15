@@ -158,8 +158,13 @@
     
     
     //set avatar
-    
-    BOOL isLocalAvatarExisted = [Helper getLocalAvatarForUser:self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username avatarType:AvatarTypeMid forImageView:self.avatarImageView];
+    BOOL isLocalAvatarExisted = YES;
+    NSArray *avatars = [Helper getAvatarsForSelf];
+    if (avatars.count == 0) {
+        isLocalAvatarExisted = NO;
+    }else{
+        [self positionAvatarImageViewsWithAvatars:avatars];
+    }
     
     //set following. # of following is the count of friends minus one(since user is friend of himself)
     [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -262,34 +267,24 @@
 
 #pragma mark ELCImagePickerControllerDelegate Methods
 
--(void)setAvatarImagesOnImageViewsForUser:(NSString *)username{
-    //first get it out
-    BOOL leftAvatarExisted = [Helper getLocalAvatarForUser:username avatarType:AvatarTypeLeft forImageView:self.leftAvatarImageView];
-    BOOL midAvatarExisted = [Helper getLocalAvatarForUser:username avatarType:AvatarTypeMid forImageView:self.leftAvatarImageView];
-    BOOL rightAvatarExisted = [Helper getLocalAvatarForUser:username avatarType:AvartarTypeRight forImageView:self.leftAvatarImageView];
-    
-    //then arrange positions property
-    if (!leftAvatarExisted && midAvatarExisted && !rightAvatarExisted) {
-        [self positionAvatarImageViewsWithCount:1];
-    }else if (leftAvatarExisted && midAvatarExisted && !rightAvatarExisted){
-        [self positionAvatarImageViewsWithCount:2];
-    }else if (leftAvatarExisted && midAvatarExisted && rightAvatarExisted){
-        [self positionAvatarImageViewsWithCount:3];
-    }else{
-        //pull from server
-    }
-}
 
--(void)positionAvatarImageViewsWithCount:(int)count{
-    if (count == 1) {
+-(void)positionAvatarImageViewsWithAvatars:(NSArray *)images{
+    if (images.count == 1) {
+        self.avatarImageView.image = images[0];
         self.avatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width/2, self.avatarImageView.center.y);
         self.leftAvatarImageView.hidden = YES;
         self.rightAvatarImageView.hidden = YES;
-    }else if (count==2){
+    }else if (images.count==2){
+        self.leftAvatarImageView.image = images[0];
+        self.avatarImageView.image = images[1];
         self.leftAvatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width/4, self.leftAvatarImageView.center.y);
         self.avatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width*3/4, self.avatarImageView.center.y);
         self.rightAvatarImageView.hidden = YES;
-    }else if (count==3){
+    }else if (images.count==3){
+        self.leftAvatarImageView.image = images[0];
+        self.avatarImageView.image = images[1];
+        self.rightAvatarImageView.image = images[2];
+        
         self.avatarImageView.center = CGPointMake((int)self.avatarImageView.frame.size.width/2, self.avatarImageView.center.y);
         self.leftAvatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width*3/2, self.leftAvatarImageView.center.y);
         self.rightAvatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width*5/2, self.rightAvatarImageView.center.y);
@@ -324,39 +319,11 @@
     
     
     NSMutableArray *array = [NSMutableArray array];
-    //we specify that ELC picker can only pick up to 3 images
-    if (info.count == 1) {
-
-        self.avatarImageView.image = [info[0] objectForKey:@"UIImagePickerControllerOriginalImage"];
-        
-        [self positionAvatarImageViewsWithCount:1];
-        
-        [array addObject:[info[0] objectForKey:@"UIImagePickerControllerOriginalImage"]];
-        
-    }else if (info.count == 2){
-        //if there are 2 photos only, use leftAvatarImageView and avatarImageView and position them property
-        self.leftAvatarImageView.image = [info[0] objectForKey:@"UIImagePickerControllerOriginalImage"];
-        self.avatarImageView.image = [info[1] objectForKey:@"UIImagePickerControllerOriginalImage"];
-        
-        [self positionAvatarImageViewsWithCount:2];
-        
-        [array addObject:[info[0] objectForKey:@"UIImagePickerControllerOriginalImage"]];
-        [array addObject:[info[1] objectForKey:@"UIImagePickerControllerOriginalImage"]];
-        
-    }else{
-        self.avatarImageView.image = [info[0] objectForKey:@"UIImagePickerControllerOriginalImage"];
-        self.leftAvatarImageView.image = [info[1] objectForKey:@"UIImagePickerControllerOriginalImage"];
-        self.rightAvatarImageView.image = [info[2] objectForKey:@"UIImagePickerControllerOriginalImage"];
-        
-        [self positionAvatarImageViewsWithCount:3];
-        
-        [array addObject:[info[0] objectForKey:@"UIImagePickerControllerOriginalImage"]];
-        [array addObject:[info[1] objectForKey:@"UIImagePickerControllerOriginalImage"]];
-        [array addObject:[info[2] objectForKey:@"UIImagePickerControllerOriginalImage"]];
+    for (NSDictionary *dict in info) {
+        [array addObject:dict[@"UIImagePickerControllerOriginalImage"]];
     }
-    
     [self scaleDownImagesAndSave:array];
-    
+    [self positionAvatarImageViewsWithAvatars:array];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
