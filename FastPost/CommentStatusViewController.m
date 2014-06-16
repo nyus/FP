@@ -10,20 +10,25 @@
 #import <Parse/Parse.h>
 #import "CommentTableViewCell.h"
 #import "Helper.h"
+#import "LoadingTableViewCell.h"
 #import "UITextView+Utilities.h"
+#import "Helper.h"
+#import "StatusTableViewCell.h"
 #define COMMENT_LABEL_WIDTH 234.0f
+#define NO_COMMENT_CELL_HEIGHT 504.0f
+#define CELL_IMAGEVIEW_MAX_Y 35+10
 @interface CommentStatusViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>{
     //cache cell height
     NSMutableDictionary *cellHeightMap;
     UISwipeGestureRecognizer *swipeGesture;
+    BOOL isLoading;
 }
-@property (strong, nonatomic) NSArray *dataSource;
+@property (strong, nonatomic) NSMutableArray *dataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *enterMessageContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *enterMessageContainerViewBottomSpaceConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
-
 @end
 
 @implementation CommentStatusViewController
@@ -46,12 +51,15 @@
         swipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
     }
     [self.view addGestureRecognizer:swipeGesture];
+    isLoading = YES;
+    self.dataSource = [NSMutableArray array];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -65,19 +73,23 @@
     self.enterMessageContainerView.hidden = YES;
     [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionTransitionNone animations:^{
         
-        self.view.frame = CGRectMake(320, 100, 50,50);
+        self.view.frame = self.animateEndFrame;
     } completion:^(BOOL finished) {
         self.enterMessageContainerView.hidden= NO;
     }];
 }
 
 -(void)setStatusObjectId:(NSString *)statusObjectId{
+    _statusObjectId = statusObjectId;
     //fetch all the comments
+    isLoading = YES;
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Comment"];
     [query whereKey:@"statusId" equalTo:statusObjectId];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        isLoading = NO;
         if (!error && objects) {
-            self.dataSource = objects;
+            [self.dataSource addObjectsFromArray:objects];
             [self.tableView reloadData];
         }
     }];
@@ -90,34 +102,44 @@
 
 -(void)clearCommentTableView{
     self.dataSource = nil;
+    self.dataSource = [NSMutableArray array];
     [self.tableView reloadData];
 }
-
--(void)sendComment{
-    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Comment"];
+- (IBAction)sendComment:(id)sender {
+    
+    //update status
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
     [query whereKey:@"objectId" equalTo:self.statusObjectId];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!error) {
-            //create comment object
-            PFObject *comment = [[PFObject alloc] initWithClassName:@"Comment"];
-            comment[@"senderUsername"] = [PFUser currentUser].username;
-            comment[@"statusId"] = self.statusObjectId;
-#warning put textview content here
-            comment[@"contentString"] = nil;
-
+            
             //increase comment count on Status object
             object[@"commentCount"] = [NSNumber numberWithInt:[object[@"commentCount"] intValue] +1];
-
-            [comment saveInBackground];
             [object saveInBackground];
         }
     }];
+    
+    //create a new Comment object
+    PFObject *object = [[PFObject alloc] initWithClassName:@"Comment"];
+    object[@"senderUsername"]= [PFUser currentUser].username;
+    object[@"contentString"] = self.textView.text;
+    object[@"statusId"] = self.statusObjectId;
+    [object saveInBackground];
+    
+    [self.dataSource addObject:object];
+    [self.tableView reloadData];
+    
+    //clear out
+    self.textView.text = nil;
+    
+    //increament comment count on the status tb cell
+    self.statusTBCell.commentCountLabel.text = [NSString stringWithFormat:@"%d",self.statusTBCell.commentCountLabel.text.intValue+1];
 }
 
 #pragma mark - keyboard notification 
 
 -(void)handleKeyboardWillShow:(NSNotification *)notification{
-    CGRect rect = [notification.userInfo[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    CGRect rect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
 
     CGRect convertedRect =  [self.view convertRect:rect fromView:nil];
     self.enterMessageContainerViewBottomSpaceConstraint.constant += self.view.frame.size.height - convertedRect.origin.y;
@@ -127,7 +149,6 @@
 }
 
 -(void)handleKeyboardWillHide:(NSNotification *)notification{
-    CGRect rect = [notification.userInfo[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
     self.enterMessageContainerViewBottomSpaceConstraint.constant = 0;
     [UIView animateWithDuration:.3 animations:^{
         [self.view layoutIfNeeded];
@@ -144,8 +165,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.dataSource == nil || self.dataSource.count == 0) {
+        return 1;
+    }else{
+        return self.dataSource.count;
+    }
     
-    return self.dataSource.count;
 }
 
 //hides the liine separtors when data source has 0 objects
@@ -157,19 +182,41 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100;
+    
+    if (self.dataSource == nil || self.dataSource.count == 0) {
+        return NO_COMMENT_CELL_HEIGHT;
+    }else{
+        return 100;
+    }
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CommentTableViewCell *cell = (CommentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    PFObject *comment = self.dataSource[indexPath.row];
-    cell.commentStringLabel.text = comment[@"contentString"];
-    return cell;
+    
+    if (self.dataSource == nil || self.dataSource.count == 0) {
+
+        if (isLoading) {
+            LoadingTableViewCell *cell = (LoadingTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
+            [cell.activityIndicator startAnimating];
+            return cell;
+        }else{
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noCommentCell" forIndexPath:indexPath];
+            return cell;
+        }
+        
+    }else{
+        CommentTableViewCell *cell = (CommentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        PFObject *comment = self.dataSource[indexPath.row];
+        cell.commentStringLabel.text = comment[@"contentString"];
+        [Helper getAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid forImageView:cell.avatarImageView];
+        return cell;
+    }
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(!self.dataSource || self.dataSource.count == 0){
-        return 100.0f;
+        return NO_COMMENT_CELL_HEIGHT;
     }else{
         
         PFObject *comment = self.dataSource[indexPath.row];
@@ -181,11 +228,16 @@
             return [[cellHeightMap objectForKey:key] floatValue];
             
         }else{
-            
             NSString *contentString = comment[@"contentString"];
-            CGRect boundingRect =[contentString boundingRectWithSize:CGSizeMake(COMMENT_LABEL_WIDTH, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil];  
-            [cellHeightMap setObject:@(boundingRect.size.height+10) forKey:key];
-            return boundingRect.size.height+10;
+            CGRect boundingRect =[contentString boundingRectWithSize:CGSizeMake(COMMENT_LABEL_WIDTH, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil];
+            if (boundingRect.size.height < CELL_IMAGEVIEW_MAX_Y) {
+                [cellHeightMap setObject:[NSNumber numberWithInt:CELL_IMAGEVIEW_MAX_Y] forKey:key];
+                return CELL_IMAGEVIEW_MAX_Y;
+            }else{
+                [cellHeightMap setObject:@(boundingRect.size.height+10) forKey:key];
+                return boundingRect.size.height+10;
+            }
+            
         }
     }
 }
@@ -199,6 +251,7 @@
     [self performSelector:@selector(scrollTextViewToShowCursor) withObject:nil afterDelay:0.1f];
     return YES;
 }
+
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     

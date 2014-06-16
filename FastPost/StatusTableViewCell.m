@@ -11,7 +11,7 @@
 #import "Status.h"
 #import "PressAndHoldGesture.h"
 #define REVIVE_PROGRESS_VIEW_INIT_ALPHA .7f
-#define PROGRESSION_RATE 0.5
+#define PROGRESSION_RATE 1
 @interface StatusTableViewCell(){
     BOOL pressAndHoldRecognized;
     PressAndHoldGesture *pressHoldGesture;

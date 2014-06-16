@@ -24,6 +24,7 @@
 		5039DA8C18D1204C000DF268 /* comment_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5039DA8B18D1204C000DF268 /* comment_icon@2x.png */; };
 		503CABD718739318006BBF51 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503CABD618739318006BBF51 /* FacebookSDK.framework */; };
 		503CABDF18739751006BBF51 /* butterfly-green-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 503CABDE18739751006BBF51 /* butterfly-green-blue.png */; };
+		503FE459194DD72300FD297D /* LoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 503FE458194DD72300FD297D /* LoadingTableViewCell.m */; };
 		50424F8E18C952EB00F7D826 /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50424F8D18C952EB00F7D826 /* TabBarViewController.m */; };
 		5054C90718BA68C60044CB5F /* add_friend.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C90618BA68C60044CB5F /* add_friend.png */; };
 		5054C90918BA68CD0044CB5F /* add_friend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5054C90818BA68CD0044CB5F /* add_friend@2x.png */; };
@@ -163,6 +164,8 @@
 		503A980D188381C7000892B8 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		503CABD618739318006BBF51 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		503CABDE18739751006BBF51 /* butterfly-green-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butterfly-green-blue.png"; sourceTree = "<group>"; };
+		503FE457194DD72300FD297D /* LoadingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTableViewCell.h; sourceTree = "<group>"; };
+		503FE458194DD72300FD297D /* LoadingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingTableViewCell.m; sourceTree = "<group>"; };
 		50424F8C18C952EB00F7D826 /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
 		50424F8D18C952EB00F7D826 /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 		5054C90618BA68C60044CB5F /* add_friend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_friend.png; sourceTree = "<group>"; };
@@ -447,6 +450,8 @@
 				502C6A4518E8BD800047EA49 /* FPLogger.h */,
 				502C6A4618E8BD800047EA49 /* FPLogger.m */,
 				34113DBD193AC72C00CA9F50 /* Header.h */,
+				503FE457194DD72300FD297D /* LoadingTableViewCell.h */,
+				503FE458194DD72300FD297D /* LoadingTableViewCell.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -862,6 +867,7 @@
 				5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */,
 				5034EF0018A7E7FC00DBDCCF /* SharedDataManager.m in Sources */,
 				6522693E18AED82C004ABEDC /* FriendQuestTableViewCell.m in Sources */,
+				503FE459194DD72300FD297D /* LoadingTableViewCell.m in Sources */,
 				50FCEA0D187B68C3000A91AF /* StatusViewController.m in Sources */,
 				50FE569E18E2610A00B85B35 /* NoDelayButton.m in Sources */,
 				658AA5C8184F95420097383B /* StatusTableViewHeaderViewController.m in Sources */,

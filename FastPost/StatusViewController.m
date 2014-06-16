@@ -42,8 +42,7 @@
 @implementation StatusViewController
 
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     
     //add logo
@@ -85,8 +84,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -184,21 +182,17 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [super numberOfSectionsInTableView:tableView];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [super tableView:tableView numberOfRowsInSection:section];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
-
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -240,7 +234,6 @@
     return 44.0f;
 }
 
-
 #pragma mark - FBFriendPickerDelegate
 
 -(void)friendPickerViewController:(FBFriendPickerViewController *)friendPicker handleError:(NSError *)error{
@@ -264,8 +257,10 @@
         [self.view addSubview:commentVC.view];
     }
     [commentVC clearCommentTableView];
+    commentVC.statusTBCell = cell;
     commentVC.statusObjectId = status.objectid;
-    commentVC.view.frame = CGRectMake(320, cell.frame.origin.y, 80, 50);
+    commentVC.animateEndFrame = CGRectMake(320, cell.frame.origin.y-44, 320, cell.frame.size.height);
+    commentVC.view.frame = CGRectMake(320, cell.frame.origin.y-44, 320, cell.frame.size.height);
     [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionTransitionNone animations:^{
         
         commentVC.view.frame = CGRectMake(0, 0, commentViewOriginalFrame.size.width,commentViewOriginalFrame.size.height-50);

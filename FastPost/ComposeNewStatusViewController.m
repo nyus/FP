@@ -252,6 +252,8 @@
             object[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue]*60];
             object[@"posterUsername"] = [[PFUser currentUser] username];
             object[@"revivable"] = [NSNumber numberWithBool:self.revivableSwitch.on];
+            object[@"reviveCount"]=@0;
+            object[@"commentCount"]=@0;
             
             //picture
             if (collectionViewDataSource && collectionViewDataSource[0]) {
