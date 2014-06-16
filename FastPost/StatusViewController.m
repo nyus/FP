@@ -48,20 +48,22 @@
     //add logo
     //    UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
     //    self.navigationItem.titleView =view;
-    
-    LogInViewController *vc = (LogInViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"logInView"];
-    [self presentViewController:vc animated:NO completion:nil];
 
+    //check if its first time user.
+    //store userId in NSUserDefaults, hit the api and see if this userId is valid
+    PFUser *user = [PFUser currentUser];
+    if (!user || !user.isAuthenticated) {
+        LogInViewController *vc = (LogInViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"logInView"];
+        [self presentViewController:vc animated:NO completion:nil];
+    }else{
+        [self fetchNewStatusWithCount:25 remainingTime:nil];
+    }
+    
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.view addGestureRecognizer:tapGesture];
     
     //add refresh control
     [self addRefreshControll];
-    
-    //
-    self.dataSource = [NSMutableArray array];
-    
-    [self fetchNewStatusWithCount:25 remainingTime:nil];
     
     //register for UIApplicationWillEnterForegroundNotification notification since timer will not work in the background for more than 10 mins. when user comes back, we refresh table view to update the status count down time
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleApplicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -117,15 +119,18 @@
             if (objects.count != 0) {
                 
                 [refreshControl endRefreshing];
+                
+                if (!self.dataSource) {
+                    self.dataSource = [NSMutableArray array];
+                }
+                
                 if (self.dataSource.count > 0) {
                     [self.dataSource removeAllObjects];
                     
                     for (int i = 0 ; i<objects.count; i++) {
                         Status *newStatus = [[Status alloc] initWithPFObject:objects[i]];
                         newStatus.delegate = self;
-                        if (!self.dataSource) {
-                            self.dataSource = [NSMutableArray array];
-                        }
+
                         [self.dataSource addObject:newStatus];
                     }
                     
@@ -136,9 +141,7 @@
                     for (PFObject *status in objects) {
                         Status *newStatus = [[Status alloc] initWithPFObject:status];
                         newStatus.delegate = self;
-                        if (!self.dataSource) {
-                            self.dataSource = [NSMutableArray array];
-                        }
+
                         [self.dataSource addObject:newStatus];
                     }
                     

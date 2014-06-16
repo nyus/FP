@@ -21,12 +21,6 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.activityIndicator.hidden = YES;
     self.title = @"dwndlr";
-    //check if its first time user.
-    //store userId in NSUserDefaults, hit the api and see if this userId is valid
-    PFUser *user = [PFUser currentUser];
-    if (user && user.isAuthenticated) {
-        [self showStatusTableView];
-    }
     
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = nil;
@@ -38,7 +32,6 @@
     PFUser *user = [PFUser currentUser];
     if (user && user.isAuthenticated) {
         [self dismissViewControllerAnimated:NO completion:nil];
-//        [self performSegueWithIdentifier:@"toStatusView" sender:self];
     }
     
 }
