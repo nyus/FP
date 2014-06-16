@@ -42,44 +42,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-- (IBAction)facebookButtonTapped:(id)sender {
-    NSArray *permissions = [NSArray arrayWithObjects:@"email",@"read_friendlists", nil];
-    [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
-        if (!user) {
-            NSLog(@"Uh oh. The user cancelled the Facebook login.");
-        } else if (user.isNew) {
-            NSLog(@"User signed up and logged in through Facebook!");
-        } else {
-            NSLog(@"User logged in through Facebook!");
-            
-            // When your user logs in, immediately get and store its Facebook ID, which is private, so need to do a separate query using FB SDK
-            if (user) {
-                [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                    if (!error) {
-                        // Store the current user's Facebook ID on the user
-                        [[PFUser currentUser] setObject:[result objectForKey:@"id"]
-                                                 forKey:@"fbId"];
-                        [[PFUser currentUser] saveInBackground];
-                        
-                        if (![PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-                            [PFFacebookUtils linkUser:[PFUser currentUser] permissions:nil block:^(BOOL succeeded, NSError *error) {
-                                if (succeeded) {
-                                    NSLog(@"Woohoo, user linked with Facebook!");
-                                }else{
-                                    NSLog(@"failed to link user with Facebook!");
-                                }
-                            }];
-                        }
-                       [self showStatusTableView];
-                    }
-                }];
-            }
-            
-        }
-    }];
-}
-
 - (IBAction)logInButtonTapped:(id)sender {
     
     [self.view endEditing:YES];

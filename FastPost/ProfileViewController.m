@@ -43,8 +43,14 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    if(!self.userNameOfUserProfileToDisplay){
+    if(![self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]){
         self.editButton.hidden = YES;
+        //other users cannot see my followers and following
+        self.followerLabel.hidden = YES;
+        self.followersTitleLabel.hidden= YES;
+        self.followingLabel.hidden = YES;
+        self.followingTitleLabel.hidden = YES;
+        
     }else{
         self.followButton.hidden = YES;
         self.fakeNavigationBar.hidden = NO;
@@ -122,41 +128,31 @@
 -(void)updateUserInfoValues{
     
     //name
-    self.userNameLabel.text = self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username;
+    self.userNameLabel.text = self.userNameOfUserProfileToDisplay;
     
     //# of dwindles.
-    //first try to pull from user default, and when a user posts a new status, increase this user default value. for first time user, this will work but for existing users, need to pull from parse to get the # of posts already out there
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *hasDoneInitialStatusCount = [defaults objectForKey:@"hasDoneInitialStatusCount"];
-    if (hasDoneInitialStatusCount.boolValue == NO) {
-        PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
-        [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
-        [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-            self.dwindleLabel.text = [NSString stringWithFormat:@"%d", number];
-            [defaults setObject:[NSNumber numberWithInt:number] forKey:@"numberofposts"];
-            [defaults setBool:YES forKey:@"hasDoneInitialStatusCount"];
-            [defaults synchronize];
-        }];
-    }else{
-        NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
-        self.dwindleLabel.text = numberPosts.stringValue;
+    //pull from defaults for faster loading # dwindles, followers and following
+    if ([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]) {
+        NSNumber *hasDoneInitialStatusCount = [defaults objectForKey:@"hasDoneInitialStatusCount"];
+        if (hasDoneInitialStatusCount.boolValue == YES) {
+            NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
+            self.dwindleLabel.text = numberPosts.stringValue;
+        }
+        
+        NSString *numOfFollowing = [defaults objectForKey:@"numOfFollowing"];
+        if (numOfFollowing != nil) {
+            [FPLogger record:[NSString stringWithFormat:@"load number of following:%@ from user default",self.followingLabel.text]];
+            self.followingLabel.text = numOfFollowing;
+        }
+        NSString *numOfFollowers = [defaults objectForKey:@"numOfFollowers"];
+        if (numOfFollowing != nil) {
+            [FPLogger record:[NSString stringWithFormat:@"load number of followers:%@ from user default",self.followerLabel.text]];
+            self.followerLabel.text = numOfFollowers;
+        }
+        
     }
-
-    
-    
-    //pull from defaults for faster loading
-    NSString *numOfFollowing = [defaults objectForKey:@"numOfFollowing"];
-    if (numOfFollowing != nil) {
-        [FPLogger record:[NSString stringWithFormat:@"load number of following:%@ from user default",self.followingLabel.text]];
-        self.followingLabel.text = numOfFollowing;
-    }
-    NSString *numOfFollowers = [defaults objectForKey:@"numOfFollowers"];
-    if (numOfFollowing != nil) {
-        [FPLogger record:[NSString stringWithFormat:@"load number of followers:%@ from user default",self.followerLabel.text]];
-        self.followerLabel.text = numOfFollowers;
-    }
-    
-    
     //set avatar
     BOOL isLocalAvatarExisted = YES;
     NSArray *avatars = [Helper getAvatarsForSelf];
@@ -166,33 +162,49 @@
         [self positionAvatarImageViewsWithAvatars:avatars];
     }
     
-    //set following. # of following is the count of friends minus one(since user is friend of himself)
-    [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    //update this value
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
+    [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
+    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        self.dwindleLabel.text = [NSString stringWithFormat:@"%d", number];
         
-        PFUser *me = (PFUser *)object;
-        if (me[@"usersIFollow"] != [NSNull null]) {
-            self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"usersIFollow"] count]];
-        }else{
-            self.followingLabel.text = [NSString stringWithFormat:@"%d",0];
+        if ([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]) {
+            [defaults setObject:[NSNumber numberWithInt:number] forKey:@"numberofposts"];
+            [defaults setBool:YES forKey:@"hasDoneInitialStatusCount"];
+            [defaults synchronize];
         }
-        
-        [defaults setObject:self.followingLabel.text forKey:@"numOfFollowing"];
-        
-        //set follower.
-        if (me[@"usersICanMessage"] != [NSNull null]) {
-            self.followerLabel.text = [NSString stringWithFormat:@"%d",(int)[me[@"usersICanMessage"] count]];
-        }else{
-            self.followerLabel.text = [NSString stringWithFormat:@"%d",0];
-        }
-        
-        if (!isLocalAvatarExisted) {
-            [Helper getServerAvatarForUser:me.username avatarType:AvatarTypeMid forImageView:self.avatarImageView];
-        }
-        
-        [FPLogger record:[NSString stringWithFormat:@"load number of following:%@ and followers:%@ after refreshing current user obj",self.followingLabel.text,self.followerLabel.text]];
-        [defaults setObject:self.followerLabel.text forKey:@"numOfFollowers"];
-        [defaults synchronize];
     }];
+
+    //only my profile needs to show # of followers and following
+    if ([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]) {
+        //set following. # of following is the count of friends minus one(since user is friend of himself)
+        [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            
+            PFUser *me = (PFUser *)object;
+            if (me[UsersAllowMeToFollow] != [NSNull null]) {
+                self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[UsersAllowMeToFollow] count]];
+            }else{
+                self.followingLabel.text = [NSString stringWithFormat:@"%d",0];
+            }
+            
+            //set follower.
+            if (me[UsersIAllowToFollowMe] != [NSNull null]) {
+                self.followerLabel.text = [NSString stringWithFormat:@"%d",(int)[me[UsersIAllowToFollowMe] count]];
+            }else{
+                self.followerLabel.text = [NSString stringWithFormat:@"%d",0];
+            }
+            
+            if (!isLocalAvatarExisted) {
+                [Helper getServerAvatarForUser:me.username avatarType:AvatarTypeMid forImageView:self.avatarImageView];
+            }
+            
+            [FPLogger record:[NSString stringWithFormat:@"load number of following:%@ and followers:%@ after refreshing current user obj",self.followingLabel.text,self.followerLabel.text]];
+            
+            [defaults setObject:self.followingLabel.text forKey:@"numOfFollowing"];
+            [defaults setObject:self.followerLabel.text forKey:@"numOfFollowers"];
+            [defaults synchronize];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning

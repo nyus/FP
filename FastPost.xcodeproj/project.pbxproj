@@ -22,7 +22,6 @@
 		5039DA8418CFEE37000DF268 /* StatusObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5039DA8318CFEE37000DF268 /* StatusObject.m */; };
 		5039DA8818D11FC4000DF268 /* comment_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5039DA8618D11FC4000DF268 /* comment_icon.png */; };
 		5039DA8C18D1204C000DF268 /* comment_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5039DA8B18D1204C000DF268 /* comment_icon@2x.png */; };
-		503CABD718739318006BBF51 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503CABD618739318006BBF51 /* FacebookSDK.framework */; };
 		503CABDF18739751006BBF51 /* butterfly-green-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 503CABDE18739751006BBF51 /* butterfly-green-blue.png */; };
 		503FE459194DD72300FD297D /* LoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 503FE458194DD72300FD297D /* LoadingTableViewCell.m */; };
 		50424F8E18C952EB00F7D826 /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50424F8D18C952EB00F7D826 /* TabBarViewController.m */; };
@@ -320,7 +319,6 @@
 				65413D30184641BD00543C1A /* CFNetwork.framework in Frameworks */,
 				65413D2E184641B800543C1A /* AudioToolbox.framework in Frameworks */,
 				65413CDF1843990200543C1A /* UIKit.framework in Frameworks */,
-				503CABD718739318006BBF51 /* FacebookSDK.framework in Frameworks */,
 				65413CDB1843990200543C1A /* Foundation.framework in Frameworks */,
 				501F60421875AE3A00B26F65 /* libCrittercism_v4_3_0.a in Frameworks */,
 			);
@@ -1047,7 +1045,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/FacebookSDK",
 					"$(SRCROOT)/",
 					"/Users/jhuang/untitled\\ folder/FP",
 				);
@@ -1075,7 +1072,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/FacebookSDK",
 					"$(SRCROOT)/",
 					"/Users/jhuang/untitled\\ folder/FP",
 				);

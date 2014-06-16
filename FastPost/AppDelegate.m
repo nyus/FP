@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
-#import <FacebookSDK/FacebookSDK.h>
 #import "Crittercism.h"
 #import "Status.h"
 @implementation AppDelegate

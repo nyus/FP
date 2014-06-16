@@ -92,7 +92,7 @@
                 newUser.email = emailString;
                 newUser.username = userNameString;
                 newUser.password = passWordString;
-                [newUser setObject:@[userNameString] forKey:@"usersAllowMeToFollow"];
+                [newUser setObject:@[userNameString] forKey:UsersAllowMeToFollow];
 
                 [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     

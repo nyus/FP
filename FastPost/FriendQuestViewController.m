@@ -100,7 +100,7 @@
                 }else{
                     
                     //when user followers another person, the user would be able to start seeing person's posts, but not untile person accepts user's friend quest can user start messaging this person
-                    [[PFUser currentUser] addUniqueObject:((PFUser *)object).username forKey:@"usersIFollow"];
+                    [[PFUser currentUser] addUniqueObject:((PFUser *)object).username forKey:UsersAllowMeToFollow];
                     [[PFUser currentUser] saveInBackground];
                     //so that this new user would be accessible
                     [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {

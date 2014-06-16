@@ -26,7 +26,7 @@
 #define POST_TOTAL_LONGEVITY 1800//30 mins
 @interface StatusViewController ()<StatusObjectDelegate, StatusTableViewHeaderViewDelegate,UIActionSheetDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate>{
     
-    FBFriendPickerViewController *friendPickerVC;
+    FriendQuestViewController *friendPickerVC;
     StatusTableViewHeaderViewController *headerViewVC;
     StatusTableViewCell *cellToRevive;
     UIRefreshControl *refreshControl;
@@ -113,7 +113,7 @@
             [query whereKey:@"expirationDate" lessThan:[[NSDate date] dateByAddingTimeInterval:remainingTimeInSec.intValue]];
         }
         
-        [query whereKey:@"posterUsername" containedIn:[[PFUser currentUser] objectForKey:@"usersAllowMeToFollow"]];
+        [query whereKey:@"posterUsername" containedIn:[[PFUser currentUser] objectForKey:UsersAllowMeToFollow]];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
             if (objects.count != 0) {
@@ -235,16 +235,6 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44.0f;
-}
-
-#pragma mark - FBFriendPickerDelegate
-
--(void)friendPickerViewController:(FBFriendPickerViewController *)friendPicker handleError:(NSError *)error{
-    NSLog(@"friendPickerViewController error %@",error);
-}
-
--(void)friendPickerViewControllerSelectionDidChange:(FBFriendPickerViewController *)friendPicker{
-    
 }
 
 #pragma mark - StatusTableCellDelegate

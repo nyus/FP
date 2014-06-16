@@ -68,7 +68,8 @@ static NSDictionary *_map;
         _map = [NSDictionary dictionary];
     }
     //if the user doesnt have a profile picture, stop calling API for it for this particular usage. when the app starts next, it will try to hit the API again.
-    if ([[_map objectForKey:username] boolValue] == NO) {
+    NSNumber *value = [_map objectForKey:username];
+    if (value && value.boolValue == NO) {
         return;
     }
     

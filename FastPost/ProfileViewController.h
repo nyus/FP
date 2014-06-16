@@ -21,7 +21,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *rightAvatarImageView;
 //if this property is nil. then user is self, otherwise user is self's friend
 @property (weak, nonatomic) IBOutlet UIScrollView *avatarScrollview;
+@property (weak, nonatomic) IBOutlet UILabel *followingTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *followersTitleLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *userNameLabelTopSpaceToTopLayoutConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *dwindleTitleLabel;
 @property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
 @property (strong,nonatomic) NSString *userNameOfUserProfileToDisplay;
 @end

@@ -1593,7 +1593,7 @@
             <objects>
                 <navigationController title="Home" definesPresentationContext="YES" navigationBarHidden="YES" id="5eY-2V-bCP" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <tabBarItem key="tabBarItem" title="Home" image="B359A73E-364F-45F8-AAEF-476CE9DF77CE" id="xpw-hA-qPq"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="8AD928FF-EC89-4D39-BCBF-4FC804B0F041" id="xpw-hA-qPq"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="81F-D5-Wlr">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1957,11 +1957,14 @@
                         <outlet property="avatarImageView" destination="dQl-Dq-aIu" id="LAF-ZK-e20"/>
                         <outlet property="avatarScrollview" destination="Ifs-8J-JSn" id="Cni-Le-X6Z"/>
                         <outlet property="dwindleLabel" destination="7vp-Kk-3BA" id="iOX-oc-p0S"/>
+                        <outlet property="dwindleTitleLabel" destination="qic-TT-fnz" id="96z-LV-DUU"/>
                         <outlet property="editButton" destination="Wpv-QZ-kIP" id="bme-Hn-Q8k"/>
                         <outlet property="fakeNavigationBar" destination="Qt7-Qw-Xxv" id="vHA-E5-JR5"/>
                         <outlet property="followButton" destination="DqH-5j-T5s" id="7mS-pV-RbY"/>
                         <outlet property="followerLabel" destination="t1P-uI-UJk" id="oZ2-zN-bA5"/>
+                        <outlet property="followersTitleLabel" destination="q6X-ME-orR" id="Pkz-Lf-Cm1"/>
                         <outlet property="followingLabel" destination="jlf-jc-FgQ" id="t2u-SH-pCO"/>
+                        <outlet property="followingTitleLabel" destination="JpQ-kO-g4U" id="3Fh-Ay-MwU"/>
                         <outlet property="leftAvatarImageView" destination="ZTw-ar-eA0" id="B1P-Qo-iFT"/>
                         <outlet property="rightAvatarImageView" destination="OUf-CD-Blx" id="18T-38-2wV"/>
                         <outlet property="tableView" destination="Mn7-xj-d3R" id="27b-dI-zg2"/>
@@ -1990,7 +1993,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="B359A73E-364F-45F8-AAEF-476CE9DF77CE" width="32" height="32">
+        <image name="8AD928FF-EC89-4D39-BCBF-4FC804B0F041" width="32" height="32">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

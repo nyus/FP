@@ -117,7 +117,7 @@
     
     //username
     cell.statusCellUsernameLabel.text = status.posterUsername;
-    cell.userNameButton.titleLabel.text = nil;
+    cell.userNameButton.titleLabel.text = status.posterUsername;//need to set this text! used to determine if profile VC is displaying self profile or not
     
     //revivable button
     if (status.revivable.boolValue) {

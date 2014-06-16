@@ -140,7 +140,7 @@
     [object saveInBackground];
 
     //add quest sender to my "usersICanMessage" array
-    [[PFUser currentUser] addUniqueObject:object[@"senderUsername"] forKey:@"usersICanMessage"];
+    [[PFUser currentUser] addUniqueObject:object[@"senderUsername"] forKey:UsersIAllowToFollowMe];
     [[PFUser currentUser] saveInBackground];
     
     NSDictionary *dict = @{@"senderUsername":object[@"senderUsername"],

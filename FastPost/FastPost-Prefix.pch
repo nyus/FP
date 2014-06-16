@@ -12,7 +12,9 @@
 
 #define IS_IOS_7 ([UIDevice currentDevice].systemVersion.floatValue >= 7.0f)
 #define IS_4_INCH_SCREEN ([[UIScreen mainScreen] bounds].size.height == 568)
-
+#define UsersAllowMeToFollow @"usersAllowMeToFollow"
+#define UsersIAllowToFollowMe @"usersIAllowToFollowMe"
+#define UsersICanMessage @"UsersICanMessage"
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
