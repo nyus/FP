@@ -363,7 +363,7 @@
     
     if (self.dataSource.count != 0 && section == 0) {
         UITableViewHeaderFooterView *view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"header"];
-        view.textLabel.text = @"Your live posts";
+        view.textLabel.text = @"Live posts";
         return view;
     }
     
