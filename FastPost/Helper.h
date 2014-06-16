@@ -14,10 +14,14 @@ typedef enum{
 } AvatarType;
 
 @interface Helper : NSObject
+//Avatar
 +(void)getAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView;
 +(BOOL)getLocalAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView;
 +(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView;
 +(void)saveAvatar:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username;
 +(void)saveAvatarToLocal:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username;
 +(NSArray *)getAvatarsForSelf;
+
+//Send out friend request
++(void)sendFriendRequestTo:(NSString *)receiver from:(NSString *)sender;
 @end

@@ -135,4 +135,53 @@ static NSDictionary *_map;
     }
     return images;
 }
+
+#pragma mark - friend request
+
++(void)sendFriendRequestTo:(NSString *)receiver from:(NSString *)sender{
+    //when user followers another person, the user would be able to start seeing person's posts, but not untile person accepts user's friend quest can user start messaging this person
+    [[PFUser currentUser] addUniqueObject:receiver forKey:UsersAllowMeToFollow];
+    [[PFUser currentUser] saveInBackground];
+    //so that this new user would be accessible
+    [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        
+    }];
+    
+    //create a new FriendRequest object and send it to parse
+    PFObject *request = [[PFObject alloc] initWithClassName:@"FriendRequest"];
+    request[@"senderUsername"] = sender;
+    request[@"receiverUsername"] = receiver;
+    //FriendRequest.requestStatus
+    //1. accepted 2. denied 3. not now 4. new request
+    request[@"requestStatus"] = [NSNumber numberWithInt:4];
+    [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            
+            //send out push notification to Friend Requrest receiver
+            //first query the PFUser(recipient) with the specific username
+            PFQuery *innerQuery = [PFQuery queryWithClassName:[PFUser parseClassName]];
+            [innerQuery whereKey:@"username" equalTo:receiver];
+            //then query this PFuser set on PFInstallation
+            PFQuery *query = [PFInstallation query];
+            [query whereKey:@"user" matchesQuery:innerQuery];
+            
+            PFPush *push = [[PFPush alloc] init];
+            [push setQuery:query];
+            [push setMessage:[NSString stringWithFormat:@"%@ has sent you a follow request",sender]];
+            [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!succeeded) {
+                    [FPLogger record:[NSString stringWithFormat:@"Failed to send push from %@ to %@",sender,receiver]];
+                }
+            }];
+            [FPLogger record:[NSString stringWithFormat:@"friend request %@ sent",request]];
+            NSLog(@"friend request %@ sent",request);
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Done" otherButtonTitles:nil, nil];
+            [alert show];
+        }else{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Something went wrong, please try again." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+    }];
+}
+
 @end

@@ -13,7 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *dwindleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *followingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *followerLabel;
-@property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *followButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;

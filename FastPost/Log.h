@@ -19,7 +19,7 @@ cell size dynamic adjustment
 -----
 username case insensitive and unique
 
-user can have "usersIFollow" "usersFollowMe" and "usersMutualFollow"
-"usersIFollow" holds users that I follow and they allow me to follow, but they do not follow me back
-"usersFollowMe" holds users that follow me and i allow them to follow, but i do not follow them back
-"usersMutualFollow" holds users that i follow, and they also follow me back
+user can have "usersAllowMeToFollow" "usersIAllowToFollowMe" and "usersICanMessage"
+"usersAllowMeToFollow" holds users that I follow and they allow me to follow, but they do not follow me back
+"usersIAllowToFollowMe" holds users that follow me and i allow them to follow, but i do not follow them back
+"usersICanMessage" holds users that i follow, and they also follow me back

@@ -42,40 +42,37 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    //this is initialization when the profile page is first loaded
+    if(self.userNameOfUserProfileToDisplay == nil){
+        self.userNameOfUserProfileToDisplay = [PFUser currentUser].username;
+    }
     
-    if(![self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]){
-        self.editButton.hidden = YES;
+    if([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]){
+        self.followButton.hidden = YES;
+        self.fakeNavigationBar.hidden = YES;
+        //disable interaction with the avatar imageviews
+        self.leftAvatarImageView.userInteractionEnabled = YES;
+        self.avatarImageView.userInteractionEnabled = YES;
+        self.rightAvatarImageView.userInteractionEnabled = YES;
+    }else{
+        self.followButton.hidden = NO;
+        self.fakeNavigationBar.hidden = NO;
+        self.userNameLabelTopSpaceToTopLayoutConstraint.constant = 49;
         //other users cannot see my followers and following
         self.followerLabel.hidden = YES;
         self.followersTitleLabel.hidden= YES;
         self.followingLabel.hidden = YES;
         self.followingTitleLabel.hidden = YES;
-        
-    }else{
-        self.followButton.hidden = YES;
-        self.fakeNavigationBar.hidden = NO;
-        self.userNameLabelTopSpaceToTopLayoutConstraint.constant = 49;
+        //disable interaction with the avatar imageviews
+        self.leftAvatarImageView.userInteractionEnabled = NO;
+        self.avatarImageView.userInteractionEnabled = NO;
+        self.rightAvatarImageView.userInteractionEnabled = NO;
     }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-    
-////STORE POSTS THE SELF SENDS LOCALLY SO TAHT WE CAN PULL PREVIOUS POSTS INSTANTLY AND ALSO SAVE RESOURCES. WHEN THIS TAB SHOWS, FIRST CHECK IF THERE IS ANY POST LOCALLY, IF NOT, CHECK IF THIS USER EXISTS IN OUR DATABASE, IF SO, PULL OLD STATUSES FROM PARSE AND STORE THEM LOCALLY
-//    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Status"];
-//    NSSortDescriptor *des = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-//    request.sortDescriptors = @[des];
-//    NSError *error;
-//    NSArray *results = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&error];
-//    //if no status has been stored, two possibilities:
-//    //1. this is a new user
-//    //2. this is a returning user
-//    if (results.count == 0) {
-//        
-//    }else{
-//        //display result
-//    }
     
 //need to do something here. dont grab everything when user comes back to this tab
     [self fetchNewStatusWithCount:25 remainingTime:nil];
@@ -88,7 +85,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Status"];
     query.limit = count;
     [query orderByDescending:@"createdAt"];
-    [query whereKey:@"posterUsername" equalTo:self.userNameOfUserProfileToDisplay?self.userNameOfUserProfileToDisplay:[PFUser currentUser].username];
+    [query whereKey:@"posterUsername" equalTo:self.userNameOfUserProfileToDisplay];
     [query whereKey:@"expirationDate" greaterThan:[NSDate date]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
@@ -164,7 +161,7 @@
     
     //update this value
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
-    [query whereKey:@"posterUsername" equalTo:[PFUser currentUser].username];
+    [query whereKey:@"posterUsername" equalTo:self.userNameOfUserProfileToDisplay];
     [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
         self.dwindleLabel.text = [NSString stringWithFormat:@"%d", number];
         
@@ -381,5 +378,10 @@
     //self.navigationController is not self.fakeNavigationBar. self.navi
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (IBAction)followButtonTapped:(id)sender {
+    [Helper sendFriendRequestTo:self.userNameOfUserProfileToDisplay from:[PFUser currentUser].username];
+}
+
 
 @end
