@@ -92,10 +92,14 @@
             return cell;
         }else{
             
-            FriendQuestTableViewCell *cell = (FriendQuestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"friendRequestCell" forIndexPath:indexPath];
+            __block FriendQuestTableViewCell *cell = (FriendQuestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"friendRequestCell" forIndexPath:indexPath];
             cell.delegate = self;
             //set avatar
-            [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] avatarType:AvatarTypeMid forImageView:cell.profileImageView];
+            [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+                cell.profileImageView.image = image;
+            }];
+//            
+//            [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] avatarType:AvatarTypeMid forImageView:cell.profileImageView];
             //set sender username
             cell.usernameLabel.text = [dataSource[indexPath.row] objectForKey:@"senderUsername"];
             return cell;

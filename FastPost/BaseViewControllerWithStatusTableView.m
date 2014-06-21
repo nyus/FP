@@ -11,9 +11,13 @@
 #import "Helper.h"
 #import "Status.h"
 #import "FPLogger.h"
+#import "StatusTableViewCell.h"
+#import "SpinnerImageView.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 76.0f
 #define CELL_MESSAGE_LABEL_WIDTH 280.0f
+#define SPINNER_VIEW_TAG 17
+#define CELL_PHOTO_SIZE CGSizeMake(279.0,204.0)
 @interface BaseViewControllerWithStatusTableView (){
 
     //cache calculated label height
@@ -50,6 +54,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    for(Status *status in self.dataSource){
+        //cancel download
+        [status.picture cancel];
+    }
 }
 
 
@@ -77,35 +85,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {   
-    StatusTableViewCell *cell = nil;
+
     Status *status = self.dataSource[indexPath.row];
-    PFFile *picture = (PFFile *)status.picture;
-    
-    if (picture == (PFFile *)[NSNull null] || picture == nil) {
-        
-        cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
-        
-    }else{
-        cell = [tableView dequeueReusableCellWithIdentifier:@"messageAndPhotoCell" forIndexPath:indexPath];
-    
-        //get image
-        PFFile *picture = (PFFile *)[status picture];
-        //add spinner on image view to indicate pulling image
-        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        spinner.center = CGPointMake((int)cell.statusCellPhotoImageView.frame.size.width/2, (int)cell.statusCellPhotoImageView.frame.size.height/2);
-        [cell.statusCellPhotoImageView addSubview:spinner];
-        [spinner startAnimating];
-        [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            if (data && !error) {
-                cell.statusCellPhotoImageView.image = [UIImage imageWithData:data];
-            }else{
-                [FPLogger record:[NSString stringWithFormat:@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid]];
-                NSLog(@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid);
-            }
-            
-            [spinner stopAnimating];
-        }];
-    }
+
+    __block StatusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"messageAndPhotoCell" forIndexPath:indexPath];
     
     // Configure the cell...
     cell.delegate = self;
@@ -138,17 +121,28 @@
     //comment count
     cell.commentCountLabel.text = status.commentCount.stringValue;
     
-    //get avatar
-    [Helper getAvatarForUser:status.posterUsername avatarType:AvatarTypeMid forImageView:cell.statusCellAvatarImageView];
+
+    // Only load cached images; defer new downloads until scrolling ends. if there is no local cache, we download avatar in scrollview delegate methods
+    UIImage *avatar = [Helper getLocalAvatarForUser:status.posterUsername avatarType:AvatarTypeMid];
+    if (avatar) {
+        cell.statusCellAvatarImageView.image = avatar;
+    }else{
+        if (tableView.isDecelerating == NO && tableView.isDragging == NO) {
+            [Helper getServerAvatarForUser:status.posterUsername avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+                cell.statusCellAvatarImageView.image = image;
+            }];
+        }
+    }
     
+    //get post image
+    [cell.statusCellPhotoImageView showLoadingActivityIndicator];
+    if (status.postImage) {
+        cell.statusCellPhotoImageView.image = status.postImage;
+    }else if (tableView.isDecelerating == NO && tableView.isDragging == NO){
+        [self getServerPostImageForCellAtIndexpath:indexPath];
+    }
     return cell;
 }
-
-//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-//    StatusTableViewCell *c = (StatusTableViewCell *)cell;
-//    c.indexPath = indexPath;
-//    
-//}
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 200;
@@ -161,10 +155,10 @@
         
         Status *status = self.dataSource[indexPath.row];
         NSString *key =[NSString stringWithFormat:@"%lu",(unsigned long)status.hash];
-//        NSLog(@"indexPath:%@",indexPath);
+
         //is cell height has been calculated, return it
         if ([cellHeightMap objectForKey:key]) {
-//            NSLog(@"return stored cell height: %f",[[cellHeightMap objectForKey:key] floatValue]);
+            
             return [[cellHeightMap objectForKey:key] floatValue];
             
         }else{
@@ -176,7 +170,6 @@
             label.font = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];
             label.text = [status message];
             CGSize aSize = [label sizeThatFits:label.frame.size];
-//            NSLog(@"aSize is %@",NSStringFromCGSize(aSize));
 
             float labelHeight = aSize.height;//ceilf(ceilf(size.width) / CELL_MESSAGE_LABEL_WIDTH)*ceilf(size.height)+10;
             [labelHeightMap setObject:[NSNumber numberWithFloat:labelHeight] forKey:key];
@@ -216,4 +209,60 @@
     NSString *key =[NSString stringWithFormat:@"%d",status.hash];
     [cellHeightMap removeObjectForKey:key];
 }
+
+#pragma mark - uiscrollview delegate
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    [self loadImagesForOnscreenRows];
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (!decelerate)
+	{
+        [self loadImagesForOnscreenRows];
+    }
+}
+
+- (void)loadImagesForOnscreenRows
+{
+    NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
+    for (NSIndexPath *indexPath in visiblePaths)
+    {
+        __block StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        Status *status = self.dataSource[indexPath.row];
+        
+        BOOL avatar = [Helper isLocalAvatarExistForUser:status.posterUsername avatarType:AvatarTypeMid];
+        if (!avatar) {
+            [Helper getServerAvatarForUser:status.posterUsername avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+                cell.statusCellAvatarImageView.image = image;
+            }];
+        }
+        
+        
+        if (status.postImage==nil) {
+            [self getServerPostImageForCellAtIndexpath:indexPath];
+        }
+    }
+}
+
+-(void)getServerPostImageForCellAtIndexpath:(NSIndexPath *)indexPath{
+    
+    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [cell.statusCellPhotoImageView showLoadingActivityIndicator];
+    Status *status = self.dataSource[indexPath.row];
+    PFFile *picture = (PFFile *)[status picture];
+    [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (data && !error) {
+            UIImage *image = [UIImage imageWithData:data];
+            UIImage *scaledImage = [Helper scaleImage:image downToSize:CELL_PHOTO_SIZE];
+            cell.statusCellPhotoImageView.image = scaledImage;
+            status.postImage = scaledImage;
+        }else{
+            [FPLogger record:[NSString stringWithFormat:@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid]];
+            NSLog(@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid);
+            //show corrupted image view
+        }
+    }];
+}
+
 @end

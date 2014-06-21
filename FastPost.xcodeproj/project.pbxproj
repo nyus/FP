@@ -13,6 +13,7 @@
 		50200C4418CFE365003CEBBE /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 50200C4318CFE365003CEBBE /* Status.m */; };
 		50275F76186F22E200CD9680 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50275F75186F22E200CD9680 /* icon.png */; };
 		502C6A4718E8BD800047EA49 /* FPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 502C6A4618E8BD800047EA49 /* FPLogger.m */; };
+		502FFD9B1953C78C00085826 /* SpinnerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 502FFD9A1953C78C00085826 /* SpinnerImageView.m */; };
 		5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */; };
 		5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */; };
 		5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */; };
@@ -62,6 +63,8 @@
 		50CE7737194A6CFA006E83F3 /* ELCAssetTablePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CE772D194A6CFA006E83F3 /* ELCAssetTablePicker.xib */; };
 		50CE7738194A6CFA006E83F3 /* Overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 50CE772E194A6CFA006E83F3 /* Overlay.png */; };
 		50CE7739194A6CFA006E83F3 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 50CE772F194A6CFA006E83F3 /* Overlay@2x.png */; };
+		50D36B9819560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D36B9719560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m */; };
+		50D36B9B19560FAB0048CCA6 /* AvatarCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D36B9A19560FAB0048CCA6 /* AvatarCollectionViewCell.m */; };
 		50EFFD28194D2D0E00A4C212 /* UITextView+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 50EFFD27194D2D0E00A4C212 /* UITextView+Utilities.m */; };
 		50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F3304318D1411300A0878D /* CommentStatusViewController.m */; };
 		50F5264518D7CCE500091953 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F5264418D7CCE500091953 /* MessageUI.framework */; };
@@ -146,6 +149,8 @@
 		50275F75186F22E200CD9680 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		502C6A4518E8BD800047EA49 /* FPLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPLogger.h; sourceTree = "<group>"; };
 		502C6A4618E8BD800047EA49 /* FPLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPLogger.m; sourceTree = "<group>"; };
+		502FFD991953C78C00085826 /* SpinnerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpinnerImageView.h; sourceTree = "<group>"; };
+		502FFD9A1953C78C00085826 /* SpinnerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpinnerImageView.m; sourceTree = "<group>"; };
 		5034EEAD18A7D09F00DBDCCF /* MessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewCell.h; sourceTree = "<group>"; };
 		5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; };
 		5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewViewController.h; sourceTree = "<group>"; };
@@ -216,6 +221,10 @@
 		50CE772D194A6CFA006E83F3 /* ELCAssetTablePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCAssetTablePicker.xib; sourceTree = "<group>"; };
 		50CE772E194A6CFA006E83F3 /* Overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Overlay.png; sourceTree = "<group>"; };
 		50CE772F194A6CFA006E83F3 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
+		50D36B9619560EED0048CCA6 /* AvatarCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		50D36B9719560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		50D36B9919560FAB0048CCA6 /* AvatarCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarCollectionViewCell.h; sourceTree = "<group>"; };
+		50D36B9A19560FAB0048CCA6 /* AvatarCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarCollectionViewCell.m; sourceTree = "<group>"; };
 		50EFFD26194D2D0E00A4C212 /* UITextView+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Utilities.h"; sourceTree = "<group>"; };
 		50EFFD27194D2D0E00A4C212 /* UITextView+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Utilities.m"; sourceTree = "<group>"; };
 		50F3304218D1411300A0878D /* CommentStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentStatusViewController.h; sourceTree = "<group>"; };
@@ -450,6 +459,12 @@
 				34113DBD193AC72C00CA9F50 /* Header.h */,
 				503FE457194DD72300FD297D /* LoadingTableViewCell.h */,
 				503FE458194DD72300FD297D /* LoadingTableViewCell.m */,
+				502FFD991953C78C00085826 /* SpinnerImageView.h */,
+				502FFD9A1953C78C00085826 /* SpinnerImageView.m */,
+				50D36B9619560EED0048CCA6 /* AvatarCollectionViewFlowLayout.h */,
+				50D36B9719560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m */,
+				50D36B9919560FAB0048CCA6 /* AvatarCollectionViewCell.h */,
+				50D36B9A19560FAB0048CCA6 /* AvatarCollectionViewCell.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -870,10 +885,12 @@
 				50FE569E18E2610A00B85B35 /* NoDelayButton.m in Sources */,
 				658AA5C8184F95420097383B /* StatusTableViewHeaderViewController.m in Sources */,
 				653ACE42185926FD007B9A47 /* ExpirationTimePickerViewController.m in Sources */,
+				50D36B9819560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m in Sources */,
 				65A8B09818CA7AE000C46DD6 /* NotificatonViewController.m in Sources */,
 				50CE7731194A6CFA006E83F3 /* ELCAsset.m in Sources */,
 				50CE7733194A6CFA006E83F3 /* ELCAssetTablePicker.m in Sources */,
 				507F614C1883594F00B57DDA /* Helper.m in Sources */,
+				502FFD9B1953C78C00085826 /* SpinnerImageView.m in Sources */,
 				509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */,
 				5034EF0518A8061200DBDCCF /* ComposeNewMessageViewController.m in Sources */,
 				658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */,
@@ -891,6 +908,7 @@
 				65409F6E18BE66B100589F66 /* Message.m in Sources */,
 				65413CF41843990200543C1A /* LogInViewController.m in Sources */,
 				5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */,
+				50D36B9B19560FAB0048CCA6 /* AvatarCollectionViewCell.m in Sources */,
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
 				50EFFD28194D2D0E00A4C212 /* UITextView+Utilities.m in Sources */,

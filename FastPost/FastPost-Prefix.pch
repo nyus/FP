@@ -15,6 +15,7 @@
 #define UsersAllowMeToFollow @"usersAllowMeToFollow"
 #define UsersIAllowToFollowMe @"usersIAllowToFollowMe"
 #define UsersICanMessage @"usersICanMessage"
+
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>

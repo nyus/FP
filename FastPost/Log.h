@@ -23,3 +23,6 @@ user can have "usersAllowMeToFollow" "usersIAllowToFollowMe" and "usersICanMessa
 "usersAllowMeToFollow" holds users that I follow and they allow me to follow, but they do not follow me back
 "usersIAllowToFollowMe" holds users that follow me and i allow them to follow, but i do not follow them back
 "usersICanMessage" holds users that i follow, and they also follow me back
+
+FriendRequest.requestStatus
+1. accepted 2. denied 3. not now 4. new request

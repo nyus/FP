@@ -344,13 +344,7 @@
     } completion:^(BOOL finished) {
         friendQusetVC.isOnScreen = YES;
     }];
-    
-    //Facebook add friend code
-//    friendPickerVC = [[FBFriendPickerViewController alloc] initWithNibName:nil bundle:nil];
-//    friendPickerVC.title = @"Select Friends";
-//    [friendPickerVC loadData];
-//    friendPickerVC.delegate = self;
-//    [self presentViewController:friendPickerVC animated:YES completion:nil];
+
 }
 
 -(void)tbHeaderComposeNewStatusButtonTapped{
@@ -417,37 +411,6 @@
     }
 }
 
-#pragma mark - ExpirationTimePickerViewControllerDelegate
-
-//-(void)revivePickerViewExpirationTimeSetToMins:(NSInteger)min andSecs:(NSInteger)sec andPickerView:(UIPickerView *)pickerView{
-//    Status *status = self.dataSource[[[self.tableView indexPathForCell:cellToRevive] row]];
-//    
-//    //add time to status remotely
-//    int timeInterval = (int)min * 60 + (int)sec + status.countDownMessage.intValue;
-//    
-//    PFQuery *queryStatusObj = [[PFQuery alloc] initWithClassName:@"Status"];
-//    [queryStatusObj whereKey:@"objectId" equalTo:status.objectid];
-//    [queryStatusObj getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-//        if (!error) {
-//            object[@"expirationTimeInSec"] = [NSNumber numberWithInt:timeInterval];
-//            object[@"expirationDate"] = [NSDate dateWithTimeInterval:timeInterval sinceDate:[NSDate date]];
-//            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//                if (succeeded) {
-//                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ succeeded",object]];
-//                }else{
-//                    [FPLogger record:[NSString stringWithFormat:@"revive status: %@ failed",object]];
-//                }
-//            }];
-//        }
-//    }];
-//    
-//    //add time to the status locally
-//    status.countDownMessage = [NSString stringWithFormat:@"%d",timeInterval];
-//}
-//
-//-(void)filterPickerViewExpirationTimeSetToLessThanMins:(int)min andPickerView:(UIPickerView *)pickerView{
-//    [self fetchNewStatusWithCount:25 remainingTime:[NSNumber numberWithInt:min*60]];
-//}
 
 #pragma mark - UISegue
 

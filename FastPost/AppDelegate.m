@@ -18,7 +18,6 @@
     [Parse setApplicationId:@"7kAP1QqQlth9UZNELdSui4WBS4Yzpo3EFLAvl18t"
                   clientKey:@"mAlCa1iyHCgP8aPsfFbKSw82ncA0h2F3actQSsg8"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-//    [PFFacebookUtils initializeFacebook];
     //crittercism
     [Crittercism enableWithAppID: @"52c576648b2e334a25000001"];
     
@@ -47,16 +46,6 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
 }
-
-//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-//    return [PFFacebookUtils handleOpenURL:url];
-//}
-//
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-//  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-//    return [PFFacebookUtils handleOpenURL:url];
-//}
-
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

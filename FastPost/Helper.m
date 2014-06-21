@@ -13,6 +13,93 @@ static Helper *_helper;
 static NSDictionary *_map;
 @implementation Helper
 
+
+//get avatar
+
++(BOOL)isLocalAvatarExistForUser:(NSString *)username avatarType:(AvatarType)type{
+    //if user avatar is saved, pull locally; otherwise pull from server and save it locally
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = paths[0];
+    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",username,[NSString stringWithFormat:@"%d",type]];
+    
+    return [[NSFileManager defaultManager] fileExistsAtPath:path];
+}
+
++(UIImage *)getLocalAvatarForUser:(NSString *)username avatarType:(AvatarType)type{
+    
+    //if user avatar is saved, pull locally; otherwise pull from server and save it locally
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = paths[0];
+    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",username,[NSString stringWithFormat:@"%d",type]];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        
+        //use local saved avatar right away, then see if the avatar has been updated on the server
+        NSData *imageData = [[NSFileManager defaultManager] contentsAtPath:path];
+        UIImage *image = [UIImage imageWithData:imageData];
+        return image;
+    }
+    
+    return nil;
+}
+
+
++(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type completion:(void (^)(NSError *, UIImage *))completionBlock{
+    
+    if (_map == nil) {
+        _map = [NSDictionary dictionary];
+    }
+    //if the user doesnt have a profile picture, stop calling API for it for this particular usage. when the app starts next, it will try to hit the API again.
+    NSNumber *value = [_map objectForKey:username];
+    if (value && value.boolValue == NO) {
+        return;
+    }
+    
+    PFQuery *query = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
+    [query whereKey:@"username" equalTo:username];
+    [query whereKey:[@"avatar" stringByAppendingFormat:@"%ud", type] notEqualTo:[NSNull null]];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error && object) {
+            PFUser *user = (PFUser *)object;
+            PFFile *avatar = [user objectForKey:[@"avatar" stringByAppendingFormat:@"%ud", type]];
+            if (avatar != (PFFile *)[NSNull null] && avatar != nil) {
+                
+                [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                    if (data && !error) {
+                        UIImage *image = [UIImage imageWithData:data];
+                        completionBlock(error, image);
+                        //save image to local
+                        [Helper saveAvatarToLocal:data avatarType:type forUser:username];
+                        
+                    }else{
+                        [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
+                        NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
+                    }
+                }];
+            }else{
+                [_map setValue:@NO forKey:username];
+                
+                [FPLogger record:[NSString stringWithFormat:@"no avater for user %@", user.username]];
+                NSLog(@"no avater for user %@", user.username);
+            }
+        }
+    }];
+}
+
++(void)getAvatarForUser:(NSString *)username avatarType:(AvatarType)type completion:(void (^)(NSError *, UIImage *))completionBlock{
+    
+    //first fetch local, if not found, fetch from server
+    UIImage *image = [Helper getLocalAvatarForUser:username avatarType:type];
+    if (image) {
+        completionBlock(nil,image);
+    }else{
+        [Helper getServerAvatarForUser:username avatarType:type completion:^(NSError *error, UIImage *image) {
+            completionBlock(error, image);
+        }];
+    }
+}
+
+//save avatar
 +(void)saveAvatarToLocal:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username{
 
     dispatch_queue_t queue = dispatch_queue_create("save avatar", NULL);
@@ -35,86 +122,11 @@ static NSDictionary *_map;
     
     [Helper saveAvatarToLocal:data avatarType:type forUser:username];
     PFUser *user = [PFUser currentUser];
-    user[@"avatar"] = [PFFile fileWithData:data];
+    user[[@"avatar" stringByAppendingFormat:@"%ud", type]] = [PFFile fileWithData:data];
     user[@"avatarUpdateDate"] = [NSDate date];
     user[@"avatarUpdated"] = [NSNumber numberWithBool:YES];
     [user saveInBackground];
     
-}
-
-
-+(BOOL)getLocalAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView{
-    //if user avatar is saved, pull locally; otherwise pull from server and save it locally
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentDirectory = paths[0];
-    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",username,[NSString stringWithFormat:@"%d",type]];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        
-        //use local saved avatar right away, then see if the avatar has been updated on the server
-        NSData *imageData = [[NSFileManager defaultManager] contentsAtPath:path];
-        imageView.image = [UIImage imageWithData:imageData];
-        
-        return YES;
-    }
-    
-    return NO;
-}
-
-
-+(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView{
-    
-    if (_map == nil) {
-        _map = [NSDictionary dictionary];
-    }
-    //if the user doesnt have a profile picture, stop calling API for it for this particular usage. when the app starts next, it will try to hit the API again.
-    NSNumber *value = [_map objectForKey:username];
-    if (value && value.boolValue == NO) {
-        return;
-    }
-    
-    PFQuery *query = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
-    [query whereKey:@"username" equalTo:username];
-    [query whereKey:@"avatar" notEqualTo:[NSNull null]];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!error && object) {
-            PFUser *user = (PFUser *)object;
-            PFFile *avatar = [user objectForKey:@"avatar"];
-            if (avatar != (PFFile *)[NSNull null] && avatar != nil) {
-                
-                [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                    if (data && !error) {
-                        imageView.image = [UIImage imageWithData:data];
-                        
-                        //save image to local
-                        [Helper saveAvatarToLocal:data avatarType:type forUser:username];
-                        
-                    }else{
-                        [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
-                        NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
-                    }
-                }];
-            }else{
-                [_map setValue:@NO forKey:username];
-                
-                [FPLogger record:[NSString stringWithFormat:@"no avater for user %@", user.username]];
-                NSLog(@"no avater for user %@", user.username);
-            }
-        }
-    }];
-}
-
-//this method first checks if there is a locally saved avatar image
-//if there is no locally saved avatar image, pull from server and save the image to local.
-+(void)getAvatarForUser:(NSString *)username avatarType:(AvatarType)type forImageView:(UIImageView *)imageView{
-
-    //first fetch local, if not found, fetch from server
-    if(![Helper getLocalAvatarForUser:username avatarType:type forImageView:imageView]){
-        //set default header. becuase cells are being reused. imageView may have other user's avatar
-        UIImage *image = [UIImage imageNamed:@"default-user-icon-profile"];
-        imageView.image = image;
-        [Helper getServerAvatarForUser:username avatarType:type forImageView:imageView];
-    }
 }
 
 +(NSArray *)getAvatarsForSelf{
@@ -143,9 +155,7 @@ static NSDictionary *_map;
     [[PFUser currentUser] addUniqueObject:receiver forKey:UsersAllowMeToFollow];
     [[PFUser currentUser] saveInBackground];
     //so that this new user would be accessible
-    [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        
-    }];
+    [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {}];
     
     //create a new FriendRequest object and send it to parse
     PFObject *request = [[PFObject alloc] initWithClassName:@"FriendRequest"];
@@ -156,6 +166,17 @@ static NSDictionary *_map;
     request[@"requestStatus"] = [NSNumber numberWithInt:4];
     [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSMutableDictionary *map = [[defaults objectForKey:@"relationMap"] mutableCopy];
+            
+            if (!map) {
+                map = [NSMutableDictionary dictionary];
+                
+            }
+            [map setObject:@4 forKey:receiver];
+            [defaults setObject:map forKey:@"relationMap"];
+            [defaults synchronize];
             
             //send out push notification to Friend Requrest receiver
             //first query the PFUser(recipient) with the specific username
@@ -173,6 +194,7 @@ static NSDictionary *_map;
                     [FPLogger record:[NSString stringWithFormat:@"Failed to send push from %@ to %@",sender,receiver]];
                 }
             }];
+            
             [FPLogger record:[NSString stringWithFormat:@"friend request %@ sent",request]];
             NSLog(@"friend request %@ sent",request);
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Request sent!" delegate:self cancelButtonTitle:@"Done" otherButtonTitles:nil, nil];
@@ -182,6 +204,37 @@ static NSDictionary *_map;
             [alert show];
         }
     }];
+}
+
++(void)removeAvatarWithAvatarType:(AvatarType)type{
+    PFUser *user = [PFUser currentUser];
+    user[[@"avatar" stringByAppendingFormat:@"%ud", type]] = nil;
+    [user saveInBackground];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = paths[0];
+    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",[PFUser currentUser].username,[NSString stringWithFormat:@"%d",type]];
+    NSError *error;
+    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+}
+
+#pragma mark - image processing
+
++(UIImage *)scaleImage:(UIImage *)image downToSize:(CGSize) size{
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
+    CGRect imageRect;
+    if(image.size.width<image.size.height){
+        //handle portrait photos
+        float newWidth = image.size.width * size.height/image.size.height;
+        imageRect = CGRectMake((size.width-newWidth)/2, 0.0, newWidth, size.height);
+    }else{
+        imageRect = CGRectMake(0.0, 0.0, size.width, size.height);
+    }
+    [image drawInRect:imageRect];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
 }
 
 @end

@@ -26,4 +26,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *dwindleTitleLabel;
 @property (weak, nonatomic) IBOutlet UINavigationBar *fakeNavigationBar;
 @property (strong,nonatomic) NSString *userNameOfUserProfileToDisplay;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @end

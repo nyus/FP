@@ -11,5 +11,6 @@
 @class Status;
 @interface BaseViewControllerWithStatusTableView : UIViewController<UITableViewDataSource, UITableViewDelegate,StatusTableViewCellDelegate>
 @property (nonatomic, strong) NSMutableArray *dataSource;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 -(void)removeStoredHeightForStatus:(Status *)status;
 @end

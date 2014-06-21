@@ -29,10 +29,6 @@
         swipteGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
         swipteGesture.direction = UISwipeGestureRecognizerDirectionLeft;
         [self addGestureRecognizer:swipteGesture];
-        //turn off autolayout on the cells
-        self.statusCellMessageLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.statusCellPhotoImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        
     }
     
     return self;

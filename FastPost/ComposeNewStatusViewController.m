@@ -12,9 +12,12 @@
 #import "StatusObject.h"
 #import "UITextView+Utilities.h"
 #import "SharedDataManager.h"
+#import "ELCImagePickerController.h"
+#import "ELCAlbumPickerController.h"
+#import "ELCAssetTablePicker.h"
 #define CELL_IMAGEVIEW_SIZE_HEIGHT 204.0f
 #define CELL_IMAGEVIEW_SIZE_WIDTH 280.0f
-@interface ComposeNewStatusViewController ()<UIPickerViewDelegate, UIPickerViewDataSource,UITextViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIActionSheetDelegate,UICollectionViewDataSource,UICollectionViewDelegate>{
+@interface ComposeNewStatusViewController ()<UIPickerViewDelegate, UIPickerViewDataSource,UITextViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIActionSheetDelegate,UICollectionViewDataSource,UICollectionViewDelegate,ELCImagePickerControllerDelegate>{
     UIImagePickerController *imagePicker;
     UILabel *placeHolderLabel;
     NSMutableArray *collectionViewDataSource;
@@ -329,15 +332,46 @@
         }
     }else if(buttonIndex == 1){
 
-        imagePicker = [[UIImagePickerController alloc] init];
-        imagePicker.delegate = self;
-        imagePicker.allowsEditing = NO;
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:imagePicker animated:YES completion:nil];
+        ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initImagePicker];
+        elcPicker.maximumImagesCount = 30;
+        elcPicker.returnsOriginalImage = NO; //Only return the fullScreenImage, not the fullResolutionImage
+        elcPicker.imagePickerDelegate = self;
+        
+        [self presentViewController:elcPicker animated:YES completion:nil];
     }else{
         [self.textView becomeFirstResponder];
     }
 }
+
+
+
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info
+{
+    
+    if(!collectionViewDataSource){
+        collectionViewDataSource = [NSMutableArray array];
+    }
+    for (NSDictionary *dict in info) {
+        UIImage *image = dict[@"UIImagePickerControllerOriginalImage"];
+        [collectionViewDataSource addObject:image];
+    }
+    
+    [self.collectionView reloadData];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [UIView animateWithDuration:.2 animations:^{
+            [self changeTextViewHeightToFitPhoto];
+            [self showCollectionViewAndLineSeparator];
+        }];
+        
+        [self.textView becomeFirstResponder];
+    }];
+}
+
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 #pragma mark - image picker delegates
 

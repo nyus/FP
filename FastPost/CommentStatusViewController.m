@@ -17,7 +17,7 @@
 #define COMMENT_LABEL_WIDTH 234.0f
 #define NO_COMMENT_CELL_HEIGHT 504.0f
 #define CELL_IMAGEVIEW_MAX_Y 35+10
-@interface CommentStatusViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>{
+@interface CommentStatusViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIScrollViewDelegate>{
     //cache cell height
     NSMutableDictionary *cellHeightMap;
     UISwipeGestureRecognizer *swipeGesture;
@@ -170,7 +170,6 @@
     }else{
         return self.dataSource.count;
     }
-    
 }
 
 //hides the liine separtors when data source has 0 objects
@@ -188,7 +187,6 @@
     }else{
         return 100;
     }
-    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -208,7 +206,22 @@
         CommentTableViewCell *cell = (CommentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         PFObject *comment = self.dataSource[indexPath.row];
         cell.commentStringLabel.text = comment[@"contentString"];
-        [Helper getAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid forImageView:cell.avatarImageView];
+        
+        // Only load cached images; defer new downloads until scrolling ends. if there is no local cache, we download avatar in scrollview delegate methods
+        BOOL isLocalCache = NO;
+        UIImage *image = [Helper getLocalAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid];
+        if (image) {
+            isLocalCache = YES;
+            cell.avatarImageView.image = image;
+        }else{
+            if (tableView.isDecelerating == NO && tableView.isDragging == NO && cell.avatarImageView.image == nil) {
+                [Helper getServerAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+                    cell.avatarImageView.image = image;
+                }];
+            }
+        }
+        
+//        [Helper getAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid forImageView:cell.avatarImageView];
         return cell;
     }
     
@@ -242,24 +255,47 @@
     }
 }
 
+#pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    [self loadImagesForOnscreenRows];
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (!decelerate)
+	{
+        [self loadImagesForOnscreenRows];
+    }
+}
+
+- (void)loadImagesForOnscreenRows
+{
+    NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
+    for (NSIndexPath *indexPath in visiblePaths)
+    {
+        __block CommentTableViewCell *cell = (CommentTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        PFObject *comment = self.dataSource[indexPath.row];
+        BOOL avatar = [Helper isLocalAvatarExistForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid];
+        if (!avatar) {
+            [Helper getServerAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+                cell.avatarImageView.image = image;
+            }];
+        }
+    }
+}
+
 -(void)scrollTextViewToShowCursor{
     [self.textView scrollTextViewToShowCursor];
 }
 
 #pragma mark - uitextview delegate
+
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
     [self performSelector:@selector(scrollTextViewToShowCursor) withObject:nil afterDelay:0.1f];
     return YES;
 }
 
-
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    
-//    if (textView.text.length == 1 && [text isEqualToString:@""]) {
-//        [self showPlaceHolderText];
-//    }else{
-//        [self hidePlaceHolderText];
-//    }
     
     [self performSelector:@selector(scrollTextViewToShowCursor) withObject:NSStringFromRange(range) afterDelay:0.1f];
     return YES;

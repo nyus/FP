@@ -10,6 +10,7 @@
 
 @class StatusTableViewCell;
 @class Status;
+@class SpinnerImageView;
 @protocol StatusTableViewCellDelegate <NSObject>
 @optional
 -(void)usernameLabelTappedOnCell:(StatusTableViewCell *)cell;
@@ -22,7 +23,7 @@
 @property (strong,nonatomic) Status *status;
 @property (assign, nonatomic) id<StatusTableViewCellDelegate>delegate;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellMessageLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *statusCellPhotoImageView;
+@property (weak, nonatomic) IBOutlet SpinnerImageView *statusCellPhotoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellUsernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellDateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *statusCellAvatarImageView;

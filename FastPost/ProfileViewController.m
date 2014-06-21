@@ -17,14 +17,18 @@
 #import "ELCImagePickerController.h"
 #import "ELCAlbumPickerController.h"
 #import "ELCAssetTablePicker.h"
+#import "AvatarCollectionViewCell.h"
 //#import "StatusTableViewHeaderViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 #define TB_HEADER_HEIGHT 20.0f
-@interface ProfileViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,ELCImagePickerControllerDelegate>{
+#define AVATAR_SIZE CGSizeMake(70.0f, 70.0f)
+@interface ProfileViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,ELCImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>{
     UIImagePickerController *imagePicker;
 //    StatusTableViewHeaderViewController *headerViewVC;
 }
+@property (nonatomic, strong) NSMutableArray *avatars;
+@property (nonatomic, strong) NSIndexPath *selectedCollectionCellIndex;
 @end
 
 @implementation ProfileViewController
@@ -46,7 +50,7 @@
     if(self.userNameOfUserProfileToDisplay == nil){
         self.userNameOfUserProfileToDisplay = [PFUser currentUser].username;
     }
-    
+
     if([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]){
         self.followButton.hidden = YES;
         self.fakeNavigationBar.hidden = YES;
@@ -68,6 +72,9 @@
         self.avatarImageView.userInteractionEnabled = NO;
         self.rightAvatarImageView.userInteractionEnabled = NO;
     }
+    
+    //only set and pull avatar once per app usage
+    [self setupAvatarsForUser:self.userNameOfUserProfileToDisplay];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -78,6 +85,30 @@
     [self fetchNewStatusWithCount:25 remainingTime:nil];
 //this method needs rework
     [self updateUserInfoValues];
+}
+
+-(void)setupAvatarsForUser:(NSString *)username{
+    
+    //set avatar
+    if(!self.avatars){
+        self.avatars = [NSMutableArray array];
+    }
+    
+    [Helper getAvatarForUser:username avatarType:AvatarTypeLeft completion:^(NSError *error, UIImage *image) {
+        [self.avatars insertObject:image atIndex:0];
+        [self.collectionView reloadData];
+    }];
+    
+    [Helper getAvatarForUser:username avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+        [self.avatars insertObject:image atIndex:1];
+        [self.collectionView reloadData];
+    }];
+    
+    [Helper getAvatarForUser:username avatarType:AvatarTypeRight completion:^(NSError *error, UIImage *image) {
+        [self.avatars insertObject:image atIndex:2];
+        [self.collectionView reloadData];
+    }];
+
 }
 
 -(void)fetchNewStatusWithCount:(int)count remainingTime:(NSNumber *)remainingTimeInSec{
@@ -121,14 +152,11 @@
     }];
 }
 
-
 -(void)updateUserInfoValues{
-    
     //name
     self.userNameLabel.text = self.userNameOfUserProfileToDisplay;
     
-    //# of dwindles.
-    
+    //fetch everything from local for fast loading
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     //pull from defaults for faster loading # dwindles, followers and following
     if ([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]) {
@@ -149,15 +177,44 @@
             self.followerLabel.text = numOfFollowers;
         }
         
-    }
-    //set avatar
-    BOOL isLocalAvatarExisted = YES;
-    NSArray *avatars = [Helper getAvatarsForSelf];
-    if (avatars.count == 0) {
-        isLocalAvatarExisted = NO;
     }else{
-        [self positionAvatarImageViewsWithAvatars:avatars];
+        __block NSMutableDictionary *map = [[defaults objectForKey:@"relationMap"] mutableCopy];
+        //this is not first time user installs the app,update the "Follow" button copy accordingly
+        if (map) {
+            NSNumber *value = map[self.userNameOfUserProfileToDisplay];
+            if (value.intValue == 1) {
+                [self.followButton setTitle:@"Following" forState:UIControlStateNormal];
+                self.followButton.userInteractionEnabled = YES;
+            }else{
+                [self.followButton setTitle:@"Follow Request Sent" forState:UIControlStateNormal];
+                self.followButton.userInteractionEnabled = NO;
+            }
+        }
+        
+        PFQuery *query = [[PFQuery alloc] initWithClassName:@"FriendRequest"];
+        [query whereKey:@"senderUsername" equalTo:[PFUser currentUser].username];
+        [query whereKey:@"receiverUsername" equalTo:self.userNameOfUserProfileToDisplay];
+        [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error && object) {
+                NSNumber *status = object[@"requestStatus"];
+                if (status.intValue == 1) {
+                    [self.followButton setTitle:@"Following" forState:UIControlStateNormal];
+                    self.followButton.userInteractionEnabled = YES;
+                }else{
+                    [self.followButton setTitle:@"Follow Request Sent" forState:UIControlStateNormal];
+                    self.followButton.userInteractionEnabled = NO;
+                }
+                if (!map) {
+                    map = [NSMutableDictionary dictionary];
+                }
+                [map setObject:[NSNumber numberWithInt:status.intValue] forKey:self.userNameOfUserProfileToDisplay];
+                [defaults setObject:map forKey:@"relationMap"];
+                [defaults synchronize];
+                
+            }
+        }];
     }
+    
     
     //update this value
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
@@ -191,9 +248,6 @@
                 self.followerLabel.text = [NSString stringWithFormat:@"%d",0];
             }
             
-            if (!isLocalAvatarExisted) {
-                [Helper getServerAvatarForUser:me.username avatarType:AvatarTypeMid forImageView:self.avatarImageView];
-            }
             
             [FPLogger record:[NSString stringWithFormat:@"load number of following:%@ and followers:%@ after refreshing current user obj",self.followingLabel.text,self.followerLabel.text]];
             
@@ -208,11 +262,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)avatarImageViewTapped:(UIImageView *)sender {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera",@"Gallery", nil];
-    [sheet showFromTabBar:self.tabBarController.tabBar];
 }
 
 #pragma mark - UIActionSheetDelegate 
@@ -246,6 +295,8 @@
         elcPicker.imagePickerDelegate = self;
         
         [self presentViewController:elcPicker animated:YES completion:nil];
+    }else{
+        self.selectedCollectionCellIndex = nil;
     }
 }
 
@@ -255,84 +306,53 @@
     
     UIImage *chosenImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     //save to parse and local
-    
-    float scale = 0.0f;
-    if (chosenImage.size.width > chosenImage.size.height) {
-        scale = self.avatarImageView.frame.size.width/chosenImage.size.width;
-    }else{
-        scale = self.avatarImageView.frame.size.height/chosenImage.size.height;
-    }
-    //reason for scale*2. UIImageJPEGRepresentation's compressionQuality seems to be 2 times the value of scale
-    //for example, if compressionQuality is 0.8, then the size would be appro 0.4 time of the original size
-    NSData *data = UIImageJPEGRepresentation(chosenImage,scale);
+    UIImage *scaledImage = [Helper scaleImage:chosenImage downToSize:AVATAR_SIZE];
+    NSData *data = UIImagePNGRepresentation(scaledImage);
     
     //save profile image to local and server
     [Helper saveAvatar:data avatarType:AvatarTypeMid forUser:[PFUser currentUser].username];
     
     [picker dismissViewControllerAnimated:YES completion:^{
-        self.avatarImageView.image = chosenImage;
+        self.avatarImageView.image = scaledImage;
     }];
 }
 
 #pragma mark ELCImagePickerControllerDelegate Methods
 
-
--(void)positionAvatarImageViewsWithAvatars:(NSArray *)images{
-    if (images.count == 1) {
-        self.avatarImageView.image = images[0];
-        self.avatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width/2, self.avatarImageView.center.y);
-        self.leftAvatarImageView.hidden = YES;
-        self.rightAvatarImageView.hidden = YES;
-    }else if (images.count==2){
-        self.leftAvatarImageView.image = images[0];
-        self.avatarImageView.image = images[1];
-        self.leftAvatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width/4, self.leftAvatarImageView.center.y);
-        self.avatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width*3/4, self.avatarImageView.center.y);
-        self.rightAvatarImageView.hidden = YES;
-    }else if (images.count==3){
-        self.leftAvatarImageView.image = images[0];
-        self.avatarImageView.image = images[1];
-        self.rightAvatarImageView.image = images[2];
-        
-        self.avatarImageView.center = CGPointMake((int)self.avatarImageView.frame.size.width/2, self.avatarImageView.center.y);
-        self.leftAvatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width*3/2, self.leftAvatarImageView.center.y);
-        self.rightAvatarImageView.center = CGPointMake((int)self.avatarScrollview.frame.size.width*5/2, self.rightAvatarImageView.center.y);
-        
-        self.avatarImageView.hidden=NO;
-        self.leftAvatarImageView.hidden=NO;
-        self.rightAvatarImageView.hidden=NO;
-    }
-}
-
--(void)scaleDownImagesAndSave:(NSArray *)imageArray{
-    
-    for (int i =0; i<imageArray.count; i++) {
-
-        UIImage *chosenImage = imageArray[i];
-        float scale = 0.0f;
-        if (chosenImage.size.width > chosenImage.size.height) {
-            scale = self.avatarImageView.frame.size.width/chosenImage.size.width;
-        }else{
-            scale = self.avatarImageView.frame.size.height/chosenImage.size.height;
-        }
-        //reason for scale*2. UIImageJPEGRepresentation's compressionQuality seems to be 2 times the value of scale
-        //for example, if compressionQuality is 0.8, then the size would be appro 0.4 time of the original size
-        NSData *data = UIImageJPEGRepresentation(chosenImage,scale);
-        
-        [Helper saveAvatar:data avatarType:i forUser:[PFUser currentUser].username];
-    }
-}
-
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info
 {
     
-    
-    NSMutableArray *array = [NSMutableArray array];
-    for (NSDictionary *dict in info) {
-        [array addObject:dict[@"UIImagePickerControllerOriginalImage"]];
+    //if user has only selected one image, then replace that single image. otherwise reload collectionview
+    if (info.count == 1) {
+        NSDictionary *dictionary = info[0];
+        if (self.avatars.count >= self.selectedCollectionCellIndex.row+1) {
+            [self.avatars replaceObjectAtIndex:self.selectedCollectionCellIndex.row withObject:dictionary[@"UIImagePickerControllerOriginalImage"]];
+        }else{
+            [self.avatars insertObject:dictionary[@"UIImagePickerControllerOriginalImage"] atIndex:self.selectedCollectionCellIndex.row];
+        }
+
+    }else{
+        
+        for (int i = info.count; i<self.avatars.count; i++) {
+            [Helper removeAvatarWithAvatarType:i];
+        }
+        
+        [self.avatars removeAllObjects];
+        
+        for (int i=0;i<info.count;i++) {
+            NSDictionary *dict = info[i];
+            UIImage *image = dict[@"UIImagePickerControllerOriginalImage"];
+            UIImage *scaledImage = [Helper scaleImage:image downToSize:AVATAR_SIZE];
+            NSData *data = UIImagePNGRepresentation(scaledImage);
+            [Helper saveAvatar:data avatarType:i forUser:[PFUser currentUser].username];
+            [self.avatars insertObject:scaledImage atIndex:i];
+            
+        }
     }
-    [self scaleDownImagesAndSave:array];
-    [self positionAvatarImageViewsWithAvatars:array];
+    
+    [self.collectionView reloadData];
+    
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -379,9 +399,69 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)followButtonTapped:(id)sender {
-    [Helper sendFriendRequestTo:self.userNameOfUserProfileToDisplay from:[PFUser currentUser].username];
+- (IBAction)followButtonTapped:(UIButton *)sender {
+    
+    if([sender.titleLabel.text isEqualToString:@"Follow"]){
+        [Helper sendFriendRequestTo:self.userNameOfUserProfileToDisplay from:[PFUser currentUser].username];
+        [self.followButton setTitle:@"Follow Request Sent" forState:UIControlStateNormal];
+        self.followButton.userInteractionEnabled = NO;
+    }else if([sender.titleLabel.text isEqualToString:@"Following Request Sent"]){
+        self.followButton.userInteractionEnabled = NO;
+    }else{
+        //"Following"
+        [self.followButton setTitle:@"Follow" forState:UIControlStateNormal];
+        self.followButton.userInteractionEnabled = YES;
+#warning put code here to unfollow this friend
+        NSMutableArray *array = [[[PFUser currentUser] objectForKey:UsersAllowMeToFollow] mutableCopy];
+        [array removeObject:self.userNameOfUserProfileToDisplay];
+        [[PFUser currentUser] setObject:array forKey:UsersAllowMeToFollow];
+        [[PFUser currentUser] saveInBackground];
+#warning cloud code to remove self from friend's usersIAllowToFollowMe array
+        
+    }
 }
 
+#pragma mark - uicollectionview delegate 
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera",@"Gallery", nil];
+    [sheet showFromTabBar:self.tabBarController.tabBar];
+    self.selectedCollectionCellIndex = indexPath;
+}
+
+#pragma mark - uicollectionviewdatasource
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
+    if (self.avatars.count == 0|| self.avatars.count ==1) {
+        layout.minimumLineSpacing = 0;
+        layout.sectionInset = UIEdgeInsetsMake(0, 70, 0, 0);
+    }else if (self.avatars.count == 2){
+        layout.minimumLineSpacing = 23;
+        layout.sectionInset = UIEdgeInsetsMake(0, 23, 0, 0);
+    }else{
+        layout.minimumLineSpacing = 0;
+        layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    }
+
+    if (self.avatars.count == 0) {
+        return 1;
+    }else{
+        return self.avatars.count;
+    }
+}
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    AvatarCollectionViewCell *cell = (AvatarCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    if (self.avatars.count != 0) {
+        cell.imageView.image = self.avatars[indexPath.row];
+    }
+    return cell;
+}
 
 @end

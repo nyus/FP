@@ -219,12 +219,15 @@
         return cell;
     }else{
         static NSString *CellIdentifier = @"cell";
-        MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        __block MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
         // Configure the cell...
         //sender profile picture
         Message *msg = (Message *)dataSource[indexPath.row];
-        [Helper getAvatarForUser:msg.senderUsername  avatarType:AvatarTypeMid forImageView:cell.msgCellProfileImageView];
+        [Helper getAvatarForUser:msg.senderUsername avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+            cell.msgCellProfileImageView.image = image;
+        }];
+//        [Helper getAvatarForUser:msg.senderUsername  avatarType:AvatarTypeMid forImageView:cell.msgCellProfileImageView];
         //sender name
         cell.msgCellUsernameLabel.text = msg.senderUsername;
         //count down label
