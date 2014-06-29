@@ -176,11 +176,6 @@
 }
 
 -(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
-#warning for debug purpose only. make sure the post wont go away
-    if (count == 0) {
-        //add time to the status locally
-        object.countDownTime = 2000;
-    }
 }
 
 #pragma mark - Table view data source
@@ -240,7 +235,13 @@
 #pragma mark - StatusTableCellDelegate
 
 -(void)swipeGestureRecognizedOnCell:(StatusTableViewCell *)cell{
+
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    if (self.dataSource==nil || indexPath.row>=self.dataSource.count) {
+        return;
+    }
+    
     Status *status = self.dataSource[indexPath.row];
     
     if (!commentVC) {
@@ -280,11 +281,7 @@
 
 -(void)commentButtonTappedOnCell:(StatusTableViewCell *)cell{
     
-    //take user to comment status view controller
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    Status *status = self.dataSource[indexPath.row];
-    statusIdToPass = status.objectid;
-    [self performSegueWithIdentifier:@"toCommentStatus" sender:self];
+    [self swipeGestureRecognizedOnCell:cell];
 
 }
 
