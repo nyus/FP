@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Huang, Jason. All rights reserved.
 //
 
-#import "AvatarCollectionViewCell.h"
+#import "ImageCollectionViewCell.h"
 
-@implementation AvatarCollectionViewCell
+@implementation ImageCollectionViewCell
 
 - (id)initWithFrame:(CGRect)frame
 {

@@ -52,7 +52,6 @@
     }
     [self.view addGestureRecognizer:swipeGesture];
     isLoading = YES;
-    self.dataSource = [NSMutableArray array];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -89,6 +88,9 @@
         
         isLoading = NO;
         if (!error && objects) {
+            if (!self.dataSource) {
+                self.dataSource = [NSMutableArray array];
+            }
             [self.dataSource addObjectsFromArray:objects];
             [self.tableView reloadData];
         }
@@ -102,7 +104,6 @@
 
 -(void)clearCommentTableView{
     self.dataSource = nil;
-    self.dataSource = [NSMutableArray array];
     [self.tableView reloadData];
 }
 - (IBAction)sendComment:(id)sender {
@@ -270,6 +271,9 @@
 
 - (void)loadImagesForOnscreenRows
 {
+    if(self.dataSource == nil || self.dataSource.count == 0){
+        return;
+    }
     NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
     for (NSIndexPath *indexPath in visiblePaths)
     {

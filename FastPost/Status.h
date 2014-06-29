@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSNumber *reviveCount;
 @property (nonatomic, strong) NSNumber *commentCount;
 @property (nonatomic, strong) UIImage *postImage;
+@property (nonatomic, strong) NSNumber *photoCount;
 //@property (nonatomic, strong) NSString *countDownMessage;
 @property (nonatomic) int countDownTime;
 @property (nonatomic, strong, readonly) NSTimer *timer;

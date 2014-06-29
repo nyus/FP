@@ -64,7 +64,7 @@
 		50CE7738194A6CFA006E83F3 /* Overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 50CE772E194A6CFA006E83F3 /* Overlay.png */; };
 		50CE7739194A6CFA006E83F3 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 50CE772F194A6CFA006E83F3 /* Overlay@2x.png */; };
 		50D36B9819560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D36B9719560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m */; };
-		50D36B9B19560FAB0048CCA6 /* AvatarCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D36B9A19560FAB0048CCA6 /* AvatarCollectionViewCell.m */; };
+		50D36B9B19560FAB0048CCA6 /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D36B9A19560FAB0048CCA6 /* ImageCollectionViewCell.m */; };
 		50EFFD28194D2D0E00A4C212 /* UITextView+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 50EFFD27194D2D0E00A4C212 /* UITextView+Utilities.m */; };
 		50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F3304318D1411300A0878D /* CommentStatusViewController.m */; };
 		50F5264518D7CCE500091953 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F5264418D7CCE500091953 /* MessageUI.framework */; };
@@ -223,8 +223,8 @@
 		50CE772F194A6CFA006E83F3 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
 		50D36B9619560EED0048CCA6 /* AvatarCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		50D36B9719560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarCollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		50D36B9919560FAB0048CCA6 /* AvatarCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarCollectionViewCell.h; sourceTree = "<group>"; };
-		50D36B9A19560FAB0048CCA6 /* AvatarCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarCollectionViewCell.m; sourceTree = "<group>"; };
+		50D36B9919560FAB0048CCA6 /* ImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionViewCell.h; sourceTree = "<group>"; };
+		50D36B9A19560FAB0048CCA6 /* ImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionViewCell.m; sourceTree = "<group>"; };
 		50EFFD26194D2D0E00A4C212 /* UITextView+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Utilities.h"; sourceTree = "<group>"; };
 		50EFFD27194D2D0E00A4C212 /* UITextView+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Utilities.m"; sourceTree = "<group>"; };
 		50F3304218D1411300A0878D /* CommentStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentStatusViewController.h; sourceTree = "<group>"; };
@@ -463,8 +463,8 @@
 				502FFD9A1953C78C00085826 /* SpinnerImageView.m */,
 				50D36B9619560EED0048CCA6 /* AvatarCollectionViewFlowLayout.h */,
 				50D36B9719560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m */,
-				50D36B9919560FAB0048CCA6 /* AvatarCollectionViewCell.h */,
-				50D36B9A19560FAB0048CCA6 /* AvatarCollectionViewCell.m */,
+				50D36B9919560FAB0048CCA6 /* ImageCollectionViewCell.h */,
+				50D36B9A19560FAB0048CCA6 /* ImageCollectionViewCell.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -908,7 +908,7 @@
 				65409F6E18BE66B100589F66 /* Message.m in Sources */,
 				65413CF41843990200543C1A /* LogInViewController.m in Sources */,
 				5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */,
-				50D36B9B19560FAB0048CCA6 /* AvatarCollectionViewCell.m in Sources */,
+				50D36B9B19560FAB0048CCA6 /* ImageCollectionViewCell.m in Sources */,
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
 				50EFFD28194D2D0E00A4C212 /* UITextView+Utilities.m in Sources */,

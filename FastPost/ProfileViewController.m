@@ -17,17 +17,20 @@
 #import "ELCImagePickerController.h"
 #import "ELCAlbumPickerController.h"
 #import "ELCAssetTablePicker.h"
-#import "AvatarCollectionViewCell.h"
+#import "ImageCollectionViewCell.h"
 //#import "StatusTableViewHeaderViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 #define TB_HEADER_HEIGHT 20.0f
 #define AVATAR_SIZE CGSizeMake(70.0f, 70.0f)
+#define isFromStatusViewController [self.parentViewController isKindOfClass:[UINavigationController class]]
 @interface ProfileViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,ELCImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>{
     UIImagePickerController *imagePicker;
 //    StatusTableViewHeaderViewController *headerViewVC;
 }
 @property (nonatomic, strong) NSMutableArray *avatars;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTopSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *usernameLabelTopSpaceConstraint;
 @property (nonatomic, strong) NSIndexPath *selectedCollectionCellIndex;
 @end
 
@@ -45,6 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 	// Do any additional setup after loading the view.
     //this is initialization when the profile page is first loaded
     if(self.userNameOfUserProfileToDisplay == nil){
@@ -53,24 +57,30 @@
 
     if([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]){
         self.followButton.hidden = YES;
-        self.fakeNavigationBar.hidden = YES;
-        //disable interaction with the avatar imageviews
-        self.leftAvatarImageView.userInteractionEnabled = YES;
-        self.avatarImageView.userInteractionEnabled = YES;
-        self.rightAvatarImageView.userInteractionEnabled = YES;
+        
+        if(!isFromStatusViewController){
+            self.fakeNavigationBar.hidden = YES;
+        }else{
+            self.fakeNavigationBar.hidden = NO;
+            self.usernameLabelTopSpaceConstraint.constant = 64;
+            [self.view layoutIfNeeded];
+        }
+        
     }else{
+        
+        self.userNameLabelTopSpaceToTopLayoutConstraint.constant = 64;
+        self.tableViewTopSpaceConstraint.constant = 10;
+        [self.view layoutIfNeeded];
+        
+        self.collectionView.userInteractionEnabled = NO;
+        
         self.followButton.hidden = NO;
         self.fakeNavigationBar.hidden = NO;
-        self.userNameLabelTopSpaceToTopLayoutConstraint.constant = 49;
         //other users cannot see my followers and following
         self.followerLabel.hidden = YES;
         self.followersTitleLabel.hidden= YES;
         self.followingLabel.hidden = YES;
         self.followingTitleLabel.hidden = YES;
-        //disable interaction with the avatar imageviews
-        self.leftAvatarImageView.userInteractionEnabled = NO;
-        self.avatarImageView.userInteractionEnabled = NO;
-        self.rightAvatarImageView.userInteractionEnabled = NO;
     }
     
     //only set and pull avatar once per app usage
@@ -95,20 +105,19 @@
     }
     
     [Helper getAvatarForUser:username avatarType:AvatarTypeLeft completion:^(NSError *error, UIImage *image) {
-        [self.avatars insertObject:image atIndex:0];
+        [self.avatars addObject:image];
         [self.collectionView reloadData];
+        
+        [Helper getAvatarForUser:username avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+            [self.avatars addObject:image];
+            [self.collectionView reloadData];
+            
+            [Helper getAvatarForUser:username avatarType:AvatarTypeRight completion:^(NSError *error, UIImage *image) {
+                [self.avatars addObject:image];
+                [self.collectionView reloadData];
+            }];
+        }];
     }];
-    
-    [Helper getAvatarForUser:username avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
-        [self.avatars insertObject:image atIndex:1];
-        [self.collectionView reloadData];
-    }];
-    
-    [Helper getAvatarForUser:username avatarType:AvatarTypeRight completion:^(NSError *error, UIImage *image) {
-        [self.avatars insertObject:image atIndex:2];
-        [self.collectionView reloadData];
-    }];
-
 }
 
 -(void)fetchNewStatusWithCount:(int)count remainingTime:(NSNumber *)remainingTimeInSec{
@@ -312,9 +321,9 @@
     //save profile image to local and server
     [Helper saveAvatar:data avatarType:AvatarTypeMid forUser:[PFUser currentUser].username];
     
-    [picker dismissViewControllerAnimated:YES completion:^{
-        self.avatarImageView.image = scaledImage;
-    }];
+    [self.avatars addObject:scaledImage];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark ELCImagePickerControllerDelegate Methods
@@ -457,7 +466,7 @@
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    AvatarCollectionViewCell *cell = (AvatarCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    ImageCollectionViewCell *cell = (ImageCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     if (self.avatars.count != 0) {
         cell.imageView.image = self.avatars[indexPath.row];
     }

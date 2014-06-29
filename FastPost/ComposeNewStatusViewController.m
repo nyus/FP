@@ -15,6 +15,8 @@
 #import "ELCImagePickerController.h"
 #import "ELCAlbumPickerController.h"
 #import "ELCAssetTablePicker.h"
+#import "Helper.h"
+
 #define CELL_IMAGEVIEW_SIZE_HEIGHT 204.0f
 #define CELL_IMAGEVIEW_SIZE_WIDTH 280.0f
 @interface ComposeNewStatusViewController ()<UIPickerViewDelegate, UIPickerViewDataSource,UITextViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIActionSheetDelegate,UICollectionViewDataSource,UICollectionViewDelegate,ELCImagePickerControllerDelegate>{
@@ -249,34 +251,34 @@
         dispatch_async(queue, ^{
             
             //save to server
-            PFObject *object = [PFObject objectWithClassName:@"Status"];
-            object[@"message"] = self.textView.text;
-            object[@"expirationTimeInSec"] = [NSNumber numberWithInt:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue] *60];
-            object[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue]*60];
-            object[@"posterUsername"] = [[PFUser currentUser] username];
-            object[@"revivable"] = [NSNumber numberWithBool:self.revivableSwitch.on];
-            object[@"reviveCount"]=@0;
-            object[@"commentCount"]=@0;
-            
-            //picture
-            if (collectionViewDataSource && collectionViewDataSource[0]) {
-                UIImage *chosenImage = collectionViewDataSource[0];
-                //
-                float scale = 0.0f;
-                if (chosenImage.size.width > chosenImage.size.height) {
-                    scale = CELL_IMAGEVIEW_SIZE_WIDTH/chosenImage.size.width;
-                }else{
-                    scale = CELL_IMAGEVIEW_SIZE_HEIGHT/chosenImage.size.height;
-                }
-                //reason for scale*2. UIImageJPEGRepresentation's compressionQuality seems to be 2 times the value of scale
-                //for example, if compressionQuality is 0.8, then the size would be appro 0.4 time of the original size
-                NSData *data = UIImageJPEGRepresentation(collectionViewDataSource[0],scale*2);
-                object[@"picture"] = [PFFile fileWithData:data];
-                
-            }
+            PFObject *newStatus = [PFObject objectWithClassName:@"Status"];
+            newStatus[@"message"] = self.textView.text;
+            newStatus[@"expirationTimeInSec"] = [NSNumber numberWithInt:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue] *60];
+            newStatus[@"expirationDate"] = [[NSDate date] dateByAddingTimeInterval:[pickerDataSource[[self.pickerView selectedRowInComponent:0]] intValue]*60];
+            newStatus[@"posterUsername"] = [[PFUser currentUser] username];
+            newStatus[@"revivable"] = [NSNumber numberWithBool:self.revivableSwitch.on];
+            newStatus[@"reviveCount"]=@0;
+            newStatus[@"commentCount"]=@0;
+            newStatus[@"photoCount"] = [NSNumber numberWithInt:collectionViewDataSource.count];
+        
             //save to parse
-            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [newStatus saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
+                    
+                    //picture
+                    for(UIImage *image in collectionViewDataSource){
+                        UIImage *scaled = [Helper scaleImage:image downToSize:CGSizeMake(CELL_IMAGEVIEW_SIZE_WIDTH, CELL_IMAGEVIEW_SIZE_HEIGHT)];
+                        PFFile *photo = [PFFile fileWithData:UIImagePNGRepresentation(scaled)];
+                        [photo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            if (succeeded) {
+                                PFObject *object = [[PFObject alloc] initWithClassName:@"Photo"];
+                                [object setObject:newStatus forKey:@"status"];
+                                [object setObject:photo forKey:@"image"];
+                                [object saveInBackground];
+                            }
+                        }];
+                    }
+                    
                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                     NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
                     if (numberPosts==nil) {
@@ -343,16 +345,15 @@
     }
 }
 
-
-
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info
 {
-    
+
     if(!collectionViewDataSource){
         collectionViewDataSource = [NSMutableArray array];
     }
     for (NSDictionary *dict in info) {
         UIImage *image = dict[@"UIImagePickerControllerOriginalImage"];
+        image = [Helper scaleImage:image downToSize:CGSizeMake(CELL_IMAGEVIEW_SIZE_WIDTH, CELL_IMAGEVIEW_SIZE_HEIGHT)];
         [collectionViewDataSource addObject:image];
     }
     
@@ -372,7 +373,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
 #pragma mark - image picker delegates
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -384,13 +384,9 @@
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[[info objectForKey:UIImagePickerControllerReferenceURL] absoluteString]]];
         image = [UIImage imageWithData:data];
     }
-    // If photot did not come from photo album, add photo to our custom album and the regular camera roll
-    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-//        [self saveImageToAlbum:image];
-    } else {
-        //If photo came from regular album, add to custom album only
-//        [self saveImageFromAssetURL:[info objectForKey:@"UIImagePickerControllerReferenceURL"]];
-    }
+    
+    image = [Helper scaleImage:image downToSize:CGSizeMake(CELL_IMAGEVIEW_SIZE_WIDTH, CELL_IMAGEVIEW_SIZE_HEIGHT)];
+    
     
     if (!collectionViewDataSource) {
         collectionViewDataSource = [NSMutableArray array];

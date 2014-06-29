@@ -1,5 +1,5 @@
 //
-//  AvatarCollectionViewCell.h
+//  ImageCollectionViewCell.h
 //  FastPost
 //
 //  Created by Sihang Huang on 6/21/14.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AvatarCollectionViewCell : UICollectionViewCell
+@interface ImageCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end

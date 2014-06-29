@@ -10,6 +10,8 @@
 #import <UIKit/UIGestureRecognizerSubclass.h>
 @interface PressAndHoldGesture(){
     double cur;
+    CGPoint initialTouchLocal;
+    
 }
 @property (nonatomic, strong) CADisplayLink *timer;
 @end
@@ -23,6 +25,7 @@
     if (touches.count!=1) {
         self.state = UIGestureRecognizerStateFailed;
     }else{
+        initialTouchLocal = [touches.anyObject locationInView:self.view];
         cur = CACurrentMediaTime();
         if (!self.timer) {
             self.timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleTimer)];
@@ -33,8 +36,16 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    self.state = UIGestureRecognizerStateFailed;
-    [self reset];
+    
+    CGPoint prevPoint = [touches.anyObject previousLocationInView:self.view];
+    float deltaX = initialTouchLocal.x - prevPoint.x;
+    float deltaY = initialTouchLocal.y - prevPoint.y;
+    if (deltaX<-5 || deltaX>5 || deltaY<-5 || deltaY >5) {
+        self.state = UIGestureRecognizerStateFailed;
+        [self reset];
+    }else{
+        return;
+    }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{

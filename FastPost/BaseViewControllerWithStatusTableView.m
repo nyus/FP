@@ -135,11 +135,13 @@
     }
     
     //get post image
-    [cell.statusCellPhotoImageView showLoadingActivityIndicator];
-    if (status.postImage) {
-        cell.statusCellPhotoImageView.image = status.postImage;
-    }else if (tableView.isDecelerating == NO && tableView.isDragging == NO){
-        [self getServerPostImageForCellAtIndexpath:indexPath];
+    if(status.photoCount.intValue>0){
+        cell.collectionView.dataSource = cell;
+        if (cell.collectionViewImagesArray!=nil) {
+            [cell.collectionView reloadData];
+        }else if (tableView.isDecelerating == NO && tableView.isDragging == NO){
+            [self getServerPostImageForCellAtIndexpath:indexPath];
+        }
     }
     return cell;
 }
@@ -177,14 +179,13 @@
             
             //determine if there is a picture
             float pictureHeight = 0;;
-            PFFile *picture = (PFFile *)status.picture;
-            if (picture == (PFFile *)[NSNull null] || picture == nil) {
+            NSNumber *photoCount = status.photoCount;
+            if (photoCount.intValue==0) {
                 
                 [isTherePhotoMap setObject:[NSNumber numberWithBool:NO] forKey:key];
                 pictureHeight = 0;
                 
             }else{
-                
                 //204 height of picture image view
                 [isTherePhotoMap setObject:[NSNumber numberWithBool:YES] forKey:key];
                 pictureHeight = 204;
@@ -239,7 +240,7 @@
         }
         
         
-        if (status.postImage==nil) {
+        if (cell.collectionViewImagesArray==nil && status.photoCount.intValue!=0) {
             [self getServerPostImageForCellAtIndexpath:indexPath];
         }
     }
@@ -247,20 +248,33 @@
 
 -(void)getServerPostImageForCellAtIndexpath:(NSIndexPath *)indexPath{
     
-    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    __block StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     [cell.statusCellPhotoImageView showLoadingActivityIndicator];
     Status *status = self.dataSource[indexPath.row];
-    PFFile *picture = (PFFile *)[status picture];
-    [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        if (data && !error) {
-            UIImage *image = [UIImage imageWithData:data];
-            UIImage *scaledImage = [Helper scaleImage:image downToSize:CELL_PHOTO_SIZE];
-            cell.statusCellPhotoImageView.image = scaledImage;
-            status.postImage = scaledImage;
-        }else{
-            [FPLogger record:[NSString stringWithFormat:@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid]];
-            NSLog(@"error (%@) getting status photo with status id %@",error.localizedDescription,status.objectid);
-            //show corrupted image view
+    
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Photo"];
+    [query whereKey:@"status" equalTo:status.pfObject];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error && objects.count!=0) {
+            if (cell==nil) {
+                cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+            }
+            for (PFObject *photoObject in objects) {
+                PFFile *image = photoObject[@"image"];
+                [image getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                    if (!error) {
+                        NSLog(@"add items for indexpath %@",indexPath);
+                        
+                        UIImage *image = [UIImage imageWithData:data];
+                        if (!cell.collectionViewImagesArray) {
+                            cell.collectionViewImagesArray = [NSMutableArray array];
+                        }
+                        NSLog(@"add photo for indexpath: %@",indexPath);
+                        [cell.collectionViewImagesArray addObject:image];
+                        [cell.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:cell.collectionViewImagesArray.count-1 inSection:0]]];
+                    }
+                }];
+            }
         }
     }];
 }

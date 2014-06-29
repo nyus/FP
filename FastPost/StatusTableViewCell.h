@@ -19,7 +19,8 @@
 -(void)swipeGestureRecognizedOnCell:(StatusTableViewCell *)cell;
 @end
 
-@interface StatusTableViewCell : UITableViewCell
+@interface StatusTableViewCell : UITableViewCell<UICollectionViewDataSource>{
+}
 @property (strong,nonatomic) Status *status;
 @property (assign, nonatomic) id<StatusTableViewCellDelegate>delegate;
 @property (weak, nonatomic) IBOutlet UILabel *statusCellMessageLabel;
@@ -31,7 +32,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *reviveCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *userNameButton;
-
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) NSMutableArray *collectionViewImagesArray;
 -(void)disableRevivePressHoldGesture;
 -(void)enableRevivePressHoldGesture;
 - (IBAction)commentButtonTapped:(id)sender;

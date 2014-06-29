@@ -10,6 +10,8 @@
 #import "UIImage+ImageEffects.h"
 #import "Status.h"
 #import "PressAndHoldGesture.h"
+#import "ImageCollectionViewCell.h"
+#import <Parse/Parse.h>
 #define REVIVE_PROGRESS_VIEW_INIT_ALPHA .7f
 #define PROGRESSION_RATE 1
 @interface StatusTableViewCell(){
@@ -17,10 +19,10 @@
     PressAndHoldGesture *pressHoldGesture;
     UISwipeGestureRecognizer *swipteGesture;
 }
+
 @end
 
 @implementation StatusTableViewCell
-
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
@@ -50,6 +52,7 @@
 -(void)disableRevivePressHoldGesture{
     if (pressHoldGesture) {
         [self removeGestureRecognizer:pressHoldGesture];
+        pressHoldGesture = nil;
     }
 }
 
@@ -109,4 +112,15 @@
     [self.delegate swipeGestureRecognizedOnCell:self];
 }
 
+#pragma mark - uicollectionview delegate
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return self.collectionViewImagesArray.count;
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    ImageCollectionViewCell *cell = (ImageCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    cell.imageView.image = self.collectionViewImagesArray[indexPath.row];
+    return cell;
+}
 @end
