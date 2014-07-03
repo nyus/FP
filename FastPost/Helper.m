@@ -6,31 +6,42 @@
 //  Copyright (c) 2014 Huang, Sihang. All rights reserved.
 //
 
+/**
+Photo Object: name(String) status(PFObject) username(String) file(PFFile) isHighRes(BOOL) position(Number->0,1,2, for avatar only)
+For Posts: 
+ whereKey:status equals:status
+ whereKey:isHighRes equals:isHighres
+ 
+For Profile:
+ whereKey:user equals:user
+ whereKey:isHighRes equals:isHighres
+ sortByKey:position(optional)
+ **/
+
+
 #import "Helper.h"
 #import <Parse/Parse.h>
 #import "FPLogger.h"
 static Helper *_helper;
-static NSDictionary *_map;
+static NSMutableDictionary *_map;
 @implementation Helper
 
-
 //get avatar
-
-+(BOOL)isLocalAvatarExistForUser:(NSString *)username avatarType:(AvatarType)type{
++(BOOL)isLocalAvatarExistForUser:(NSString *)username avatarType:(AvatarType)type isHighRes:(BOOL)isHighRes{
     //if user avatar is saved, pull locally; otherwise pull from server and save it locally
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = paths[0];
-    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",username,[NSString stringWithFormat:@"%d",type]];
+    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@%@",username,[NSString stringWithFormat:@"%u",type],isHighRes?@"1":@"0"];
     
     return [[NSFileManager defaultManager] fileExistsAtPath:path];
 }
 
-+(UIImage *)getLocalAvatarForUser:(NSString *)username avatarType:(AvatarType)type{
++(UIImage *)getLocalAvatarForUser:(NSString *)username avatarType:(AvatarType)type isHighRes:(BOOL)isHighRes{
     
     //if user avatar is saved, pull locally; otherwise pull from server and save it locally
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = paths[0];
-    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",username,[NSString stringWithFormat:@"%d",type]];
+    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@%@",username,[NSString stringWithFormat:@"%u",type],isHighRes?@"1":@"0"];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         
@@ -43,11 +54,10 @@ static NSDictionary *_map;
     return nil;
 }
 
-
-+(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type completion:(void (^)(NSError *, UIImage *))completionBlock{
++(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type isHighRes:(BOOL)isHighRes completion:(void (^)(NSError *, UIImage *))completionBlock{
     
     if (_map == nil) {
-        _map = [NSDictionary dictionary];
+        _map = [NSMutableDictionary dictionary];
     }
     //if the user doesnt have a profile picture, stop calling API for it for this particular usage. when the app starts next, it will try to hit the API again.
     NSNumber *value = [_map objectForKey:username];
@@ -55,58 +65,57 @@ static NSDictionary *_map;
         return;
     }
     
-    PFQuery *query = [[PFQuery alloc] initWithClassName:[PFUser parseClassName]];
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Photo"];
     [query whereKey:@"username" equalTo:username];
-    [query whereKey:[@"avatar" stringByAppendingFormat:@"%ud", type] notEqualTo:[NSNull null]];
+    [query whereKey:@"isHighRes" equalTo:[NSNumber numberWithBool:isHighRes]];
+    [query whereKey:@"position" equalTo:[NSNumber numberWithInt:type]];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!error && object) {
-            PFUser *user = (PFUser *)object;
-            PFFile *avatar = [user objectForKey:[@"avatar" stringByAppendingFormat:@"%ud", type]];
-            if (avatar != (PFFile *)[NSNull null] && avatar != nil) {
-                
-                [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                    if (data && !error) {
-                        UIImage *image = [UIImage imageWithData:data];
-                        completionBlock(error, image);
-                        //save image to local
-                        [Helper saveAvatarToLocal:data avatarType:type forUser:username];
-                        
-                    }else{
-                        [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,user.username]];
-                        NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,user.username);
-                    }
-                }];
-            }else{
-                [_map setValue:@NO forKey:username];
-                
-                [FPLogger record:[NSString stringWithFormat:@"no avater for user %@", user.username]];
-                NSLog(@"no avater for user %@", user.username);
-            }
+            
+            PFFile *avatar = (PFFile *)object;
+            [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                if (data && !error) {
+                    UIImage *image = [UIImage imageWithData:data];
+                    completionBlock(error, image);
+                    //save image to local
+                    [Helper saveAvatarToLocal:data avatarType:type forUser:username isHighRes:isHighRes];
+                    
+                }else{
+                    [FPLogger record:[NSString stringWithFormat:@"error (%@) getting avatar of user %@",error.localizedDescription,username]];
+                    NSLog(@"error (%@) getting avatar of user %@",error.localizedDescription,username);
+                }
+            }];
+            
+        }else{
+            [_map setValue:@NO forKey:username];
+            
+            [FPLogger record:[NSString stringWithFormat:@"no avater for user %@", username]];
+            NSLog(@"no avater for user %@",username);
         }
     }];
 }
 
-+(void)getAvatarForUser:(NSString *)username avatarType:(AvatarType)type completion:(void (^)(NSError *, UIImage *))completionBlock{
++(void)getAvatarForUser:(NSString *)username avatarType:(AvatarType)type isHighRes:(BOOL)isHighRes completion:(void (^)(NSError *, UIImage *))completionBlock{
     
     //first fetch local, if not found, fetch from server
-    UIImage *image = [Helper getLocalAvatarForUser:username avatarType:type];
+    UIImage *image = [Helper getLocalAvatarForUser:username avatarType:type isHighRes:isHighRes];
     if (image) {
         completionBlock(nil,image);
     }else{
-        [Helper getServerAvatarForUser:username avatarType:type completion:^(NSError *error, UIImage *image) {
+        [Helper getServerAvatarForUser:username avatarType:type isHighRes:isHighRes completion:^(NSError *error, UIImage *image) {
             completionBlock(error, image);
         }];
     }
 }
 
 //save avatar
-+(void)saveAvatarToLocal:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username{
++(void)saveAvatarToLocal:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username isHighRes:(BOOL)isHighRes{
 
     dispatch_queue_t queue = dispatch_queue_create("save avatar", NULL);
     dispatch_async(queue, ^{
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentDirectory = paths[0];
-        NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",username,[NSString stringWithFormat:@"%d",type]];
+        NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@%@",username,[NSString stringWithFormat:@"%u",type],isHighRes?@"1":@"0"];
         
         NSError *writeError = nil;
         [data writeToFile:path options:NSDataWritingAtomic error:&writeError];
@@ -118,34 +127,48 @@ static NSDictionary *_map;
     
 }
 
-+(void)saveAvatar:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username{
++(void)saveAvatar:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username isHighRes:(BOOL)isHighRes{
     
-    [Helper saveAvatarToLocal:data avatarType:type forUser:username];
-    PFUser *user = [PFUser currentUser];
-    user[[@"avatar" stringByAppendingFormat:@"%ud", type]] = [PFFile fileWithData:data];
-    user[@"avatarUpdateDate"] = [NSDate date];
-    user[@"avatarUpdated"] = [NSNumber numberWithBool:YES];
-    [user saveInBackground];
+    [_map setValue:@YES forKey:username];
     
+    [Helper saveAvatarToLocal:data avatarType:type forUser:username isHighRes:isHighRes];
+    
+    PFFile *file = [PFFile fileWithData:data];
+    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            
+            PFObject *object = [PFObject objectWithClassName:@"Photo"];
+            [object setObject:username forKey:@"username"];
+            [object setObject:file forKey:@"image"];
+            [object setObject:[NSNumber numberWithBool:isHighRes] forKey:@"isHighRes"];
+            [object setObject:[NSNumber numberWithInt:type] forKey:@"position"];
+            [object saveInBackground];
+        }
+    }];
 }
 
-+(NSArray *)getAvatarsForSelf{
-    NSMutableArray *images = [NSMutableArray array];
+//only the currentUser can delete avatar
++(void)removeAvatarWithAvatarType:(AvatarType)type{
+    
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Photo"];
+    [query whereKey:@"username" equalTo:[PFUser currentUser].username];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error && objects.count!=0) {
+            for (PFObject *object in objects) {
+                [object deleteInBackground];
+            }
+        }
+    }];
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = paths[0];
-    for (int i =0; i<3; i++) {
-        
-        NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",[PFUser currentUser].username,[NSString stringWithFormat:@"%d",i]];
-        
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-            
-            //use local saved avatar right away, then see if the avatar has been updated on the server
-            NSData *imageData = [[NSFileManager defaultManager] contentsAtPath:path];
-            UIImage *image = [UIImage imageWithData:imageData];
-            [images addObject:image];
-        }
-    }
-    return images;
+    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@%@",[PFUser currentUser].username,[NSString stringWithFormat:@"%d",type],@"1"];
+    NSError *error;
+    //remove high res
+    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+    //remove low res
+    path = [documentDirectory stringByAppendingFormat:@"/%@%@%@",[PFUser currentUser].username,[NSString stringWithFormat:@"%d",type],@"0"];
+    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
 }
 
 #pragma mark - friend request
@@ -204,18 +227,6 @@ static NSDictionary *_map;
             [alert show];
         }
     }];
-}
-
-+(void)removeAvatarWithAvatarType:(AvatarType)type{
-    PFUser *user = [PFUser currentUser];
-    user[[@"avatar" stringByAppendingFormat:@"%ud", type]] = nil;
-    [user saveInBackground];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentDirectory = paths[0];
-    NSString *path = [documentDirectory stringByAppendingFormat:@"/%@%@",[PFUser currentUser].username,[NSString stringWithFormat:@"%d",type]];
-    NSError *error;
-    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
 }
 
 #pragma mark - image processing

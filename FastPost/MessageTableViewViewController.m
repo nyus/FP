@@ -224,7 +224,7 @@
         // Configure the cell...
         //sender profile picture
         Message *msg = (Message *)dataSource[indexPath.row];
-        [Helper getAvatarForUser:msg.senderUsername avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+        [Helper getAvatarForUser:msg.senderUsername avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
             cell.msgCellProfileImageView.image = image;
         }];
 //        [Helper getAvatarForUser:msg.senderUsername  avatarType:AvatarTypeMid forImageView:cell.msgCellProfileImageView];

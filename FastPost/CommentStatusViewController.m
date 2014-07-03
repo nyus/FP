@@ -210,13 +210,13 @@
         
         // Only load cached images; defer new downloads until scrolling ends. if there is no local cache, we download avatar in scrollview delegate methods
         BOOL isLocalCache = NO;
-        UIImage *image = [Helper getLocalAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid];
+        UIImage *image = [Helper getLocalAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid isHighRes:NO];
         if (image) {
             isLocalCache = YES;
             cell.avatarImageView.image = image;
         }else{
             if (tableView.isDecelerating == NO && tableView.isDragging == NO && cell.avatarImageView.image == nil) {
-                [Helper getServerAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+                [Helper getServerAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
                     cell.avatarImageView.image = image;
                 }];
             }
@@ -279,9 +279,9 @@
     {
         __block CommentTableViewCell *cell = (CommentTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         PFObject *comment = self.dataSource[indexPath.row];
-        BOOL avatar = [Helper isLocalAvatarExistForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid];
+        BOOL avatar = [Helper isLocalAvatarExistForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid isHighRes:NO];
         if (!avatar) {
-            [Helper getServerAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+            [Helper getServerAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
                 cell.avatarImageView.image = image;
             }];
         }

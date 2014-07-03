@@ -95,7 +95,7 @@
             __block FriendQuestTableViewCell *cell = (FriendQuestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"friendRequestCell" forIndexPath:indexPath];
             cell.delegate = self;
             //set avatar
-            [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+            [Helper getAvatarForUser:[dataSource[indexPath.row] objectForKey:@"senderUsername"] avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
                 cell.profileImageView.image = image;
             }];
 //            

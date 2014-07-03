@@ -16,14 +16,13 @@ typedef enum{
 @interface Helper : NSObject
 @property (copy) void (^completion)(NSError *error, UIImage *image);
 //Avatar
-+(void)getAvatarForUser:(NSString *)username avatarType:(AvatarType)type completion:(void(^)(NSError *error, UIImage *image))completionBlock;
-+(UIImage *)getLocalAvatarForUser:(NSString *)username avatarType:(AvatarType)type;
-+(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type completion:(void(^)(NSError *error, UIImage *image))completionBlock;
-+(NSArray *)getAvatarsForSelf;
++(void)getAvatarForUser:(NSString *)username avatarType:(AvatarType)type isHighRes:(BOOL)isHighRes completion:(void(^)(NSError *error, UIImage *image))completionBlock;
++(UIImage *)getLocalAvatarForUser:(NSString *)username avatarType:(AvatarType)type isHighRes:(BOOL)isHighRes;
++(void)getServerAvatarForUser:(NSString *)username avatarType:(AvatarType)type isHighRes:(BOOL)isHighRes completion:(void(^)(NSError *error, UIImage *image))completionBlock;
 
-+(BOOL)isLocalAvatarExistForUser:(NSString *)username avatarType:(AvatarType)type;
-+(void)saveAvatar:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username;
-+(void)saveAvatarToLocal:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username;
++(BOOL)isLocalAvatarExistForUser:(NSString *)username avatarType:(AvatarType)type isHighRes:(BOOL)isHighRes;
++(void)saveAvatar:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username isHighRes:(BOOL)isHighRes;
++(void)saveAvatarToLocal:(NSData *)data avatarType:(AvatarType)type forUser:(NSString *)username isHighRes:(BOOL)isHighRes;
 
 +(void)removeAvatarWithAvatarType:(AvatarType)type;
 //Send out friend request

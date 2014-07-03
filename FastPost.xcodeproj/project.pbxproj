@@ -50,6 +50,8 @@
 		507F61451882EEF000B57DDA /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61421882EEF000B57DDA /* comment.png */; };
 		507F61461882EEF000B57DDA /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 507F61431882EEF000B57DDA /* like.png */; };
 		507F614C1883594F00B57DDA /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 507F614B1883594F00B57DDA /* Helper.m */; };
+		50931A751964B370005B3782 /* ZoomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50931A741964B36F005B3782 /* ZoomCollectionViewCell.m */; };
+		50931A781964B39E005B3782 /* FullImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50931A771964B39E005B3782 /* FullImageViewController.m */; };
 		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
 		50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */; };
 		50CE771C19491EB5006E83F3 /* PressAndHoldGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CE771A19491EB5006E83F3 /* PressAndHoldGesture.m */; };
@@ -198,6 +200,10 @@
 		507F61431882EEF000B57DDA /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
 		507F614A1883594F00B57DDA /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		507F614B1883594F00B57DDA /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
+		50931A731964B36F005B3782 /* ZoomCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomCollectionViewCell.h; sourceTree = "<group>"; };
+		50931A741964B36F005B3782 /* ZoomCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomCollectionViewCell.m; sourceTree = "<group>"; };
+		50931A761964B39E005B3782 /* FullImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullImageViewController.h; sourceTree = "<group>"; };
+		50931A771964B39E005B3782 /* FullImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullImageViewController.m; sourceTree = "<group>"; };
 		509CB820187CE6D8009E9A9F /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		509CB821187CE6D8009E9A9F /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		50B31CCD18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewControllerWithStatusTableView.h; sourceTree = "<group>"; };
@@ -465,6 +471,8 @@
 				50D36B9719560EED0048CCA6 /* AvatarCollectionViewFlowLayout.m */,
 				50D36B9919560FAB0048CCA6 /* ImageCollectionViewCell.h */,
 				50D36B9A19560FAB0048CCA6 /* ImageCollectionViewCell.m */,
+				50931A731964B36F005B3782 /* ZoomCollectionViewCell.h */,
+				50931A741964B36F005B3782 /* ZoomCollectionViewCell.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -539,6 +547,8 @@
 				65409F7418BE957A00589F66 /* Message */,
 				653ACE3F185926FD007B9A47 /* ExpirationTimePickerViewController.h */,
 				653ACE40185926FD007B9A47 /* ExpirationTimePickerViewController.m */,
+				50931A761964B39E005B3782 /* FullImageViewController.h */,
+				50931A771964B39E005B3782 /* FullImageViewController.m */,
 			);
 			name = "View controller";
 			sourceTree = "<group>";
@@ -894,6 +904,7 @@
 				509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */,
 				5034EF0518A8061200DBDCCF /* ComposeNewMessageViewController.m in Sources */,
 				658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */,
+				50931A781964B39E005B3782 /* FullImageViewController.m in Sources */,
 				658AA5D3184FADFB0097383B /* ComposeNewStatusViewController.m in Sources */,
 				50200C4418CFE365003CEBBE /* Status.m in Sources */,
 				5006245F194D121C003A2922 /* CommentTableViewCell.m in Sources */,
@@ -901,6 +912,7 @@
 				5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */,
 				50CE7732194A6CFA006E83F3 /* ELCAssetCell.m in Sources */,
 				658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */,
+				50931A751964B370005B3782 /* ZoomCollectionViewCell.m in Sources */,
 				653ACDF118525405007B9A47 /* ComposeStatusPhotoCollectionViewCell.m in Sources */,
 				50424F8E18C952EB00F7D826 /* TabBarViewController.m in Sources */,
 				65409F7818BE95C200589F66 /* ViewMessageViewController.m in Sources */,

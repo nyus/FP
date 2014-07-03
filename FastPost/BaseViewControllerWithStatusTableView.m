@@ -123,12 +123,12 @@
     
 
     // Only load cached images; defer new downloads until scrolling ends. if there is no local cache, we download avatar in scrollview delegate methods
-    UIImage *avatar = [Helper getLocalAvatarForUser:status.posterUsername avatarType:AvatarTypeMid];
+    UIImage *avatar = [Helper getLocalAvatarForUser:status.posterUsername avatarType:AvatarTypeMid isHighRes:NO];
     if (avatar) {
         cell.statusCellAvatarImageView.image = avatar;
     }else{
         if (tableView.isDecelerating == NO && tableView.isDragging == NO) {
-            [Helper getServerAvatarForUser:status.posterUsername avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+            [Helper getServerAvatarForUser:status.posterUsername avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
                 cell.statusCellAvatarImageView.image = image;
             }];
         }
@@ -207,7 +207,7 @@
 }
 
 -(void)removeStoredHeightForStatus:(Status *)status{
-    NSString *key =[NSString stringWithFormat:@"%d",status.hash];
+    NSString *key =[NSString stringWithFormat:@"%lu",status.hash];
     [cellHeightMap removeObjectForKey:key];
 }
 
@@ -232,9 +232,9 @@
         __block StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         Status *status = self.dataSource[indexPath.row];
         
-        BOOL avatar = [Helper isLocalAvatarExistForUser:status.posterUsername avatarType:AvatarTypeMid];
+        BOOL avatar = [Helper isLocalAvatarExistForUser:status.posterUsername avatarType:AvatarTypeMid isHighRes:NO];
         if (!avatar) {
-            [Helper getServerAvatarForUser:status.posterUsername avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+            [Helper getServerAvatarForUser:status.posterUsername avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
                 cell.statusCellAvatarImageView.image = image;
             }];
         }

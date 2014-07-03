@@ -18,15 +18,17 @@
 #import "ELCAlbumPickerController.h"
 #import "ELCAssetTablePicker.h"
 #import "ImageCollectionViewCell.h"
-//#import "StatusTableViewHeaderViewController.h"
+#import "FullImageViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 #define TB_HEADER_HEIGHT 20.0f
 #define AVATAR_SIZE CGSizeMake(70.0f, 70.0f)
 #define isFromStatusViewController [self.parentViewController isKindOfClass:[UINavigationController class]]
-@interface ProfileViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,ELCImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>{
+#define IS_SELF_PROFILE [self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]
+@interface ProfileViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,ELCImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate>{
     UIImagePickerController *imagePicker;
-//    StatusTableViewHeaderViewController *headerViewVC;
+    UIScrollView *fullPictureScrollView;
+    FullImageViewController *fullSizeImageVC;
 }
 @property (nonatomic, strong) NSMutableArray *avatars;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTopSpaceConstraint;
@@ -55,7 +57,7 @@
         self.userNameOfUserProfileToDisplay = [PFUser currentUser].username;
     }
 
-    if([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]){
+    if(IS_SELF_PROFILE){
         self.followButton.hidden = YES;
         
         if(!isFromStatusViewController){
@@ -71,8 +73,6 @@
         self.userNameLabelTopSpaceToTopLayoutConstraint.constant = 64;
         self.tableViewTopSpaceConstraint.constant = 10;
         [self.view layoutIfNeeded];
-        
-        self.collectionView.userInteractionEnabled = NO;
         
         self.followButton.hidden = NO;
         self.fakeNavigationBar.hidden = NO;
@@ -104,15 +104,15 @@
         self.avatars = [NSMutableArray array];
     }
     
-    [Helper getAvatarForUser:username avatarType:AvatarTypeLeft completion:^(NSError *error, UIImage *image) {
+    [Helper getAvatarForUser:username avatarType:AvatarTypeLeft isHighRes:NO completion:^(NSError *error, UIImage *image) {
         [self.avatars addObject:image];
         [self.collectionView reloadData];
         
-        [Helper getAvatarForUser:username avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+        [Helper getAvatarForUser:username avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
             [self.avatars addObject:image];
             [self.collectionView reloadData];
             
-            [Helper getAvatarForUser:username avatarType:AvatarTypeRight completion:^(NSError *error, UIImage *image) {
+            [Helper getAvatarForUser:username avatarType:AvatarTypeRight isHighRes:NO completion:^(NSError *error, UIImage *image) {
                 [self.avatars addObject:image];
                 [self.collectionView reloadData];
             }];
@@ -168,7 +168,7 @@
     //fetch everything from local for fast loading
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     //pull from defaults for faster loading # dwindles, followers and following
-    if ([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]) {
+    if (IS_SELF_PROFILE) {
         NSNumber *hasDoneInitialStatusCount = [defaults objectForKey:@"hasDoneInitialStatusCount"];
         if (hasDoneInitialStatusCount.boolValue == YES) {
             NSNumber *numberPosts = [defaults objectForKey:@"numberofposts"];
@@ -231,7 +231,7 @@
     [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
         self.dwindleLabel.text = [NSString stringWithFormat:@"%d", number];
         
-        if ([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]) {
+        if (IS_SELF_PROFILE) {
             [defaults setObject:[NSNumber numberWithInt:number] forKey:@"numberofposts"];
             [defaults setBool:YES forKey:@"hasDoneInitialStatusCount"];
             [defaults synchronize];
@@ -239,7 +239,7 @@
     }];
 
     //only my profile needs to show # of followers and following
-    if ([self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]) {
+    if (IS_SELF_PROFILE) {
         //set following. # of following is the count of friends minus one(since user is friend of himself)
         [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
             
@@ -313,14 +313,14 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
-    UIImage *chosenImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     //save to parse and local
-    UIImage *scaledImage = [Helper scaleImage:chosenImage downToSize:AVATAR_SIZE];
+    UIImage *scaledImage = [Helper scaleImage:originalImage downToSize:AVATAR_SIZE];
     NSData *data = UIImagePNGRepresentation(scaledImage);
     
     //save profile image to local and server
-    [Helper saveAvatar:data avatarType:AvatarTypeMid forUser:[PFUser currentUser].username];
-    
+    [Helper saveAvatar:data avatarType:AvatarTypeMid forUser:[PFUser currentUser].username isHighRes:NO];
+    [Helper saveAvatar:UIImagePNGRepresentation(originalImage) avatarType:AvatarTypeMid forUser:[PFUser currentUser].username isHighRes:YES];
     [self.avatars addObject:scaledImage];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -332,17 +332,18 @@
 {
     
     //if user has only selected one image, then replace that single image. otherwise reload collectionview
-    if (info.count == 1) {
+    if (info.count == 1 && self.avatars.count>=1) {
         NSDictionary *dictionary = info[0];
-        if (self.avatars.count >= self.selectedCollectionCellIndex.row+1) {
-            [self.avatars replaceObjectAtIndex:self.selectedCollectionCellIndex.row withObject:dictionary[@"UIImagePickerControllerOriginalImage"]];
-        }else{
-            [self.avatars insertObject:dictionary[@"UIImagePickerControllerOriginalImage"] atIndex:self.selectedCollectionCellIndex.row];
-        }
+        UIImage *image = dictionary[@"UIImagePickerControllerOriginalImage"];
+        UIImage *scaledImage = [Helper scaleImage:image downToSize:AVATAR_SIZE];
+        NSData *data = UIImagePNGRepresentation(scaledImage);
+        
+        [self.avatars replaceObjectAtIndex:self.selectedCollectionCellIndex.row withObject:image];
+        [Helper saveAvatar:data avatarType:self.selectedCollectionCellIndex.row forUser:[PFUser currentUser].username isHighRes:NO];
 
     }else{
         
-        for (int i = info.count; i<self.avatars.count; i++) {
+        for (NSUInteger i = info.count; i<self.avatars.count; i++) {
             [Helper removeAvatarWithAvatarType:i];
         }
         
@@ -353,7 +354,8 @@
             UIImage *image = dict[@"UIImagePickerControllerOriginalImage"];
             UIImage *scaledImage = [Helper scaleImage:image downToSize:AVATAR_SIZE];
             NSData *data = UIImagePNGRepresentation(scaledImage);
-            [Helper saveAvatar:data avatarType:i forUser:[PFUser currentUser].username];
+            [Helper saveAvatar:data avatarType:i forUser:[PFUser currentUser].username isHighRes:NO];
+            [Helper saveAvatar:UIImagePNGRepresentation(image) avatarType:i forUser:[PFUser currentUser].username isHighRes:YES];
             [self.avatars insertObject:scaledImage atIndex:i];
             
         }
@@ -433,9 +435,61 @@
 #pragma mark - uicollectionview delegate 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera",@"Gallery", nil];
-    [sheet showFromTabBar:self.tabBarController.tabBar];
-    self.selectedCollectionCellIndex = indexPath;
+    
+    if (!IS_SELF_PROFILE) {
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera",@"Gallery", nil];
+        [sheet showFromTabBar:self.tabBarController.tabBar];
+        self.selectedCollectionCellIndex = indexPath;
+    }else{
+        
+        if (!fullSizeImageVC) {
+            fullSizeImageVC = (FullImageViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"fullSizeVC"];
+            fullSizeImageVC.username = self.userNameOfUserProfileToDisplay;
+        }
+        fullSizeImageVC.view.alpha = 0.0f;
+        [self.view addSubview:fullSizeImageVC.view];
+        [UIView animateWithDuration:.3 animations:^{
+            fullSizeImageVC.view.alpha = 1.0f;
+        }];
+//        fullPictureScrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+//        fullPictureScrollView.pagingEnabled = YES;
+//        fullPictureScrollView.backgroundColor = [UIColor blackColor];
+//        fullPictureScrollView.alpha = 0.0f;
+//        int i = 0;
+//        for (UIImage *image in self.avatars) {
+//            UIScrollView *scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(i*fullPictureScrollView.frame.size.width,
+//                                                                                     0,
+//                                                                                     fullPictureScrollView.frame.size.width,
+//                                                                                      fullPictureScrollView.frame.size.height)];
+//            scrollview.delegate = self;
+//            scrollview.backgroundColor = [UIColor blackColor];
+//            scrollview.opaque = YES;
+//            scrollview.maximumZoomScale = 3.0f;
+//            scrollview.minimumZoomScale = 1.0f;
+//            UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0,//i*fullPictureScrollView.frame.size.width,
+//                                                                                   0,
+//                                                                                   fullPictureScrollView.frame.size.width,
+//                                                                                   fullPictureScrollView.frame.size.height)];
+//            imageview.image = image;
+//            imageview.tag = 99;
+//            [scrollview addSubview:imageview];
+//            [fullPictureScrollView addSubview:scrollview];
+//            imageview.contentMode = UIViewContentModeScaleAspectFit;
+//            i++;
+//        }
+//        fullPictureScrollView.contentSize = CGSizeMake(fullPictureScrollView.frame.size.width*self.avatars.count, fullPictureScrollView.frame.size.height);
+//        [self.view addSubview:fullPictureScrollView];
+//        [UIView animateWithDuration:.3 animations:^{
+//            fullPictureScrollView.alpha = 1.0f;
+//        }];
+    }
+}
+
+#pragma mark - uiscrollviewdelegate
+
+-(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    UIView *view = [scrollView viewWithTag:99];
+    return view;
 }
 
 #pragma mark - uicollectionviewdatasource

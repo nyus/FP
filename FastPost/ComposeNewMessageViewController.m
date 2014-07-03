@@ -112,7 +112,7 @@
     //username
     cell.textLabel.text = dataSource[indexPath.row];
     //profile picture
-    [Helper getAvatarForUser:dataSource[indexPath.row] avatarType:AvatarTypeMid completion:^(NSError *error, UIImage *image) {
+    [Helper getAvatarForUser:dataSource[indexPath.row] avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
         cell.imageView.image = image;
     }];
 //    [Helper getAvatarForUser:dataSource[indexPath.row] avatarType:AvatarTypeMid forImageView:cell.imageView];
