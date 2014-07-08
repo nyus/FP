@@ -14,14 +14,17 @@
 #import "UITextView+Utilities.h"
 #import "Helper.h"
 #import "StatusTableViewCell.h"
+#import "StatusViewController.h"
 #define COMMENT_LABEL_WIDTH 234.0f
-#define NO_COMMENT_CELL_HEIGHT 504.0f
+#define NO_COMMENT_CELL_HEIGHT 250.0f
 #define CELL_IMAGEVIEW_MAX_Y 35+10
 @interface CommentStatusViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIScrollViewDelegate>{
     //cache cell height
     NSMutableDictionary *cellHeightMap;
-    UISwipeGestureRecognizer *swipeGesture;
+    UISwipeGestureRecognizer *leftSwipeGesture;
+    UISwipeGestureRecognizer *rightSwipeGesture;
     BOOL isLoading;
+    BOOL isAnimating;
 }
 @property (strong, nonatomic) NSMutableArray *dataSource;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -46,11 +49,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (!swipeGesture) {
-        swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-        swipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+    if (!leftSwipeGesture) {
+        leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+        leftSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
+        [self.view addGestureRecognizer:leftSwipeGesture];
     }
-    [self.view addGestureRecognizer:swipeGesture];
+    
+    if (!rightSwipeGesture) {
+        rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+        rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
+        [self.view addGestureRecognizer:rightSwipeGesture];
+    }
+    
     isLoading = YES;
 }
 
@@ -65,6 +75,10 @@
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [self.view removeGestureRecognizer:leftSwipeGesture];
+    [self.view removeGestureRecognizer:rightSwipeGesture];
+    leftSwipeGesture = nil;
+    rightSwipeGesture = nil;
 }
 
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe{
@@ -72,14 +86,66 @@
     self.enterMessageContainerView.hidden = YES;
     [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionTransitionNone animations:^{
         
-        self.view.frame = self.animateEndFrame;
+        if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
+            self.view.frame = CGRectMake(-self.view.frame.size.width,
+                                         self.view.frame.origin.y,
+                                         self.view.frame.size.width,
+                                         self.view.frame.size.height);
+        }else{
+            self.view.frame = CGRectMake(self.view.frame.size.width,
+                                         self.view.frame.origin.y,
+                                         self.view.frame.size.width,
+                                         self.view.frame.size.height);
+        }
+        
+        self.statusVC.shadowView.alpha = 0.0f;
+        
     } completion:^(BOOL finished) {
+        [self clearReference];
         self.enterMessageContainerView.hidden= NO;
     }];
 }
 
+-(void)animateUpToDismissWithCompletion:(void(^)(BOOL finished))completion{
+    [self.textView resignFirstResponder];
+    self.enterMessageContainerView.hidden = YES;
+    
+    [UIView animateWithDuration:.3 animations:^{
+        self.view.frame = CGRectMake(0, -self.statusVC.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+        self.statusVC.shadowView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        self.enterMessageContainerView.hidden= NO;
+        completion(finished);
+    }];
+}
+
+-(void)animateDownToDismissWithCompletion:(void(^)(BOOL finished))completion{
+    [self.textView resignFirstResponder];
+    self.enterMessageContainerView.hidden = YES;
+    
+    [UIView animateWithDuration:.3 animations:^{
+        self.view.frame = CGRectMake(0, self.statusVC.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+        self.statusVC.shadowView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        self.enterMessageContainerView.hidden= NO;
+        completion(finished);
+    }];
+}
+
+-(void)clearReference{
+    self.statusTBCell = nil;
+    self.statusObjectId = nil;
+    self.animateEndFrame = CGRectNull;
+    self.statusVC = nil;
+}
+
 -(void)setStatusObjectId:(NSString *)statusObjectId{
     _statusObjectId = statusObjectId;
+    
+    if (statusObjectId==nil) {
+        return;
+    }
+    
     //fetch all the comments
     isLoading = YES;
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Comment"];
@@ -96,6 +162,7 @@
         }
     }];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -106,6 +173,7 @@
     self.dataSource = nil;
     [self.tableView reloadData];
 }
+
 - (IBAction)sendComment:(id)sender {
     
     //update status
@@ -257,6 +325,24 @@
 }
 
 #pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y<0 && !isAnimating) {
+        isAnimating = YES;
+        //dismiss view
+        [self animateDownToDismissWithCompletion:^(BOOL finished) {
+            isAnimating = NO;
+        }];
+    }
+
+    if (!isAnimating && ((scrollView.contentSize.height<scrollView.frame.size.height && scrollView.contentOffset.y>0) ||
+        (scrollView.contentSize.height>=scrollView.frame.size.height && scrollView.contentOffset.y>scrollView.contentSize.height-scrollView.frame.size.height))) {
+        isAnimating = YES;
+        [self animateUpToDismissWithCompletion:^(BOOL finished) {
+            isAnimating = NO;
+        }];
+    }
+}
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     [self loadImagesForOnscreenRows];

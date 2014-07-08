@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 @class StatusTableViewCell;
+@class StatusViewController;
 @interface CommentStatusViewController : UIViewController
 @property (nonatomic, strong) NSString *statusObjectId;
 @property (nonatomic) CGRect animateEndFrame;
 @property (weak, nonatomic) StatusTableViewCell *statusTBCell;
+@property (weak, nonatomic) StatusViewController *statusVC;
 -(void)clearCommentTableView;
 @end

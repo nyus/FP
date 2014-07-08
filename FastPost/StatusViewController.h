@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewControllerWithStatusTableView.h"
 @interface StatusViewController : BaseViewControllerWithStatusTableView
-
+@property (weak, nonatomic) IBOutlet UIView *shadowView;
 @end

@@ -72,7 +72,7 @@ static NSMutableDictionary *_map;
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!error && object) {
             
-            PFFile *avatar = (PFFile *)object;
+            PFFile *avatar = (PFFile *)object[@"image"];
             [avatar getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                 if (data && !error) {
                     UIImage *image = [UIImage imageWithData:data];

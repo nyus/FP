@@ -37,6 +37,7 @@
     CGRect commentViewOriginalFrame;
 }
 
+
 @end
 
 @implementation StatusViewController
@@ -248,19 +249,21 @@
         commentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"commentView"];
         commentViewOriginalFrame = commentVC.view.frame;
         commentVC.view.frame = CGRectMake(320, 200, 50, 50);
+        commentVC.animateEndFrame = CGRectMake(320, cell.frame.origin.y-44, 320, cell.frame.size.height);
+        commentVC.statusVC = self;
         [self.view addSubview:commentVC.view];
     }
     [commentVC clearCommentTableView];
     commentVC.statusTBCell = cell;
     commentVC.statusObjectId = status.objectid;
-    commentVC.animateEndFrame = CGRectMake(320, cell.frame.origin.y-44, 320, cell.frame.size.height);
     commentVC.view.frame = CGRectMake(320, cell.frame.origin.y-44, 320, cell.frame.size.height);
     [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionTransitionNone animations:^{
         
-        commentVC.view.frame = CGRectMake(0, 0, commentViewOriginalFrame.size.width,commentViewOriginalFrame.size.height-50);
-
-    } completion:^(BOOL finished) {
+        self.shadowView.alpha = 0.55f;
+        commentVC.view.frame = CGRectMake(0, 100, commentViewOriginalFrame.size.width,300);//commentViewOriginalFrame.size.height-50);
         [commentVC.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+//        [commentVC.view layoutIfNeeded];
     }];
     
     
