@@ -100,7 +100,7 @@ typedef NS_ENUM(NSUInteger, Direction){
     [self.textView resignFirstResponder];
     self.enterMessageContainerView.hidden = YES;
     
-    [UIView animateWithDuration:.3 animations:^{
+    [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         
         if (direction == DirectionUp) {
             self.view.frame = CGRectMake(0, -self.statusVC.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);

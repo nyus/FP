@@ -21,7 +21,6 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "FPLogger.h"
 #import "CommentStatusViewController.h"
-#import "NSString+Formatting.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 #define POST_TOTAL_LONGEVITY 1800//30 mins
