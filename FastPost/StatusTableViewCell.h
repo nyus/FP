@@ -36,6 +36,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *avatarButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIView *contentContainerView;
+@property (weak, nonatomic) IBOutlet UILabel *countDownLabel;
 @property (strong, nonatomic) NSMutableArray *collectionViewImagesArray;
 -(void)disableRevivePressHoldGesture;
 -(void)enableRevivePressHoldGesture;
