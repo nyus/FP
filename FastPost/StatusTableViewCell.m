@@ -39,6 +39,9 @@
         rightSwipteGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleRightSwipe:)];
         rightSwipteGesture.direction = UISwipeGestureRecognizerDirectionRight;
         [self addGestureRecognizer:rightSwipteGesture];
+        
+        tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        [self addGestureRecognizer:tap];
     }
     
     return self;
@@ -108,8 +111,9 @@
 }
 
 -(void)closeCell{
-    if (self.contentContainerView.frame.origin.x!=0) {
-        
+    
+    if ([self isCellOpen]) {
+        [self enableButtonsOnCell:YES];
         [UIView animateWithDuration:.3 animations:^{
             self.contentContainerView.frame = CGRectMake(0,
                                                          self.contentContainerView.frame.origin.y,
@@ -121,7 +125,8 @@
 
 -(void)openCell{
     
-    if (self.contentContainerView.frame.origin.x == 0) {
+    if ([self isCellOpen]==NO) {
+        [self enableButtonsOnCell:NO];
         [UIView animateWithDuration:.3 animations:^{
             self.contentContainerView.center = CGPointMake(self.contentContainerView.center.x + TRESHOLD, self.contentContainerView.center.y);
         }];
@@ -135,6 +140,22 @@
 
 -(void)handleRightSwipe:(UISwipeGestureRecognizer *)swipe{
     [self openCell];
+}
+
+-(void)handleTapGesture:(UITapGestureRecognizer *)tap{
+    if ([self isCellOpen]) {
+        [self closeCell];
+    }
+}
+
+-(BOOL)isCellOpen{
+    return self.contentContainerView.frame.origin.x!=0;
+}
+
+-(void)enableButtonsOnCell:(BOOL)enable{
+    self.avatarButton.userInteractionEnabled = enable;
+    self.userNameButton.userInteractionEnabled = enable;
+    self.commentButton.userInteractionEnabled = enable;
 }
 
 #pragma mark - uicollectionview delegate

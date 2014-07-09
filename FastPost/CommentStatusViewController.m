@@ -18,6 +18,13 @@
 #define COMMENT_LABEL_WIDTH 234.0f
 #define NO_COMMENT_CELL_HEIGHT 250.0f
 #define CELL_IMAGEVIEW_MAX_Y 35+10
+typedef NS_ENUM(NSUInteger, Direction){
+    DirectionUp,
+    DirectionDown,
+    DirectionRight,
+    DirectionLeft
+};
+
 @interface CommentStatusViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIScrollViewDelegate>{
     //cache cell height
     NSMutableDictionary *cellHeightMap;
@@ -51,13 +58,13 @@
     // Do any additional setup after loading the view.
     if (!leftSwipeGesture) {
         leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-        leftSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
+        leftSwipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
         [self.view addGestureRecognizer:leftSwipeGesture];
     }
     
     if (!rightSwipeGesture) {
         rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-        rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
+        rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipeGesture];
     }
     
@@ -82,11 +89,24 @@
 }
 
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe{
+    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
+        [self animateToDismissSelfWithDirection:DirectionLeft];
+    }else if (swipe.direction == UISwipeGestureRecognizerDirectionRight){
+        [self animateToDismissSelfWithDirection:DirectionRight];
+    }
+}
+
+-(void)animateToDismissSelfWithDirection:(Direction)direction{
     [self.textView resignFirstResponder];
     self.enterMessageContainerView.hidden = YES;
-    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionTransitionNone animations:^{
+    
+    [UIView animateWithDuration:.3 animations:^{
         
-        if (swipe.direction == UISwipeGestureRecognizerDirectionLeft) {
+        if (direction == DirectionUp) {
+            self.view.frame = CGRectMake(0, -self.statusVC.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+        }else if (direction == DirectionDown){
+            self.view.frame = CGRectMake(0, self.statusVC.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+        }else if(direction == DirectionLeft){
             self.view.frame = CGRectMake(-self.view.frame.size.width,
                                          self.view.frame.origin.y,
                                          self.view.frame.size.width,
@@ -99,36 +119,9 @@
         }
         
         self.statusVC.shadowView.alpha = 0.0f;
-        
-    } completion:^(BOOL finished) {
-        [self clearReference];
-        self.enterMessageContainerView.hidden= NO;
-    }];
-}
-
--(void)animateUpToDismissWithCompletion:(void(^)(BOOL finished))completion{
-    [self.textView resignFirstResponder];
-    self.enterMessageContainerView.hidden = YES;
-    
-    [UIView animateWithDuration:.3 animations:^{
-        self.view.frame = CGRectMake(0, -self.statusVC.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
-        self.statusVC.shadowView.alpha = 0.0f;
     } completion:^(BOOL finished) {
         self.enterMessageContainerView.hidden= NO;
-        completion(finished);
-    }];
-}
-
--(void)animateDownToDismissWithCompletion:(void(^)(BOOL finished))completion{
-    [self.textView resignFirstResponder];
-    self.enterMessageContainerView.hidden = YES;
-    
-    [UIView animateWithDuration:.3 animations:^{
-        self.view.frame = CGRectMake(0, self.statusVC.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
-        self.statusVC.shadowView.alpha = 0.0f;
-    } completion:^(BOOL finished) {
-        self.enterMessageContainerView.hidden= NO;
-        completion(finished);
+        isAnimating = NO;
     }];
 }
 
@@ -331,20 +324,16 @@
 #pragma mark - UIScrollViewDelegate
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView.contentOffset.y<0 && !isAnimating) {
+    if (!isAnimating && scrollView.contentOffset.y<0) {
         isAnimating = YES;
         //dismiss view
-        [self animateDownToDismissWithCompletion:^(BOOL finished) {
-            isAnimating = NO;
-        }];
+        [self animateToDismissSelfWithDirection:DirectionDown];
     }
 
     if (!isAnimating && ((scrollView.contentSize.height<scrollView.frame.size.height && scrollView.contentOffset.y>0) ||
         (scrollView.contentSize.height>=scrollView.frame.size.height && scrollView.contentOffset.y>scrollView.contentSize.height-scrollView.frame.size.height))) {
         isAnimating = YES;
-        [self animateUpToDismissWithCompletion:^(BOOL finished) {
-            isAnimating = NO;
-        }];
+        [self animateToDismissSelfWithDirection:DirectionUp];
     }
 }
 
