@@ -260,7 +260,7 @@
 		65409F7018BE855300589F66 /* Message+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+Utilities.m"; sourceTree = "<group>"; };
 		65409F7618BE95C200589F66 /* ViewMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewMessageViewController.h; sourceTree = "<group>"; };
 		65409F7718BE95C200589F66 /* ViewMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewMessageViewController.m; sourceTree = "<group>"; };
-		65413CD71843990200543C1A /* FastPost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastPost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		65413CD71843990200543C1A /* dwndlr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dwndlr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65413CDA1843990200543C1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		65413CDC1843990200543C1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		65413CDE1843990200543C1A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -644,7 +644,7 @@
 		65413CD81843990200543C1A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				65413CD71843990200543C1A /* FastPost.app */,
+				65413CD71843990200543C1A /* dwndlr.app */,
 				65413CFB1843990200543C1A /* FastPostTests.xctest */,
 			);
 			name = Products;
@@ -757,7 +757,7 @@
 			);
 			name = FastPost;
 			productName = FastPost;
-			productReference = 65413CD71843990200543C1A /* FastPost.app */;
+			productReference = 65413CD71843990200543C1A /* dwndlr.app */;
 			productType = "com.apple.product-type.application";
 		};
 		65413CFA1843990200543C1A /* FastPostTests */ = {
@@ -1086,7 +1086,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/CrittercismSDK",
 				);
-				PRODUCT_NAME = FastPost;
+				PRODUCT_NAME = dwndlr;
 				PROVISIONING_PROFILE = "33B820A0-5EA1-42F2-BC81-96EBAD64B414";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1113,7 +1113,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/CrittercismSDK",
 				);
-				PRODUCT_NAME = FastPost;
+				PRODUCT_NAME = dwndlr;
 				PROVISIONING_PROFILE = "68AB1C3E-CB66-41AD-891A-0158145E8741";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;

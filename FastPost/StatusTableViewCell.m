@@ -18,6 +18,7 @@
     BOOL pressAndHoldRecognized;
     PressAndHoldGesture *pressHoldGesture;
     UISwipeGestureRecognizer *swipteGesture;
+    UITapGestureRecognizer *tap;
 }
 
 @end
@@ -27,22 +28,12 @@
 -(id)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self.statusCellUsernameLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(usernameLabelTapped:)]];
         swipteGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
         swipteGesture.direction = UISwipeGestureRecognizerDirectionLeft;
         [self addGestureRecognizer:swipteGesture];
     }
     
     return self;
-}
-
-
-- (IBAction)userNameTapped:(id)sender {
-    [self.delegate usernameLabelTappedOnCell:self];
-}
-
--(void)usernameLabelTapped:(UITapGestureRecognizer *)tap{
-    [self.delegate usernameLabelTappedOnCell:self];
 }
 
 - (IBAction)commentButtonTapped:(id)sender {

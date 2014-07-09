@@ -265,12 +265,10 @@
     } completion:^(BOOL finished) {
 //        [commentVC.view layoutIfNeeded];
     }];
-    
-    
 }
 
 -(void)usernameLabelTappedOnCell:(StatusTableViewCell *)cell{
-    [self performSegueWithIdentifier:@"toProfile" sender:self];
+    [self performSegueWithIdentifier:@"toUserProfile" sender:self];
 }
 
 -(int)convertCountDownTextToSecond:(NSString *)coundDownText{
