@@ -176,6 +176,10 @@
 
 - (IBAction)sendComment:(id)sender {
     
+    if (self.textView.text == nil || [self.textView.text isEqualToString:@""]) {
+        return;
+    }
+    
     //update status
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Status"];
     [query whereKey:@"objectId" equalTo:self.statusObjectId];

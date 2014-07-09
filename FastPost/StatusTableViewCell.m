@@ -14,11 +14,15 @@
 #import <Parse/Parse.h>
 #define REVIVE_PROGRESS_VIEW_INIT_ALPHA .7f
 #define PROGRESSION_RATE 1
+#define TRESHOLD 60.0f
 @interface StatusTableViewCell(){
     BOOL pressAndHoldRecognized;
     PressAndHoldGesture *pressHoldGesture;
-    UISwipeGestureRecognizer *swipteGesture;
+    UISwipeGestureRecognizer *leftSwipteGesture;
+    UISwipeGestureRecognizer *rightSwipteGesture;
     UITapGestureRecognizer *tap;
+    UIPanGestureRecognizer *pan;
+    float x;
 }
 
 @end
@@ -28,9 +32,13 @@
 -(id)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
     if (self) {
-        swipteGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-        swipteGesture.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self addGestureRecognizer:swipteGesture];
+        leftSwipteGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleLeftSwipe:)];
+        leftSwipteGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self addGestureRecognizer:leftSwipteGesture];
+        
+        rightSwipteGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleRightSwipe:)];
+        rightSwipteGesture.direction = UISwipeGestureRecognizerDirectionRight;
+        [self addGestureRecognizer:rightSwipteGesture];
     }
     
     return self;
@@ -99,8 +107,34 @@
     }
 }
 
--(void)handleSwipe:(UISwipeGestureRecognizer *)swipe{
+-(void)closeCell{
+    if (self.contentContainerView.frame.origin.x!=0) {
+        
+        [UIView animateWithDuration:.3 animations:^{
+            self.contentContainerView.frame = CGRectMake(0,
+                                                         self.contentContainerView.frame.origin.y,
+                                                         self.contentContainerView.frame.size.width,
+                                                         self.contentContainerView.frame.size.height);
+        }];
+    }
+}
+
+-(void)openCell{
+    
+    if (self.contentContainerView.frame.origin.x == 0) {
+        [UIView animateWithDuration:.3 animations:^{
+            self.contentContainerView.center = CGPointMake(self.contentContainerView.center.x + TRESHOLD, self.contentContainerView.center.y);
+        }];
+    }
+}
+
+-(void)handleLeftSwipe:(UISwipeGestureRecognizer *)swipe{
+    [self closeCell];
     [self.delegate swipeGestureRecognizedOnCell:self];
+}
+
+-(void)handleRightSwipe:(UISwipeGestureRecognizer *)swipe{
+    [self openCell];
 }
 
 #pragma mark - uicollectionview delegate
