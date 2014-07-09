@@ -134,8 +134,12 @@
 }
 
 -(void)handleLeftSwipe:(UISwipeGestureRecognizer *)swipe{
-    [self closeCell];
-    [self.delegate swipeGestureRecognizedOnCell:self];
+    
+    if ([self isCellOpen]) {
+        [self closeCell];
+    }else{
+        [self.delegate swipeGestureRecognizedOnCell:self];
+    }
 }
 
 -(void)handleRightSwipe:(UISwipeGestureRecognizer *)swipe{

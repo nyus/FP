@@ -248,4 +248,10 @@ static NSMutableDictionary *_map;
     return scaledImage;
 }
 
+#pragma mark - formatting
+
++(NSString *)minAndTimeFormatWithSecond:(int)seconds{
+    return [NSString stringWithFormat:@"%d:%02d",seconds/60,seconds%60];
+}
+
 @end

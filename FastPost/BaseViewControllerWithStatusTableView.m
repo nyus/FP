@@ -103,6 +103,8 @@
     cell.userNameButton.titleLabel.text = status.posterUsername;//need to set this text! used to determine if profile VC is displaying self profile or not
     cell.avatarButton.titleLabel.text = status.posterUsername;
     
+    //count down
+    cell.countDownLabel.text = [Helper minAndTimeFormatWithSecond:status.countDownTime];
     //revivable button
     if (status.revivable.boolValue) {
         [cell enableRevivePressHoldGesture];

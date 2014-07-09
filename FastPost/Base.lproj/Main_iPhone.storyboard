@@ -463,8 +463,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="368"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="30:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jBl-dE-Amk">
-                                                    <rect key="frame" x="20" y="174" width="43" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jBl-dE-Amk">
+                                                    <rect key="frame" x="15" y="174" width="43" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -638,6 +638,8 @@
                                                 <constraint firstItem="mVi-3P-BCF" firstAttribute="leading" secondItem="vNn-uF-ktM" secondAttribute="leading" id="AtM-dV-frT"/>
                                                 <constraint firstItem="mVi-3P-BCF" firstAttribute="top" secondItem="vNn-uF-ktM" secondAttribute="top" id="ONI-2S-XMp"/>
                                                 <constraint firstAttribute="bottom" secondItem="mVi-3P-BCF" secondAttribute="bottom" constant="-1" id="Zjp-4n-L1S"/>
+                                                <constraint firstAttribute="centerY" secondItem="jBl-dE-Amk" secondAttribute="centerY" constant="-0.5" id="l30-iW-eaT"/>
+                                                <constraint firstItem="jBl-dE-Amk" firstAttribute="leading" secondItem="vNn-uF-ktM" secondAttribute="leading" constant="15" id="ogN-Cz-gjF"/>
                                                 <constraint firstAttribute="trailing" secondItem="mVi-3P-BCF" secondAttribute="trailing" id="oyq-bb-fzF"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1567,7 +1569,7 @@
             <objects>
                 <navigationController title="Home" definesPresentationContext="YES" navigationBarHidden="YES" id="5eY-2V-bCP" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <tabBarItem key="tabBarItem" title="Home" image="5AE946CE-8B60-4E4F-B7B5-EF2524E98BB3" id="xpw-hA-qPq"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="D4D59058-6F7F-49A0-BB49-F6B881214190" id="xpw-hA-qPq"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="81F-D5-Wlr">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1916,7 +1918,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="5AE946CE-8B60-4E4F-B7B5-EF2524E98BB3" width="32" height="32">
+        <image name="D4D59058-6F7F-49A0-BB49-F6B881214190" width="32" height="32">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

@@ -30,4 +30,7 @@ typedef enum{
 
 //image processing
 +(UIImage *)scaleImage:(UIImage *)image downToSize:(CGSize) size;
+
+//formatting
++(NSString *)minAndTimeFormatWithSecond:(int)seconds;
 @end

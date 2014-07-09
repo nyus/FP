@@ -21,6 +21,7 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "FPLogger.h"
 #import "CommentStatusViewController.h"
+#import "NSString+Formatting.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 #define POST_TOTAL_LONGEVITY 1800//30 mins
@@ -177,6 +178,14 @@
 }
 
 -(void)statusObjectTimerCount:(int)count withStatusObject:(Status *)object{
+    
+    NSInteger index = [self.dataSource indexOfObject:object];
+    StatusTableViewCell *cell = (StatusTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    if ([cell.statusCellMessageLabel.text isEqualToString:object.message]) {
+        //convert seconds into min and second
+        
+        cell.countDownLabel.text = [Helper minAndTimeFormatWithSecond:object.countDownTime];
+    }
 }
 
 #pragma mark - Table view data source
