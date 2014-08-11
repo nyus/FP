@@ -14,6 +14,10 @@
 #import "FPLogger.h"
 @interface FriendQuestViewController ()<UITextFieldDelegate,FriendQuestTableViewCellDelegate>{
     NSArray *dataSource;
+    UISwipeGestureRecognizer *leftSwipeGesture;
+    UISwipeGestureRecognizer *rightSwipeGesture;
+    UISwipeGestureRecognizer *upSwipeGesture;
+    UISwipeGestureRecognizer *downSwipeGesture;
 }
 
 @end
@@ -38,6 +42,31 @@
     self.containerView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.containerView.layer.cornerRadius = 3.0f;
     
+    //add swipe gesture to dismiss self
+    if (!leftSwipeGesture) {
+        leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+        leftSwipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self.view addGestureRecognizer:leftSwipeGesture];
+    }
+    
+    if (!rightSwipeGesture) {
+        rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+        rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rightSwipeGesture];
+    }
+    
+    if (!upSwipeGesture) {
+        upSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+        upSwipeGesture.direction = UISwipeGestureRecognizerDirectionUp;
+        [self.view addGestureRecognizer:upSwipeGesture];
+    }
+    
+    if (!downSwipeGesture) {
+        downSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+        downSwipeGesture.direction = UISwipeGestureRecognizerDirectionDown;
+        [self.view addGestureRecognizer:downSwipeGesture];
+    }
+    
     //insert a toolbar behind to create the blur effect
     UIToolbar *blurEffectToolBar = [[UIToolbar alloc] initWithFrame:self.containerView.frame];
     blurEffectToolBar.barStyle = UIBarStyleDefault;
@@ -54,14 +83,52 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)handleSwipe:(UISwipeGestureRecognizer *)swipe{
+    
+    void(^completion)(BOOL) = ^(BOOL finished){
+        [self removeSelfFromParent];
+    };
+    
+    [self.view endEditing:YES];
+    switch (swipe.direction) {
+        case UISwipeGestureRecognizerDirectionDown:{
+            [UIView animateWithDuration:.3 animations:^{
+                self.view.alpha = 0.0f;
+            } completion:completion];
+            break;
+        }
+        case UISwipeGestureRecognizerDirectionLeft:{
+            [UIView animateWithDuration:.3 animations:^{
+                self.view.frame = CGRectMake(-self.view.frame.size.width,
+                                             self.view.frame.origin.y,
+                                             self.view.frame.size.width,
+                                             self.view.frame.size.height);
+            } completion:completion];
+            break;
+        }
+        case UISwipeGestureRecognizerDirectionRight:{
+            [UIView animateWithDuration:.3 animations:^{
+                self.view.frame = CGRectMake(self.view.frame.size.width,
+                                             self.view.frame.origin.y,
+                                             self.view.frame.size.width,
+                                             self.view.frame.size.height);
+            } completion:completion];
+            break;
+        }
+        default:{
+            [UIView animateWithDuration:.3 animations:^{
+                self.view.alpha = 0.0f;
+            } completion:completion];
+            break;
+
+        }
+    }
+}
+
 -(void)removeSelfFromParent{
-//    [UIView animateWithDuration:.3 animations:^{
-//        self.blurToolBar.alpha = 0.0f;
-        self.view.alpha = 0.0f;
-//    } completion:^(BOOL finished) {
-        self.isOnScreen = NO;
-//        [self.view removeFromSuperview];
-//    }];
+    
+    self.view.alpha = 0.0f;
+    self.isOnScreen = NO;
 }
 
 - (void)searchForFriend {

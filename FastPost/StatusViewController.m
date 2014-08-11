@@ -26,7 +26,6 @@
 #define POST_TOTAL_LONGEVITY 1800//30 mins
 @interface StatusViewController ()<StatusObjectDelegate, StatusTableViewHeaderViewDelegate,UIActionSheetDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate>{
     
-    FriendQuestViewController *friendPickerVC;
     StatusTableViewHeaderViewController *headerViewVC;
     StatusTableViewCell *cellToRevive;
     UIRefreshControl *refreshControl;
@@ -345,11 +344,11 @@
     
     if (!friendQusetVC) {
         friendQusetVC = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil]instantiateViewControllerWithIdentifier:@"friendQuest"];
-        friendQusetVC.view.frame = CGRectMake(0, (self.view.frame.size.height-300)/2, friendQusetVC.view.frame.size.width, 300);
-        friendPickerVC.view.alpha = 0.0f;
+        friendQusetVC.view.alpha = 0.0f;
         [self.view addSubview:friendQusetVC.view];
     }
-    
+    //the user could have swiped friendQuestVC away, so need to re-center it
+    friendQusetVC.view.frame = CGRectMake(0, (self.view.frame.size.height-300)/2, friendQusetVC.view.frame.size.width, 300);
     
     [friendQusetVC.textField becomeFirstResponder];
 
