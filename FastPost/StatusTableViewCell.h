@@ -41,5 +41,6 @@
 -(void)disableRevivePressHoldGesture;
 -(void)enableRevivePressHoldGesture;
 - (IBAction)commentButtonTapped:(id)sender;
-
+-(void)closeCell;
+-(BOOL)isCellOpen;
 @end

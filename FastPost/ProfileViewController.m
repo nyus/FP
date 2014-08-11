@@ -444,44 +444,9 @@
         
         if (!fullSizeImageVC) {
             fullSizeImageVC = (FullImageViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"fullSizeVC"];
-            fullSizeImageVC.username = self.userNameOfUserProfileToDisplay;
         }
-        fullSizeImageVC.view.alpha = 0.0f;
-        [self.view addSubview:fullSizeImageVC.view];
-        [UIView animateWithDuration:.3 animations:^{
-            fullSizeImageVC.view.alpha = 1.0f;
-        }];
-//        fullPictureScrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
-//        fullPictureScrollView.pagingEnabled = YES;
-//        fullPictureScrollView.backgroundColor = [UIColor blackColor];
-//        fullPictureScrollView.alpha = 0.0f;
-//        int i = 0;
-//        for (UIImage *image in self.avatars) {
-//            UIScrollView *scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(i*fullPictureScrollView.frame.size.width,
-//                                                                                     0,
-//                                                                                     fullPictureScrollView.frame.size.width,
-//                                                                                      fullPictureScrollView.frame.size.height)];
-//            scrollview.delegate = self;
-//            scrollview.backgroundColor = [UIColor blackColor];
-//            scrollview.opaque = YES;
-//            scrollview.maximumZoomScale = 3.0f;
-//            scrollview.minimumZoomScale = 1.0f;
-//            UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0,//i*fullPictureScrollView.frame.size.width,
-//                                                                                   0,
-//                                                                                   fullPictureScrollView.frame.size.width,
-//                                                                                   fullPictureScrollView.frame.size.height)];
-//            imageview.image = image;
-//            imageview.tag = 99;
-//            [scrollview addSubview:imageview];
-//            [fullPictureScrollView addSubview:scrollview];
-//            imageview.contentMode = UIViewContentModeScaleAspectFit;
-//            i++;
-//        }
-//        fullPictureScrollView.contentSize = CGSizeMake(fullPictureScrollView.frame.size.width*self.avatars.count, fullPictureScrollView.frame.size.height);
-//        [self.view addSubview:fullPictureScrollView];
-//        [UIView animateWithDuration:.3 animations:^{
-//            fullPictureScrollView.alpha = 1.0f;
-//        }];
+        fullSizeImageVC.username = self.userNameOfUserProfileToDisplay;
+        [self presentViewController:fullSizeImageVC animated:YES completion:nil];
     }
 }
 

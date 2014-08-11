@@ -122,6 +122,7 @@ typedef NS_ENUM(NSUInteger, Direction){
     } completion:^(BOOL finished) {
         self.enterMessageContainerView.hidden= NO;
         isAnimating = NO;
+        self.statusVC.tableView.userInteractionEnabled = YES;
     }];
 }
 

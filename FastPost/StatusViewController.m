@@ -223,6 +223,13 @@
     }
 }
 
+-(void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    StatusTableViewCell *tCell = (StatusTableViewCell *)cell;
+    if ([tCell isCellOpen]) {
+        [tCell closeCell];
+    }
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
 }
@@ -265,6 +272,9 @@
     commentVC.statusTBCell = cell;
     commentVC.statusObjectId = status.objectid;
     commentVC.view.frame = CGRectMake(320, cell.frame.origin.y-44, 320, cell.frame.size.height);
+    //dont allow interaction with tableview
+    self.tableView.userInteractionEnabled = NO;
+    
     [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionTransitionNone animations:^{
         
         self.shadowView.alpha = 0.55f;

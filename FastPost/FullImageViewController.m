@@ -9,7 +9,7 @@
 #import "FullImageViewController.h"
 #import "ZoomCollectionViewCell.h"
 #import <Parse/Parse.h>
-@interface FullImageViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
+@interface FullImageViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSMutableDictionary *isLoadingFile;
 @end
@@ -32,12 +32,25 @@
     self.dataSource = [NSMutableArray arrayWithCapacity:1];
     [self.dataSource addObject:@"toShowDummyCell"];
     [self.collectionView reloadData];
+    
+    UIButton *done = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-20-44, 20, 56, 30)];
+    [done setTitle:@"Done" forState:UIControlStateNormal];
+    [done setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+    done.layer.borderColor =[[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] CGColor];
+    done.layer.borderWidth = 1.0f;
+    done.layer.cornerRadius = 2.0f;
+    [done addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:done];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)dismissSelf{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)setUsername:(NSString *)username{
@@ -68,6 +81,8 @@
     
     [cell showProgressIndicator];
     id object = self.dataSource[indexPath.row];
+    
+    //when an image is fetched from the server, we replace the parse object at this index path with the corresponding UIImage
     if ([object isKindOfClass:[UIImage class]]) {
         cell.imageVIew.image = object;
         [cell hideProgressIndicator];
@@ -85,12 +100,28 @@
     [self cancelImageDownloadForCellAtIndexPath:indexPath];
 }
 
+#pragma mark -- UICollectionViewDelegateFlowLayout
+
+//overwriting this method explicitely makes auto layout constraints work properly
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return CGSizeMake(collectionView.frame.size.width, collectionView.frame.size.height);
+}
+
 #pragma mark - uiscrollviewdelegate
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-//    NSLog(@"%@",[self.collectionView indexPathsForVisibleItems]);
+
     for (NSIndexPath *path in [self.collectionView indexPathsForVisibleItems]) {
         [self loadHighResPhotoForIndexPath:path];
+    }
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (decelerate==NO) {
+        for (NSIndexPath *path in [self.collectionView indexPathsForVisibleItems]) {
+            [self loadHighResPhotoForIndexPath:path];
+        }
     }
 }
 
@@ -114,21 +145,20 @@
         return;
     }else if ([object isKindOfClass:[PFObject class]]){
         PFFile *file = (PFFile *)object[@"image"];
-        __block ZoomCollectionViewCell *cell = (ZoomCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-        
-        if (!cell) {
-            return;
-        }
         
         if (![self.isLoadingFile objectForKey:indexPath] && [[self.isLoadingFile objectForKey:indexPath] intValue] == 1) {
             return;
         }
         
+        __block ZoomCollectionViewCell *cell = (ZoomCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
         [self.isLoadingFile setObject:@1 forKey:indexPath];
         [cell showProgressIndicator];
         
         [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             if (!error && data) {
+                
+                ZoomCollectionViewCell *cell = (ZoomCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+                
                 UIImage *image = [UIImage imageWithData:data];
                 [self.dataSource replaceObjectAtIndex:indexPath.row withObject:image];
                 
