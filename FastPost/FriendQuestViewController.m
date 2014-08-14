@@ -120,7 +120,6 @@
                 self.view.alpha = 0.0f;
             } completion:completion];
             break;
-
         }
     }
 }

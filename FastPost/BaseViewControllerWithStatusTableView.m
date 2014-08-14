@@ -101,7 +101,7 @@
     //username
     cell.statusCellUsernameLabel.text = status.posterUsername;
     cell.userNameButton.titleLabel.text = status.posterUsername;//need to set this text! used to determine if profile VC is displaying self profile or not
-    cell.avatarButton.titleLabel.text = status.posterUsername;
+    [cell.avatarButton setTitle:status.posterUsername forState:UIControlStateNormal];
     
     //count down
     cell.countDownLabel.text = [Helper minAndTimeFormatWithSecond:status.countDownTime];
@@ -126,6 +126,7 @@
     
 
     // Only load cached images; defer new downloads until scrolling ends. if there is no local cache, we download avatar in scrollview delegate methods
+    cell.statusCellAvatarImageView.image = [UIImage imageNamed:@"default-user-icon-profile.png"];
     UIImage *avatar = [Helper getLocalAvatarForUser:status.posterUsername avatarType:AvatarTypeMid isHighRes:NO];
     if (avatar) {
         cell.statusCellAvatarImageView.image = avatar;

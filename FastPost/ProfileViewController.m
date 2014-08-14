@@ -19,12 +19,14 @@
 #import "ELCAssetTablePicker.h"
 #import "ImageCollectionViewCell.h"
 #import "FullImageViewController.h"
+#import "StatusViewController.h"
+#import "DetailedSocialNetworkTableViewController.h"
 #define BACKGROUND_CELL_HEIGHT 300.0f
 #define ORIGIN_Y_CELL_MESSAGE_LABEL 86.0f
 #define TB_HEADER_HEIGHT 20.0f
 #define AVATAR_SIZE CGSizeMake(70.0f, 70.0f)
 #define isFromStatusViewController [self.parentViewController isKindOfClass:[UINavigationController class]]
-#define IS_SELF_PROFILE [self.userNameOfUserProfileToDisplay isEqualToString:[PFUser currentUser].username]
+#define IS_SELF_PROFILE [self.userNameOfUserProfileToDisplay isEqualToString:[[PFUser currentUser] username]]
 @interface ProfileViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,ELCImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate>{
     UIImagePickerController *imagePicker;
     UIScrollView *fullPictureScrollView;
@@ -60,22 +62,13 @@
     if(IS_SELF_PROFILE){
         self.followButton.hidden = YES;
         
-        if(!isFromStatusViewController){
-            self.fakeNavigationBar.hidden = YES;
-        }else{
-            self.fakeNavigationBar.hidden = NO;
-            self.usernameLabelTopSpaceConstraint.constant = 64;
-            [self.view layoutIfNeeded];
-        }
-        
     }else{
         
-        self.userNameLabelTopSpaceToTopLayoutConstraint.constant = 64;
-        self.tableViewTopSpaceConstraint.constant = 10;
-        [self.view layoutIfNeeded];
+//        self.userNameLabelTopSpaceToTopLayoutConstraint.constant = 64;
+//        self.tableViewTopSpaceConstraint.constant = 10;
+//        [self.view layoutIfNeeded];
         
         self.followButton.hidden = NO;
-        self.fakeNavigationBar.hidden = NO;
         //other users cannot see my followers and following
         self.followerLabel.hidden = YES;
         self.followersTitleLabel.hidden= YES;
@@ -85,16 +78,35 @@
     
     //only set and pull avatar once per app usage
     [self setupAvatarsForUser:self.userNameOfUserProfileToDisplay];
+    
+    if (self.navigationController.viewControllers.count>=2) {
+        UIViewController *previousVC = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+        if([previousVC isKindOfClass:[StatusViewController class]]){
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+        }
+    }
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
     
+    if (self.navigationController.viewControllers.count<2){
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }
+    
 //need to do something here. dont grab everything when user comes back to this tab
     [self fetchNewStatusWithCount:25 remainingTime:nil];
 //this method needs rework
     [self updateUserInfoValues];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    //if self is pushed in by statusViewController, then when we pop, we want to hide the nav bar again for statusViewController
+//    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 -(void)setupAvatarsForUser:(NSString *)username{
@@ -245,7 +257,13 @@
             
             PFUser *me = (PFUser *)object;
             if (me[UsersAllowMeToFollow] != [NSNull null]) {
-                self.followingLabel.text = [NSString stringWithFormat:@"%d",(int)[me[UsersAllowMeToFollow] count]];
+                int count = (int)[me[UsersAllowMeToFollow] count];
+                if (count==0) {
+                    //becuase self is also following self
+                    self.followingLabel.text = @"0";
+                }else{
+                    self.followingLabel.text = [NSString stringWithFormat:@"%d",count-1];
+                }
             }else{
                 self.followingLabel.text = [NSString stringWithFormat:@"%d",0];
             }
@@ -436,7 +454,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (!IS_SELF_PROFILE) {
+    if (IS_SELF_PROFILE) {
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera",@"Gallery", nil];
         [sheet showFromTabBar:self.tabBarController.tabBar];
         self.selectedCollectionCellIndex = indexPath;
@@ -492,4 +510,13 @@
     return cell;
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"toDetailSocialNetwork"]) {
+        DetailedSocialNetworkTableViewController *vc = (DetailedSocialNetworkTableViewController *)segue.destinationViewController;
+        vc.userOfSocialNetwork = self.userNameOfUserProfileToDisplay;
+        UIButton *btn = (UIButton *)sender;
+        //0 for following; 1 for followers
+        vc.isDisplayFollower = (btn.tag==1?YES:NO);
+    }
+}
 @end

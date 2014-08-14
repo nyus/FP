@@ -81,6 +81,12 @@
     }
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     //stop observing UIApplicationWillEnterForegroundNotification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];

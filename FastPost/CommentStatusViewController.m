@@ -276,6 +276,7 @@ typedef NS_ENUM(NSUInteger, Direction){
         
         // Only load cached images; defer new downloads until scrolling ends. if there is no local cache, we download avatar in scrollview delegate methods
         BOOL isLocalCache = NO;
+        cell.avatarImageView.image = [UIImage imageNamed:@"default-user-icon-profile.png"];
         UIImage *image = [Helper getLocalAvatarForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid isHighRes:NO];
         if (image) {
             isLocalCache = YES;

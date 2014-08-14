@@ -57,6 +57,7 @@
 		50931A781964B39E005B3782 /* FullImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50931A771964B39E005B3782 /* FullImageViewController.m */; };
 		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
 		50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */; };
+		50B55342199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B55341199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m */; };
 		50CE771C19491EB5006E83F3 /* PressAndHoldGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CE771A19491EB5006E83F3 /* PressAndHoldGesture.m */; };
 		50CE7730194A6CFA006E83F3 /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CE771F194A6CFA006E83F3 /* ELCAlbumPickerController.m */; };
 		50CE7731194A6CFA006E83F3 /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7721194A6CFA006E83F3 /* ELCAsset.m */; };
@@ -212,6 +213,8 @@
 		509CB821187CE6D8009E9A9F /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		50B31CCD18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewControllerWithStatusTableView.h; sourceTree = "<group>"; };
 		50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewControllerWithStatusTableView.m; sourceTree = "<group>"; };
+		50B55340199BFE23005211C6 /* DetailedSocialNetworkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedSocialNetworkTableViewController.h; sourceTree = "<group>"; };
+		50B55341199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedSocialNetworkTableViewController.m; sourceTree = "<group>"; };
 		50CE771A19491EB5006E83F3 /* PressAndHoldGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PressAndHoldGesture.m; sourceTree = "<group>"; };
 		50CE771B19491EB5006E83F3 /* PressAndHoldGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PressAndHoldGesture.h; sourceTree = "<group>"; };
 		50CE771E194A6CFA006E83F3 /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
@@ -554,6 +557,8 @@
 				653ACE40185926FD007B9A47 /* ExpirationTimePickerViewController.m */,
 				50931A761964B39E005B3782 /* FullImageViewController.h */,
 				50931A771964B39E005B3782 /* FullImageViewController.m */,
+				50B55340199BFE23005211C6 /* DetailedSocialNetworkTableViewController.h */,
+				50B55341199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m */,
 			);
 			name = "View controller";
 			sourceTree = "<group>";
@@ -910,6 +915,7 @@
 				658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */,
 				50931A781964B39E005B3782 /* FullImageViewController.m in Sources */,
 				658AA5D3184FADFB0097383B /* ComposeNewStatusViewController.m in Sources */,
+				50B55342199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m in Sources */,
 				50200C4418CFE365003CEBBE /* Status.m in Sources */,
 				5006245F194D121C003A2922 /* CommentTableViewCell.m in Sources */,
 				5039DA8418CFEE37000DF268 /* StatusObject.m in Sources */,
