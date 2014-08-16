@@ -10,13 +10,19 @@
 #import <Parse/Parse.h>
 #import "Helper.h"
 #import "ExpirationTimePickerViewController.h"
+#import "AvatarAndUsernameTableViewCell.h"
+#import "Conversation.h"
+static const int FETCH_COUNT = 10;
 @interface ComposeNewMessageViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,ExpirationTimePickerViewControllerDelegate>{
-    NSMutableArray *dataSource;
     ExpirationTimePickerViewController *expirationTimePickerVC;
     int expirationTimeInSec;
     NSRange textRange;
+    NSMutableArray *contactArray;
+    NSMutableArray *filteredContactArray;
+    BOOL messageMode;
+    NSMutableArray *messageArray;
 }
-
+@property (nonatomic) BOOL messageMode;
 @end
 
 @implementation ComposeNewMessageViewController
@@ -39,10 +45,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    dataSource = [NSMutableArray array];
+    [self.recipientsTextView becomeFirstResponder];
+    
+    self.reviveButton.hidden = YES;
+    self.sendButton.enabled = NO;
+    
+    contactArray = [NSMutableArray array];
+    filteredContactArray = [NSMutableArray array];
     //skip current user's username
     //need to pull self.friends
-    
     dispatch_queue_t queue = dispatch_queue_create("refreshUser", NULL);
     dispatch_async(queue, ^{
         [[PFUser currentUser] refresh];
@@ -50,13 +61,22 @@
             if([username isEqualToString:[PFUser currentUser].username]){
                 continue;
             }
-            [dataSource addObject:username];
+            [contactArray addObject:username];
         }
         
         //sort dataSource alphabetically
-        [dataSource sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        [contactArray sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        
+        for (NSString *username in contactArray) {
+            [filteredContactArray addObject:username];
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (filteredContactArray.count == 0) {
+                self.showContactButton.enabled = NO;
+            }
+            
             [self.tableView reloadData];
         });
     });
@@ -66,6 +86,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)fetchMessageWithCount:(int)count andOffset:(int)offset{
+    
 }
 
 -(void)keyboardWillShow:(NSNotification *)sender{
@@ -103,39 +127,101 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return dataSource.count;
+    
+    if (messageMode) {
+        //+1 is the loading cell
+        if(messageArray.count <FETCH_COUNT){
+            //everytime we fetch, we fetch 10 messages, if messageArray.count < 10, then there is no more message to load. no need to add the loading cel
+            return messageArray.count;
+        }else{
+            //
+            return messageArray.count+1;
+        }
+        
+    }else if (contactArray.count == 0 || (contactArray.count!=0 && filteredContactArray.count == 0)) {
+        //no contact cell
+        return 1;
+    }else{
+        return filteredContactArray.count;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    __block UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-
-    //username
-    cell.textLabel.text = dataSource[indexPath.row];
-    //profile picture
-    [Helper getAvatarForUser:dataSource[indexPath.row] avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
-        cell.imageView.image = image;
-    }];
-//    [Helper getAvatarForUser:dataSource[indexPath.row] avatarType:AvatarTypeMid forImageView:cell.imageView];
     
-    return cell;
+    static NSString *contactCell = @"contactCell";
+    static NSString *messageCell = @"messageCell";
+    static NSString *noContactCell = @"noContactCell";
+    static NSString *noResultCell = @"noResultCell";
+    static NSString *loadingCell = @"loadingCell";
+    
+    if (messageMode == NO) {
+        
+        if (contactArray.count == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:noContactCell forIndexPath:indexPath];
+            return cell;
+        }else if(filteredContactArray.count == 0){
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:noResultCell forIndexPath:indexPath];
+            return cell;
+        }else{
+            __block AvatarAndUsernameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:contactCell forIndexPath:indexPath];
+            
+            //username
+            cell.usernameLabel.text = filteredContactArray[indexPath.row];
+            //profile picture
+            [Helper getAvatarForUser:filteredContactArray[indexPath.row] avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
+                cell.avatarImageView.image = image;
+            }];
+            
+            return cell;
+        }
+        
+    }else{
+        
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:loadingCell forIndexPath:indexPath];
+            return cell;
+        }else{
+            id cell = [tableView dequeueReusableCellWithIdentifier:messageCell forIndexPath:indexPath];
+            return cell;
+        }
+        
+    }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if ([cell.reuseIdentifier isEqualToString:@"loadingCell"]) {
+        
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if ([self.recipientsTextView.text isEqualToString:@""]) {
-        self.recipientsTextView.text = cell.textLabel.text;
-        self.recipientsTextView.font = [UIFont systemFontOfSize:19];
-        self.recipientsTextView.textColor = [UIColor colorWithRed:0.0f green:122.0/255.0 blue:255.0/255.0 alpha:1];
-    }else if ([self.recipientsTextView.text rangeOfString:cell.textLabel.text].location == NSNotFound) {
-        //dont allow the same recipient from appearing more than one time
-        self.recipientsTextView.text = [self.recipientsTextView.text stringByAppendingFormat:@", %@",cell.textLabel.text];
-        self.recipientsTextView.font = [UIFont systemFontOfSize:19];
-        self.recipientsTextView.textColor = [UIColor colorWithRed:0.0f green:122.0/255.0 blue:255.0/255.0 alpha:1];
-        
+    
+    if ([cell isKindOfClass:[AvatarAndUsernameTableViewCell class]]) {
+        AvatarAndUsernameTableViewCell *contact = (AvatarAndUsernameTableViewCell *)cell;
+        self.recipientsTextView.text = contact.usernameLabel.text;
+        messageMode = YES;
+        [self fetchMessageWithCount:FETCH_COUNT andOffset:0];
+        [self.tableView reloadData];
+        [self.enterMessageTextView becomeFirstResponder];
+        self.reviveButton.hidden = NO;
+        self.sendButton.enabled = YES;
     }
+//    if ([self.recipientsTextView.text isEqualToString:@""]) {
+//        self.recipientsTextView.text = cell.textLabel.text;
+//        self.recipientsTextView.font = [UIFont systemFontOfSize:19];
+//        self.recipientsTextView.textColor = [UIColor colorWithRed:0.0f green:122.0/255.0 blue:255.0/255.0 alpha:1];
+//    }else if ([self.recipientsTextView.text rangeOfString:cell.textLabel.text].location == NSNotFound) {
+//        //dont allow the same recipient from appearing more than one time
+//        self.recipientsTextView.text = [self.recipientsTextView.text stringByAppendingFormat:@", %@",cell.textLabel.text];
+//        self.recipientsTextView.font = [UIFont systemFontOfSize:19];
+//        self.recipientsTextView.textColor = [UIColor colorWithRed:0.0f green:122.0/255.0 blue:255.0/255.0 alpha:1];
+//        
+//    }
     
     //reason for the delay is, ios is calculating the new content size after the text gets changed. if there is no delay, wont get the accurate content size
-    [self performSelector:@selector(adjustRecipientFieldHeight) withObject:nil afterDelay:0.01];
+//    [self performSelector:@selector(adjustRecipientFieldHeight) withObject:nil afterDelay:0.01];
     //cancel highlight
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -147,19 +233,41 @@
     }
 }
 
+-(void)filterContacts{
+    
+    if ([self.recipientsTextView.text isEqualToString:@""]) {
+        filteredContactArray = [contactArray mutableCopy];
+    }else{
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",self.recipientsTextView.text];
+        NSArray *array = [contactArray filteredArrayUsingPredicate:predicate];
+        filteredContactArray = nil;
+        filteredContactArray = [array mutableCopy];
+    }
+    [self.tableView reloadData];
+}
+
 #pragma mark - UITextView
 
 -(void)textViewDidChange:(UITextView *)textView{
-//    [textView scrollRangeToVisible:textRange];
-    [self performSelector:@selector(scrollTextViewToVisible) withObject:nil afterDelay:0.1];
     
+    if (textView==self.enterMessageTextView) {
+        [self performSelector:@selector(scrollTextViewToVisible) withObject:nil afterDelay:0.1];
+    }else if (textView == self.recipientsTextView){
+        self.sendButton.enabled = NO;
+        messageMode = NO;
+        [self filterContacts];
+    }
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    return YES;
 }
 
 -(void)scrollTextViewToVisible{
-    [self.textView scrollRectToVisible:CGRectMake(0,
-                                                  self.textView.contentSize.height - 38,
-                                                  self.textView.frame.size.width,
-                                                  self.textView.frame.size.height)
+    [self.enterMessageTextView scrollRectToVisible:CGRectMake(0,
+                                                  self.enterMessageTextView.contentSize.height - 38,
+                                                  self.enterMessageTextView.frame.size.width,
+                                                  self.enterMessageTextView.frame.size.height)
                               animated:YES];
 }
 
@@ -174,11 +282,18 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
 - (IBAction)sendButtonTapped:(id)sender {
     
     //do nothing is there is no recipient or no message
     if ([self.recipientsTextView.text isEqualToString:@""] || [self.enterMessageTextView.text isEqualToString:@""]) {
+        return;
+    }
+    
+    if (![self.enterMessageTextView isFirstResponder]) {
+        return;
+    }
+    
+    if (![contactArray containsObject:self.recipientsTextView.text]) {
         return;
     }
     
@@ -202,12 +317,6 @@
         expirationTimeInSec = 0;
         
         [message saveInBackground];
-        
-//        Query the receiver on PFInstallation object
-//        PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
-//        [innerQuery whereKeyExists:@"image"];
-//        PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
-//        [query whereKey:@"post" matchesQuery:innerQuery];
         
         //first query the PFUser(recipient) with the specific username
         PFQuery *innerQuery = [PFQuery queryWithClassName:[PFUser parseClassName]];

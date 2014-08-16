@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Conversation" representedClassName="Conversation" syncable="YES">
+        <attribute name="lastMessageContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdateDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="objectid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="participants" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
     <entity name="Message" representedClassName="Message" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="countDown" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="expirationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="expirationTimeInSec" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="numOfMissedMsgs" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="objectid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="read" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="receiverUsername" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="senderUsername" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <entity name="StatusObject" representedClassName="StatusObject" syncable="YES">
@@ -20,7 +28,8 @@
         <attribute name="posterUsername" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Message" positionX="0" positionY="0" width="128" height="195"/>
+        <element name="Message" positionX="0" positionY="0" width="128" height="223"/>
         <element name="StatusObject" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="Conversation" positionX="0" positionY="72" width="128" height="103"/>
     </elements>
 </model>

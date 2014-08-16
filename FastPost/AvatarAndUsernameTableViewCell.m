@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Huang, Jason. All rights reserved.
 //
 
-#import "CommentTableViewCell.h"
+#import "AvatarAndUsernameTableViewCell.h"
 
-@implementation CommentTableViewCell
+@implementation AvatarAndUsernameTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

@@ -9,7 +9,7 @@
 #import "DetailedSocialNetworkTableViewController.h"
 #import <Parse/Parse.h>
 #import "Helper.h"
-#import "CommentTableViewCell.h"
+#import "AvatarAndUsernameTableViewCell.h"
 #import "ProfileViewController.h"
 @interface DetailedSocialNetworkTableViewController (){
     NSMutableArray *dataSource;
@@ -121,7 +121,7 @@
             return cell;
         }
     }else{
-        CommentTableViewCell *cell = (CommentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        AvatarAndUsernameTableViewCell *cell = (AvatarAndUsernameTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         
         // Configure the cell...
         NSString *username = dataSource[indexPath.row];
@@ -187,7 +187,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"toUserProfile"]) {
-        CommentTableViewCell *cell = (CommentTableViewCell *)sender;
+        AvatarAndUsernameTableViewCell *cell = (AvatarAndUsernameTableViewCell *)sender;
         ProfileViewController *pVC = (ProfileViewController *)segue.destinationViewController;
         pVC.userNameOfUserProfileToDisplay = cell.usernameLabel.text;
     }

@@ -36,7 +36,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     
 	// Do any additional setup after loading the view.
-    self.messageTextView.text = self.messageObject.message;
+    self.messageTextView.text = self.messageObject.content;
     self.messageTextView.delegate = self;
     
     //bring up keyboard

@@ -8,7 +8,7 @@
 
 #import "CommentStatusViewController.h"
 #import <Parse/Parse.h>
-#import "CommentTableViewCell.h"
+#import "AvatarAndUsernameTableViewCell.h"
 #import "Helper.h"
 #import "LoadingTableViewCell.h"
 #import "UITextView+Utilities.h"
@@ -270,7 +270,7 @@ typedef NS_ENUM(NSUInteger, Direction){
         }
         
     }else{
-        CommentTableViewCell *cell = (CommentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        AvatarAndUsernameTableViewCell *cell = (AvatarAndUsernameTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         PFObject *comment = self.dataSource[indexPath.row];
         cell.commentStringLabel.text = comment[@"contentString"];
         
@@ -358,7 +358,7 @@ typedef NS_ENUM(NSUInteger, Direction){
     NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
     for (NSIndexPath *indexPath in visiblePaths)
     {
-        __block CommentTableViewCell *cell = (CommentTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        __block AvatarAndUsernameTableViewCell *cell = (AvatarAndUsernameTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         PFObject *comment = self.dataSource[indexPath.row];
         BOOL avatar = [Helper isLocalAvatarExistForUser:comment[@"senderUsername"] avatarType:AvatarTypeMid isHighRes:NO];
         if (!avatar) {

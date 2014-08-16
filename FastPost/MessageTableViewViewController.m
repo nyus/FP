@@ -111,7 +111,7 @@
                 Message *message = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
                 message.createdAt = object.createdAt;
                 message.updatedAt = object.updatedAt;
-                message.message = object[@"message"];
+                message.content = object[@"message"];
                 message.senderUsername = object[@"senderUsername"];
                 message.receiverUsername = object[@"receiverUsername"];
                 message.read = object[@"read"];
