@@ -6,6 +6,12 @@
 //  Copyright (c) 2014 Huang, Sihang. All rights reserved.
 //
 
+/*
+ in viewWillAppear, first fetch local messages, then check server and see if there is a new conversation being created / new messages created for exsiting conversation. 
+ - if new conversation, create Conversation object, save it to local
+ - if new messages, find out which converation it belongs to, and light up the indicator to indicate new messages
+ - new messages will be pulled when go into detail view
+ */
 #import "MessageTableViewViewController.h"
 #import "MessageTableViewCell.h"
 #import "Helper.h"
@@ -14,11 +20,13 @@
 #import "Message+Utilities.h"
 #import <Parse/Parse.h>
 #import "ViewMessageViewController.h"
+#import "Conversation.h"
 @interface MessageTableViewViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *dataSource;
-    NSMutableArray *hasTimerArray;
     Message *messageToPass;
     BOOL comingSoon;
+    NSMutableArray *localConversationArray;
+    NSMutableArray *serverMessageArray;
 }
 
 @end
@@ -46,9 +54,10 @@
         self.refreshControl = [[UIRefreshControl alloc] init];
         [self.refreshControl addTarget:self action:@selector(refreshControlTriggerred:) forControlEvents:UIControlEventValueChanged];
         //on start up, fetch old messages
-        [self fetchLocalMessage];
+        [self fetchLocalConversation];
     }
-
+#warning delete
+    [self fetchLocalConversation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,7 +70,7 @@
     [super viewWillAppear:animated];
     if (!comingSoon) {
         [self.refreshControl beginRefreshing];
-        [self fetchNewMessage];
+        [self fetchServerConversation];
     }
     
 }
@@ -71,33 +80,35 @@
 }
 
 -(void)refreshControlTriggerred:(id)sender{
-    [self fetchNewMessage];
+    [self fetchServerConversation];
 }
 
--(void)fetchLocalMessage{
-    if (!dataSource) {
-        dataSource = [NSMutableArray array];
-        hasTimerArray = [NSMutableArray array];
-    }
+-(void)fetchLocalConversation{
     
+    if (!localConversationArray) {
+        localConversationArray = [NSMutableArray array];
+    }
+
     NSArray *fetchResult = [self fetchAllLocalMessages];
-    for (Message *message in fetchResult) {
-        [dataSource addObject:message];
-        [hasTimerArray addObject:[NSNumber numberWithBool:NO]];
+    for (Conversation *conversation in fetchResult) {
+        [localConversationArray addObject:conversation];
     }
-
+    [self.tableView reloadData];
 }
 
--(void)fetchNewMessage{
+-(void)fetchServerConversation{
     
-    if (!dataSource) {
-        dataSource = [NSMutableArray array];
-        hasTimerArray = [NSMutableArray array];
+    if (!serverMessageArray) {
+        serverMessageArray = [NSMutableArray array];
     }
     
-    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Message"];
-    [query whereKey:@"receiverUsername" equalTo:[PFUser currentUser].username];
-    [query whereKey:@"read" equalTo:[NSNumber numberWithBool:NO]];
+    NSMutableArray *objectIDs = [NSMutableArray array];
+    for (Conversation *con in localConversationArray) {
+        [objectIDs addObject:con.objectid];
+    }
+    
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Conversation"];
+    [query whereKey:@"objectid" notContainedIn:objectIDs];
     [query orderByDescending:@"createdAt"];
 
     NSLog(@"number of old messages is %d",(int)dataSource.count);
@@ -127,7 +138,7 @@
                 
                 //before we could have fetched some old messages first so we need the new ones to be the top
                 [dataSource insertObject:message atIndex:0];
-                [hasTimerArray insertObject:[NSNumber numberWithBool:NO] atIndex:0];
+
             }
             
             //update already existent messages
@@ -153,8 +164,8 @@
 #pragma mark - core data fetch 
 
 -(NSArray *)fetchAllLocalMessages{
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Conversation"];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastUpdateDate" ascending:NO];
     [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
     
     NSError *fetchError;
@@ -267,7 +278,7 @@
         return;
     }else{
         messageToPass = msg;
-        [self performSegueWithIdentifier:@"toViewMessage" sender:self];
+//        [self performSegueWithIdentifier:@"toViewMessage" sender:self];
     }
 }
 
@@ -277,10 +288,6 @@
         return;
     }
     
-    if (![hasTimerArray[indexPath.row] boolValue]) {
-        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(handleTimer:) userInfo:indexPath repeats:YES];
-        [hasTimerArray replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:YES]];
-    }
 }
 
 #pragma mark - Count Down Logic
@@ -352,9 +359,9 @@
 #pragma mark - Segue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"toViewMessage"]) {
-        ViewMessageViewController *vc = (ViewMessageViewController *)segue.destinationViewController;
-        vc.messageObject = messageToPass;
-    }
+//    if ([segue.identifier isEqualToString:@"toViewMessage"]) {
+//        ViewMessageViewController *vc = (ViewMessageViewController *)segue.destinationViewController;
+//        vc.messageObject = messageToPass;
+//    }
 }
 @end

@@ -12,6 +12,9 @@
 #import "ExpirationTimePickerViewController.h"
 #import "AvatarAndUsernameTableViewCell.h"
 #import "Conversation.h"
+#import "Message.h"
+#import "SharedDataManager.h"
+#import "MessageTableViewViewController.h"
 static const int FETCH_COUNT = 10;
 @interface ComposeNewMessageViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,ExpirationTimePickerViewControllerDelegate>{
     ExpirationTimePickerViewController *expirationTimePickerVC;
@@ -22,7 +25,7 @@ static const int FETCH_COUNT = 10;
     BOOL messageMode;
     NSMutableArray *messageArray;
 }
-@property (nonatomic) BOOL messageMode;
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation ComposeNewMessageViewController
@@ -44,9 +47,9 @@ static const int FETCH_COUNT = 10;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [self createTimer];
     
     [self.recipientsTextView becomeFirstResponder];
-    
     self.reviveButton.hidden = YES;
     self.sendButton.enabled = NO;
     
@@ -88,6 +91,24 @@ static const int FETCH_COUNT = 10;
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self destroyTimer];
+}
+
+-(void)createTimer{
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(handletimerFired:) userInfo:nil repeats:YES];
+}
+
+-(void)destroyTimer{
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
+-(void)handletimerFired:(NSTimer *)timer{
+    //here fetch from parse
+}
+
 -(void)fetchMessageWithCount:(int)count andOffset:(int)offset{
     
 }
@@ -122,6 +143,7 @@ static const int FETCH_COUNT = 10;
 }
 
 #pragma mark - UITableView
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
@@ -177,14 +199,19 @@ static const int FETCH_COUNT = 10;
         
     }else{
         
-        if (indexPath.row == 0) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:loadingCell forIndexPath:indexPath];
-            return cell;
-        }else{
+        if(messageArray.count <FETCH_COUNT){
+            //everytime we fetch, we fetch 10 messages, if messageArray.count < 10, then there is no more message to load. no need to add the loading cel
             id cell = [tableView dequeueReusableCellWithIdentifier:messageCell forIndexPath:indexPath];
             return cell;
+        }else{
+            if (indexPath.row == 0) {
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:loadingCell forIndexPath:indexPath];
+                return cell;
+            }else{
+                id cell = [tableView dequeueReusableCellWithIdentifier:messageCell forIndexPath:indexPath];
+                return cell;
+            }
         }
-        
     }
 }
 
@@ -297,27 +324,65 @@ static const int FETCH_COUNT = 10;
         return;
     }
     
-    NSString *recipientString = [self.recipientsTextView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSArray *recipients = [recipientString componentsSeparatedByString:@","];
-    for (NSString *recipient in recipients) {
-        PFObject *message = [PFObject objectWithClassName:@"Message"];
-        message[@"senderUsername"] = [PFUser currentUser].username;
-        message[@"receiverUsername"]= recipient;
-        message[@"message"] = self.enterMessageTextView.text;
+    //if this is a new conversation, create a new conversation object
+    if (self.conversation == nil) {
         
-        if (expirationTimeInSec == 0) {
-            //default to 10 mins
-            expirationTimeInSec = 10*60;
+        Conversation *conver = [NSEntityDescription insertNewObjectForEntityForName:@"Conversation" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
+        conver.participants = [NSArray arrayWithObjects:self.recipientsTextView.text,[PFUser currentUser].username, nil];
+        conver.objectid = [NSString stringWithFormat:@"%d",conver.objectID.URIRepresentation.absoluteString.hash];
+        self.conversation = conver;
+    }
+    //update this value for conversation
+    self.conversation.lastUpdateDate = [NSDate date];
+    
+    //save conversaton to parse
+    PFObject *conversation = [PFObject objectWithClassName:@"Conversation"];
+    conversation[@"participants"] = self.conversation.participants;
+    conversation[@"objectid"] = self.conversation.objectid;
+    conversation[@"lastUpdateDate"] = self.conversation.lastUpdateDate;
+    [conversation saveEventually];
+    
+    //create local message managedObject
+    Message *localMsg = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
+    localMsg.objectid = self.conversation.objectid;
+    localMsg.content = self.enterMessageTextView.text;
+    localMsg.senderUsername = [PFUser currentUser].username;
+    localMsg.createdAt = self.conversation.lastUpdateDate;
+    if (expirationTimeInSec == 0) {
+        //default to 10 mins
+        expirationTimeInSec = 10*60;
+    }
+    localMsg.expirationDate = [NSDate dateWithTimeIntervalSinceNow:expirationTimeInSec];
+    //reset
+    expirationTimeInSec = 0;
+    localMsg.participants = self.conversation.participants;
+    [[SharedDataManager sharedInstance] saveContext];
+    
+    if (!messageArray) {
+        messageArray = [NSMutableArray array];
+    }
+    [messageArray addObject:localMsg];
+    
+    //reload tbview
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:messageArray.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:messageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    //clear out textfield
+    self.enterMessageTextView.text = nil;
+    
+    //save message to parse
+    PFObject *message = [PFObject objectWithClassName:@"Message"];
+    message[@"objectid"] = localMsg.objectid;
+    message[@"content"] = localMsg.content;
+    message[@"senderUsername"] = localMsg.senderUsername;
+    message[@"expirationDate"] = localMsg.expirationDate;
+    message[@"participants"] = localMsg.participants;
+    [message saveEventually];
+    
+    //push notification
+    for (NSString *recipient in localMsg.participants) {
+        if ([recipient isEqualToString:[PFUser currentUser].username]) {
+            continue;
         }
-        
-        message[@"expirationTimeInSec"] = [NSNumber numberWithInt:expirationTimeInSec];
-        message[@"expirationDate"] = [NSDate dateWithTimeIntervalSinceNow:expirationTimeInSec];
-        message[@"read"] = [NSNumber numberWithBool:NO];
-        //reset
-        expirationTimeInSec = 0;
-        
-        [message saveInBackground];
-        
         //first query the PFUser(recipient) with the specific username
         PFQuery *innerQuery = [PFQuery queryWithClassName:[PFUser parseClassName]];
         [innerQuery whereKey:@"username" equalTo:recipient];
@@ -331,8 +396,41 @@ static const int FETCH_COUNT = 10;
         [push sendPushInBackground];
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
     
+    
+//    NSString *recipientString = [self.recipientsTextView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+//    NSArray *recipients = [recipientString componentsSeparatedByString:@","];
+//    for (NSString *recipient in recipients) {
+//        PFObject *message = [PFObject objectWithClassName:@"Message"];
+//        message[@"senderUsername"] = [PFUser currentUser].username;
+//        message[@"receiverUsername"]= recipient;
+//        message[@"message"] = self.enterMessageTextView.text;
+//        
+//        if (expirationTimeInSec == 0) {
+//            //default to 10 mins
+//            expirationTimeInSec = 10*60;
+//        }
+//        
+//        message[@"expirationTimeInSec"] = [NSNumber numberWithInt:expirationTimeInSec];
+//        message[@"expirationDate"] = [NSDate dateWithTimeIntervalSinceNow:expirationTimeInSec];
+//        message[@"read"] = [NSNumber numberWithBool:NO];
+//        //reset
+//        expirationTimeInSec = 0;
+//        
+//        [message saveInBackground];
+//        
+//        //first query the PFUser(recipient) with the specific username
+//        PFQuery *innerQuery = [PFQuery queryWithClassName:[PFUser parseClassName]];
+//        [innerQuery whereKey:@"username" equalTo:recipient];
+//        //then query this PFuser set on PFInstallation
+//        PFQuery *query = [PFInstallation query];
+//        [query whereKey:@"user" matchesQuery:innerQuery];
+//        
+//        PFPush *push = [[PFPush alloc] init];
+//        [push setQuery:query];
+//        [push setMessage:[NSString stringWithFormat:@"%@ has sent you a new message",recipient]];
+//        [push sendPushInBackground];
+//    }
 }
 
 - (IBAction)setTimeButtonTapped:(id)sender {

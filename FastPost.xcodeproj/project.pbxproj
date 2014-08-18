@@ -17,6 +17,7 @@
 		50275F76186F22E200CD9680 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50275F75186F22E200CD9680 /* icon.png */; };
 		502C6A4718E8BD800047EA49 /* FPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 502C6A4618E8BD800047EA49 /* FPLogger.m */; };
 		502FFD9B1953C78C00085826 /* SpinnerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 502FFD9A1953C78C00085826 /* SpinnerImageView.m */; };
+		5032C71219A0E98F00D3B09E /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 5032C71119A0E98F00D3B09E /* Message.m */; };
 		5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */; };
 		5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */; };
 		5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */; };
@@ -58,7 +59,6 @@
 		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
 		50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */; };
 		50B55342199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B55341199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m */; };
-		50CBDC2B199FA8CB0050F8C6 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CBDC2A199FA8CB0050F8C6 /* Message.m */; };
 		50CBDC31199FA9390050F8C6 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CBDC30199FA9390050F8C6 /* Conversation.m */; };
 		50CBDC35199FAB330050F8C6 /* GenericTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CBDC34199FAB330050F8C6 /* GenericTableViewController.m */; };
 		50CE771C19491EB5006E83F3 /* PressAndHoldGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CE771A19491EB5006E83F3 /* PressAndHoldGesture.m */; };
@@ -160,6 +160,8 @@
 		502C6A4618E8BD800047EA49 /* FPLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPLogger.m; sourceTree = "<group>"; };
 		502FFD991953C78C00085826 /* SpinnerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpinnerImageView.h; sourceTree = "<group>"; };
 		502FFD9A1953C78C00085826 /* SpinnerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpinnerImageView.m; sourceTree = "<group>"; };
+		5032C71019A0E98F00D3B09E /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		5032C71119A0E98F00D3B09E /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		5034EEAD18A7D09F00DBDCCF /* MessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewCell.h; sourceTree = "<group>"; };
 		5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; };
 		5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewViewController.h; sourceTree = "<group>"; };
@@ -217,8 +219,6 @@
 		50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewControllerWithStatusTableView.m; sourceTree = "<group>"; };
 		50B55340199BFE23005211C6 /* DetailedSocialNetworkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedSocialNetworkTableViewController.h; sourceTree = "<group>"; };
 		50B55341199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedSocialNetworkTableViewController.m; sourceTree = "<group>"; };
-		50CBDC29199FA8CB0050F8C6 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		50CBDC2A199FA8CB0050F8C6 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		50CBDC2F199FA9390050F8C6 /* Conversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conversation.h; sourceTree = "<group>"; };
 		50CBDC30199FA9390050F8C6 /* Conversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conversation.m; sourceTree = "<group>"; };
 		50CBDC33199FAB330050F8C6 /* GenericTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericTableViewController.h; sourceTree = "<group>"; };
@@ -379,12 +379,12 @@
 			isa = PBXGroup;
 			children = (
 				5039DA8218CFEE37000DF268 /* StatusObject.h */,
+				5032C71019A0E98F00D3B09E /* Message.h */,
+				5032C71119A0E98F00D3B09E /* Message.m */,
 				5039DA8318CFEE37000DF268 /* StatusObject.m */,
 				5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */,
 				50CBDC2F199FA9390050F8C6 /* Conversation.h */,
 				50CBDC30199FA9390050F8C6 /* Conversation.m */,
-				50CBDC29199FA8CB0050F8C6 /* Message.h */,
-				50CBDC2A199FA8CB0050F8C6 /* Message.m */,
 				5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */,
 				5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */,
 			);
@@ -940,7 +940,6 @@
 				5039DA8418CFEE37000DF268 /* StatusObject.m in Sources */,
 				5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */,
 				50CE7732194A6CFA006E83F3 /* ELCAssetCell.m in Sources */,
-				50CBDC2B199FA8CB0050F8C6 /* Message.m in Sources */,
 				658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */,
 				50931A751964B370005B3782 /* ZoomCollectionViewCell.m in Sources */,
 				653ACDF118525405007B9A47 /* ComposeStatusPhotoCollectionViewCell.m in Sources */,
@@ -953,6 +952,7 @@
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
 				50CBDC31199FA9390050F8C6 /* Conversation.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
+				5032C71219A0E98F00D3B09E /* Message.m in Sources */,
 				50EFFD28194D2D0E00A4C212 /* UITextView+Utilities.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
 				50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */,

@@ -14,6 +14,7 @@
         <attribute name="expirationTimeInSec" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="numOfMissedMsgs" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="objectid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="participants" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="read" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="receiverUsername" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="senderUsername" optional="YES" attributeType="String" syncable="YES"/>
@@ -28,8 +29,8 @@
         <attribute name="posterUsername" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Message" positionX="0" positionY="0" width="128" height="223"/>
-        <element name="StatusObject" positionX="0" positionY="0" width="128" height="120"/>
         <element name="Conversation" positionX="0" positionY="72" width="128" height="103"/>
+        <element name="Message" positionX="0" positionY="0" width="128" height="240"/>
+        <element name="StatusObject" positionX="0" positionY="0" width="128" height="120"/>
     </elements>
 </model>

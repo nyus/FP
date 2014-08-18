@@ -274,7 +274,11 @@
                                 PFObject *object = [[PFObject alloc] initWithClassName:@"Photo"];
                                 [object setObject:newStatus forKey:@"status"];
                                 [object setObject:photo forKey:@"image"];
-                                [object saveInBackground];
+                                [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                    if (!succeeded) {
+                                        [object saveEventually];
+                                    }
+                                }];
                             }
                         }];
                     }
@@ -288,6 +292,8 @@
                     }
                     
                     [defaults synchronize];
+                }else{
+                    [newStatus saveEventually];
                 }
             }];
             //save to local

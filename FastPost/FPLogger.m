@@ -30,7 +30,11 @@ static NSString *_string;
         PFObject *debugLog = [[PFObject alloc] initWithClassName:@"Log"];
         [debugLog setObject:_string forKey:@"Log"];
         [debugLog setObject:[PFUser currentUser].username forKey:@"senderUsername"];
-        [debugLog saveInBackground];
+        [debugLog saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!succeeded) {
+                [debugLog saveEventually];
+            }
+        }];
         
         //clear for the next report
         [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"diagnosis"];

@@ -182,7 +182,11 @@ typedef NS_ENUM(NSUInteger, Direction){
             
             //increase comment count on Status object
             object[@"commentCount"] = [NSNumber numberWithInt:[object[@"commentCount"] intValue] +1];
-            [object saveInBackground];
+            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!succeeded) {
+                    [object saveEventually];
+                }
+            }];
         }
     }];
     
@@ -191,7 +195,11 @@ typedef NS_ENUM(NSUInteger, Direction){
     object[@"senderUsername"]= [PFUser currentUser].username;
     object[@"contentString"] = self.textView.text;
     object[@"statusId"] = self.statusObjectId;
-    [object saveInBackground];
+    [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            [object saveEventually];
+        }
+    }];
     
     [self.dataSource addObject:object];
     [self.tableView reloadData];
