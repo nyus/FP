@@ -14,7 +14,6 @@
  */
 #import "MessageTableViewViewController.h"
 #import "MessageTableViewCell.h"
-#import "Helper.h"
 #import "SharedDataManager.h"
 #import "Message.h"
 #import "Message+Utilities.h"
@@ -26,7 +25,6 @@
     Message *messageToPass;
     BOOL comingSoon;
     NSMutableArray *localConversationArray;
-    NSMutableArray *serverMessageArray;
 }
 
 @end
@@ -46,7 +44,7 @@
 {
     [super viewDidLoad];
     
-    comingSoon = YES;
+    comingSoon = NO;
     //compose button on the top right has been deleted. it modally presents compose new message view controller
     if (!comingSoon) {
         
@@ -56,8 +54,6 @@
         //on start up, fetch old messages
         [self fetchLocalConversation];
     }
-#warning delete
-    [self fetchLocalConversation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,6 +66,7 @@
     [super viewWillAppear:animated];
     if (!comingSoon) {
         [self.refreshControl beginRefreshing];
+        [self fetchLocalConversation];
         [self fetchServerConversation];
     }
     
@@ -98,10 +95,6 @@
 
 -(void)fetchServerConversation{
     
-    if (!serverMessageArray) {
-        serverMessageArray = [NSMutableArray array];
-    }
-    
     NSMutableArray *objectIDs = [NSMutableArray array];
     for (Conversation *con in localConversationArray) {
         [objectIDs addObject:con.objectid];
@@ -109,55 +102,31 @@
     
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Conversation"];
     [query whereKey:@"objectid" notContainedIn:objectIDs];
-    [query orderByDescending:@"createdAt"];
-
-    NSLog(@"number of old messages is %d",(int)dataSource.count);
+    [query orderByAscending:@"lastUpdateDate"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error && objects && objects.count!=0) {
-            
-            int delta =  (int)objects.count - (int)dataSource.count;
-            //these are the new messages
-            for(int i = 1; i<=delta;i++){
-                PFObject *object = objects[i-1];
-                Message *message = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
-                message.createdAt = object.createdAt;
-                message.updatedAt = object.updatedAt;
-                message.content = object[@"message"];
-                message.senderUsername = object[@"senderUsername"];
-                message.receiverUsername = object[@"receiverUsername"];
-                message.read = object[@"read"];
-                message.objectid = object.objectId;
-                message.expirationDate = object[@"expirationDate"];
-                message.expirationTimeInSec = object[@"expirationTimeInSec"];
+        if (!error && objects &&objects.count!=0) {
+            NSMutableArray *indexPathsArray = [NSMutableArray array];
+            int i = 0;
+            for (PFObject *pfConversation in objects) {
+                Conversation *conversation = [NSEntityDescription insertNewObjectForEntityForName:@"Conversation" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
+                conversation.participants = pfConversation[@"participants"];
+                conversation.objectid = pfConversation[@"objectid"];
+                conversation.lastUpdateDate = pfConversation[@"lastUpdateDate"];
+                conversation.lastMessageContent = pfConversation[@"lastMessageContent"];
+                [localConversationArray insertObject:conversation atIndex:0];
+                [[SharedDataManager sharedInstance] saveContext];
                 
-                //time interval from now to expiration date. if timeInterval is negative, that means the message has already expired
-                int timeInterval = (int)[message.expirationDate timeIntervalSinceDate:[NSDate date]];
-                int remainingSec = timeInterval>0?timeInterval:0;
-
-                message.countDown = [NSNumber numberWithInt:remainingSec];
-                
-                //before we could have fetched some old messages first so we need the new ones to be the top
-                [dataSource insertObject:message atIndex:0];
-
+                //
+                NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                [indexPathsArray addObject:path];
+                i++;
             }
-            
-            //update already existent messages
-            for(int i = delta ; i<objects.count;i++){
-                PFObject *object = objects[i];
-                Message *message = dataSource[i];
-                [message updateSelfFromPFObject:object];
-            }
-            
-            //save before we pull old messages from database
-            [[SharedDataManager sharedInstance] saveContext];
             
             //reload
-            [self.tableView reloadData];
+            [self.tableView insertRowsAtIndexPaths:indexPathsArray withRowAnimation:UITableViewRowAnimationAutomatic];
+
         }
-        
         [self.refreshControl endRefreshing];
-        
-        
     }];
 }
 
@@ -210,7 +179,7 @@
     if (comingSoon) {
         return 1;
     }else{
-        return dataSource.count;
+        return localConversationArray.count;
     }
 }
 
@@ -234,32 +203,19 @@
         
         // Configure the cell...
         //sender profile picture
-        Message *msg = (Message *)dataSource[indexPath.row];
-        [Helper getAvatarForUser:msg.senderUsername avatarType:AvatarTypeMid isHighRes:NO completion:^(NSError *error, UIImage *image) {
-            cell.msgCellProfileImageView.image = image;
-        }];
-//        [Helper getAvatarForUser:msg.senderUsername  avatarType:AvatarTypeMid forImageView:cell.msgCellProfileImageView];
-        //sender name
-        cell.msgCellUsernameLabel.text = msg.senderUsername;
-        //count down label
-        //time interval from now to expiration date. if timeInterval is negative, that means the message has already expired
-        NSInteger timeInterval = [msg.expirationDate timeIntervalSinceDate:[NSDate date]];
-        int remainingSec = timeInterval>0?timeInterval:0;
-        msg.countDown = [NSNumber numberWithInt:remainingSec];
-        cell.msgCellCountDownLabel.text = [self minAndTimeFormatWithSecond:msg.countDown.intValue];
-        
-        //status label, read, missed
-        if (msg.read.boolValue == NO && msg.countDown.intValue == 0) {
-            cell.statusLabel.hidden = NO;
-            cell.statusLabel.text = @"Missed";
-            cell.statusLabel.textColor = [UIColor redColor];
-        }else if(msg.read.boolValue == YES && msg.countDown.intValue == 0){
-            cell.statusLabel.hidden = NO;
-            cell.statusLabel.text = @"Expired";
-            cell.statusLabel.textColor = [UIColor redColor];
-        }else{
-            cell.statusLabel.hidden = YES;
+        Conversation *conversation = (Conversation *)localConversationArray[indexPath.row];
+        NSMutableString *string = [NSMutableString string];
+        [string appendString:@"me"];
+        for (NSString *username in conversation.participants) {
+            if ([username isEqualToString:[PFUser currentUser].username]) {
+                continue;
+            }
+            [string appendString:@","];
+            [string appendString:@" "];
+            [string appendString:username];
+
         }
+        cell.participantsLabel.text = string;
         
         return cell;
     }
@@ -288,43 +244,6 @@
         return;
     }
     
-}
-
-#pragma mark - Count Down Logic
-
--(void)handleTimer:(NSTimer *)timer{
-
-    NSIndexPath *path = (NSIndexPath *)timer.userInfo;
-    Message *msg = (Message *)dataSource[path.row];
-    msg.countDown = [NSNumber numberWithInt:msg.countDown.intValue - 1];
-
-    if (msg.countDown.intValue < 0) {
-        
-        msg.countDown = [NSNumber numberWithInt:0];
-        [timer invalidate];
-        
-        //set missed label
-        if (msg.read.boolValue == NO && msg.countDown.intValue == 0) {
-            MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView cellForRowAtIndexPath:path];
-            cell.statusLabel.hidden = NO;
-            cell.statusLabel.text = @"Missed";
-            cell.statusLabel.textColor = [UIColor redColor];
-        }else if(msg.read.boolValue == YES && msg.countDown.intValue == 0){
-            MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView cellForRowAtIndexPath:path];
-            cell.statusLabel.hidden = NO;
-            cell.statusLabel.text = @"Expired";
-            cell.statusLabel.textColor = [UIColor redColor];
-        }else{
-            MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView cellForRowAtIndexPath:path];
-            cell.statusLabel.hidden = YES;
-        }
-
-    }else{
-        MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView cellForRowAtIndexPath:path];
-        cell.msgCellCountDownLabel.text = [self minAndTimeFormatWithSecond:msg.countDown.intValue];
-    }
-    
-    [[SharedDataManager sharedInstance] saveContext];
 }
 
 //-(void)statusObjectTimeUpWithObject:(Status *)object{

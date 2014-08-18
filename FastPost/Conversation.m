@@ -16,4 +16,7 @@
 @dynamic lastUpdateDate;
 @dynamic lastMessageContent;
 
+-(NSString *)description{
+    return [NSString stringWithFormat:@"participants: %@\nobjectid:%@\nlastUpdateDate:%@\nlastMessageContent:%@",self.participants,self.objectid,self.lastUpdateDate,self.lastMessageContent];
+}
 @end

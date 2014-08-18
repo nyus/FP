@@ -115,6 +115,8 @@
 		65413D3E184641F800543C1A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65413D3D184641F800543C1A /* SystemConfiguration.framework */; };
 		654D67B718844F4B00FEE901 /* yes.png in Resources */ = {isa = PBXBuildFile; fileRef = 654D67B618844F4B00FEE901 /* yes.png */; };
 		65570C85188862EE006759C6 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65570C84188862EE006759C6 /* Parse.framework */; };
+		6564F20119A26CA200629B48 /* GenericReviveInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6564F20019A26CA200629B48 /* GenericReviveInputViewController.m */; };
+		6564F20419A279EA00629B48 /* ViewAndSendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6564F20319A279EA00629B48 /* ViewAndSendMessageViewController.m */; };
 		658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 658AA5B0184CD12E0097383B /* UIImage+ImageEffects.m */; };
 		658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 658AA5B3184CD1730097383B /* UIView+ViewBlurEffect.m */; };
 		658AA5B8184E70480097383B /* default-user-icon-profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 658AA5B7184E70480097383B /* default-user-icon-profile.png */; };
@@ -177,7 +179,6 @@
 		5039DA8618D11FC4000DF268 /* comment_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_icon.png; sourceTree = "<group>"; };
 		5039DA8B18D1204C000DF268 /* comment_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment_icon@2x.png"; sourceTree = "<group>"; };
 		503A980D188381C7000892B8 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
-		503CABD618739318006BBF51 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		503CABDE18739751006BBF51 /* butterfly-green-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "butterfly-green-blue.png"; sourceTree = "<group>"; };
 		503FE457194DD72300FD297D /* LoadingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingTableViewCell.h; sourceTree = "<group>"; };
 		503FE458194DD72300FD297D /* LoadingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingTableViewCell.m; sourceTree = "<group>"; };
@@ -304,6 +305,10 @@
 		65413D3D184641F800543C1A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		654D67B618844F4B00FEE901 /* yes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yes.png; sourceTree = "<group>"; };
 		65570C84188862EE006759C6 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		6564F1FF19A26CA200629B48 /* GenericReviveInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericReviveInputViewController.h; sourceTree = "<group>"; };
+		6564F20019A26CA200629B48 /* GenericReviveInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericReviveInputViewController.m; sourceTree = "<group>"; };
+		6564F20219A279EA00629B48 /* ViewAndSendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewAndSendMessageViewController.h; sourceTree = "<group>"; };
+		6564F20319A279EA00629B48 /* ViewAndSendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewAndSendMessageViewController.m; sourceTree = "<group>"; };
 		658AA5AF184CD12E0097383B /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		658AA5B0184CD12E0097383B /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		658AA5B2184CD1730097383B /* UIView+ViewBlurEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ViewBlurEffect.h"; sourceTree = "<group>"; };
@@ -319,7 +324,6 @@
 		658AA5D2184FADFB0097383B /* ComposeNewStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeNewStatusViewController.m; sourceTree = "<group>"; };
 		65A8B09618CA7AE000C46DD6 /* NotificatonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificatonViewController.h; sourceTree = "<group>"; };
 		65A8B09718CA7AE000C46DD6 /* NotificatonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificatonViewController.m; sourceTree = "<group>"; };
-		65C6087118707AA5006C1899 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		65C6087718721E46006C1899 /* time_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "time_add@2x.png"; sourceTree = "<group>"; };
 		65C6087818721E46006C1899 /* time_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = time_add.png; sourceTree = "<group>"; };
 		65C6087B18731719006C1899 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -564,6 +568,7 @@
 		50FCEA0A187B68A2000A91AF /* View controller */ = {
 			isa = PBXGroup;
 			children = (
+				6564F1FE19A26C4E00629B48 /* GenericReviveInputViewController */,
 				50CBDC32199FAB1D0050F8C6 /* BaseTableViewController */,
 				50424F8B18C952D500F7D826 /* Tab bar */,
 				65A8B09518CA7AD400C46DD6 /* Notification */,
@@ -640,6 +645,8 @@
 				5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */,
 				5034EF0318A8061200DBDCCF /* ComposeNewMessageViewController.h */,
 				5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */,
+				6564F20219A279EA00629B48 /* ViewAndSendMessageViewController.h */,
+				6564F20319A279EA00629B48 /* ViewAndSendMessageViewController.m */,
 				65409F7618BE95C200589F66 /* ViewMessageViewController.h */,
 				65409F7718BE95C200589F66 /* ViewMessageViewController.m */,
 			);
@@ -683,9 +690,7 @@
 				5034EF0118A7E9AB00DBDCCF /* CoreData.framework */,
 				65570C84188862EE006759C6 /* Parse.framework */,
 				501F603B1875AE3A00B26F65 /* CrittercismSDK */,
-				503CABD618739318006BBF51 /* FacebookSDK.framework */,
 				65C6087B18731719006C1899 /* AssetsLibrary.framework */,
-				65C6087118707AA5006C1899 /* FacebookSDK.framework */,
 				65413D3D184641F800543C1A /* SystemConfiguration.framework */,
 				65413D3B184641EC00543C1A /* StoreKit.framework */,
 				65413D39184641E700543C1A /* Security.framework */,
@@ -755,6 +760,15 @@
 				65413D051843990200543C1A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6564F1FE19A26C4E00629B48 /* GenericReviveInputViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6564F1FF19A26CA200629B48 /* GenericReviveInputViewController.h */,
+				6564F20019A26CA200629B48 /* GenericReviveInputViewController.m */,
+			);
+			name = GenericReviveInputViewController;
 			sourceTree = "<group>";
 		};
 		65A8B09518CA7AD400C46DD6 /* Notification */ = {
@@ -944,6 +958,8 @@
 				50931A751964B370005B3782 /* ZoomCollectionViewCell.m in Sources */,
 				653ACDF118525405007B9A47 /* ComposeStatusPhotoCollectionViewCell.m in Sources */,
 				50424F8E18C952EB00F7D826 /* TabBarViewController.m in Sources */,
+				6564F20119A26CA200629B48 /* GenericReviveInputViewController.m in Sources */,
+				6564F20419A279EA00629B48 /* ViewAndSendMessageViewController.m in Sources */,
 				65409F7818BE95C200589F66 /* ViewMessageViewController.m in Sources */,
 				50CE7730194A6CFA006E83F3 /* ELCAlbumPickerController.m in Sources */,
 				65413CF41843990200543C1A /* LogInViewController.m in Sources */,
