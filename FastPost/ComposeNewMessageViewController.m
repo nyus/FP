@@ -13,11 +13,10 @@
 #import "AvatarAndUsernameTableViewCell.h"
 #import "MessageTableViewViewController.h"
 static const int FETCH_COUNT = 10;
-@interface ComposeNewMessageViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,ExpirationTimePickerViewControllerDelegate>{
+@interface ComposeNewMessageViewController (){
     NSRange textRange;
     BOOL messageMode;
 }
-@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation ComposeNewMessageViewController
@@ -35,11 +34,7 @@ static const int FETCH_COUNT = 10;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    //register for keyboard notification
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [self createTimer];
+
     //this is for setting constraint in the parent vc. need to be set become becomeFirstResponder
     self.isFromPushSegue = NO;
     [self.recipientsTextView becomeFirstResponder];
@@ -84,68 +79,9 @@ static const int FETCH_COUNT = 10;
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [self destroyTimer];
-}
-
--(void)createTimer{
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(handletimerFired:) userInfo:nil repeats:YES];
-}
-
--(void)destroyTimer{
-    [self.timer invalidate];
-    self.timer = nil;
-}
-
--(void)handletimerFired:(NSTimer *)timer{
-    if (!self.conversation) {
-        return;
-    }
-    
-    //here fetch from parse
-    PFQuery *query = [PFQuery queryWithClassName:@"Message"];
-    [query whereKey:@"objectid" equalTo:self.conversation.objectid];
-    [query orderByDescending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            
-        }
-    }];
-}
-
 -(void)fetchMessageWithCount:(int)count andOffset:(int)offset{
     
 }
-
-//-(void)keyboardWillShow:(NSNotification *)sender{
-//    CGRect keyboardRect = [sender.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-//
-//    [UIView animateWithDuration:[sender.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] delay:0 options:[sender.userInfo[UIKeyboardAnimationCurveUserInfoKey] intValue] animations:^{
-//        self.enterMessageContainerView.frame = CGRectMake(self.enterMessageContainerView.frame.origin.x,
-//                                                          keyboardRect.size.height,
-//                                                          self.enterMessageContainerView.frame.size.width,
-//                                                          self.enterMessageContainerView.frame.size.height);
-//
-//    } completion:^(BOOL finished) {
-//        self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = keyboardRect.size.height;
-//    }];
-//}
-//
-//-(void)keyboardWillHide:(NSNotification *)sender{
-//    
-//    CGRect keyboardRect = [sender.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-//    
-//    [UIView animateWithDuration:[sender.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] delay:0 options:[sender.userInfo[UIKeyboardAnimationCurveUserInfoKey] intValue] animations:^{
-//        self.enterMessageContainerView.frame = CGRectMake(self.enterMessageContainerView.frame.origin.x,
-//                                                          self.enterMessageContainerView.frame.origin.y + keyboardRect.size.height,
-//                                                          self.enterMessageContainerView.frame.size.width,
-//                                                          self.enterMessageContainerView.frame.size.height);
-//        
-//    } completion:^(BOOL finished) {
-//        self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = 0;
-//    }];
-//}
 
 #pragma mark - UITableView
 

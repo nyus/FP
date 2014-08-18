@@ -17,7 +17,6 @@
 		50275F76186F22E200CD9680 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50275F75186F22E200CD9680 /* icon.png */; };
 		502C6A4718E8BD800047EA49 /* FPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 502C6A4618E8BD800047EA49 /* FPLogger.m */; };
 		502FFD9B1953C78C00085826 /* SpinnerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 502FFD9A1953C78C00085826 /* SpinnerImageView.m */; };
-		5032C71219A0E98F00D3B09E /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 5032C71119A0E98F00D3B09E /* Message.m */; };
 		5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */; };
 		5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */; };
 		5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */; };
@@ -117,6 +116,7 @@
 		65570C85188862EE006759C6 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65570C84188862EE006759C6 /* Parse.framework */; };
 		6564F20119A26CA200629B48 /* GenericReviveInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6564F20019A26CA200629B48 /* GenericReviveInputViewController.m */; };
 		6564F20419A279EA00629B48 /* ViewAndSendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6564F20319A279EA00629B48 /* ViewAndSendMessageViewController.m */; };
+		6564F20719A284A000629B48 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 6564F20619A284A000629B48 /* Message.m */; };
 		658AA5B1184CD12E0097383B /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 658AA5B0184CD12E0097383B /* UIImage+ImageEffects.m */; };
 		658AA5B4184CD1730097383B /* UIView+ViewBlurEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 658AA5B3184CD1730097383B /* UIView+ViewBlurEffect.m */; };
 		658AA5B8184E70480097383B /* default-user-icon-profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 658AA5B7184E70480097383B /* default-user-icon-profile.png */; };
@@ -162,8 +162,6 @@
 		502C6A4618E8BD800047EA49 /* FPLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPLogger.m; sourceTree = "<group>"; };
 		502FFD991953C78C00085826 /* SpinnerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpinnerImageView.h; sourceTree = "<group>"; };
 		502FFD9A1953C78C00085826 /* SpinnerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpinnerImageView.m; sourceTree = "<group>"; };
-		5032C71019A0E98F00D3B09E /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		5032C71119A0E98F00D3B09E /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		5034EEAD18A7D09F00DBDCCF /* MessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewCell.h; sourceTree = "<group>"; };
 		5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; };
 		5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewViewController.h; sourceTree = "<group>"; };
@@ -309,6 +307,8 @@
 		6564F20019A26CA200629B48 /* GenericReviveInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericReviveInputViewController.m; sourceTree = "<group>"; };
 		6564F20219A279EA00629B48 /* ViewAndSendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewAndSendMessageViewController.h; sourceTree = "<group>"; };
 		6564F20319A279EA00629B48 /* ViewAndSendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewAndSendMessageViewController.m; sourceTree = "<group>"; };
+		6564F20519A284A000629B48 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		6564F20619A284A000629B48 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		658AA5AF184CD12E0097383B /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		658AA5B0184CD12E0097383B /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		658AA5B2184CD1730097383B /* UIView+ViewBlurEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ViewBlurEffect.h"; sourceTree = "<group>"; };
@@ -383,10 +383,10 @@
 			isa = PBXGroup;
 			children = (
 				5039DA8218CFEE37000DF268 /* StatusObject.h */,
-				5032C71019A0E98F00D3B09E /* Message.h */,
-				5032C71119A0E98F00D3B09E /* Message.m */,
 				5039DA8318CFEE37000DF268 /* StatusObject.m */,
 				5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */,
+				6564F20519A284A000629B48 /* Message.h */,
+				6564F20619A284A000629B48 /* Message.m */,
 				50CBDC2F199FA9390050F8C6 /* Conversation.h */,
 				50CBDC30199FA9390050F8C6 /* Conversation.m */,
 				5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */,
@@ -941,6 +941,7 @@
 				65A8B09818CA7AE000C46DD6 /* NotificatonViewController.m in Sources */,
 				50CE7731194A6CFA006E83F3 /* ELCAsset.m in Sources */,
 				50CE7733194A6CFA006E83F3 /* ELCAssetTablePicker.m in Sources */,
+				6564F20719A284A000629B48 /* Message.m in Sources */,
 				507F614C1883594F00B57DDA /* Helper.m in Sources */,
 				502FFD9B1953C78C00085826 /* SpinnerImageView.m in Sources */,
 				509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */,
@@ -968,7 +969,6 @@
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
 				50CBDC31199FA9390050F8C6 /* Conversation.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
-				5032C71219A0E98F00D3B09E /* Message.m in Sources */,
 				50EFFD28194D2D0E00A4C212 /* UITextView+Utilities.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
 				50F3304418D1411300A0878D /* CommentStatusViewController.m in Sources */,

@@ -12,7 +12,7 @@
 @interface ComposeNewMessageViewController : GenericReviveInputViewController;
 
 - (IBAction)cancelButtonTapped:(id)sender;
-- (IBAction)setTimeButtonTapped:(id)sender;
+//- (IBAction)setTimeButtonTapped:(id)sender;
 //- (IBAction)sendButtonTapped:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *showContactButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *recipientsTextViewHeightContraint;

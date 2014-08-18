@@ -7,11 +7,8 @@
 //
 
 #import "GenericReviveInputViewController.h"
-#import "ExpirationTimePickerViewController.h"
 #import <Parse/Parse.h>
 #import "SharedDataManager.h"
-@interface GenericReviveInputViewController()<ExpirationTimePickerViewControllerDelegate>
-@end
 @implementation GenericReviveInputViewController
 
 -(void)viewDidLoad{
@@ -156,7 +153,7 @@
     localMsg.objectid = self.conversation.objectid;
     localMsg.content = self.enterMessageTextView.text;
     localMsg.senderUsername = [PFUser currentUser].username;
-    localMsg.createdAt = self.conversation.lastUpdateDate;
+    localMsg.createdat = self.conversation.lastUpdateDate;
     if (self.expirationTimeInSec == 0) {
         //default to 10 mins
         self.expirationTimeInSec = 10*60;

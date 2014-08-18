@@ -9,7 +9,7 @@
     <entity name="Message" representedClassName="Message" syncable="YES">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="countDown" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createdat" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="expirationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="expirationTimeInSec" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="numOfMissedMsgs" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -19,7 +19,7 @@
         <attribute name="receiverUsername" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="senderUsername" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="updatedat" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <entity name="StatusObject" representedClassName="StatusObject" syncable="YES">
         <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>

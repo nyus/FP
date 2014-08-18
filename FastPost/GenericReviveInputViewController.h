@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
 #import "Conversation.h"
-
+#import "ExpirationTimePickerViewController.h"
 @class ExpirationTimePickerViewController;
 
-@interface GenericReviveInputViewController : UIViewController
+@interface GenericReviveInputViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,ExpirationTimePickerViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *enterMessageContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *enterMessageContainerViewBottomSpaceToBottomLayoutContraint;
 @property (weak, nonatomic) IBOutlet UITextView *recipientsTextView;

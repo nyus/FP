@@ -2,7 +2,7 @@
 //  Message.m
 //  FastPost
 //
-//  Created by Sihang on 8/17/14.
+//  Created by Huang, Jason on 8/18/14.
 //  Copyright (c) 2014 Huang, Jason. All rights reserved.
 //
 
@@ -13,16 +13,16 @@
 
 @dynamic content;
 @dynamic countDown;
-@dynamic createdAt;
+@dynamic createdat;
 @dynamic expirationDate;
 @dynamic expirationTimeInSec;
 @dynamic numOfMissedMsgs;
 @dynamic objectid;
+@dynamic participants;
 @dynamic read;
 @dynamic receiverUsername;
 @dynamic senderUsername;
 @dynamic type;
-@dynamic updatedAt;
-@dynamic participants;
+@dynamic updatedat;
 
 @end

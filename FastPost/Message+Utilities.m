@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 @implementation Message (Utilities)
 -(void)updateSelfFromPFObject:(PFObject *)object{
-    self.updatedAt = object.updatedAt;
+    self.updatedat = object.updatedAt;
     self.read = object[@"read"];
 }
 @end
