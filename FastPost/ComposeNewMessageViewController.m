@@ -40,7 +40,8 @@ static const int FETCH_COUNT = 10;
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [self createTimer];
-    
+    //this is for setting constraint in the parent vc. need to be set become becomeFirstResponder
+    self.isFromPushSegue = NO;
     [self.recipientsTextView becomeFirstResponder];
     self.reviveButton.hidden = YES;
     self.sendButton.enabled = NO;

@@ -10,4 +10,12 @@
 
 @implementation ViewAndSendMessageViewController
 
+-(void)viewDidLoad{
+    [super viewDidLoad];
+    
+    //this is for setting constraint in the parent vc. need to be set become becomeFirstResponder
+    self.isFromPushSegue = YES;
+    [self.enterMessageTextView becomeFirstResponder];
+}
+
 @end

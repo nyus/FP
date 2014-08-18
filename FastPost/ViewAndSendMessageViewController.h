@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ViewAndSendMessageViewController : UIViewController
+#import "GenericReviveInputViewController.h"
+@interface ViewAndSendMessageViewController : GenericReviveInputViewController
 
 @end

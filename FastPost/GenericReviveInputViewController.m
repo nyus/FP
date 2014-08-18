@@ -10,7 +10,6 @@
 #import "ExpirationTimePickerViewController.h"
 #import <Parse/Parse.h>
 #import "SharedDataManager.h"
-
 @interface GenericReviveInputViewController()<ExpirationTimePickerViewControllerDelegate>
 @end
 @implementation GenericReviveInputViewController
@@ -32,7 +31,12 @@
                                                           self.enterMessageContainerView.frame.size.height);
         
     } completion:^(BOOL finished) {
-        self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = keyboardRect.size.height;
+        if(self.isFromPushSegue){
+            self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = keyboardRect.size.height-49;//minus tab bar
+        }else{
+            self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = keyboardRect.size.height;
+        }
+        
     }];
 }
 

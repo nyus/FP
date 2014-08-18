@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic) int expirationTimeInSec;
+@property (nonatomic) BOOL isFromPushSegue;//composeNewMessageVC is modal and ViewAndSendMessageVC is push
 @property (strong, nonatomic) ExpirationTimePickerViewController *expirationTimePickerVC;
 @property (strong, nonatomic) NSMutableArray *contactArray;
 @property (strong, nonatomic) NSMutableArray *filteredContactArray;
