@@ -12,6 +12,7 @@
 #import "ExpirationTimePickerViewController.h"
 #import "AvatarAndUsernameTableViewCell.h"
 #import "MessageTableViewViewController.h"
+#import "SharedDataManager.h"
 static const int FETCH_COUNT = 10;
 @interface ComposeNewMessageViewController (){
     NSRange textRange;
@@ -169,6 +170,18 @@ static const int FETCH_COUNT = 10;
     if ([cell isKindOfClass:[AvatarAndUsernameTableViewCell class]]) {
         AvatarAndUsernameTableViewCell *contact = (AvatarAndUsernameTableViewCell *)cell;
         self.recipientsTextView.text = contact.usernameLabel.text;
+    
+        //see if an existing conversation with self and the recipient(s) already exists
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Conversation"];
+        NSString *hashString = [Helper computeHashStringForParticipantsArray:@[[PFUser currentUser].username, self.recipientsTextView.text]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.objectid == %@",hashString];
+        fetchRequest.predicate = predicate;
+        NSError *fetchError;
+        NSArray *result = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+        if (result.count>0) {
+            self.conversation = result[0];
+        }
+
         messageMode = YES;
         [self fetchMessageWithCount:FETCH_COUNT andOffset:0];
         [self.tableView reloadData];

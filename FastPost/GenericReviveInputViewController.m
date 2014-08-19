@@ -9,6 +9,7 @@
 #import "GenericReviveInputViewController.h"
 #import <Parse/Parse.h>
 #import "SharedDataManager.h"
+#import "Helper.h"
 @implementation GenericReviveInputViewController
 
 -(void)viewDidLoad{
@@ -118,9 +119,16 @@
     if (self.conversation == nil) {
         
         Conversation *conver = [NSEntityDescription insertNewObjectForEntityForName:@"Conversation" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
-        conver.participants = [NSArray arrayWithObjects:self.recipientsTextView.text,[PFUser currentUser].username, nil];
-        NSString *hashString = [conver.objectID.URIRepresentation.absoluteString stringByAppendingFormat:@"%@",[NSDate date]];
-        conver.objectid = [NSString stringWithFormat:@"%d",hashString.hash];
+        //after sorting, we can guarantee that the calculated objectid would be unique.
+        NSArray *array = [NSArray arrayWithObjects:self.recipientsTextView.text,[PFUser currentUser].username, nil];
+        NSArray *sorted = [Helper sortParticipantsArray:array];
+        conver.participants = sorted;
+        //compute hash
+        NSMutableString *hashString = [NSMutableString string];
+        for (NSString *string in conver.participants) {
+            [hashString appendString:string];
+        }
+        conver.objectid = hashString;
         conver.lastUpdateDate = [NSDate date];
         
         self.conversation = conver;

@@ -52,7 +52,7 @@
         self.refreshControl = [[UIRefreshControl alloc] init];
         [self.refreshControl addTarget:self action:@selector(refreshControlTriggerred:) forControlEvents:UIControlEventValueChanged];
         //on start up, fetch old messages
-        [self fetchLocalConversation];
+//        [self fetchLocalConversation];
     }
 }
 
@@ -82,9 +82,10 @@
 
 -(void)fetchLocalConversation{
     
-    if (!localConversationArray) {
-        localConversationArray = [NSMutableArray array];
-    }
+    localConversationArray = nil;
+//    if (!localConversationArray) {
+    localConversationArray = [NSMutableArray array];
+//    }
 
     NSArray *fetchResult = [self fetchAllLocalMessages];
     for (Conversation *conversation in fetchResult) {
@@ -102,6 +103,7 @@
     
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Conversation"];
     [query whereKey:@"objectid" notContainedIn:objectIDs];
+    [query whereKey:@"participants" containsAllObjectsInArray:@[[PFUser currentUser].username]];
     [query orderByAscending:@"lastUpdateDate"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects &&objects.count!=0) {

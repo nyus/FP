@@ -27,9 +27,6 @@
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
 
-    void(^blockName)(void) = ^{};
-    blockName= ^{};
-
     return YES;
 }
 

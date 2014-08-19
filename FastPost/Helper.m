@@ -254,4 +254,40 @@ static NSMutableDictionary *_map;
     return [NSString stringWithFormat:@"%d:%02d",seconds/60,seconds%60];
 }
 
+#pragma mark - Sorting
+
++(NSArray *)sortParticipantsArray:(NSArray *)array{
+    NSComparisonResult(^compareBlock)(NSString *, NSString*) = ^(NSString *obj1, NSString *obj2){
+        NSUInteger a = 0;
+        NSUInteger b = 0;
+        for (int i =0; i<obj1.length; i++) {
+            a+=(NSUInteger)([obj1 characterAtIndex:i]-65);
+        }
+        
+        for (int i =0; i<obj2.length; i++) {
+            b+=(NSUInteger)([obj2 characterAtIndex:i]-65);
+        }
+        if (a<b ) {
+            return (NSComparisonResult) NSOrderedAscending;
+        }else if(a==b){
+            return (NSComparisonResult) NSOrderedSame;
+        }else{
+            return (NSComparisonResult) NSOrderedDescending;
+        }
+    };
+    return [array sortedArrayUsingComparator:compareBlock];
+}
+
+#pragma mark - Compute Hash
+
++(NSString *)computeHashStringForParticipantsArray:(NSArray *)array{
+    NSArray *sorted = [Helper sortParticipantsArray:array];
+    //compute hash
+    NSMutableString *hashString = [NSMutableString string];
+    for (NSString *string in sorted) {
+        [hashString appendString:string];
+    }
+    return hashString;
+}
+
 @end

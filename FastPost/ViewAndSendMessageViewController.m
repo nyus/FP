@@ -25,12 +25,13 @@ static int FETCH_COUNT = 20;
     //this is for setting constraint in the parent vc. need to be set become becomeFirstResponder
     self.isFromPushSegue = YES;
     [self.enterMessageTextView becomeFirstResponder];
-    [self createTimer];
+//    [self createTimer];
     [self fetchLocalMessage];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self fetchLocalMessage];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -58,18 +59,18 @@ static int FETCH_COUNT = 20;
     
     if (!fetchRequest) {
         fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
-        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createat" ascending:YES];
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createdat" ascending:YES];
         fetchRequest.sortDescriptors = @[sort];
         [fetchRequest setFetchLimit:FETCH_COUNT];
     }
     
     //everytim this method is called, the fetchoffset is going to increase by FETCH_COUNT
-    [fetchRequest setFetchOffset:fetchRequest.fetchOffset+FETCH_COUNT];
+    [fetchRequest setFetchOffset:self.dataSource.count];
     
     
     NSError *fetchError;
     NSArray *results = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
-    if (!fetchRequest && results.count >0) {
+    if (results.count >0) {
         [self.dataSource addObjectsFromArray:results];
     }
 }

@@ -33,4 +33,10 @@ typedef enum{
 
 //formatting
 +(NSString *)minAndTimeFormatWithSecond:(int)seconds;
+
+//sort
++(NSArray *)sortParticipantsArray:(NSArray *)array;
+
+//compute hash
++(NSString *)computeHashStringForParticipantsArray:(NSArray *)array;
 @end
