@@ -173,6 +173,7 @@
     
     //reload tbview
     [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.messageArray.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+    //scroll to visible
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     //clear out textfield
     self.enterMessageTextView.text = nil;

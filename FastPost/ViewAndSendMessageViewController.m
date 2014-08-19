@@ -82,40 +82,53 @@ static int FETCH_COUNT = 20;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects.count!=0) {
             
-            int numOfMissedMsg = 0;
-            NSIndexPath *missedMessageIndexpath;
-            
-            NSMutableArray *indexPaths = [NSMutableArray array];
-            int i =0;
-            
-            for (PFObject *object in objects) {
+            NSMutableArray *indexPathArray = [NSMutableArray array];
+            int index = 0;
+            for (int i = 0; i<objects.count; i++) {
                 
-                Message *localMsg = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
-                //if message has expired
-                if ([((NSDate *)object[@"expirationDate"]) compare:[NSDate date]] != NSOrderedDescending) {
-                    //create message for missed cell
-                    numOfMissedMsg++;
-                    localMsg.type = [NSNumber numberWithInt:MessageTypeMissed];
-                    
-                }else{
-                    
-                    localMsg.objectid = object[@"objectid"];
-                    localMsg.content = object[@"content"];
-                    localMsg.senderUsername = object[@"senderUsername"];
-                    localMsg.createdat = object[@"createdat"];
-                    localMsg.expirationDate = object[@"expirationDate"];
-                    localMsg.participants = object[@"participants"];
-                    [self.dataSource addObject:localMsg];
-                    
-                    NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
-                    [indexPaths addObject:index];
-                    i++;
+                int start = i;
+                while (start<objects.count &&
+                       [(NSDate *)([[objects objectAtIndex:start] valueForKey:@"expirationDate"]) compare:[NSDate date]] == NSOrderedDescending) {
+                    start++;
                 }
+                
+                PFObject *message = objects[i];
+                Message *localMsg = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
+                NSIndexPath *indexpath = [NSIndexPath indexPathForRow:index inSection:0];
+                //while loop content doesnt get executed
+                if(start == i){
+                    //
+                    localMsg.objectid = message[@"objectid"];
+                    localMsg.content = message[@"content"];
+                    localMsg.senderUsername = message[@"senderUsername"];
+                    localMsg.createdat = message[@"createdat"];
+                    localMsg.expirationDate = message[@"expirationDate"];
+                    localMsg.participants = message[@"participants"];
+
+                }else{
+                    localMsg.type = [NSNumber numberWithInt:MessageTypeMissed];
+                    localMsg.numOfMissedMsgs = [NSNumber numberWithInt:start-i];
+                }
+                
+                [indexPathArray addObject:indexpath];
+                [self.dataSource addObject:localMsg];
+                
+                if (i==start) {
+                    i++;
+                }else{
+                    i=start;
+                }
+                
+                index++;
             }
+            
             //save message objects to db
             [[SharedDataManager sharedInstance] saveContext];
             //reload tableview
-//            self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:uitableviewrowanimation
+            [self.tableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationAutomatic];
+            //scroll to visible
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.dataSource.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            
         }
     }];
 }
