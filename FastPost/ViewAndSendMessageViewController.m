@@ -9,6 +9,7 @@
 #import "ViewAndSendMessageViewController.h"
 #import <Parse/Parse.h>
 #import "SharedDataManager.h"
+#import "MessageTableViewCell.h"
 static int FETCH_COUNT = 20;
 @interface ViewAndSendMessageViewController(){
     //keep a reference to it becuase we want to access the fetchOffset
@@ -136,12 +137,47 @@ static int FETCH_COUNT = 20;
 
 #pragma mark - UITableViewDelegate
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 0;
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *selfMessageCell = @"selfMessageCell";
+    static NSString *otherMessageCell = @"otherMessageCell";
+    static NSString *missedMessageCell = @"missedMessageCell";
+    
+    Message *message = self.dataSource[indexPath.row];
+    if (message.type.intValue == MessageTypeRegular) {
+        MessageTableViewCell *cell;
+        if ([message.senderUsername isEqualToString:[PFUser currentUser].username]) {
+            cell = (MessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:selfMessageCell forIndexPath:indexPath];
+        }else{
+            cell = (MessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:otherMessageCell forIndexPath:indexPath];
+        }
+        
+        cell.usernameLabel.text = message.senderUsername;
+        cell.messageContentLabel.text = message.content;
+        return cell;
+    }else{
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:missedMessageCell forIndexPath:indexPath];
+        return cell;
+    }
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return nil;
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 44;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    Message *message = self.dataSource[indexPath.row];
+    
+    CGRect usernameRect = [message.senderUsername boundingRectWithSize:CGSizeMake(MAXFLOAT, 21)
+                                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                                            attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}
+                                                               context:NULL];
+    CGRect msgContentRect = [message.content boundingRectWithSize:CGSizeMake(320-10-usernameRect.size.width-10-10, MAXFLOAT)
+                                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                                       attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}
+                                                          context:NULL];
+    
+
+    return msgContentRect.size.height;
 }
 
 @end
