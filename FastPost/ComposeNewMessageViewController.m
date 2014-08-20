@@ -11,7 +11,7 @@
 #import "Helper.h"
 #import "ExpirationTimePickerViewController.h"
 #import "AvatarAndUsernameTableViewCell.h"
-#import "MessageTableViewViewController.h"
+#import "ConversationsTableViewViewController.h"
 #import "SharedDataManager.h"
 static const int FETCH_COUNT = 10;
 @interface ComposeNewMessageViewController (){

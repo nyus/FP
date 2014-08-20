@@ -12,7 +12,7 @@
  - if new messages, find out which converation it belongs to, and light up the indicator to indicate new messages
  - new messages will be pulled when go into detail view
  */
-#import "MessageTableViewViewController.h"
+#import "ConversationsTableViewViewController.h"
 #import "MessageTableViewCell.h"
 #import "SharedDataManager.h"
 #import "Message.h"
@@ -20,16 +20,18 @@
 #import <Parse/Parse.h>
 #import "ViewMessageViewController.h"
 #import "Conversation.h"
-@interface MessageTableViewViewController ()<UITableViewDataSource,UITableViewDelegate>{
+#import "GenericReviveInputViewController.h"
+@interface ConversationsTableViewViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *dataSource;
     Message *messageToPass;
     BOOL comingSoon;
     NSMutableArray *localConversationArray;
+    NSIndexPath *selectedIndexpath;
 }
 
 @end
 
-@implementation MessageTableViewViewController
+@implementation ConversationsTableViewViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -229,15 +231,7 @@
         return;
     }
     
-    //do nothing if the msg has expired
-    Message *msg = (Message *)dataSource[indexPath.row];
-    if (msg.countDown.intValue == 0) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
-    }else{
-        messageToPass = msg;
-//        [self performSegueWithIdentifier:@"toViewMessage" sender:self];
-    }
+    selectedIndexpath = indexPath;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -280,9 +274,9 @@
 #pragma mark - Segue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    if ([segue.identifier isEqualToString:@"toViewMessage"]) {
-//        ViewMessageViewController *vc = (ViewMessageViewController *)segue.destinationViewController;
-//        vc.messageObject = messageToPass;
-//    }
+    if ([segue.identifier isEqualToString:@"toViewMessage"]) {
+        GenericReviveInputViewController *vc = (GenericReviveInputViewController *)segue.destinationViewController;
+        vc.conversation = localConversationArray[selectedIndexpath.row];
+    }
 }
 @end

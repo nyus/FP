@@ -27,12 +27,13 @@ static int FETCH_COUNT = 20;
     self.isFromPushSegue = YES;
     [self.enterMessageTextView becomeFirstResponder];
 //    [self createTimer];
-    [self fetchLocalMessage];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self fetchLocalMessage];
+    [self fetchServerMessage];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -73,10 +74,12 @@ static int FETCH_COUNT = 20;
     NSArray *results = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
     if (results.count >0) {
         [self.dataSource addObjectsFromArray:results];
+        [self.tableView reloadData];
     }
 }
 
 -(void)fetchServerMessage{
+    return;
     //here fetch from parse
     PFQuery *query = [PFQuery queryWithClassName:@"Message"];
     [query whereKey:@"objectid" equalTo:self.conversation.objectid];
@@ -137,13 +140,22 @@ static int FETCH_COUNT = 20;
 
 #pragma mark - UITableViewDelegate
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.dataSource.count;
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *selfMessageCell = @"selfMessageCell";
     static NSString *otherMessageCell = @"otherMessageCell";
     static NSString *missedMessageCell = @"missedMessageCell";
     
     Message *message = self.dataSource[indexPath.row];
-    if (message.type.intValue == MessageTypeRegular) {
+    if (message.type.intValue == MessageTypeMissed) {
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:missedMessageCell forIndexPath:indexPath];
+        return cell;
+        
+    }else{
         MessageTableViewCell *cell;
         if ([message.senderUsername isEqualToString:[PFUser currentUser].username]) {
             cell = (MessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:selfMessageCell forIndexPath:indexPath];
@@ -153,9 +165,6 @@ static int FETCH_COUNT = 20;
         
         cell.usernameLabel.text = message.senderUsername;
         cell.messageContentLabel.text = message.content;
-        return cell;
-    }else{
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:missedMessageCell forIndexPath:indexPath];
         return cell;
     }
 }

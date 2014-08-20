@@ -24,5 +24,7 @@
 @dynamic senderUsername;
 @dynamic type;
 @dynamic updatedat;
-
+-(NSString *)description{
+    return [NSString stringWithFormat:@" content:%@\n createdat:%@\n expirationDate:%@\n numOfMissedMsgs:%@\n objectid:%@\n participants:%@\n receiverUsername:%@\n senderUsername:%@\n type:%@\n updatedat:%@\n",self.content,self.createdat,self.expirationDate,self.numOfMissedMsgs,self.objectid,self.participants,self.receiverUsername,self.senderUsername,self.type,self.updatedat];
+}
 @end

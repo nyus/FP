@@ -18,7 +18,7 @@
 		502C6A4718E8BD800047EA49 /* FPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 502C6A4618E8BD800047EA49 /* FPLogger.m */; };
 		502FFD9B1953C78C00085826 /* SpinnerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 502FFD9A1953C78C00085826 /* SpinnerImageView.m */; };
 		5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */; };
-		5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */; };
+		5034EEB218A7D48100DBDCCF /* ConversationsTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB118A7D48100DBDCCF /* ConversationsTableViewViewController.m */; };
 		5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */; };
 		5034EF0018A7E7FC00DBDCCF /* SharedDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */; };
 		5034EF0218A7E9AB00DBDCCF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5034EF0118A7E9AB00DBDCCF /* CoreData.framework */; };
@@ -164,8 +164,8 @@
 		502FFD9A1953C78C00085826 /* SpinnerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpinnerImageView.m; sourceTree = "<group>"; };
 		5034EEAD18A7D09F00DBDCCF /* MessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewCell.h; sourceTree = "<group>"; };
 		5034EEAE18A7D09F00DBDCCF /* MessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; };
-		5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableViewViewController.h; sourceTree = "<group>"; };
-		5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewViewController.m; sourceTree = "<group>"; };
+		5034EEB018A7D48100DBDCCF /* ConversationsTableViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationsTableViewViewController.h; sourceTree = "<group>"; };
+		5034EEB118A7D48100DBDCCF /* ConversationsTableViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewViewController.m; sourceTree = "<group>"; };
 		5034EEB418A7E2CD00DBDCCF /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedDataManager.h; sourceTree = "<group>"; };
 		5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedDataManager.m; sourceTree = "<group>"; };
@@ -641,8 +641,8 @@
 		65409F7418BE957A00589F66 /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				5034EEB018A7D48100DBDCCF /* MessageTableViewViewController.h */,
-				5034EEB118A7D48100DBDCCF /* MessageTableViewViewController.m */,
+				5034EEB018A7D48100DBDCCF /* ConversationsTableViewViewController.h */,
+				5034EEB118A7D48100DBDCCF /* ConversationsTableViewViewController.m */,
 				5034EF0318A8061200DBDCCF /* ComposeNewMessageViewController.h */,
 				5034EF0418A8061200DBDCCF /* ComposeNewMessageViewController.m */,
 				6564F20219A279EA00629B48 /* ViewAndSendMessageViewController.h */,
@@ -928,7 +928,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5034EEB218A7D48100DBDCCF /* MessageTableViewViewController.m in Sources */,
+				5034EEB218A7D48100DBDCCF /* ConversationsTableViewViewController.m in Sources */,
 				5034EF0018A7E7FC00DBDCCF /* SharedDataManager.m in Sources */,
 				6522693E18AED82C004ABEDC /* FriendQuestTableViewCell.m in Sources */,
 				503FE459194DD72300FD297D /* LoadingTableViewCell.m in Sources */,

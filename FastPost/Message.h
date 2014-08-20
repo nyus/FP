@@ -10,8 +10,8 @@
 #import <CoreData/CoreData.h>
 
 NS_ENUM(NSUInteger, MessageType){
-    MessageTypeMissed,
-    MessageTypeRegular
+    MessageTypeRegular,
+    MessageTypeMissed
 };
 
 @interface Message : NSManagedObject

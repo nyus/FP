@@ -152,9 +152,7 @@
                 [object saveEventually];
             }
         }];
-    }
-    //update this value for conversation
-    
+    }    
     
     //create local message managedObject
     Message *localMsg = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];

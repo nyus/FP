@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MessageTableViewViewController : UITableViewController
+@interface ConversationsTableViewViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *composeButton;
 
 @end
