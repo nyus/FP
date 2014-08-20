@@ -22,36 +22,25 @@
 
 -(void)keyboardWillShow:(NSNotification *)sender{
     CGRect keyboardRect = [sender.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+
+    if(self.isFromPushSegue){
+        self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = keyboardRect.size.height-49;//minus tab bar
+    }else{
+        self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = keyboardRect.size.height;
+    }
     
     [UIView animateWithDuration:[sender.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] delay:0 options:[sender.userInfo[UIKeyboardAnimationCurveUserInfoKey] intValue] animations:^{
-        self.enterMessageContainerView.frame = CGRectMake(self.enterMessageContainerView.frame.origin.x,
-                                                          keyboardRect.size.height,
-                                                          self.enterMessageContainerView.frame.size.width,
-                                                          self.enterMessageContainerView.frame.size.height);
+        [self.view layoutIfNeeded];
         
-    } completion:^(BOOL finished) {
-        if(self.isFromPushSegue){
-            self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = keyboardRect.size.height-49;//minus tab bar
-        }else{
-            self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = keyboardRect.size.height;
-        }
-        
-    }];
+    } completion:nil];
 }
 
 -(void)keyboardWillHide:(NSNotification *)sender{
-    
-    CGRect keyboardRect = [sender.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
+
+    self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = 0;
     [UIView animateWithDuration:[sender.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] delay:0 options:[sender.userInfo[UIKeyboardAnimationCurveUserInfoKey] intValue] animations:^{
-        self.enterMessageContainerView.frame = CGRectMake(self.enterMessageContainerView.frame.origin.x,
-                                                          self.enterMessageContainerView.frame.origin.y + keyboardRect.size.height,
-                                                          self.enterMessageContainerView.frame.size.width,
-                                                          self.enterMessageContainerView.frame.size.height);
-        
-    } completion:^(BOOL finished) {
-        self.enterMessageContainerViewBottomSpaceToBottomLayoutContraint.constant = 0;
-    }];
+        [self.view layoutIfNeeded];
+    } completion:nil];
 }
 
 - (IBAction)setTimeButtonTapped:(id)sender {
