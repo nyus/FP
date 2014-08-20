@@ -182,11 +182,18 @@ static int FETCH_COUNT = 20;
                                                                context:NULL];
     CGRect msgContentRect = [message.content boundingRectWithSize:CGSizeMake(320-10-usernameRect.size.width-10-10, MAXFLOAT)
                                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                                       attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}
+                                                       attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]}
                                                           context:NULL];
     
 
-    return msgContentRect.size.height;
+    return msgContentRect.size.height+10;
+}
+
+-(void)sendButtonTapped:(id)sender{
+    //in the parent implementaion of this method, we need to specify the currently in-use dataSource so that we can add objects into the right place, and also the tableview will reload correctly
+    self.dataSource = self.dataSource;
+    
+    [super sendButtonTapped:sender];
 }
 
 @end

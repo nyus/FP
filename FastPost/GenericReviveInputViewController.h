@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *recipientsTextView;
 @property (weak, nonatomic) IBOutlet UITextView *enterMessageTextView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+- (IBAction)sendButtonTapped:(id)sender;
 
 @property (nonatomic) int expirationTimeInSec;
 @property (nonatomic) BOOL isFromPushSegue;//composeNewMessageVC is modal and ViewAndSendMessageVC is push
@@ -26,5 +27,6 @@
 @property (strong, nonatomic) NSMutableArray *filteredContactArray;
 @property (strong, nonatomic) Conversation *conversation;
 @property (strong, nonatomic) NSMutableArray *messageArray;
+@property (strong, nonatomic) NSMutableArray *dataSource;
 -(void)scrollTextViewToVisible:(UITextView *)textView;
 @end

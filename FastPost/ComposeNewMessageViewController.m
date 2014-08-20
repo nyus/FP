@@ -255,4 +255,13 @@ static const int FETCH_COUNT = 10;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void)sendButtonTapped:(id)sender{
+    //in the parent implementaion of this method, we need to specify the currently in-use dataSource so that we can add objects into the right place, and also the tableview will reload correctly
+    if (messageMode) {
+        self.dataSource = self.messageArray;
+    }else{
+        self.dataSource = self.filteredContactArray;
+    }
+    [super sendButtonTapped:sender];
+}
 @end

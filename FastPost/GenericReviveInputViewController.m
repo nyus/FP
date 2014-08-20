@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "SharedDataManager.h"
 #import "Helper.h"
+#import "ComposeNewMessageViewController.h"
 @implementation GenericReviveInputViewController
 
 -(void)viewDidLoad{
@@ -102,6 +103,8 @@
 
 - (IBAction)sendButtonTapped:(id)sender {
     
+    //self.dataSource will be pointing to diffrent arrays so that we can add entries and reload tableview correctly
+    
     //do nothing is there is no recipient or no message
     if ([self.recipientsTextView.text isEqualToString:@""] || [self.enterMessageTextView.text isEqualToString:@""]) {
         return;
@@ -111,7 +114,7 @@
         return;
     }
     
-    if (![self.contactArray containsObject:self.recipientsTextView.text]) {
+    if ([self isKindOfClass:[ComposeNewMessageViewController class]] && ![self.contactArray containsObject:self.recipientsTextView.text]) {
         return;
     }
     
@@ -172,15 +175,23 @@
     self.conversation.lastMessageContent = localMsg.content;
     [[SharedDataManager sharedInstance] saveContext];
     
-    if (!self.messageArray) {
-        self.messageArray = [NSMutableArray array];
+//    if (!self.messageArray) {
+//        self.messageArray = [NSMutableArray array];
+//    }
+//    [self.messageArray addObject:localMsg];
+    
+    if (!self.dataSource) {
+        self.dataSource = [NSMutableArray array];
     }
-    [self.messageArray addObject:localMsg];
+    [self.dataSource addObject:localMsg];
     
     //reload tbview
-    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.messageArray.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+//    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.messageArray.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+//    //scroll to visible
+//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.dataSource.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
     //scroll to visible
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.dataSource.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     //clear out textfield
     self.enterMessageTextView.text = nil;
     
