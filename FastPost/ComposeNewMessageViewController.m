@@ -13,7 +13,7 @@
 #import "AvatarAndUsernameTableViewCell.h"
 #import "ConversationsTableViewViewController.h"
 #import "SharedDataManager.h"
-#import "ViewAndSendMessageViewController.h"
+#import "DisplayMessageViewController.h"
 static const int FETCH_COUNT = 10;
 @interface ComposeNewMessageViewController (){
     NSRange textRange;
@@ -263,7 +263,7 @@ static const int FETCH_COUNT = 10;
     UINavigationController *generalNav = (UINavigationController *)self.presentingViewController;
     UITabBarController *tabbarVC = generalNav.viewControllers[0];
     UINavigationController *detailNav = (UINavigationController *)tabbarVC.selectedViewController;
-    ViewAndSendMessageViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"viewAndInputMessage"];
+    DisplayMessageViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"viewAndInputMessage"];
     vc.conversation = self.conversation;
     [self dismissViewControllerAnimated:NO completion:nil];
     [detailNav setViewControllers:@[detailNav.viewControllers[0],vc] animated:NO];

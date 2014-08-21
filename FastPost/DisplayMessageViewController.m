@@ -6,19 +6,19 @@
 //  Copyright (c) 2014 Huang, Jason. All rights reserved.
 //
 
-#import "ViewAndSendMessageViewController.h"
+#import "DisplayMessageViewController.h"
 #import <Parse/Parse.h>
 #import "SharedDataManager.h"
 #import "MessageTableViewCell.h"
 static int FETCH_COUNT = 20;
-@interface ViewAndSendMessageViewController(){
+@interface DisplayMessageViewController(){
     //keep a reference to it becuase we want to access the fetchOffset
     NSFetchRequest *fetchRequest;
 }
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @end
-@implementation ViewAndSendMessageViewController
+@implementation DisplayMessageViewController
 
 -(void)viewDidLoad{
     [super viewDidLoad];
