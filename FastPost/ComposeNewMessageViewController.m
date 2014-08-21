@@ -13,6 +13,7 @@
 #import "AvatarAndUsernameTableViewCell.h"
 #import "ConversationsTableViewViewController.h"
 #import "SharedDataManager.h"
+#import "ViewAndSendMessageViewController.h"
 static const int FETCH_COUNT = 10;
 @interface ComposeNewMessageViewController (){
     NSRange textRange;
@@ -157,13 +158,6 @@ static const int FETCH_COUNT = 10;
     }
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if ([cell.reuseIdentifier isEqualToString:@"loadingCell"]) {
-#warning pull more messages from local
-    }
-}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
@@ -240,9 +234,7 @@ static const int FETCH_COUNT = 10;
     }
 }
 
-//-(void)scrollTextViewToVisible:(UITextView *)textView{
-//    [super scrollTextViewToVisible:textView];
-//}
+
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     [UIView animateWithDuration:.3 animations:^{
@@ -258,10 +250,22 @@ static const int FETCH_COUNT = 10;
 -(void)sendButtonTapped:(id)sender{
     //in the parent implementaion of this method, we need to specify the currently in-use dataSource so that we can add objects into the right place, and also the tableview will reload correctly
     if (messageMode) {
+        if (!self.messageArray) {
+            self.messageArray = [NSMutableArray array];
+        }
         self.dataSource = self.messageArray;
     }else{
         self.dataSource = self.filteredContactArray;
     }
     [super sendButtonTapped:sender];
+    
+    //swap the view controllers. simulate iMessage's behavior
+    UINavigationController *generalNav = (UINavigationController *)self.presentingViewController;
+    UITabBarController *tabbarVC = generalNav.viewControllers[0];
+    UINavigationController *detailNav = (UINavigationController *)tabbarVC.selectedViewController;
+    ViewAndSendMessageViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"viewAndInputMessage"];
+    vc.conversation = self.conversation;
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [detailNav setViewControllers:@[detailNav.viewControllers[0],vc] animated:NO];
 }
 @end

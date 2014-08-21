@@ -71,7 +71,6 @@
         [self fetchLocalConversation];
         [self fetchServerConversation];
     }
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
