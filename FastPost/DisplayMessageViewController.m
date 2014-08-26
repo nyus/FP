@@ -26,7 +26,7 @@ static int FETCH_COUNT = 20;
     //this is for setting constraint in the parent vc. need to be set become becomeFirstResponder
     self.isFromPushSegue = YES;
     [self.enterMessageTextView becomeFirstResponder];
-//    [self createTimer];
+    [self createTimer];
 
 }
 
@@ -87,11 +87,13 @@ static int FETCH_COUNT = 20;
     //here fetch from parse
     PFQuery *query = [PFQuery queryWithClassName:@"Message"];
     [query whereKey:@"objectid" equalTo:self.conversation.objectid];
+    [query whereKey:@"senderUsername" notEqualTo:[PFUser currentUser].username];
     if(self.conversation.lastFetchServerDate){
         [query whereKey:@"createdAt" greaterThan:self.conversation.lastFetchServerDate];
-        self.conversation.lastFetchServerDate = [NSDate date];
-        [[SharedDataManager sharedInstance] saveContext];
     }
+    self.conversation.lastFetchServerDate = [NSDate date];
+    [[SharedDataManager sharedInstance] saveContext];
+    
     [query orderByAscending:@"createdat"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects.count!=0) {
@@ -100,15 +102,16 @@ static int FETCH_COUNT = 20;
             int index = 0;
             for (int i = 0; i<objects.count; i++) {
                 
+                //count expired
                 int start = i;
                 while (start<objects.count &&
-                       [(NSDate *)([[objects objectAtIndex:start] valueForKey:@"expirationDate"]) compare:[NSDate date]] == NSOrderedDescending) {
+                       [(NSDate *)([[objects objectAtIndex:start] valueForKey:@"expirationDate"]) compare:[NSDate date]] == NSOrderedAscending) {
                     start++;
                 }
                 
                 PFObject *message = objects[i];
                 Message *localMsg = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[SharedDataManager sharedInstance].managedObjectContext];
-                NSIndexPath *indexpath = [NSIndexPath indexPathForRow:index inSection:0];
+                NSIndexPath *indexpath = [NSIndexPath indexPathForRow:self.dataSource.count inSection:0];
                 //while loop content doesnt get executed
                 if(start == i){
                     //
@@ -162,6 +165,7 @@ static int FETCH_COUNT = 20;
     if (message.type.intValue == MessageTypeMissed) {
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:missedMessageCell forIndexPath:indexPath];
+        cell.textLabel.text = [NSString stringWithFormat:@"You missed %@ messages",message.numOfMissedMsgs];
         return cell;
         
     }else{

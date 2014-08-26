@@ -12,6 +12,7 @@
  - if new messages, find out which converation it belongs to, and light up the indicator to indicate new messages
  - new messages will be pulled when go into detail view
  */
+#warning need timer to periodically fetch 
 #import "ConversationsTableViewViewController.h"
 #import "MessageTableViewCell.h"
 #import "SharedDataManager.h"
