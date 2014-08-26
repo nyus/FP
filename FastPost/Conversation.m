@@ -2,7 +2,7 @@
 //  Conversation.m
 //  FastPost
 //
-//  Created by Sihang on 8/16/14.
+//  Created by Sihang on 8/25/14.
 //  Copyright (c) 2014 Huang, Jason. All rights reserved.
 //
 
@@ -11,12 +11,10 @@
 
 @implementation Conversation
 
-@dynamic participants;
-@dynamic objectid;
-@dynamic lastUpdateDate;
 @dynamic lastMessageContent;
+@dynamic lastFetchServerDate;
+@dynamic objectid;
+@dynamic participants;
+@dynamic lastUpdateDate;
 
--(NSString *)description{
-    return [NSString stringWithFormat:@"participants: %@\nobjectid:%@\nlastUpdateDate:%@\nlastMessageContent:%@",self.participants,self.objectid,self.lastUpdateDate,self.lastMessageContent];
-}
 @end

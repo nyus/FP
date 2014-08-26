@@ -50,11 +50,20 @@ static const int FETCH_COUNT = 10;
     dispatch_queue_t queue = dispatch_queue_create("refreshUser", NULL);
     dispatch_async(queue, ^{
         [[PFUser currentUser] refresh];
-        for (NSString *username in [[PFUser currentUser] objectForKey:UsersICanMessage]) {
+        //the intersection of these two arrays are usersICanMessage
+        NSArray *usersIAllowToFollowMe = [[PFUser currentUser] objectForKey:@"usersIAllowToFollowMe"];
+        NSArray *usersAllowMeToFollow = [[PFUser currentUser] objectForKey:@"usersAllowMeToFollow"];//this array contains self
+        NSMutableSet *set = [NSMutableSet set];
+        for (NSString *username in usersIAllowToFollowMe) {
+            [set addObject:username];
+        }
+        for (NSString *username in usersAllowMeToFollow) {
             if([username isEqualToString:[PFUser currentUser].username]){
                 continue;
             }
-            [self.contactArray addObject:username];
+            if ([set containsObject:username]) {
+                [self.contactArray addObject:username];
+            }
         }
         
         //sort dataSource alphabetically
@@ -105,7 +114,7 @@ static const int FETCH_COUNT = 10;
         
     }else if (self.contactArray.count == 0 || (self.contactArray.count!=0 && self.filteredContactArray.count == 0)) {
         //no contact cell
-        return 1;
+        return 0;
     }else{
         return self.filteredContactArray.count;
     }

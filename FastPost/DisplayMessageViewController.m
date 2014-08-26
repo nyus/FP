@@ -61,6 +61,10 @@ static int FETCH_COUNT = 20;
     
     if (!fetchRequest) {
         fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
+        // Specify criteria for filtering which objects to fetch
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.receiverUsername==%@ && self.objectid==%@", [PFUser currentUser].username, self.conversation.objectid];
+        [fetchRequest setPredicate:predicate];
+     
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createdat" ascending:YES];
         fetchRequest.sortDescriptors = @[sort];
         [fetchRequest setFetchLimit:FETCH_COUNT];
@@ -79,10 +83,15 @@ static int FETCH_COUNT = 20;
 }
 
 -(void)fetchServerMessage{
-    return;
+
     //here fetch from parse
     PFQuery *query = [PFQuery queryWithClassName:@"Message"];
     [query whereKey:@"objectid" equalTo:self.conversation.objectid];
+    if(self.conversation.lastFetchServerDate){
+        [query whereKey:@"createdAt" greaterThan:self.conversation.lastFetchServerDate];
+        self.conversation.lastFetchServerDate = [NSDate date];
+        [[SharedDataManager sharedInstance] saveContext];
+    }
     [query orderByAscending:@"createdat"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && objects.count!=0) {

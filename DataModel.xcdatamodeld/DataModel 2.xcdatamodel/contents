@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Conversation" representedClassName="Conversation" syncable="YES">
+        <attribute name="lastFetchServerDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="lastMessageContent" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastUpdateDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="objectid" optional="YES" attributeType="String" syncable="YES"/>
@@ -29,7 +30,7 @@
         <attribute name="posterUsername" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Conversation" positionX="0" positionY="72" width="128" height="103"/>
+        <element name="Conversation" positionX="0" positionY="72" width="128" height="120"/>
         <element name="Message" positionX="0" positionY="0" width="128" height="240"/>
         <element name="StatusObject" positionX="0" positionY="0" width="128" height="120"/>
     </elements>

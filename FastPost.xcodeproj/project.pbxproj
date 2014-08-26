@@ -56,9 +56,9 @@
 		50931A751964B370005B3782 /* ZoomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50931A741964B36F005B3782 /* ZoomCollectionViewCell.m */; };
 		50931A781964B39E005B3782 /* FullImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50931A771964B39E005B3782 /* FullImageViewController.m */; };
 		509CB822187CE6D8009E9A9F /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 509CB821187CE6D8009E9A9F /* ProfileViewController.m */; };
+		50A622AD19AC15370093F158 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A622AC19AC15370093F158 /* Conversation.m */; };
 		50B31CCF18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */; };
 		50B55342199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B55341199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m */; };
-		50CBDC31199FA9390050F8C6 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CBDC30199FA9390050F8C6 /* Conversation.m */; };
 		50CBDC35199FAB330050F8C6 /* GenericTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CBDC34199FAB330050F8C6 /* GenericTableViewController.m */; };
 		50CE771C19491EB5006E83F3 /* PressAndHoldGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CE771A19491EB5006E83F3 /* PressAndHoldGesture.m */; };
 		50CE7730194A6CFA006E83F3 /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50CE771F194A6CFA006E83F3 /* ELCAlbumPickerController.m */; };
@@ -214,12 +214,12 @@
 		50931A771964B39E005B3782 /* FullImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullImageViewController.m; sourceTree = "<group>"; };
 		509CB820187CE6D8009E9A9F /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		509CB821187CE6D8009E9A9F /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		50A622AB19AC15370093F158 /* Conversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conversation.h; sourceTree = "<group>"; };
+		50A622AC19AC15370093F158 /* Conversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conversation.m; sourceTree = "<group>"; };
 		50B31CCD18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewControllerWithStatusTableView.h; sourceTree = "<group>"; };
 		50B31CCE18861B1700A9CDD3 /* BaseViewControllerWithStatusTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewControllerWithStatusTableView.m; sourceTree = "<group>"; };
 		50B55340199BFE23005211C6 /* DetailedSocialNetworkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedSocialNetworkTableViewController.h; sourceTree = "<group>"; };
 		50B55341199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedSocialNetworkTableViewController.m; sourceTree = "<group>"; };
-		50CBDC2F199FA9390050F8C6 /* Conversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conversation.h; sourceTree = "<group>"; };
-		50CBDC30199FA9390050F8C6 /* Conversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conversation.m; sourceTree = "<group>"; };
 		50CBDC33199FAB330050F8C6 /* GenericTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericTableViewController.h; sourceTree = "<group>"; };
 		50CBDC34199FAB330050F8C6 /* GenericTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericTableViewController.m; sourceTree = "<group>"; };
 		50CE771A19491EB5006E83F3 /* PressAndHoldGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PressAndHoldGesture.m; sourceTree = "<group>"; };
@@ -385,10 +385,10 @@
 				5039DA8218CFEE37000DF268 /* StatusObject.h */,
 				5039DA8318CFEE37000DF268 /* StatusObject.m */,
 				5034EEB318A7E2CD00DBDCCF /* DataModel.xcdatamodeld */,
+				50A622AB19AC15370093F158 /* Conversation.h */,
+				50A622AC19AC15370093F158 /* Conversation.m */,
 				6564F20519A284A000629B48 /* Message.h */,
 				6564F20619A284A000629B48 /* Message.m */,
-				50CBDC2F199FA9390050F8C6 /* Conversation.h */,
-				50CBDC30199FA9390050F8C6 /* Conversation.m */,
 				5034EEFE18A7E7FC00DBDCCF /* SharedDataManager.h */,
 				5034EEFF18A7E7FC00DBDCCF /* SharedDataManager.m */,
 			);
@@ -952,6 +952,7 @@
 				50B55342199BFE23005211C6 /* DetailedSocialNetworkTableViewController.m in Sources */,
 				50200C4418CFE365003CEBBE /* Status.m in Sources */,
 				5006245F194D121C003A2922 /* AvatarAndUsernameTableViewCell.m in Sources */,
+				50A622AD19AC15370093F158 /* Conversation.m in Sources */,
 				5039DA8418CFEE37000DF268 /* StatusObject.m in Sources */,
 				5034EEAF18A7D09F00DBDCCF /* MessageTableViewCell.m in Sources */,
 				50CE7732194A6CFA006E83F3 /* ELCAssetCell.m in Sources */,
@@ -967,7 +968,6 @@
 				5034EEB518A7E2CD00DBDCCF /* DataModel.xcdatamodeld in Sources */,
 				50D36B9B19560FAB0048CCA6 /* ImageCollectionViewCell.m in Sources */,
 				65413CEB1843990200543C1A /* AppDelegate.m in Sources */,
-				50CBDC31199FA9390050F8C6 /* Conversation.m in Sources */,
 				65413CE71843990200543C1A /* main.m in Sources */,
 				50EFFD28194D2D0E00A4C212 /* UITextView+Utilities.m in Sources */,
 				65413D171843B6EF00543C1A /* StatusTableViewCell.m in Sources */,
