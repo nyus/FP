@@ -25,7 +25,6 @@
 @interface ConversationsTableViewViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *dataSource;
     Message *messageToPass;
-    BOOL comingSoon;
     NSMutableArray *localConversationArray;
     NSIndexPath *selectedIndexpath;
 }
@@ -47,16 +46,11 @@
 {
     [super viewDidLoad];
     
-    comingSoon = NO;
-    //compose button on the top right has been deleted. it modally presents compose new message view controller
-    if (!comingSoon) {
-        
-        //refresh control
-        self.refreshControl = [[UIRefreshControl alloc] init];
-        [self.refreshControl addTarget:self action:@selector(refreshControlTriggerred:) forControlEvents:UIControlEventValueChanged];
-        //on start up, fetch old messages
+    //refresh control
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshControlTriggerred:) forControlEvents:UIControlEventValueChanged];
+    //on start up, fetch old messages
 //        [self fetchLocalConversation];
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,11 +61,11 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if (!comingSoon) {
-        [self.refreshControl beginRefreshing];
-        [self fetchLocalConversation];
-        [self fetchServerConversation];
-    }
+    
+    [self.refreshControl beginRefreshing];
+    [self fetchLocalConversation];
+    [self fetchServerConversation];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -179,12 +173,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    if (comingSoon) {
-        return 1;
-    }else{
-        return localConversationArray.count;
-    }
+    return localConversationArray.count;
 }
 
 //hides the liine separtors when data source has 0 objects
@@ -197,49 +186,36 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if (comingSoon) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"comingSoon" forIndexPath:indexPath];
-        return cell;
-    }else{
-        static NSString *CellIdentifier = @"cell";
-        __block MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        // Configure the cell...
-        //sender profile picture
-        Conversation *conversation = (Conversation *)localConversationArray[indexPath.row];
-        NSMutableString *string = [NSMutableString string];
-        [string appendString:@"me"];
-        for (NSString *username in conversation.participants) {
-            if ([username isEqualToString:[PFUser currentUser].username]) {
-                continue;
-            }
-            [string appendString:@","];
-            [string appendString:@" "];
-            [string appendString:username];
 
+    static NSString *CellIdentifier = @"cell";
+    __block MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    // Configure the cell...
+    //sender profile picture
+    Conversation *conversation = (Conversation *)localConversationArray[indexPath.row];
+    NSMutableString *string = [NSMutableString string];
+    [string appendString:@"me"];
+    for (NSString *username in conversation.participants) {
+        if ([username isEqualToString:[PFUser currentUser].username]) {
+            continue;
         }
-        cell.participantsLabel.text = string;
-        
-        return cell;
+        [string appendString:@","];
+        [string appendString:@" "];
+        [string appendString:username];
+
     }
+    cell.participantsLabel.text = string;
+    
+    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (comingSoon) {
-        return;
-    }
-    
+
     selectedIndexpath = indexPath;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (comingSoon) {
-        return;
-    }
-    
+
 }
 
 //-(void)statusObjectTimeUpWithObject:(Status *)object{

@@ -62,10 +62,10 @@ static int FETCH_COUNT = 20;
     if (!fetchRequest) {
         fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
         // Specify criteria for filtering which objects to fetch
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.receiverUsername==%@ && self.objectid==%@", [PFUser currentUser].username, self.conversation.objectid];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.objectid==%@", self.conversation.objectid];
         [fetchRequest setPredicate:predicate];
      
-        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createdat" ascending:YES];
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createdat" ascending:NO];
         fetchRequest.sortDescriptors = @[sort];
         [fetchRequest setFetchLimit:FETCH_COUNT];
     }
@@ -78,7 +78,18 @@ static int FETCH_COUNT = 20;
     NSArray *results = [[SharedDataManager sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
     if (results.count >0) {
         [self.dataSource addObjectsFromArray:results];
+        NSMutableArray *indexPathArray = [NSMutableArray array];
+        for (int i =0; i<results.count; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            [indexPathArray addObject:indexPath];
+        }
+        [self.tableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView reloadData];
+        
+        if (self.dataSource.count<=20) {
+            //scroll to visible
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.dataSource.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
     }
 }
 
@@ -161,7 +172,8 @@ static int FETCH_COUNT = 20;
     static NSString *otherMessageCell = @"otherMessageCell";
     static NSString *missedMessageCell = @"missedMessageCell";
     
-    Message *message = self.dataSource[indexPath.row];
+    //self.dataSource.count-1 - indexPath.row because we display the latest created message first
+    Message *message = self.dataSource[self.dataSource.count-1 -indexPath.row];
     if (message.type.intValue == MessageTypeMissed) {
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:missedMessageCell forIndexPath:indexPath];
@@ -187,25 +199,35 @@ static int FETCH_COUNT = 20;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    Message *message = self.dataSource[indexPath.row];
     
-    CGRect usernameRect = [message.senderUsername boundingRectWithSize:CGSizeMake(MAXFLOAT, 21)
-                                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                                            attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}
-                                                               context:NULL];
-    CGRect msgContentRect = [message.content boundingRectWithSize:CGSizeMake(320-10-usernameRect.size.width-10-10, MAXFLOAT)
-                                                          options:NSStringDrawingUsesLineFragmentOrigin
-                                                       attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]}
-                                                          context:NULL];
+    Message *message = self.dataSource[self.dataSource.count-1 -indexPath.row];
     
-
-    return msgContentRect.size.height+10;
+    if (message.messageCellHeight) {
+        return message.messageCellHeight.floatValue;
+    }else{
+        if (message.numOfMissedMsgs.intValue!=0) {
+            message.messageCellHeight = [NSNumber numberWithFloat:44];
+            return 44;
+        }else{
+            CGRect usernameRect = [message.senderUsername boundingRectWithSize:CGSizeMake(MAXFLOAT, 21)
+                                                                       options:NSStringDrawingUsesLineFragmentOrigin
+                                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}
+                                                                       context:NULL];
+            CGRect msgContentRect = [message.content boundingRectWithSize:CGSizeMake(320-10-usernameRect.size.width-10-10, MAXFLOAT)
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                               attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]}
+                                                                  context:NULL];
+            
+            message.messageCellHeight = [NSNumber numberWithFloat:msgContentRect.size.height+10];
+            return msgContentRect.size.height+10;
+        }
+    }
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if ([cell.reuseIdentifier isEqualToString:@"loadingCell"]) {
-#warning pull more messages from local
+    if (indexPath.row == 0) {
+        [self fetchLocalMessage];
     }
 }
 

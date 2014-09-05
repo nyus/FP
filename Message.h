@@ -2,13 +2,12 @@
 //  Message.h
 //  FastPost
 //
-//  Created by Huang, Jason on 8/18/14.
+//  Created by Sihang on 9/2/14.
 //  Copyright (c) 2014 Huang, Jason. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-
 NS_ENUM(NSUInteger, MessageType){
     MessageTypeRegular,
     MessageTypeMissed
@@ -29,5 +28,6 @@ NS_ENUM(NSUInteger, MessageType){
 @property (nonatomic, retain) NSString * senderUsername;
 @property (nonatomic, retain) NSNumber * type;
 @property (nonatomic, retain) NSDate * updatedat;
+@property (nonatomic, retain) NSNumber * messageCellHeight;
 
 @end

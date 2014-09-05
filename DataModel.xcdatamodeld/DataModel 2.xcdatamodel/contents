@@ -13,6 +13,7 @@
         <attribute name="createdat" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="expirationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="expirationTimeInSec" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="messageCellHeight" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="numOfMissedMsgs" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="objectid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="participants" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -31,7 +32,7 @@
     </entity>
     <elements>
         <element name="Conversation" positionX="0" positionY="72" width="128" height="120"/>
-        <element name="Message" positionX="0" positionY="0" width="128" height="240"/>
+        <element name="Message" positionX="0" positionY="0" width="128" height="253"/>
         <element name="StatusObject" positionX="0" positionY="0" width="128" height="120"/>
     </elements>
 </model>

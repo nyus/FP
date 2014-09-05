@@ -274,6 +274,7 @@
                                 PFObject *object = [[PFObject alloc] initWithClassName:@"Photo"];
                                 [object setObject:newStatus forKey:@"status"];
                                 [object setObject:photo forKey:@"image"];
+                                [object setObject:@NO forKey:@"isHighRes"];
                                 [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                                     if (!succeeded) {
                                         [object saveEventually];
@@ -281,6 +282,22 @@
                                 }];
                             }
                         }];
+
+                        PFFile *highResPhoto = [PFFile fileWithData:UIImagePNGRepresentation(scaled)];
+                        [highResPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            if (succeeded) {
+                                PFObject *object = [[PFObject alloc] initWithClassName:@"Photo"];
+                                [object setObject:newStatus forKey:@"status"];
+                                [object setObject:photo forKey:@"image"];
+                                [object setObject:@YES forKey:@"isHighRes"];
+                                [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                    if (!succeeded) {
+                                        [object saveEventually];
+                                    }
+                                }];
+                            }
+                        }];
+                        
                     }
                     
                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
