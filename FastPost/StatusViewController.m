@@ -432,7 +432,6 @@
     }
 }
 
-
 #pragma mark - UISegue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -451,7 +450,6 @@
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 #pragma mark - UIAlertViewDelegate
 
